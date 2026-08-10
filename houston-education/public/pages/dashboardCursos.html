@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin - Cursos</title>
+    <link rel="shortcut icon" href="../assets/img/iconeHoustonEducation.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="../style/styleNavMenuLateral.css">
+    <link rel="stylesheet" href="../style/changelogModal.css?v=1">
+    <link rel="stylesheet" href="../style/estiloDashboardAdmin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+    <script type="module" src="../scripts/menuLateral/menuLateral.js"></script>
+    <script type="module" src="../scripts/menuLateral/ocultarAbasPorPerfil.js"></script>
+    <script type="module" src="../scripts/changelog/changelog.js?v=1"></script>
+</head>
+
+<body>
+    <script type="module">
+        import { parseJwt } from "../scripts/utils/parseJWT.js";
+
+        const user = parseJwt(localStorage.getItem('token'));
+
+        if (user.perfil !== "MONITOR" && user.perfil !== "ADMIN") {
+            window.location.href = "/pages/naoAutorizado.html";
+        }
+    </script>
+
+    <nav>
+        <div class="icone iconeMenu">
+            <a href="#">
+                <img src="../assets/img/iconeMenu.png" alt="icone menu">
+            </a>
+        </div>
+        <div class="menu-usuario-dropdown">
+            <button class="btn-icone-usuario" id="btnDropdownUsuario">
+                <img src="../assets/img/iconeUsuario.png" alt="Ícone do Usuário">
+            </button>
+            <div class="dropdown-conteudo" id="dropdownUsuario">
+                <a href="/pages/perfil.html">Perfil</a>
+                <a href="/pages/logout.html" class="texto-sair">Sair da Conta</a>
+            </div>
+        </div>
+    </nav>
+
+    <aside id="menuLateral" class="menuLateral">
+        <div class="menuConteudo">
+            <ul>
+                <li>
+                    <a href="/pages/home.html">
+                        <img src="../assets/img/iconeHome.png" alt="Icone Home">
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/pages/minhasInscricoes.html" id="linkMinhasInscricoes">
+                        <img src="../assets/img/iconeMinhasInscricoes.png" alt="Icone Minhas Inscrições">
+                        <span>Minhas Inscrições</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/pages/cadastrarMonitoria.html" id="linkCadastrarMonitoria">
+                        <img src="../assets/img/iconeCadastrarMonitoria.png" alt="Icone Cadastrar Monitoria">
+                        <span>Cadastrar Monitoria</span>
+                    </a>
+                </li>
+                <li class="submenu">
+                    <a href="#" class="submenu-toggle" id="toggleMinhasMonitorias">
+                        <img src="../assets/img/iconeGerenciarMonitorias.png" alt="Icone Minhas Monitorias">
+                        <span>Minhas Monitorias</span>
+                        <svg class="seta-submenu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </a>
+                    <ul class="submenu-lista">
+                        <li>
+                            <a href="/gerenciar-monitorias" id="linkGerenciarMonitoria">
+                                <span>Gerenciar Monitorias</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/pages/historicoMonitorias.html" id="linkHistoricoMonitorias">
+                                <span>Histórico de Monitorias</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/dashboard-admin" id="linkDashboardAdmin.html">
+                        <img src="../assets/img/iconeDashboardAdmin.png" alt="Icone Dashboard Admin">
+                        <span>Dashboard Admin</span>
+                    </a>
+                </li>
+                <li class="item-changelog">
+                    <a href="#" id="linkChangelog" class="link-changelog">
+                        <i class="ph-bold ph-scroll" style="font-size: 24px;"></i>
+                        <span>Changelog</span>
+                        <span class="changelog-versao" id="changelogVersaoMenu">v--</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </aside>
+
+    <div id="overlay" class="overlay-menu"></div>
+
+    <div class="dashboard-header">
+        <h1>Dashboard Admin</h1>
+        <p>Gerencie os Cursos da Instituição</p>
+    </div>
+
+    <nav class="dashboard-tabs">
+        <a href="/dashboard-admin">Dashboard</a>
+        <a href="/dashboard-usuarios">Usuários</a>
+        <a href="/dashboard-locais">Locais</a>
+        <a href="/dashboard-disciplinas">Disciplinas</a>
+        <a href="/dashboard-cursos" class="active">Cursos</a>
+        <a href="/dashboard-auditoria">Auditoria</a>
+    </nav>
+
+    <div class="dashboard-container">
+        <div class="stats-grid">
+            <div class="stat-card total">
+                <div class="stat-label">Total de Cursos</div>
+                <div class="stat-value" id="statTotal">0</div>
+            </div>
+        </div>
+
+        <div class="filtros-dashboard">
+            <input type="text" id="buscaCurso" placeholder="Buscar por nome...">
+            <button id="btnAbrirModalCriar" class="btn-adicionar-usuario">
+                <i class="fas fa-plus"></i> Adicionar Curso
+            </button>
+        </div>
+
+        <div class="tabela-container">
+            <table id="tabelaCursos">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Descrição</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="3">Carregando Cursos...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="popupConfirmacao" class="popup hidden">
+        <div class="popup-content">
+            <p id="popupConfirmacaoTexto"></p>
+            <div class="popup-botoes">
+                <button id="btnConfirmarAcao" class="btn-confirmar">Confirmar</button>
+                <button id="btnCancelarAcao" class="btn-fechar">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalCriarCurso" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Adicionar Curso</h2>
+                <span class="close-btn" id="btnFecharModalCriar">&times;</span>
+            </div>
+            <form id="formCriarCurso">
+                <div class="campo-form-atualizar">
+                    <label>Nome</label>
+                    <input type="text" name="nome" id="inputNomeCriar" placeholder="Nome do curso" required>
+                    <span id="erroNomeCriar" class="mensagem-erro"></span>
+                </div>
+                <div class="campo-form-atualizar">
+                    <label>Descrição</label>
+                    <input type="text" name="descricao" id="inputDescricaoCriar" placeholder="Descricao do curso">
+                    <span id="erroDescricaoCriar" class="mensagem-erro"></span>
+                </div>
+                <button type="submit" id="btnSalvarCurso" class="btn-salvar-modal">Criar Curso</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="modalEditarCurso" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Editar Curso</h2>
+                <span class="close-btn" id="btnFecharModalEditar">&times;</span>
+            </div>
+            <form id="formEditarCurso">
+                <input type="hidden" id="idCursoEditar" name="id">
+                <div class="campo-form-atualizar">
+                    <label>Nome</label>
+                    <input type="text" name="nome" id="nomeCursoEditar" placeholder="Nome do curso" required>
+                    <span id="erroNomeEditar" class="mensagem-erro"></span>
+                </div>
+                <div class="campo-form-atualizar">
+                    <label>Descrição</label>
+                    <input type="text" name="descricao" id="descricaoCursoEditar" placeholder="Descricao do curso">
+                    <span id="erroDescricaoEditar" class="mensagem-erro"></span>
+                </div>
+                <button type="submit" id="btnSalvarEdicao" class="btn-salvar-modal">Salvar Alteração</button>
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="../scripts/dashboardAdmin/dashboardCursos.js"></script>
+</body>
+
+</html>

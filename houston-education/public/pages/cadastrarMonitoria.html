@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Monitoria</title>
+    <link rel="shortcut icon" href="../assets/img/iconeHoustonEducation.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="../style/estiloCadastrarMonitoria.css">
+    <link rel="stylesheet" href="../style/styleNavMenuLateral.css">
+    <link rel="stylesheet" href="../style/changelogModal.css?v=1">
+    <script type="module" src="../scripts/menuLateral/menuLateral.js"></script>
+    <script type="module" src="../scripts/menuLateral/ocultarAbasPorPerfil.js"></script>
+    <script type="module" src="../scripts/changelog/changelog.js?v=1"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+</head>
+
+<body>
+    <script type="module">
+        import { parseJwt } from "../scripts/utils/parseJWT.js";
+
+        const user = parseJwt(localStorage.getItem('token'));
+
+        if (user.perfil !== "MONITOR" && user.perfil !== "ADMIN") {
+            window.location.href = "/pages/naoAutorizado.html";
+        }
+    </script>
+
+    <nav>
+        <div class="icone iconeMenu">
+            <a href="#">
+                <img src="../assets/img/iconeMenu.png" alt="icone menu">
+            </a>
+        </div>
+        <div class="menu-usuario-dropdown">
+            <button class="btn-icone-usuario" id="btnDropdownUsuario">
+                <img src="../assets/img/iconeUsuario.png" alt="Ícone do Usuário">
+            </button>
+            <div class="dropdown-conteudo" id="dropdownUsuario">
+                <a href="/pages/perfil.html">Perfil</a>
+                <a href="/pages/logout.html" class="texto-sair">Sair da Conta</a>
+            </div>
+        </div>
+    </nav>
+
+    <aside id="menuLateral" class="menuLateral">
+        <div class="menuConteudo">
+            <ul>
+                <li>
+                    <a href="home.html">
+                        <img src="../assets/img/iconeHome.png" alt="Icone Home">
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/pages/minhasInscricoes.html" id="linkMinhasInscricoes">
+                        <img src="../assets/img/iconeMinhasInscricoes.png" alt="Icone Minhas Inscrições">
+                        <span>Minhas Inscrições</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="cadastrarMonitoria.html" id="linkCadastrarMonitoria">
+                        <img src="../assets/img/iconeCadastrarMonitoria.png" alt="Icone Cadastrar Monitoria">
+                        <span>Cadastrar Monitoria</span>
+                    </a>
+                </li>
+                <li class="submenu">
+                    <a href="#" class="submenu-toggle" id="toggleMinhasMonitorias">
+                        <img src="../assets/img/iconeGerenciarMonitorias.png" alt="Icone Minhas Monitorias">
+                        <span>Minhas monitorias</span>
+                        <svg class="seta-submenu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </a>
+                    <ul class="submenu-lista">
+                        <li>
+                            <a href="/gerenciar-monitorias" id="linkGerenciarMonitoria">
+                                <span>Gerenciar Monitorias</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/pages/historicoMonitorias.html" id="linkHistoricoMonitorias">
+                                <span>Histórico de Monitorias</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/dashboard-admin" id="linkDashboardAdmin.html">
+                        <img src="../assets/img/iconeDashboardAdmin.png" alt="Icone Dashboard Admin">
+                        <span>Dashboard Admin</span>
+                    </a>
+                </li>
+                <li class="item-changelog">
+                    <a href="#" id="linkChangelog" class="link-changelog">
+                        <i class="ph-bold ph-scroll" style="font-size: 24px;"></i>
+                        <span>Changelog</span>
+                        <span class="changelog-versao" id="changelogVersaoMenu">v--</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </aside>
+
+    <div id="overlay" class="overlay-menu"></div>
+
+    <main class="container-cadastro">
+        <header class="form-header">
+            <h1>Cadastrar Monitoria</h1>
+            <p>Preencha os dados abaixo para criar uma nova monitoria</p>
+        </header>
+
+        <form id="monitoriaForm" class="formulario-grid">
+            <section class="secao">
+                <h2 class="secao-titulo">Informações da Monitoria</h2>
+                <div class="campo full">
+                    <label for="nome_monitoria">Nome da Monitoria</label>
+                    <input type="text" id="nome_monitoria" name="nome_monitoria"
+                        placeholder="Ex: Monitoria de Calculo I">
+                </div>
+                <div class="campo full">
+                    <label for="descricao">Descrição da Monitoria</label>
+                    <textarea id="descricao" name="descricao" rows="3"
+                        placeholder="Adicione detalhes, tópicos ou observações sobre a monitoria..."></textarea>
+                </div>
+            </section>
+
+            <section class="secao">
+                <h2 class="secao-titulo">Data e Horário</h2>
+                <div class="grid-3">
+                    <div class="campo">
+                        <label for="data">Data da Monitoria</label>
+                        <input type="text" id="data" class="datepicker" name="data" placeholder="Selecione a data...">
+                    </div>
+                    <div class="campo">
+                        <label for="hora_inicio">Hora de Início</label>
+                        <input type="text" id="hora_inicio" class="timepicker" name="hora_inicio"
+                            placeholder="Selecione o horario...">
+                    </div>
+                    <div class="campo">
+                        <label for="hora_fim">Hora de Fim</label>
+                        <input type="text" id="hora_fim" class="timepicker" name="hora_fim"
+                            placeholder="Selecione o horario...">
+                    </div>
+                </div>
+            </section>
+
+            <section class="secao">
+                <h2 class="secao-titulo">Local</h2>
+                <div class="grid-2">
+                    <div class="campo">
+                        <label for="campus">Campus</label>
+                        <select id="campus" name="campus">
+                            <option value="" disabled selected>Selecione o campus...</option>
+                        </select>
+                    </div>
+                    <div class="campo">
+                        <label for="locais">Local da Monitoria</label>
+                        <select id="locais">
+                            <option value="" disabled selected>Selecione o local...</option>
+                        </select>
+                        <input type="hidden" name="localId" id="local-id">
+                    </div>
+                </div>
+            </section>
+
+            <section class="secao">
+                <h2 class="secao-titulo">Detalhes</h2>
+                <div class="grid-2">
+                    <div class="campo">
+                        <label for="cursos">Curso</label>
+                        <select id="cursos">
+                            <option value="" disabled selected>Selecione o curso...</option>
+                        </select>
+                    </div>
+                    <div class="campo">
+                        <label for="disciplinas">Disciplina</label>
+                        <select id="disciplinas" name="disciplinaId">
+                            <option value="" disabled selected>Selecione...</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="campo full">
+                    <label for="monitores">Monitor(a)</label>
+                    <select id="monitores" name="monitorId">
+                        <option value="" disabled selected>Selecione...</option>
+                    </select>
+                </div>
+            </section>
+
+            <button type="submit" id="botaoCriarMonitoria">Cadastrar Monitoria</button>
+            <div id="mensagem"></div>
+        </form>
+    </main>
+
+    <div id="popupSucesso" class="popup-sucesso hidden">
+        <div class="popup-sucesso-content">
+            <button class="popup-sucesso-fechar" id="btnFecharPopup">&times;</button>
+            <span class="popup-sucesso-icone"><i class="ph-bold ph-check"></i></span>
+            <p>Monitoria cadastrada com sucesso!</p>
+            <a href="home.html">Ver monitorias</a>
+        </div>
+    </div>
+
+    <script src="../scripts/cursos/carregarCursos.js" type="module"></script>
+    <script src="../scripts/monitores/carregarMonitores.js" type="module"></script>
+    <script src="../scripts/campus/carregarCampus.js" type="module"></script>
+    <script src="../scripts/monitorias/cadastrarMonitorias.js" type="module"></script>
+    <script src="../scripts/utils/pickerData&Hora.js" type="module"></script>
+
+</body>
+
+</html>

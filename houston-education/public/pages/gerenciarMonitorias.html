@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Monitorias</title>
+    <link rel="shortcut icon" href="../assets/img/iconeHoustonEducation.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="../style/style.css?v=3">
+    <link rel="stylesheet" href="../style/stylePopUp.css?v=2">
+    <link rel="stylesheet" href="../style/styleNavMenuLateral.css?v=2">
+    <link rel="stylesheet" href="../style/changelogModal.css?v=1">
+    <script type="module" src="../scripts/menuLateral/menuLateral.js"></script>
+    <script type="module" src="../scripts/menuLateral/ocultarAbasPorPerfil.js"></script>
+    <script type="module" src="../scripts/changelog/changelog.js?v=1"></script>
+
+    <!--Isso é para o picker quando atualizar as monitorias-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+</head>
+
+<body class="pagina-gerenciar">
+    <script type="module">
+        import { parseJwt } from "../scripts/utils/parseJWT.js";
+
+        const user = parseJwt(localStorage.getItem('token'));
+
+        if (user.perfil !== "MONITOR" && user.perfil !== "ADMIN") {
+            window.location.href = "/pages/naoAutorizado.html";
+        }
+    </script> <!--evitar do cara clicar com o botão direito e abrir-->
+
+    <nav>
+        <div class="icone iconeMenu">
+            <a href="#">
+                <img src="../assets/img/iconeMenu.png" alt="icone menu">
+            </a>
+        </div>
+        <div class="menu-usuario-dropdown">
+            <button class="btn-icone-usuario" id="btnDropdownUsuario">
+                <img src="../assets/img/iconeUsuario.png" alt="Ícone do Usuário">
+            </button>
+            <div class="dropdown-conteudo" id="dropdownUsuario">
+                <a href="/pages/perfil.html">Perfil</a>
+                <a href="/pages/logout.html" class="texto-sair">Sair da Conta</a>
+            </div>
+        </div>
+    </nav>
+
+    <aside id="menuLateral" class="menuLateral">
+        <div class="menuConteudo">
+            <ul>
+                <li>
+                    <a href="/pages/home.html">
+                        <img src="../assets/img/iconeHome.png" alt="Icone Home">
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/pages/minhasInscricoes.html" id="linkMinhasInscricoes">
+                        <img src="../assets/img/iconeMinhasInscricoes.png" alt="Icone Minhas Inscrições">
+                        <span>Minhas Inscrições</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/pages/cadastrarMonitoria.html" id="linkCadastrarMonitoria">
+                        <img src="../assets/img/iconeCadastrarMonitoria.png" alt="Icone Cadastrar Monitoria">
+                        <span>Cadastrar Monitoria</span>
+                    </a>
+                </li>
+                <li class="submenu">
+                    <a href="#" class="submenu-toggle" id="toggleMinhasMonitorias">
+                        <img src="../assets/img/iconeGerenciarMonitorias.png" alt="Icone Minhas Monitorias">
+                        <span>Minhas monitorias</span>
+                        <svg class="seta-submenu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </a>
+                    <ul class="submenu-lista">
+                        <li>
+                            <a href="/gerenciar-monitorias" id="linkGerenciarMonitoria">
+                                <span>Gerenciar Monitorias</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/pages/historicoMonitorias.html" id="linkHistoricoMonitorias">
+                                <span>Histórico de Monitorias</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/dashboard-admin" id="linkDashboardAdmin.html">
+                        <img src="../assets/img/iconeDashboardAdmin.png" alt="Icone Dashboard Admin">
+                        <span>Dashboard Admin</span>
+                    </a>
+                </li>
+                <li class="item-changelog">
+                    <a href="#" id="linkChangelog" class="link-changelog">
+                        <i class="ph-bold ph-scroll" style="font-size: 24px;"></i>
+                        <span>Changelog</span>
+                        <span class="changelog-versao" id="changelogVersaoMenu">v--</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </aside>
+
+    <div id="overlay" class="overlay-menu"></div>
+
+    <div class="boasvindas">
+        <h1>
+            Gerenciar Monitorias
+        </h1>
+
+        <div class="divBuscar">
+            <div class="input-busca-wrapper">
+                <img src="../assets/img/lupa.png" alt="" class="icone-lupa">
+                <input type="text" id="buscaMonitoria" placeholder="Buscar monitoria...">
+            </div>
+            <select id="ordenarMonitorias" class="select-ordenar">
+                <option value="recente">Mais recente</option>
+                <option value="antiga">Mais antiga</option>
+            </select>
+        </div>
+    </div>
+
+    <section class="sectionmonitorias">
+        <div class="exibirmonitorias">
+            <h2 id="titulomonitorias">Suas monitorias</h2>
+            <div class="tabs-status" id="tabsStatus">
+                <button class="tab-btn active" data-status="todas">Todas</button>
+                <button class="tab-btn" data-status="agendada">Agendadas</button>
+                <button class="tab-btn" data-status="antiga">Antigas</button>
+            </div>
+            <ul id="listamonitorias">
+                <li>Carregando monitorias...</li>
+            </ul>
+        </div>
+    </section>
+
+    <!--POPUP DAS MONITORIAS CABULOSAS-->
+
+    <div id="popupInfoMonitoria" class="popup hidden">
+        <div class="popup-content">
+            <h2 id="popupTitulo"></h2>
+            <p id="popupDisciplina"></p>
+            <p id="popupMonitor"></p>
+            <p id="popupLocal"></p>
+            <p id="popupDataHora"></p>
+            <p id="popupDescricao"></p>
+        </div>
+    </div>
+
+
+    <!-- POPUP DE SUCESSO -->
+    <div id="popupSucessoAtualizar" class="popup-sucesso hidden">
+        <div class="popup-sucesso-content">
+            <button class="popup-sucesso-fechar" id="btnFecharPopupSucesso">&times;</button>
+            <span class="popup-sucesso-icone"><i class="ph-bold ph-check"></i></span>
+            <p>Monitoria atualizada com sucesso!</p>
+            <a href="/gerenciar-monitorias">Ver monitorias</a>
+        </div>
+    </div>
+
+    <!-- POPUP DE AVISO -->
+    <div id="popupAviso" class="popup-aviso hidden">
+        <div class="popup-aviso-content">
+            <div class="popup-aviso-icone">&#9888;</div>
+            <p id="popupAvisoMensagem"></p>
+            <button class="popup-aviso-botao" id="btnFecharAviso">OK</button>
+        </div>
+    </div>
+
+    <!-- POPUP DE DETALHES DA MONITORIA -->
+    <div id="popupDetalhesMonitoria" class="popup hidden">
+        <div class="popup-content">
+            <div class="popup-header">
+                <h2 id="popupDetalhesTitulo"></h2>
+                <button class="popup-fechar" id="btnFecharDetalhes">&times;</button>
+            </div>
+            <div class="popup-body">
+                <p id="popupDetalhesDescricao" class="popup-descricao"></p>
+                <h3>Alunos Inscritos</h3>
+                <p class="chamada-aviso">Não se preocupe, a chamada só será salva após a ocorrência da monitoria</p>
+                <ul id="listaInscritos"></ul>
+            </div>
+        </div>
+    </div>
+
+    <!--MODAL PARA ATUALIZAR AS MONITORIAS-->
+
+    <div id="modalOverlay" class="modal-overlay">
+        <input type="hidden" id="id_monitoria_hidden" name="id_monitoria">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Atualizar Monitoria</h2>
+                <span class="close-btn">&times;</span>
+            </div>
+
+            <form id="formAtualizarMonitoria">
+                <div class="form-row">
+                    <div class="campo-form-atualizar full-width">
+                        <label>Nome</label>
+                        <input type="text" name="nome_monitoria">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="campo-form-atualizar full-width">
+                        <label>Descrição</label>
+                        <textarea name="descricao" rows="4"
+                            placeholder="Adicione detalhes, tópicos ou observações..."></textarea>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="campo-form-atualizar full-width">
+                        <label>Ata</label>
+                        <textarea name="ata" rows="4"
+                            placeholder="Registre o conteúdo ministrado, dúvidas recorrentes, observações pós-monitoria..."></textarea>
+                    </div>
+                </div>
+
+                <div class="form-row tres-colunas">
+                    <div class="campo-form-atualizar">
+                        <label>Data</label>
+                        <input type="text" class="datepicker" name="data" placeholder="Selecione a data...">
+                    </div>
+                    <div class="campo-form-atualizar">
+                        <label>Hora Inicio</label>
+                        <input type="text" class="timepicker" name="hora_inicio">
+                    </div>
+                    <div class="campo-form-atualizar">
+                        <label>Hora Fim</label>
+                        <input type="text" class="timepicker" name="hora_fim">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <span id="erroConflitoHorario" class="mensagem-erro-conflito"></span>
+                </div>
+
+                <div class="form-row">
+                    <div class="campo-form-atualizar">
+                        <label>Selecione um campus</label>
+                        <select id="campus">
+                            <option value="" disabled selected>Selecione o campus...</option>
+                        </select>
+                    </div>
+                    <div class="campo-form-atualizar">
+                        <label>Selecione um local</label>
+                        <select name="localId" id="locais">
+                            <option value="" disabled selected>Selecione...</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="campo-form-atualizar">
+                        <label>Selecione um curso</label>
+                        <select id="cursos">
+                            <option value="" disabled selected>Selecione o curso...</option>
+                        </select>
+                    </div>
+                    <div class="campo-form-atualizar">
+                        <label>Selecione uma disciplina</label>
+                        <select name="disciplinaId" id="disciplinas">
+                            <option value="" disabled selected>Selecione...</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button id="submit_btn_atualizar">Salvar Alterações</button>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- Popup de confirmacao para excluir monitoria -->
+    <div id="popupExcluirMonitoria" class="popup hidden">
+        <div class="popup-content">
+            <p id="mensagemConfirmarExclusao">Deseja realmente excluir esta monitoria?</p>
+            <button class="btn-cancelar" id="btnConfirmarExclusao">Excluir monitoria</button>
+            <button class="btn-fechar" id="btnFecharPopupExclusao">Fechar</button>
+        </div>
+    </div>
+
+    <script type="module" src="../scripts/carregarNomeUsuario.js?v=2"></script>
+    <script type="module" src="../scripts/monitorias/gerenciarMonitorias.js?v=3"></script>
+    <script type="module" src="../scripts/monitorias/autorizadoMonitorias.js?v=2"></script>
+    <script src="../scripts/utils/pickerData&Hora.js?v=2" type="module"></script>
+
+</body>
+
+</html>

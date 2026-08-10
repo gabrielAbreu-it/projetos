@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin</title>
+    <link rel="shortcut icon" href="../assets/img/iconeHoustonEducation.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="../style/style.css?v=9">
+    <link rel="stylesheet" href="../style/stylePopUp.css?v=9">
+    <link rel="stylesheet" href="../style/styleNavMenuLateral.css?v=9">
+    <link rel="stylesheet" href="../style/changelogModal.css?v=1">
+    <link rel="stylesheet" href="../style/estiloDashboardAdminNovo.css">
+
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+
+    <script type="module" src="../scripts/menuLateral/menuLateral.js?v=2"></script>
+    <script type="module" src="../scripts/menuLateral/ocultarAbasPorPerfil.js?v=2"></script>
+    <script type="module" src="../scripts/changelog/changelog.js?v=1"></script>
+</head>
+
+<body class="pagina-dashboard-admin">
+    <nav>
+        <div class="icone iconeMenu">
+            <a href="#">
+                <img src="../assets/img/iconeMenu.png" alt="icone menu">
+            </a>
+        </div>
+        <div class="menu-usuario-dropdown">
+            <button class="btn-icone-usuario" id="btnDropdownUsuario">
+                <img src="../assets/img/iconeUsuario.png" alt="Ícone do Usuário">
+            </button>
+            <div class="dropdown-conteudo" id="dropdownUsuario">
+                <a href="/pages/perfil.html">Perfil</a>
+                <a href="/pages/logout.html" class="texto-sair">Sair da Conta</a>
+            </div>
+        </div>
+    </nav>
+
+    <aside id="menuLateral" class="menuLateral">
+        <div class="menuConteudo">
+            <ul>
+                <li>
+                    <a href="/pages/home.html">
+                        <img src="../assets/img/iconeHome.png" alt="Icone Home">
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/pages/minhasInscricoes.html" id="linkMinhasInscricoes">
+                        <img src="../assets/img/iconeMinhasInscricoes.png" alt="Icone Minhas Inscrições">
+                        <span>Minhas Inscrições</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/pages/cadastrarMonitoria.html" id="linkCadastrarMonitoria">
+                        <img src="../assets/img/iconeCadastrarMonitoria.png" alt="Icone Cadastrar Monitoria">
+                        <span>Cadastrar Monitoria</span>
+                    </a>
+                </li>
+                <li class="submenu">
+                    <a href="#" class="submenu-toggle" id="toggleMinhasMonitorias">
+                        <img src="../assets/img/iconeGerenciarMonitorias.png" alt="Icone Minhas Monitorias">
+                        <span>Minhas monitorias</span>
+                        <svg class="seta-submenu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </a>
+                    <ul class="submenu-lista">
+                        <li>
+                            <a href="/gerenciar-monitorias" id="linkGerenciarMonitoria">
+                                <span>Gerenciar Monitorias</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/pages/historicoMonitorias.html" id="linkHistoricoMonitorias">
+                                <span>Histórico de Monitorias</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/dashboard-admin" id="linkDashboardAdmin.html">
+                        <img src="../assets/img/iconeDashboardAdmin.png" alt="Icone Dashboard Admin">
+                        <span>Dashboard Admin</span>
+                    </a>
+                </li>
+                <li class="item-changelog">
+                    <a href="#" id="linkChangelog" class="link-changelog">
+                        <i class="ph-bold ph-scroll" style="font-size: 24px;"></i>
+                        <span>Changelog</span>
+                        <span class="changelog-versao" id="changelogVersaoMenu">v--</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </aside>
+
+    <div id="overlay" class="overlay-menu"></div>
+
+    <main class="dashboard-admin-container">
+        <section class="secao-busca-admin">
+            <div class="boasvindas-admin">
+                <h1>
+                    Bem vindo de volta, <span class="usuarioNome"></span>!
+                </h1>
+            </div>
+            <div class="busca-admin-conteudo">
+                <h2>O que você está procurando?</h2>
+                <div class="busca-admin-wrapper">
+                    <input type="text" id="buscaAdmin" placeholder="Buscar...">
+                    <button id="btnBuscarAdmin" type="button">Buscar</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="secao-cards-admin">
+            <div class="grid-cards-admin">
+                <a href="/dashboard-usuarios" class="card-admin">
+                    <i class="ph-bold ph-users"></i>
+                    <div class="card-admin-texto">
+                        <strong>USUÁRIOS</strong>
+                        <span>Gerencie os usuários da aplicação</span>
+                    </div>
+                </a>
+
+                <a href="/gerenciar-monitorias" class="card-admin">
+                    <i class="ph-bold ph-chalkboard-teacher"></i>
+                    <div class="card-admin-texto">
+                        <strong>MONITORIAS</strong>
+                        <span>Gerencie as monitorias</span>
+                    </div>
+                </a>
+
+                <a href="/dashboard-disciplinas" class="card-admin">
+                    <i class="ph-bold ph-books"></i>
+                    <div class="card-admin-texto">
+                        <strong>DISCIPLINAS</strong>
+                        <span>Gerencie as disciplinas</span>
+                    </div>
+                </a>
+
+                <a href="/dashboard-cursos" class="card-admin">
+                    <i class="ph-bold ph-graduation-cap"></i>
+                    <div class="card-admin-texto">
+                        <strong>CURSOS</strong>
+                        <span>Cadastre e edite os cursos</span>
+                    </div>
+                </a>
+
+                <a href="/dashboard-locais" class="card-admin">
+                    <i class="ph-bold ph-map-pin"></i>
+                    <div class="card-admin-texto">
+                        <strong>LOCAIS</strong>
+                        <span>Cadastre e gerencie os locais</span>
+                    </div>
+                </a>
+
+                <a href="/dashboard-auditoria" class="card-admin">
+                    <i class="ph-bold ph-eye"></i>
+                    <div class="card-admin-texto">
+                        <strong>AUDITORIA</strong>
+                        <span>Visualize as ações do sistema</span>
+                    </div>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <script type="module" src="../scripts/carregarNomeUsuario.js?v=6"></script>
+
+    <script>
+        const inputBusca = document.getElementById('buscaAdmin');
+        const cards = document.querySelectorAll('.card-admin');
+
+        function filtrarCards() {
+            const termo = inputBusca.value.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+
+            cards.forEach(card => {
+                const texto = card.innerText.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+                if (texto.includes(termo)) {
+                    card.classList.remove('oculto');
+                } else {
+                    card.classList.add('oculto');
+                }
+            });
+        }
+
+        inputBusca.addEventListener('input', filtrarCards);
+        document.getElementById('btnBuscarAdmin').addEventListener('click', filtrarCards);
+    </script>
+</body>
+
+</html>

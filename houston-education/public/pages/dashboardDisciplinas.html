@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin - Disciplinas</title>
+    <link rel="shortcut icon" href="../assets/img/iconeHoustonEducation.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="../style/styleNavMenuLateral.css">
+    <link rel="stylesheet" href="../style/changelogModal.css?v=1">
+    <link rel="stylesheet" href="../style/estiloDashboardAdmin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+    <script type="module" src="../scripts/menuLateral/menuLateral.js"></script>
+    <script type="module" src="../scripts/menuLateral/ocultarAbasPorPerfil.js"></script>
+    <script type="module" src="../scripts/changelog/changelog.js?v=1"></script>
+</head>
+
+<body>
+    <script type="module">
+        import { parseJwt } from "../scripts/utils/parseJWT.js";
+
+        const user = parseJwt(localStorage.getItem('token'));
+
+        if (user.perfil !== "MONITOR" && user.perfil !== "ADMIN") {
+            window.location.href = "/pages/naoAutorizado.html";
+        }
+    </script>
+
+    <nav>
+        <div class="icone iconeMenu">
+            <a href="#">
+                <img src="../assets/img/iconeMenu.png" alt="icone menu">
+            </a>
+        </div>
+        <div class="menu-usuario-dropdown">
+            <button class="btn-icone-usuario" id="btnDropdownUsuario">
+                <img src="../assets/img/iconeUsuario.png" alt="Ícone do Usuário">
+            </button>
+            <div class="dropdown-conteudo" id="dropdownUsuario">
+                <a href="/pages/perfil.html">Perfil</a>
+                <a href="/pages/logout.html" class="texto-sair">Sair da Conta</a>
+            </div>
+        </div>
+    </nav>
+
+    <aside id="menuLateral" class="menuLateral">
+        <div class="menuConteudo">
+            <ul>
+                <li>
+                    <a href="/pages/home.html">
+                        <img src="../assets/img/iconeHome.png" alt="Icone Home">
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/pages/minhasInscricoes.html" id="linkMinhasInscricoes">
+                        <img src="../assets/img/iconeMinhasInscricoes.png" alt="Icone Minhas Inscrições">
+                        <span>Minhas Inscrições</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/pages/cadastrarMonitoria.html" id="linkCadastrarMonitoria">
+                        <img src="../assets/img/iconeCadastrarMonitoria.png" alt="Icone Cadastrar Monitoria">
+                        <span>Cadastrar Monitoria</span>
+                    </a>
+                </li>
+                <li class="submenu">
+                    <a href="#" class="submenu-toggle" id="toggleMinhasMonitorias">
+                        <img src="../assets/img/iconeGerenciarMonitorias.png" alt="Icone Minhas Monitorias">
+                        <span>Minhas monitorias</span>
+                        <svg class="seta-submenu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </a>
+                    <ul class="submenu-lista">
+                        <li>
+                            <a href="/gerenciar-monitorias" id="linkGerenciarMonitoria">
+                                <span>Gerenciar Monitorias</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/pages/historicoMonitorias.html" id="linkHistoricoMonitorias">
+                                <span>Histórico de Monitorias</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/dashboard-admin" id="linkDashboardAdmin.html">
+                        <img src="../assets/img/iconeDashboardAdmin.png" alt="Icone Dashboard Admin">
+                        <span>Dashboard Admin</span>
+                    </a>
+                </li>
+                <li class="item-changelog">
+                    <a href="#" id="linkChangelog" class="link-changelog">
+                        <i class="ph-bold ph-scroll" style="font-size: 24px;"></i>
+                        <span>Changelog</span>
+                        <span class="changelog-versao" id="changelogVersaoMenu">v--</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </aside>
+
+    <div id="overlay" class="overlay-menu"></div>
+
+    <div class="dashboard-header">
+        <h1>Dashboard Admin</h1>
+        <p>Gerencie as Disciplinas do Sistema</p>
+    </div>
+
+    <nav class="dashboard-tabs">
+        <a href="/dashboard-admin">Dashboard</a>
+        <a href="/dashboard-usuarios">Usuários</a>
+        <a href="/dashboard-locais">Locais</a>
+        <a href="/dashboard-disciplinas" class="active">Disciplinas</a>
+        <a href="/dashboard-cursos">Cursos</a>
+        <a href="/dashboard-auditoria">Auditoria</a>
+    </nav>
+
+    <div class="dashboard-container">
+        <div class="stats-grid">
+            <div class="stat-card total">
+                <div class="stat-label">Total de Disciplinas</div>
+                <div class="stat-value" id="statTotal">0</div>
+            </div>
+        </div>
+
+        <div class="filtros-dashboard">
+            <input type="text" id="buscaDisciplina" placeholder="Buscar por nome...">
+            <button id="btnAbrirModalCriar" class="btn-adicionar-usuario">
+                <i class="fas fa-plus"></i> Adicionar Disciplina
+            </button>
+        </div>
+
+        <div class="tabela-container">
+            <table id="tabelaDisciplinas">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Cursos</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="3">Carregando Disciplinas...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="popupConfirmacao" class="popup hidden">
+        <div class="popup-content">
+            <p id="popupConfirmacaoTexto"></p>
+            <div class="popup-botoes">
+                <button id="btnConfirmarAcao" class="btn-confirmar">Confirmar</button>
+                <button id="btnCancelarAcao" class="btn-fechar">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalCriarDisciplina" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Adicionar Disciplina</h2>
+                <span class="close-btn" id="btnFecharModalCriar">&times;</span>
+            </div>
+            <form id="formCriarDisciplina">
+                <div class="campo-form-atualizar">
+                    <label>Nome</label>
+                    <input type="text" name="nome" placeholder="Nome da disciplina" required>
+                </div>
+                <div class="campo-form-atualizar">
+                    <label>Descrição</label>
+                    <input type="text" name="descricao" placeholder="Descricao da disciplina">
+                </div>
+                <div class="campo-form-atualizar">
+                    <label>Cursos</label>
+                    <select name="cursoIds" id="cursosSelectCriar" multiple style="display:none">
+                        <option value="" disabled>Selecione os Cursos...</option>
+                    </select>
+                    <div class="lista-cursos" id="listaCursosCriar"></div>
+                    <div class="tags-selecionadas" id="tagsCriar"></div>
+                </div>
+                <button type="submit" id="btnSalvarDisciplina" class="btn-salvar-modal">Criar Disciplina</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="modalEditarDisciplina" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Editar Disciplina</h2>
+                <span class="close-btn" id="btnFecharModalEditar">&times;</span>
+            </div>
+            <form id="formEditarDisciplina">
+                <input type="hidden" id="idDisciplinaEditar">
+                <div class="campo-form-atualizar">
+                    <label>Nome</label>
+                    <input type="text" name="nome" id="nomeDisciplinaEditar" placeholder="Nome da disciplina" required>
+                </div>
+                <div class="campo-form-atualizar">
+                    <label>Descrição</label>
+                    <input type="text" name="descricao" id="descricaoDisciplinaEditar"
+                        placeholder="Descricao da disciplina">
+                </div>
+                <div class="campo-form-atualizar">
+                    <label>Cursos</label>
+                    <select name="cursoIds" id="cursosSelectEditar" multiple style="display:none">
+                        <option value="" disabled>Selecione os Cursos...</option>
+                    </select>
+                    <div class="lista-cursos" id="listaCursosEditar"></div>
+                    <div class="tags-selecionadas" id="tagsEditar"></div>
+                </div>
+                <button type="submit" id="btnSalvarEdicao" class="btn-salvar-modal">Salvar Alteração</button>
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="../scripts/dashboardAdmin/dashboardDisciplinas.js"></script>
+</body>
+
+</html>

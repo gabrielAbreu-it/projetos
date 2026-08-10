@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil</title>
+    <link rel="shortcut icon" href="../assets/img/iconeHoustonEducation.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../style/styleNavMenuLateral.css?v=5">
+    <link rel="stylesheet" href="../style/changelogModal.css?v=1">
+    <link rel="stylesheet" href="../style/estiloPerfil.css?v=2">
+    <script type="module" src="../scripts/menuLateral/menuLateral.js"></script>
+    <script type="module" src="../scripts/menuLateral/ocultarAbasPorPerfil.js"></script>
+    <script type="module" src="../scripts/changelog/changelog.js?v=1"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+</head>
+
+<body>
+    <script type="module">
+        import { parseJwt } from "../scripts/utils/parseJWT.js";
+
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = "/pages/login.html";
+        }
+    </script>
+
+    <nav>
+        <div class="icone iconeMenu">
+            <a href="#">
+                <img src="../assets/img/iconeMenu.png" alt="icone menu">
+            </a>
+        </div>
+        <div class="menu-usuario-dropdown">
+            <button class="btn-icone-usuario" id="btnDropdownUsuario">
+                <img src="../assets/img/iconeUsuario.png" alt="Ícone do Usuário">
+            </button>
+            <div class="dropdown-conteudo" id="dropdownUsuario">
+                <a href="/pages/perfil.html">Perfil</a>
+                <a href="/pages/logout.html" class="texto-sair">Sair da Conta</a>
+            </div>
+        </div>
+    </nav>
+
+    <aside id="menuLateral" class="menuLateral">
+        <div class="menuConteudo">
+            <ul>
+                <li>
+                    <a href="/pages/home.html">
+                        <img src="../assets/img/iconeHome.png" alt="Icone Home">
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/pages/minhasInscricoes.html" id="linkMinhasInscricoes">
+                        <img src="../assets/img/iconeMinhasInscricoes.png" alt="Icone Minhas Inscrições">
+                        <span>Minhas Inscrições</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/pages/cadastrarMonitoria.html" id="linkCadastrarMonitoria">
+                        <img src="../assets/img/iconeCadastrarMonitoria.png" alt="Icone Cadastrar Monitoria">
+                        <span>Cadastrar Monitoria</span>
+                    </a>
+                </li>
+                <li class="submenu">
+                    <a href="#" class="submenu-toggle" id="toggleMinhasMonitorias">
+                        <img src="../assets/img/iconeGerenciarMonitorias.png" alt="Icone Minhas Monitorias">
+                        <span>Minhas monitorias</span>
+                        <svg class="seta-submenu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </a>
+                    <ul class="submenu-lista">
+                        <li>
+                            <a href="/gerenciar-monitorias" id="linkGerenciarMonitoria">
+                                <span>Gerenciar Monitorias</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/pages/historicoMonitorias.html" id="linkHistoricoMonitorias">
+                                <span>Histórico de Monitorias</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/dashboard-admin" id="linkDashboardAdmin.html">
+                        <img src="../assets/img/iconeDashboardAdmin.png" alt="Icone Dashboard Admin">
+                        <span>Dashboard Admin</span>
+                    </a>
+                </li>
+                <li class="item-changelog">
+                    <a href="#" id="linkChangelog" class="link-changelog">
+                        <i class="ph-bold ph-scroll" style="font-size: 24px;"></i>
+                        <span>Changelog</span>
+                        <span class="changelog-versao" id="changelogVersaoMenu">v--</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </aside>
+
+    <div id="overlay" class="overlay-menu"></div>
+
+    <div id="popupSucesso" class="popup-sucesso hidden">
+        <div class="popup-sucesso-content">
+            <button class="popup-sucesso-fechar" id="btnFecharPopup">×</button>
+            <span class="popup-sucesso-icone"><i class="ph-bold ph-check"></i></span>
+            <p>Informações Salvas Com Sucesso!</p>
+        </div>
+    </div>
+
+    <div class="perfil-container">
+        <div class="perfil-card">
+            <div class="perfil-header">
+                <div class="perfil-icone">
+                    <img src="../assets/img/iconeUsuario.png" alt="Icone Perfil">
+                </div>
+                <h2>Dados Pessoais</h2>
+            </div>
+
+            <form id="formPerfil">
+                <div class="perfil-form-row">
+                    <div class="campo-perfil">
+                        <label for="nomeCompleto">Nome Completo <span class="obrigatorio">*</span></label>
+                        <input type="text" id="nomeCompleto" name="nomeCompleto" value="">
+                    </div>
+                    <div class="campo-perfil">
+                        <label for="matricula">Matricula</label>
+                        <input type="text" id="matricula" name="matricula" value="" inputmode="numeric" pattern="[0-9]*" minlength="8" maxlength="11" title="A matrícula deve conter entre 8 e 11 dígitos numéricos">
+                    </div>
+                </div>
+
+                <div class="perfil-form-row">
+                    <div class="campo-perfil full-width">
+                        <label for="email">E-mail Institucional <span class="obrigatorio">*</span></label>
+                        <input type="email" id="email" name="email" value="">
+                    </div>
+                </div>
+
+                <div class="perfil-acoes">
+                    <button type="button" class="btn-alterar-senha" id="btnAbrirModalSenha">Alterar Senha</button>
+                    <button type="button" class="btn-cancelar" id="btnCancelar">Cancelar</button>
+                    <button type="submit" class="btn-salvar">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modalSenha" class="modal-senha hidden">
+        <div class="modal-senha-overlay"></div>
+        <div class="modal-senha-content">
+            <div class="modal-senha-header">
+                <div class="modal-senha-icone">
+                    <i class="ph ph-lock-key"></i>
+                </div>
+                <h2>Alterar Senha</h2>
+            </div>
+
+            <form id="formSenha">
+                <div class="campo-perfil full-width">
+                    <label for="novaSenha">Nova Senha <span class="obrigatorio">*</span></label>
+                    <div class="input-senha-wrapper">
+                        <input type="password" id="novaSenha" name="novaSenha" required>
+                        <button type="button" class="btn-toggle-senha" data-target="novaSenha">
+                            <i class="ph ph-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="campo-perfil full-width campo-senha-confirmar">
+                    <label for="confirmarSenha">Confirmar Nova Senha <span class="obrigatorio">*</span></label>
+                    <div class="input-senha-wrapper">
+                        <input type="password" id="confirmarSenha" name="confirmarSenha" required>
+                        <button type="button" class="btn-toggle-senha" data-target="confirmarSenha">
+                            <i class="ph ph-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="modal-senha-acoes">
+                    <button type="button" class="btn-cancelar" id="btnCancelarSenha">Cancelar</button>
+                    <button type="submit" class="btn-salvar">Salvar Senha</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="../scripts/perfil/perfil.js?v=2"></script>
+</body>
+
+</html>

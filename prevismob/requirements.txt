@@ -1,0 +1,73 @@
+# ========================================================================
+# PrevIsmob - Runtime da API (produção)
+# ========================================================================
+# Contém APENAS dependências efetivamente importadas pela API em execução
+# (api.py, db.py, testar_conexao.py).
+# Para treino/notebooks/scraping use: requirements-train.txt
+#
+# Instalação:
+#   pip install -r requirements.txt
+#
+# Ambiente testado: Python 3.11 / 3.12 (Windows + Linux)
+# ========================================================================
+
+# ------------------------------------------------------------------------
+# Web framework / servidor ASGI
+# ------------------------------------------------------------------------
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+
+# ------------------------------------------------------------------------
+# Validação de dados (Pydantic v2)
+# ------------------------------------------------------------------------
+pydantic==2.5.0
+pydantic-core==2.14.1
+email-validator>=2.0.0          # Requerido por pydantic.EmailStr
+
+# ------------------------------------------------------------------------
+# Banco de dados (MySQL via SQLAlchemy)
+# ------------------------------------------------------------------------
+SQLAlchemy==1.4.52
+PyMySQL==1.1.0
+
+# ------------------------------------------------------------------------
+# Autenticação (JWT + hash de senha)
+# ------------------------------------------------------------------------
+# IMPORTANTE: manter bcrypt==4.0.1 para compatibilidade com passlib 1.7.4.
+# passlib 1.7.4 lê bcrypt.__about__.__version__, atributo removido no
+# bcrypt >= 4.1, causando:
+#   AttributeError: module 'bcrypt' has no attribute '__about__'
+PyJWT==2.9.0
+passlib[bcrypt]==1.7.4
+bcrypt==4.0.1
+
+# ------------------------------------------------------------------------
+# Machine Learning / dados
+# (necessários em runtime: joblib.load() recria o estimador scikit-learn
+#  salvo em modelo_imoveis.pkl)
+# ------------------------------------------------------------------------
+scikit-learn==1.3.2
+numpy==1.26.2
+pandas==2.1.3
+joblib==1.3.2
+
+# ------------------------------------------------------------------------
+# Integrações externas
+# ------------------------------------------------------------------------
+requests==2.31.0                # Chamadas HTTP à Google Maps API
+geopy==2.4.1                    # Cálculo de distância geodésica
+
+# ------------------------------------------------------------------------
+# Configuração / ambiente
+# ------------------------------------------------------------------------
+python-dotenv==1.0.0
+httpx==0.27.2
+starlette==0.27.0
+
+# ------------------------------------------------------------------------
+# Google OAuth 2.0
+# ------------------------------------------------------------------------
+# google-auth: verificação server-side de ID Tokens do Google Identity Services.
+# cachecontrol: opcional, mas recomendado — reduz chamadas à JWKS do Google.
+google-auth>=2.0.0
+cachecontrol>=0.13.0

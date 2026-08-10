@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin - Auditoria</title>
+    <link rel="shortcut icon" href="../assets/img/iconeHoustonEducation.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="../style/styleNavMenuLateral.css">
+    <link rel="stylesheet" href="../style/changelogModal.css?v=1">
+    <link rel="stylesheet" href="../style/estiloDashboardAdmin.css">
+    <link rel="stylesheet" href="../style/historicoMonitorias.css?v=3">
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+    <script type="module" src="../scripts/menuLateral/menuLateral.js"></script>
+    <script type="module" src="../scripts/menuLateral/ocultarAbasPorPerfil.js"></script>
+    <script type="module" src="../scripts/changelog/changelog.js?v=1"></script>
+</head>
+
+<body>
+    <script type="module">
+        import { parseJwt } from "../scripts/utils/parseJWT.js";
+
+        const user = parseJwt(localStorage.getItem('token'));
+
+        if (user.perfil !== "ADMIN") {
+            window.location.href = "/pages/naoAutorizado.html";
+        }
+    </script>
+
+    <nav>
+        <div class="icone iconeMenu">
+            <a href="#">
+                <img src="../assets/img/iconeMenu.png" alt="icone menu">
+            </a>
+        </div>
+        <div class="menu-usuario-dropdown">
+            <button class="btn-icone-usuario" id="btnDropdownUsuario">
+                <img src="../assets/img/iconeUsuario.png" alt="Ícone do Usuário">
+            </button>
+            <div class="dropdown-conteudo" id="dropdownUsuario">
+                <a href="/pages/perfil.html">Perfil</a>
+                <a href="/pages/logout.html" class="texto-sair">Sair da Conta</a>
+            </div>
+        </div>
+    </nav>
+
+    <aside id="menuLateral" class="menuLateral">
+        <div class="menuConteudo">
+            <ul>
+                <li>
+                    <a href="/pages/home.html">
+                        <img src="../assets/img/iconeHome.png" alt="Icone Home">
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/pages/minhasInscricoes.html" id="linkMinhasInscricoes">
+                        <img src="../assets/img/iconeMinhasInscricoes.png" alt="Icone Minhas Inscrições">
+                        <span>Minhas Inscrições</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/pages/cadastrarMonitoria.html" id="linkCadastrarMonitoria">
+                        <img src="../assets/img/iconeCadastrarMonitoria.png" alt="Icone Cadastrar Monitoria">
+                        <span>Cadastrar Monitoria</span>
+                    </a>
+                </li>
+                <li class="submenu">
+                    <a href="#" class="submenu-toggle" id="toggleMinhasMonitorias">
+                        <img src="../assets/img/iconeGerenciarMonitorias.png" alt="Icone Minhas Monitorias">
+                        <span>Minhas Monitorias</span>
+                        <svg class="seta-submenu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </a>
+                    <ul class="submenu-lista">
+                        <li>
+                            <a href="/gerenciar-monitorias" id="linkGerenciarMonitoria">
+                                <span>Gerenciar Monitorias</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/pages/historicoMonitorias.html" id="linkHistoricoMonitorias">
+                                <span>Histórico de Monitorias</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/dashboard-admin" id="linkDashboardAdmin.html">
+                        <img src="../assets/img/iconeDashboardAdmin.png" alt="Icone Dashboard Admin">
+                        <span>Dashboard Admin</span>
+                    </a>
+                </li>
+                <li class="item-changelog">
+                    <a href="#" id="linkChangelog" class="link-changelog">
+                        <i class="ph-bold ph-scroll" style="font-size: 24px;"></i>
+                        <span>Changelog</span>
+                        <span class="changelog-versao" id="changelogVersaoMenu">v--</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </aside>
+
+    <div id="overlay" class="overlay-menu"></div>
+
+    <div class="dashboard-header">
+        <h1>Dashboard Admin</h1>
+        <p>Registro de Auditoria do Sistema</p>
+    </div>
+
+    <nav class="dashboard-tabs">
+        <a href="/dashboard-admin">Dashboard</a>
+        <a href="/dashboard-usuarios">Usuários</a>
+        <a href="/dashboard-locais">Locais</a>
+        <a href="/dashboard-disciplinas">Disciplinas</a>
+        <a href="/dashboard-cursos">Cursos</a>
+        <a href="/dashboard-auditoria" class="active">Auditoria</a>
+    </nav>
+
+    <div class="dashboard-container">
+        <div class="historico-filtros">
+            <div class="filtro-busca">
+                <input type="text" id="buscaAuditoria" placeholder="Buscar por usuário, ação ou entidade...">
+            </div>
+            <input type="date" id="filtroDataAuditoria" class="input-data">
+        </div>
+
+        <div class="tabela-container">
+            <table id="tabelaAuditoria">
+                <thead>
+                    <tr>
+                        <th>Data/Hora</th>
+                        <th>Usuário</th>
+                        <th>Ação</th>
+                        <th>Entidade</th>
+                        <th>ID da Entidade</th>
+                        <th>Detalhes</th>
+                    </tr>
+                </thead>
+                <tbody id="corpoTabelaAuditoria">
+                    <tr>
+                        <td colspan="6" class="sem-dados">Carregando...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script type="module" src="../scripts/dashboardAdmin/dashboardAuditoria.js?v=6"></script>
+</body>
+
+</html>

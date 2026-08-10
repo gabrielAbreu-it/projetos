@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Histórico de Monitorias</title>
+    <link rel="shortcut icon" href="../assets/img/iconeHoustonEducation.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="../style/styleNavMenuLateral.css?v=2">
+    <link rel="stylesheet" href="../style/changelogModal.css?v=1">
+    <link rel="stylesheet" href="../style/historicoMonitorias.css?v=4">
+    <script type="module" src="../scripts/menuLateral/menuLateral.js"></script>
+    <script type="module" src="../scripts/menuLateral/ocultarAbasPorPerfil.js"></script>
+    <script type="module" src="../scripts/changelog/changelog.js?v=1"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+
+<body>
+    <script type="module">
+        import { parseJwt } from "../scripts/utils/parseJWT.js";
+
+        const user = parseJwt(localStorage.getItem('token'));
+
+        if (user.perfil !== "MONITOR" && user.perfil !== "ADMIN") {
+            window.location.href = "/pages/naoAutorizado.html";
+        }
+    </script>
+
+    <nav>
+        <div class="icone iconeMenu">
+            <a href="#">
+                <img src="../assets/img/iconeMenu.png" alt="icone menu">
+            </a>
+        </div>
+        <div class="menu-usuario-dropdown">
+            <button class="btn-icone-usuario" id="btnDropdownUsuario">
+                <img src="../assets/img/iconeUsuario.png" alt="Ícone do Usuário">
+            </button>
+            <div class="dropdown-conteudo" id="dropdownUsuario">
+                <a href="/pages/perfil.html">Perfil</a>
+                <a href="/pages/logout.html" class="texto-sair">Sair da Conta</a>
+            </div>
+        </div>
+    </nav>
+
+    <aside id="menuLateral" class="menuLateral">
+        <div class="menuConteudo">
+            <ul>
+                <li>
+                    <a href="/pages/home.html">
+                        <img src="../assets/img/iconeHome.png" alt="Icone Home">
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/pages/minhasInscricoes.html" id="linkMinhasInscricoes">
+                        <img src="../assets/img/iconeMinhasInscricoes.png" alt="Icone Minhas Inscrições">
+                        <span>Minhas Inscrições</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/pages/cadastrarMonitoria.html" id="linkCadastrarMonitoria">
+                        <img src="../assets/img/iconeCadastrarMonitoria.png" alt="Icone Cadastrar Monitoria">
+                        <span>Cadastrar Monitoria</span>
+                    </a>
+                </li>
+                <li class="submenu">
+                    <a href="#" class="submenu-toggle" id="toggleMinhasMonitorias">
+                        <img src="../assets/img/iconeGerenciarMonitorias.png" alt="Icone Minhas Monitorias">
+                        <span>Minhas monitorias</span>
+                        <svg class="seta-submenu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </a>
+                    <ul class="submenu-lista">
+                        <li>
+                            <a href="/gerenciar-monitorias" id="linkGerenciarMonitoria">
+                                <span>Gerenciar Monitorias</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/pages/historicoMonitorias.html" id="linkHistoricoMonitorias">
+                                <span>Histórico de Monitorias</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/dashboard-admin" id="linkDashboardAdmin.html">
+                        <img src="../assets/img/iconeDashboardAdmin.png" alt="Icone Dashboard Admin">
+                        <span>Dashboard Admin</span>
+                    </a>
+                </li>
+                <li class="item-changelog">
+                    <a href="#" id="linkChangelog" class="link-changelog">
+                        <i class="ph-bold ph-scroll" style="font-size: 24px;"></i>
+                        <span>Changelog</span>
+                        <span class="changelog-versao" id="changelogVersaoMenu">v--</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </aside>
+
+    <div id="overlay" class="overlay-menu"></div>
+
+    <main class="historico-container">
+        <div class="historico-header">
+            <h1>Histórico das monitorias</h1>
+        </div>
+
+        <div class="historico-filtros">
+            <div class="filtro-busca">
+                <input type="text" id="buscaMonitoria" placeholder="Buscar monitoria...">
+            </div>
+            <select id="ordenarMonitorias" class="select-ordenar">
+                <option value="recente">Mais recente</option>
+                <option value="antiga">Mais antiga</option>
+            </select>
+            <select id="filtroDisciplina">
+                <option value="">Todas disciplinas</option>
+            </select>
+            <input type="text" id="dataInicial" class="input-data" placeholder="De" onfocus="this.type='date'" onblur="if(!this.value)this.type='text'">
+            <input type="text" id="dataFinal" class="input-data" placeholder="Até" onfocus="this.type='date'" onblur="if(!this.value)this.type='text'">
+        </div>
+
+        <div class="tabela-container">
+            <table id="tabelaHistorico">
+                <thead>
+                    <tr>
+                        <th>Monitoria</th>
+                        <th>Monitor</th>
+                        <th>Disciplina</th>
+                        <th>Data</th>
+                        <th>Horário</th>
+                        <th>Inscritos</th>
+                        <th>Presentes</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="corpoTabelaHistorico">
+                    <tr>
+                        <td colspan="8" class="sem-dados">Carregando...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <div id="modalChamada" class="modal-overlay">
+        <div class="modal-chamada-content">
+            <div class="modal-chamada-header">
+                <h2 id="modalChamadaTitulo">Chamada</h2>
+                <button class="modal-chamada-fechar" id="btnFecharModal">&times;</button>
+            </div>
+            <div class="modal-chamada-body">
+                <div class="modal-chamada-acoes">
+                    <button class="btn-baixar-pdf" id="btnBaixarPdf">Baixar PDF</button>
+                </div>
+                <div class="modal-chamada-lista" id="modalChamadaLista">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="pdfContent" style="display: none;">
+        <div class="pdf-header">
+            <img src="../assets/img/iconeHoustonEducation.ico" alt="Logo" class="pdf-logo">
+            <div class="pdf-header-info">
+                <h1>Houston Education</h1>
+                <p class="pdf-slogan">Ferraris a 200 por hora.</p>
+                <p>Relatório de Chamada</p>
+            </div>
+        </div>
+        <div class="pdf-monitoria-info">
+            <h2 id="pdfTitulo">Chamada</h2>
+            <div class="pdf-info-grid">
+                <p><strong>Monitor:</strong> <span id="pdfMonitor">-</span></p>
+                <p><strong>Disciplina:</strong> <span id="pdfDisciplina">-</span></p>
+                <p><strong>Data:</strong> <span id="pdfData">-</span></p>
+                <p><strong>Horário:</strong> <span id="pdfHorario">-</span></p>
+            </div>
+        </div>
+        <table class="pdf-tabela">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nome</th>
+                    <th>Matrícula</th>
+                    <th>Inscrito</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="pdfTabelaCorpo"></tbody>
+        </table>
+        <div class="pdf-footer">
+            <p>Documento gerado em <span id="pdfDataGeracao"></span></p>
+        </div>
+    </div>
+
+    <script type="module" src="../scripts/carregarNomeUsuario.js?v=2"></script>
+    <script type="module" src="../scripts/historicoMonitorias/historicoMonitorias.js?v=3"></script>
+</body>
+
+</html>

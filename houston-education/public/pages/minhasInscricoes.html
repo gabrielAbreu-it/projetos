@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minhas Inscrições - Houston Education</title>
+    <link rel="shortcut icon" href="../assets/img/iconeHoustonEducation.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../style/styleNavMenuLateral.css?v=5">
+    <link rel="stylesheet" href="../style/changelogModal.css?v=1">
+    <link rel="stylesheet" href="../style/minhasInscricoes.css?v=3">
+    <link rel="stylesheet" href="../style/style.css?v=5">
+    <link rel="stylesheet" href="../style/stylePopUp.css?v=5">
+    <script type="module" src="../scripts/menuLateral/menuLateral.js"></script>
+    <script type="module" src="../scripts/menuLateral/ocultarAbasPorPerfil.js"></script>
+    <script type="module" src="../scripts/changelog/changelog.js?v=1"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+</head>
+
+<body>
+    <script type="module">
+        import { parseJwt } from "../scripts/utils/parseJWT.js";
+
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = "/pages/login.html";
+        }
+    </script>
+
+    <nav>
+        <div class="icone iconeMenu">
+            <a href="#">
+                <img src="../assets/img/iconeMenu.png" alt="icone menu">
+            </a>
+        </div>
+        <div class="menu-usuario-dropdown">
+            <button class="btn-icone-usuario" id="btnDropdownUsuario">
+                <img src="../assets/img/iconeUsuario.png" alt="Ícone do Usuário">
+            </button>
+            <div class="dropdown-conteudo" id="dropdownUsuario">
+                <a href="/pages/perfil.html">Perfil</a>
+                <a href="/pages/logout.html" class="texto-sair">Sair da Conta</a>
+            </div>
+        </div>
+    </nav>
+
+    <aside id="menuLateral" class="menuLateral">
+        <div class="menuConteudo">
+            <ul>
+                <li>
+                    <a href="/pages/home.html">
+                        <img src="../assets/img/iconeHome.png" alt="Icone Home">
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/pages/minhasInscricoes.html" id="linkMinhasInscricoes">
+                        <img src="../assets/img/iconeMinhasInscricoes.png" alt="Icone Minhas Inscrições">
+                        <span>Minhas Inscrições</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/pages/cadastrarMonitoria.html" id="linkCadastrarMonitoria">
+                        <img src="../assets/img/iconeCadastrarMonitoria.png" alt="Icone Cadastrar Monitoria">
+                        <span>Cadastrar Monitoria</span>
+                    </a>
+                </li>
+                <li class="submenu">
+                    <a href="#" class="submenu-toggle" id="toggleMinhasMonitorias">
+                        <img src="../assets/img/iconeGerenciarMonitorias.png" alt="Icone Minhas Monitorias">
+                        <span>Minhas monitorias</span>
+                        <svg class="seta-submenu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </a>
+                    <ul class="submenu-lista">
+                        <li>
+                            <a href="/gerenciar-monitorias" id="linkGerenciarMonitoria">
+                                <span>Gerenciar Monitorias</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/pages/historicoMonitorias.html" id="linkHistoricoMonitorias">
+                                <span>Histórico de Monitorias</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/dashboard-admin" id="linkDashboardAdmin.html">
+                        <img src="../assets/img/iconeDashboardAdmin.png" alt="Icone Dashboard Admin">
+                        <span>Dashboard Admin</span>
+                    </a>
+                </li>
+                <li class="item-changelog">
+                    <a href="#" id="linkChangelog" class="link-changelog">
+                        <i class="ph-bold ph-scroll" style="font-size: 24px;"></i>
+                        <span>Changelog</span>
+                        <span class="changelog-versao" id="changelogVersaoMenu">v--</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </aside>
+
+    <div id="overlay" class="overlay-menu"></div>
+
+    <main class="inscricoes-container">
+        <div class="inscricoes-filtros">
+            <div class="input-busca-wrapper">
+                <img src="../assets/img/lupa.png" alt="" class="icone-lupa">
+                <input type="text" id="buscaMonitoria" placeholder="Buscar monitoria ou disciplina...">
+            </div>
+            <select id="ordenarMonitorias" class="select-ordenar">
+                <option value="recente">Mais recente</option>
+                <option value="antiga">Mais antiga</option>
+            </select>
+        </div>
+
+        <h1 class="inscricoes-titulo">Minhas inscrições</h1>
+
+        <section class="sectionmonitorias">
+            <div class="inscricoes-lista" id="listaInscricoes">
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal de Detalhes -->
+    <div id="modalDetalhes" class="modal-overlay">
+        <div class="modal-detalhes-content">
+            <div class="modal-detalhes-header">
+                <h2 id="modalDetalhesTitulo"></h2>
+                <button class="modal-detalhes-fechar" id="btnFecharModal">&times;</button>
+            </div>
+            <div class="modal-detalhes-body">
+                <div class="detalhe-item">
+                    <span class="detalhe-label">Disciplina:</span>
+                    <span class="detalhe-valor" id="detalheDisciplina"></span>
+                </div>
+                <div class="detalhe-item">
+                    <span class="detalhe-label">Monitor:</span>
+                    <span class="detalhe-valor" id="detalheMonitor"></span>
+                </div>
+                <div class="detalhe-item">
+                    <span class="detalhe-label">Local:</span>
+                    <span class="detalhe-valor" id="detalheLocal"></span>
+                </div>
+                <div class="detalhe-item">
+                    <span class="detalhe-label">Data/Hora:</span>
+                    <span class="detalhe-valor" id="detalheDataHora"></span>
+                </div>
+                <div class="detalhe-item">
+                    <span class="detalhe-label">Descrição:</span>
+                    <span class="detalhe-valor" id="detalheDescricao"></span>
+                </div>
+                <div class="detalhe-item">
+                    <span class="detalhe-label">Presente:</span>
+                    <span class="detalhe-valor" id="detalhePresente"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup de confirmacao para cancelar inscricao -->
+    <div id="popupCancelarInscricao" class="popup hidden">
+        <div class="popup-content">
+            <p>Deseja cancelar sua inscricao?</p>
+            <button class="btn-cancelar-inscricao" id="btnConfirmarCancelar">Cancelar inscricao</button>
+            <button class="btn-fechar-popup" id="btnFecharPopupCancelar">Fechar</button>
+        </div>
+    </div>
+
+    <script type="module" src="../scripts/carregarNomeUsuario.js?v=2"></script>
+    <script type="module" src="../scripts/minhasInscricoes/minhasInscricoes.js?v=2"></script>
+</body>
+
+</html>

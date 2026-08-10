@@ -1,0 +1,436 @@
+/* Perfil - Design Moderno */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Container Principal */
+.perfil-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 100px 20px 40px;
+}
+
+/* Card de Perfil */
+.perfil-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    padding: 40px;
+}
+
+/* Header do Perfil */
+.perfil-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 40px;
+}
+
+.perfil-icone {
+    width: 56px;
+    height: 56px;
+    background: #024059;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.perfil-icone img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+}
+
+.perfil-header h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #024059;
+}
+
+/* Formulario */
+.perfil-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.campo-perfil {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.campo-perfil label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #555;
+}
+
+.campo-perfil .obrigatorio {
+    color: #dc3545;
+}
+
+.campo-perfil input {
+    padding: 14px 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    font-size: 1rem;
+    color: #333;
+    background: #e4e4e4;
+    outline: none;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.campo-perfil input:focus,
+.campo-perfil input.input-preenchido {
+    border-color: #024059;
+    box-shadow: 0 2px 8px rgba(2, 64, 89, 0.15);
+}
+
+.campo-perfil input[readonly] {
+    background: #f0f0f0;
+    color: #666;
+    cursor: not-allowed;
+}
+
+.campo-perfil.full-width {
+    grid-column: 1 / -1;
+}
+
+/* Acoes */
+.perfil-acoes {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid #eee;
+}
+
+.btn-cancelar {
+    padding: 12px 24px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    background: white;
+    color: #555;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.btn-cancelar:hover {
+    background: #f5f5f5;
+    border-color: #024059;
+}
+
+.btn-salvar {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 12px;
+    background: #024059;
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: inherit;
+    box-shadow: 0 4px 12px rgba(13, 139, 242, 0.3);
+}
+
+.btn-salvar:hover {
+    background: #035a7d;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(13, 139, 242, 0.4);
+}
+
+.btn-alterar-senha {
+    padding: 12px 24px;
+    border: 1px solid #024059;
+    border-radius: 12px;
+    background: white;
+    color: #024059;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: inherit;
+    margin-right: auto;
+}
+
+.btn-alterar-senha:hover {
+    background: #024059;
+    color: white;
+}
+
+/* Modal de Senha */
+.modal-senha {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.modal-senha.hidden {
+    display: none;
+}
+
+.modal-senha-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.modal-senha-content {
+    position: relative;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    padding: 40px;
+    width: 90%;
+    max-width: 500px;
+    z-index: 1;
+}
+
+.modal-senha-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.campo-senha-confirmar {
+    margin-top: 16px;
+}
+
+.input-senha-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-senha-wrapper input {
+    width: 100%;
+    padding-right: 48px;
+}
+
+.btn-toggle-senha {
+    position: absolute;
+    right: 12px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #666;
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+}
+
+.btn-toggle-senha:hover {
+    color: #024059;
+}
+
+/* Animacao de erro nos inputs */
+.input-erro {
+    border-color: #dc3545 !important;
+    box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.2) !important;
+    animation: shake 0.4s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-6px); }
+    40% { transform: translateX(6px); }
+    60% { transform: translateX(-4px); }
+    80% { transform: translateX(4px); }
+}
+
+.modal-senha-icone {
+    width: 56px;
+    height: 56px;
+    background: #024059;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-senha-icone i {
+    color: white;
+    font-size: 28px;
+}
+
+.modal-senha-header h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #024059;
+}
+
+.modal-senha-acoes {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid #eee;
+}
+
+/* Responsividade Modal */
+@media (max-width: 768px) {
+    .modal-senha-content {
+        padding: 24px;
+        margin: 16px;
+    }
+
+    .modal-senha-header h2 {
+        font-size: 1.25rem;
+    }
+
+    .modal-senha-acoes {
+        flex-direction: column-reverse;
+    }
+
+    .modal-senha-acoes button {
+        width: 100%;
+        text-align: center;
+    }
+
+    .perfil-acoes {
+        flex-wrap: wrap;
+    }
+
+    .perfil-acoes .btn-alterar-senha {
+        width: 100%;
+        order: -1;
+    }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .perfil-container {
+        padding: 90px 16px 24px;
+    }
+
+    .perfil-card {
+        padding: 24px;
+    }
+
+    .perfil-header h2 {
+        font-size: 1.25rem;
+    }
+
+    .perfil-form-row {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .perfil-acoes {
+        flex-direction: column-reverse;
+    }
+
+    .perfil-acoes button {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* Popup de Sucesso */
+.popup-sucesso {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.popup-sucesso.hidden {
+    display: none;
+    opacity: 0;
+}
+
+.popup-sucesso-content {
+    background: #ffffff;
+    padding: 40px 50px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    border-top: 6px solid #22c55e;
+    max-width: 400px;
+    width: 90%;
+}
+
+.popup-sucesso-icone {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    background: #22c55e;
+    color: white;
+    font-size: 2rem;
+    border-radius: 50%;
+    margin-bottom: 15px;
+}
+
+.popup-sucesso-content p {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #166534;
+    margin: 0;
+}
+
+.popup-sucesso-fechar {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #888;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.popup-sucesso-fechar:hover {
+    color: #333;
+}
+
+.popup-sucesso-content {
+    position: relative;
+}

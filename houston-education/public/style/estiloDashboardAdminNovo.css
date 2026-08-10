@@ -1,0 +1,227 @@
+/* Dashboard Admin Novo - Esboço visual com cards */
+
+.pagina-dashboard-admin {
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+    min-height: 100vh;
+}
+
+.dashboard-admin-container {
+    padding: 0 0 60px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.secao-busca-admin {
+    width: 100%;
+    background: #024059;
+    padding: 50px 40px 140px 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 4px 20px rgba(2, 64, 89, 0.3);
+    position: relative;
+    z-index: 1;
+}
+
+.boasvindas-admin h1 {
+    color: white;
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.busca-admin-conteudo {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.secao-busca-admin h2 {
+    color: white;
+    font-size: 1.4rem;
+    font-weight: 400;
+    text-align: center;
+}
+
+.busca-admin-wrapper {
+    display: flex;
+    width: 100%;
+    max-width: 600px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.busca-admin-wrapper input {
+    flex: 1;
+    padding: 14px 18px;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    color: #333;
+    background: white;
+}
+
+.busca-admin-wrapper input::placeholder {
+    color: #999;
+}
+
+.busca-admin-wrapper button {
+    padding: 14px 28px;
+    border: none;
+    background: #0d7377;
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.busca-admin-wrapper button:hover {
+    background: #0b6366;
+}
+
+.secao-cards-admin {
+    margin-top: -80px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+    padding: 0 40px;
+}
+
+.grid-cards-admin {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(190px, 1fr));
+    gap: 16px;
+    justify-content: center;
+    width: 100%;
+    max-width: 1220px;
+}
+
+.card-admin {
+    background: white;
+    border-radius: 4px;
+    min-height: 190px;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    text-decoration: none;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    padding: 20px;
+}
+
+.card-admin.oculto {
+    display: none;
+    opacity: 0;
+    transform: scale(0.95);
+}
+
+@starting-style {
+    .card-admin:not(.oculto) {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+}
+
+.card-admin:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(2, 64, 89, 0.18);
+}
+
+.card-admin i {
+    font-size: 2.4rem;
+    color: #024059;
+    transition: color 0.3s ease;
+}
+
+.card-admin:hover i {
+    color: #035a7d;
+}
+
+.card-admin-texto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.card-admin-texto strong {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #333;
+    letter-spacing: 0.5px;
+}
+
+.card-admin-texto span {
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: #777;
+    line-height: 1.2;
+    max-width: 160px;
+}
+
+/* Responsividade */
+@media (max-width: 992px) {
+    .grid-cards-admin {
+        grid-template-columns: repeat(3, minmax(140px, 1fr));
+        max-width: 600px;
+    }
+}
+
+@media (max-width: 768px) {
+    .secao-busca-admin {
+        padding: 40px 20px 110px 20px;
+        align-items: center;
+    }
+
+    .boasvindas-admin h1 {
+        font-size: 1.5rem;
+    }
+
+    .secao-busca-admin h2 {
+        font-size: 1.1rem;
+    }
+
+    .secao-cards-admin {
+        margin-top: -60px;
+        padding: 0 20px;
+    }
+
+    .busca-admin-wrapper {
+        max-width: 100%;
+    }
+
+    .busca-admin-wrapper button {
+        padding: 14px 20px;
+    }
+
+    .grid-cards-admin {
+        grid-template-columns: repeat(2, minmax(140px, 1fr));
+        gap: 16px;
+        max-width: 100%;
+    }
+
+    .card-admin {
+        min-height: 160px;
+        padding: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .grid-cards-admin {
+        grid-template-columns: 1fr;
+        max-width: 220px;
+    }
+}

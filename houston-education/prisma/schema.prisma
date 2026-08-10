@@ -1,0 +1,158 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator erd {
+  provider        = "prisma-erd-generator"
+  output          = "./erd.svg"
+  puppeteerConfig = "prisma/puppeteer-config.json"
+} 
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/*
+Schema configurado para PostgreSQL convencional (Supabase).
+IDs inteiros usam autoincrement(), que cria sequences padrão do Postgres.
+Não usa mais cockroachdb/sequence() nem BigInt nos IDs.
+*/
+
+model Perfil {
+  id        Int     @id @default(autoincrement())
+  nome      String  @unique
+  descricao String?
+
+  alunos Aluno[]
+
+  @@map("perfil")
+}
+
+model Aluno {
+  id        String    @id @default(dbgenerated("gen_random_uuid()"))
+  nome      String
+  email     String    @unique
+  senha     String
+  matricula String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  perfilId Int    @default(3)
+  perfil   Perfil @relation(fields: [perfilId], references: [id])
+
+  monitorias Monitoria[]
+  inscricoes Inscricao[]
+  auditorias Auditoria[]
+
+  @@map("aluno")
+}
+
+model Curso {
+  id          Int               @id @default(autoincrement())
+  nome        String            @unique
+  descricao   String?
+
+  disciplinas DisciplinaCurso[]
+
+  @@map("curso")
+}
+
+model Disciplina {
+  id        Int               @id @default(autoincrement())
+  nome      String            @unique
+  descricao String?
+
+  cursos     DisciplinaCurso[]
+  monitorias Monitoria[]
+
+  @@map("disciplina")
+}
+
+model DisciplinaCurso {
+  disciplinaId Int
+  cursoId      Int
+
+  disciplina Disciplina @relation(fields: [disciplinaId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  curso      Curso      @relation(fields: [cursoId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@id([disciplinaId, cursoId])
+  @@map("disciplina_curso")
+}
+
+model Campus {
+  id        Int     @id @default(autoincrement())
+  nome      String
+  descricao String?
+
+  locais Local[]
+
+  @@map("campus")
+}
+
+model Local {
+  id        Int     @id @default(autoincrement())
+  nome      String
+  descricao String?
+  campusId  Int
+  campus    Campus  @relation(fields: [campusId], references: [id])
+
+  monitorias Monitoria[]
+
+  @@unique([nome, campusId])
+  @@map("local")
+}
+
+model Monitoria {
+  id             String   @id @default(dbgenerated("gen_random_uuid()"))
+  nome_monitoria String   
+  descricao      String?  
+  inicio         DateTime
+  fim            DateTime
+
+  monitorId String
+  monitor   Aluno @relation(fields: [monitorId], references: [id])
+
+  disciplinaId Int
+  disciplina   Disciplina @relation(fields: [disciplinaId], references: [id])
+
+  localId Int
+  local   Local @relation(fields: [localId], references: [id])
+
+  inscricoes Inscricao[]
+  ata        String?   
+  deletedAt  DateTime?
+  expiredAt  DateTime?
+
+  @@map("monitoria")
+}
+
+model Inscricao {
+  id          Int      @id @default(autoincrement())
+  alunoId     String
+  monitoriaId String
+  criadoEm    DateTime @default(now())
+  presente    Boolean  @default(false)
+
+  aluno     Aluno     @relation(fields: [alunoId], references: [id])
+  monitoria Monitoria @relation(fields: [monitoriaId], references: [id])
+
+  @@unique([alunoId, monitoriaId])
+
+  @@map("inscricao")
+}
+
+model Auditoria {
+  id         Int      @id @default(autoincrement())
+  usuarioId  String
+  acao       String
+  entidade   String
+  entidadeId String
+  detalhes   Json?
+  criadoEm   DateTime @default(now())
+
+  usuario Aluno @relation(fields: [usuarioId], references: [id])
+
+  @@map("auditoria")
+}

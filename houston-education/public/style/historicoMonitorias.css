@@ -1,0 +1,517 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #f5f5f5;
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+}
+
+.historico-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 90px 20px 40px;
+}
+
+.historico-header {
+    color: #024059;
+    padding: 20px;
+    margin-top: 90px;
+    text-align: center;
+    width: 100%;
+}
+
+.historico-header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.historico-filtros {
+    display: flex;
+    gap: 12px;
+    padding: 20px;
+    background: white;
+    border-bottom: 1px solid #eee;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.filtro-busca {
+    flex: 1;
+    min-width: 200px;
+}
+
+.filtro-busca input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.filtro-busca input:focus {
+    border-color: #024059;
+}
+
+.historico-filtros select,
+.historico-filtros input[type="date"],
+.historico-filtros .input-data {
+    padding: 10px 14px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    outline: none;
+    background: white;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    min-width: 140px;
+    position: relative;
+}
+
+.historico-filtros select:focus,
+.historico-filtros input[type="date"]:focus,
+.historico-filtros .input-data:focus {
+    border-color: #024059;
+}
+
+.select-ordenar {
+    padding: 10px 14px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: white;
+    color: #333;
+    font-size: 0.95rem;
+    cursor: pointer;
+    outline: none;
+    min-width: 140px;
+    transition: border-color 0.2s;
+}
+
+.select-ordenar:focus {
+    border-color: #024059;
+}
+
+.tabela-container {
+    background: white;
+    border-radius: 0 0 8px 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.tabela-container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tabela-container thead {
+    background: #f0f0f0;
+}
+
+.tabela-container th {
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #333;
+    text-transform: none;
+    border-bottom: 2px solid #ddd;
+}
+
+.tabela-container th:last-child {
+    text-align: center;
+}
+
+.tabela-container td {
+    padding: 14px 16px;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+.tabela-container tbody tr:hover {
+    background: #fafafa;
+}
+
+.tabela-container tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.presentes-positivo {
+    color: #28a745;
+    font-weight: 600;
+}
+
+.presentes-zero {
+    color: #dc3545;
+    font-weight: 600;
+}
+
+.btn-ver-chamada {
+    display: inline-block;
+    padding: 6px 16px;
+    background: #09696f;
+    color: white;
+    border: none;
+    border-radius: 16px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+    text-decoration: none;
+}
+
+.btn-ver-chamada:hover {
+    background: #0b8e98;
+}
+
+.sem-chamada {
+    color: #999;
+    font-size: 0.85rem;
+}
+
+.sem-dados {
+    text-align: center;
+    color: #888;
+    padding: 40px;
+}
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.modal-overlay.open {
+    display: flex;
+}
+
+.modal-chamada-content {
+    background: white;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 700px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: modalEntrada 0.25s ease-out;
+}
+
+@keyframes modalEntrada {
+    from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.modal-chamada-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 1px solid #eee;
+}
+
+.modal-chamada-header h2 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.modal-chamada-fechar {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #999;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+
+.modal-chamada-fechar:hover {
+    background: #f0f0f0;
+    color: #333;
+}
+
+.modal-chamada-body {
+    padding: 20px 24px;
+    overflow-y: auto;
+}
+
+.modal-chamada-acoes {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 16px;
+}
+
+.btn-baixar-pdf {
+    padding: 8px 20px;
+    background: #024059;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-baixar-pdf:hover {
+    background: #035a7d;
+}
+
+.chamada-aluno {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    background: #fafafa;
+    transition: background 0.15s;
+}
+
+.chamada-aluno:hover {
+    background: #f0f7ff;
+}
+
+.chamada-aluno-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.chamada-aluno-nome {
+    font-weight: 600;
+    color: #333;
+    font-size: 0.95rem;
+    min-width: 180px;
+}
+
+.chamada-aluno-matricula,
+.chamada-aluno-inscrito {
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.chamada-aluno-status {
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-presente {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status-ausente {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.sem-alunos {
+    text-align: center;
+    color: #888;
+    padding: 40px;
+    font-size: 0.95rem;
+}
+
+/* Estilos para o PDF */
+#pdfContent {
+    font-family: 'Inter', sans-serif;
+    padding: 30px;
+    background: white;
+    color: #333;
+}
+
+.pdf-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border-bottom: 3px solid #024059;
+    padding-bottom: 20px;
+    margin-bottom: 24px;
+}
+
+.pdf-logo {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+}
+
+.pdf-header-info h1 {
+    font-size: 1.5rem;
+    color: #024059;
+    margin: 0;
+}
+
+.pdf-header-info p {
+    font-size: 0.95rem;
+    color: #666;
+    margin: 4px 0 0;
+}
+
+.pdf-slogan {
+    font-size: 0.8rem;
+    font-style: italic;
+    color: #888;
+    margin: 2px 0 6px;
+}
+
+.pdf-monitoria-info {
+    margin-bottom: 24px;
+}
+
+.pdf-monitoria-info h2 {
+    font-size: 1.1rem;
+    color: #024059;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #eee;
+}
+
+.pdf-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 24px;
+}
+
+.pdf-info-grid p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.pdf-info-grid strong {
+    color: #555;
+}
+
+.pdf-tabela {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.pdf-tabela thead {
+    background: #024059;
+    color: white;
+}
+
+.pdf-tabela th {
+    padding: 10px 12px;
+    text-align: left;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.pdf-tabela th:first-child {
+    width: 40px;
+    text-align: center;
+}
+
+.pdf-tabela th:last-child {
+    text-align: center;
+}
+
+.pdf-tabela td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #eee;
+    font-size: 0.85rem;
+}
+
+.pdf-tabela td:first-child {
+    text-align: center;
+    font-weight: 600;
+    color: #666;
+}
+
+.pdf-tabela td:last-child {
+    text-align: center;
+    font-weight: 600;
+}
+
+.pdf-tabela .status-presente {
+    color: #155724;
+    background: #d4edda;
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+}
+
+.pdf-tabela .status-ausente {
+    color: #721c24;
+    background: #f8d7da;
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+}
+
+.pdf-tabela tbody tr:nth-child(even) {
+    background: #fafafa;
+}
+
+.pdf-footer {
+    text-align: center;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid #eee;
+}
+
+.pdf-footer p {
+    font-size: 0.8rem;
+    color: #999;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .historico-filtros {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filtro-busca,
+    .historico-filtros select,
+    .historico-filtros input[type="date"],
+    .historico-filtros .input-data {
+        width: 100%;
+    }
+
+    .tabela-container {
+        overflow-x: auto;
+    }
+
+    .tabela-container table {
+        min-width: 700px;
+    }
+}

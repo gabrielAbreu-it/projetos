@@ -1,0 +1,99 @@
+name: CI - Build e Smoke Test
+
+on:
+  push:
+    branches: ["main", "dev"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build:
+    name: Compilação
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Verificar compilação (Prisma Generate & TypeScript Build)
+        run: npm run build
+
+  smokes:
+    name: Smoke Test
+    needs: build
+    runs-on: ubuntu-latest
+
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/monitoria_test?schema=public
+      NODE_ENV: test
+      JWT_SECRET: smoke-test-secret
+      ADMIN_PASSWORD: YWRtaW4xMjM=
+      ADMIN_PASSWORD_PEPPER: cGVwcGVy
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Iniciar PostgreSQL
+        run: |
+          docker run -d --name postgres-ci -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=monitoria_test postgres:16-alpine
+          for i in {1..60}; do
+            if docker exec postgres-ci pg_isready -U postgres > /dev/null 2>&1; then
+              echo "PostgreSQL pronto!"
+              exit 0
+            fi
+            echo "Aguardando PostgreSQL ficar pronto... (tentativa $i/60)"
+            sleep 2
+          done
+          echo "PostgreSQL não ficou pronto a tempo. Logs do container:"
+          docker logs postgres-ci
+          exit 1
+
+      - name: Build da aplicação
+        run: npm run build
+
+      - name: Aplicar migrations do Prisma
+        run: npx prisma migrate deploy
+
+      - name: Seed do banco de dados
+        run: npx prisma db seed
+
+      - name: Subir aplicação para smoke test
+        run: npm start &
+
+      - name: Aguardar aplicação ficar pronta
+        run: npx wait-on http://localhost:3000 --timeout 30000
+
+      - name: Instalar k6
+        uses: grafana/setup-k6-action@v1
+
+      - name: Rodar smoke test - Login
+        uses: grafana/run-k6-action@v1
+        with:
+          path: tests/performance/smoke/smoke-login.js
+        env:
+          BASE_URL: http://localhost:3000
+
+      - name: Rodar smoke test - Monitorias
+        uses: grafana/run-k6-action@v1
+        with:
+          path: tests/performance/smoke/smoke-monitorias.js
+        env:
+          BASE_URL: http://localhost:3000
+  

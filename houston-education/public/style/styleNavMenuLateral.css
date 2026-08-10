@@ -1,0 +1,371 @@
+/* Transições suaves entre páginas */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-group(root) {
+  animation-duration: 0.5s;
+}
+
+/* =========================================
+   BARRA DE NAVEGAÇÃO SUPERIOR (NAV)
+   ========================================= */
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center; /* Centraliza a logo */
+  align-items: center;
+  width: 100%;
+  height: 70px;
+  background-color: #024059;
+  z-index: 1000;
+}
+
+.menu-usuario {
+    position: absolute;
+    right: 20px; 
+    top: 50%; 
+    transform: translateY(-50%);
+}
+
+.btn-sair {
+    display: inline-block; /* Necessário para tags <a> */
+    text-decoration: none; /* Tira o sublinhado do link */
+    background-color: transparent;
+    color: #ef4444; 
+    border: 1px solid #ef4444;
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.2s ease;
+}
+
+.btn-sair:hover {
+    background-color: #ef4444;
+    color: white;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.logo img {
+  max-width: 70px;
+  height: auto;
+  display: block; 
+}
+
+.icone {
+  position: absolute;
+  top: 50%; 
+  transform: translateY(-50%);
+}
+
+.icone img {
+  max-width: 40px;
+  height: auto;
+  cursor: pointer;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.icone img.girado {
+  transform: rotate(180deg);
+}
+
+.iconeMenu {
+  left: 20px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .icone img {
+    transition: none;
+  }
+}
+
+.iconeUsuario {
+  right: 20px;
+}
+
+/* =========================================
+   ESTILOS DA BARRA LATERAL (MENU LATERAL)
+   ========================================= */
+
+.menuLateral {
+    position: fixed;
+    top: 70px;
+    left: -280px; /* Começa fora da tela (um pouco mais largo) */
+    width: 280px;
+    height: calc(100vh - 70px);
+
+    background-color: #024059;
+    color: white;
+
+    transition: left 0.3s ease;
+    z-index: 2000;
+}
+
+.menuLateral.ativo {
+    left: 0; /* Aparece na tela */
+}
+
+.menuConteudo {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.menuConteudo ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.menuConteudo li.item-changelog {
+    margin-top: auto;
+    margin-bottom: 20px;
+}
+
+.menuConteudo li {
+    margin: 0;
+    padding: 0;
+}
+
+.menuConteudo li img {
+    width: 24px;
+    height: 24px;
+}
+
+.menuConteudo li a {
+    color: #ffffff;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 1.3rem;
+    padding: 20px 20px; /* Espaço DENTRO do botão */
+    transition: background-color 0.35s ease;
+    white-space: nowrap; /* Força o texto a não quebrar para a linha de baixo */
+    font-size: 1.15rem;
+}
+
+.menuConteudo li a:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* =========================================
+   Submenu (Minhas monitorias)
+   ========================================= */
+
+.submenu-toggle {
+    justify-content: flex-start;
+}
+
+.seta-submenu {
+    margin-left: auto;
+    width: 1rem;
+    height: 1rem;
+    transition: transform 0.2s ease;
+    color: inherit;
+}
+
+.submenu.aberto .seta-submenu {
+    transform: rotate(90deg);
+}
+
+.submenu-lista {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    background-color: #013242;
+}
+
+.submenu.aberto .submenu-lista {
+    max-height: 200px;
+}
+
+.submenu-lista li a {
+    padding: 14px 20px 14px 59px;
+    font-size: 1rem;
+    gap: 10px;
+}
+
+.submenu-lista li a:hover {
+    background-color: rgba(255, 255, 255, 0.06);
+
+}
+
+/* --- EFEITO HOVER NOS ÍCONES DO MENU LATERAL --- */
+.menuConteudo li a img {
+    transition: transform 0.2s ease; /* Prepara a imagem para animar suavemente */
+}
+
+.menuConteudo li a:hover img {
+    transform: scale(1.15); /* Dá o zoom no ícone quando passa o mouse no link */
+}
+
+/* =========================================
+   O OVERLAY (Escurecer e Click-to-close)
+   ========================================= */
+
+.overlay-menu {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 70px);
+    
+    opacity: 0;
+    visibility: hidden;
+
+    background-color: rgba(0, 0, 0, 0.75); 
+    
+    transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
+    will-change: opacity;
+    
+    z-index: 1999;
+}
+
+.overlay-menu.ativo {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* =========================================
+   MENU USUÁRIO (DROPDOWN)
+   ========================================= */
+.menu-usuario-dropdown {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.btn-icone-usuario {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+.btn-icone-usuario img {
+    width: 35px; 
+    height: auto;
+    transition: transform 0.2s ease;
+}
+
+.btn-icone-usuario:hover img {
+    transform: scale(1.1);
+}
+
+/* O balãozinho do menu */
+.dropdown-conteudo {
+    display: flex;
+    position: absolute;
+    right: 0;
+    top: 130%;
+    background-color: #013242;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.4);
+    border-radius: 8px;
+    overflow: hidden;
+    flex-direction: column;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px) scale(0.95);
+    transform-origin: top right;
+    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+    pointer-events: none;
+}
+
+/* Classe que o JS vai usar para fazer o menu aparecer */
+.dropdown-conteudo.mostrar {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+
+/* Estilo dos links dentro do menu */
+.dropdown-conteudo a {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-family: 'Inter', sans-serif;
+    transition: background-color 0.2s;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dropdown-conteudo a:last-child {
+    border-bottom: none;
+}
+
+.dropdown-conteudo a:hover {
+    background-color: #035a7d;
+}
+
+/* Deixa o botão de sair com destaque */
+.dropdown-conteudo a.texto-sair {
+    color: #e71111;
+    font-weight: bold;
+}
+
+.dropdown-conteudo a.texto-sair:hover {
+    background-color: #850505;
+    color: white;
+}
+
+/* =========================================
+   ITEM DO CHANGELOG NO MENU LATERAL
+   ========================================= */
+
+.menuConteudo li.item-changelog {
+    margin-top: auto;
+    margin-bottom: 20px;
+    padding: 16px 12px 0 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.menuConteudo li.item-changelog a {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 0.95rem;
+    gap: 10px;
+    transition: all 0.2s ease;
+}
+
+.menuConteudo li.item-changelog a:hover {
+    background-color: rgba(255, 255, 255, 0.18);
+    transform: translateY(-1px);
+}
+
+.menuConteudo li.item-changelog a i {
+    font-size: 20px;
+    color: #ffffff;
+}
+
+.menuConteudo li.item-changelog a span {
+    color: #ffffff;
+}
+
+.changelog-versao {
+    margin-left: auto;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #a5f3fc;
+    background-color: rgba(255, 255, 255, 0.12);
+    padding: 3px 8px;
+    border-radius: 6px;
+}

@@ -1,0 +1,24 @@
+# Ignorar ambiente virtual do Python
+venv/
+env/
+
+# Ignorar arquivos temporários do Python
+__pycache__/
+*.pyc
+
+# Ignorar arquivos do sistema operacional
+.DS_Store
+Thumbs.db
+.env
+
+# Virtualenv local (você usa .venv, não venv)
+.venv/
+
+# Cache do pytest
+.pytest_cache/
+
+# IDE
+.vscode/
+
+# Configuração local com credenciais OAuth (não subir para o GitHub)
+config.js

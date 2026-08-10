@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="../style/estiloLoginCadastro.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="shortcut icon" href="../assets/img/iconeHoustonEducation.ico" type="image/x-icon">
+</head>
+
+<body>
+    <div class="containerPagina">
+        <div class="painelLogo">
+            <img src="../assets/img/HoustonEducationLogo.png" alt="logo Houston Education">
+        </div>
+        <div id="dadosLogin">
+            <form id="loginForm">
+                <h1>Login!</h1>
+
+                <div class="inputDados">
+                    <input type="email" name="email" placeholder="Email Institucional">
+                </div>
+
+                <div class="inputDados input-senha-wrapper">
+                    <input type="password" name="senha" id="inputSenhaLogin" placeholder="Senha">
+                    <button type="button" class="btn-toggle-senha" id="btnToggleSenhaLogin" aria-label="Mostrar senha">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+
+                <!--<p>
+                    <label><input type="checkbox" name="lembrarConta"> Lembrar Conta?</label>
+                    <a href="#">Esqueceu a Senha?</a>
+                </p>-->
+
+                <button type="submit" id="btnLogin">
+                    <span class="btn-text">Login</span>
+                    <span class="btn-spinner hidden"><i class="fas fa-circle-notch fa-spin"></i></span>
+                </button>
+            </form>
+            <p>Não Possui Conta? <a href="../pages/cadastro.html">Cadastre-se!</a></p>
+            <div id="mensagem">
+            </div>
+        </div>
+    </div>
+
+    <script src="../scripts/validation/validationLogin.js"></script>
+</body>
+
+</html>

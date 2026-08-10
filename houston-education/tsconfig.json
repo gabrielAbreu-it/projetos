@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "nodenext",          // <-- ATUALIZE AQUI
+    "rootDir": "./src",
+    "outDir": "dist",
+    "esModuleInterop": true,
+    "strict": true,
+    "noEmitOnError": true // 25/06/26
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
+}
