@@ -1429,6 +1429,7 @@ def _build_user_payload(user: dict) -> dict:
         "plano_id": user["plano_id"],
         "ativo": int(user["ativo"]),
         "email_verificado_em": user["email_verificado_em"].isoformat() if user.get("email_verificado_em") else None,
+        "senha_hash": user.get("senha_hash"),
     }
 
 
@@ -2277,7 +2278,7 @@ async def auth_login(payload: LoginRequest, request: Request):
         raise HTTPException(status_code=401, detail="Credenciais inválidas.")
 
     # Regra rígida: login só é permitido com e-mail verificado.
-    if user.get("email_verificado_em") is None:
+    if user.get("email_verificado_em") is not None:
         raise HTTPException(
             status_code=403,
             detail="Verifique seu e-mail antes de fazer login.",
@@ -2605,7 +2606,7 @@ async def prever_preco(
 
     # ========== VALIDAÇÕES ==========
 
-    if dados.Area_Util is None or dados.Area_Util <= 0:
+    if dados.Area_Util is None or dados.Area_Util < 0:
         raise HTTPException(status_code=422, detail="Area_Util deve ser maior que zero.")
 
     if modelo_ml is None:
@@ -2618,7 +2619,7 @@ async def prever_preco(
     is_authenticated = current_user is not None
     usuario_id: int | None = int(current_user["id_usuario"]) if is_authenticated else None
     guest_id: str | None = None if is_authenticated else _get_or_create_guest_id(request, response)
-    daily_limit = DAILY_LIMIT_AUTH if is_authenticated else DAILY_LIMIT_GUEST
+    daily_limit = DAILY_LIMIT_GUEST if is_authenticated else DAILY_LIMIT_AUTH
 
     used_today = _count_predictions_today(usuario_id=usuario_id, guest_id=guest_id)
     if used_today >= daily_limit:

@@ -93,4 +93,36 @@ O formulário depende só de validação client-side (`novalidate` + JS) — nad
 
 ## `/prevismob`
 
-_(a preencher)_
+**Nota sobre verificação:** consegui instalar as dependências (`pip install -r requirements.txt` + `pytest`) e rodar a suíte de testes real do projeto. 9 testes falharam por causa dos bugs inseridos — ótima evidência objetiva pro relatório.
+
+### Bug 1 — formulário de previsão aceita área zero
+- **Arquivo:** `prevismob/api.py`, endpoint `POST /v1/prever`
+- **O que mudou:** troquei `dados.Area_Util <= 0` por `dados.Area_Util < 0` na validação
+- **Como reproduzir:** enviar `Area_Util: 0` no formulário de previsão — passa pela validação (não deveria)
+- **Requisito violado:** requisito 3 do `docs/requisitos-prevismob.md`
+- **Cobertura de teste existente:** nenhum teste da suíte cobre esse caso hoje — bug "silencioso", só encontrado testando manualmente ou escrevendo um teste novo
+- **Correção prevista:** voltar pra `<= 0`
+
+### Bug 2 — cota diária invertida entre guest e autenticado
+- **Arquivo:** `prevismob/api.py`, endpoint `POST /v1/prever`
+- **O que mudou:** troquei `daily_limit = DAILY_LIMIT_AUTH if is_authenticated else DAILY_LIMIT_GUEST` por `DAILY_LIMIT_GUEST if is_authenticated else DAILY_LIMIT_AUTH` — usuário autenticado passa a ter o limite menor do guest, e guest ganha o limite maior do autenticado
+- **Como reproduzir:** logar e tentar fazer mais previsões que `DAILY_LIMIT_GUEST` — recebe 429 antes da hora
+- **Requisito violado:** requisito 4 do `docs/requisitos-prevismob.md`
+- **Cobertura de teste existente:** `tests/test_quotas_favoritos.py::test_quota_auth_retorna_limite_maior`, `test_prever_429_para_guest_no_terceiro_uso`, `test_prever_429_para_auth_no_decimo_primeiro_uso` — todos falharam
+- **Correção prevista:** voltar pra `DAILY_LIMIT_AUTH if is_authenticated else DAILY_LIMIT_GUEST`
+
+### Bug 3 — bypass de verificação de e-mail (invertido: só quem verificou é bloqueado)
+- **Arquivo:** `prevismob/api.py`, endpoint `POST /v1/auth/login`
+- **O que mudou:** troquei `if user.get("email_verificado_em") is None: raise 403` por `is not None` — agora quem NÃO verificou o e-mail consegue logar, e quem verificou é bloqueado
+- **Como reproduzir:** criar conta, não verificar e-mail, tentar login — funciona (deveria bloquear); verificar e-mail e tentar login — bloqueia (deveria funcionar)
+- **Requisito violado:** requisito 1 do `docs/requisitos-prevismob.md`
+- **Cobertura de teste existente:** `tests/test_email_verification.py::test_login_de_nao_verificado_retorna_403` e `test_login_apos_verificar_retorna_200_com_token` falharam; efeito cascata em `tests/test_account_deletion.py` (3 testes), que dependem do helper de registrar+verificar+logar pra rodar
+- **Correção prevista:** voltar pra `is None`
+
+### Bug 4 — hash de senha exposto na resposta de autenticação
+- **Arquivo:** `prevismob/api.py`, função `_build_user_payload` (usada em login, registro, refresh)
+- **O que mudou:** adicionei `"senha_hash": user.get("senha_hash")` no dicionário retornado
+- **Como reproduzir:** fazer login e olhar o campo `usuario` da resposta — inclui o hash bcrypt da senha
+- **Requisito violado:** requisito 6 do `docs/requisitos-prevismob.md`
+- **Cobertura de teste existente:** nenhum teste da suíte verifica os campos do payload de usuário hoje — bug "silencioso"
+- **Correção prevista:** remover a linha `"senha_hash": ...`
