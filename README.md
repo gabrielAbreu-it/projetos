@@ -1,18 +1,18 @@
 # projetos
 
-Repositório pessoal reunindo cópias de trabalho de projetos do usuário, usadas como base para um exercício de QA/segurança (protótipo com bugs propositais para prática de entrevista de emprego). Nenhum dos repositórios originais é alterado — tudo aqui é uma cópia de código, sem histórico de commits das fontes.
+Esse repo é meu depósito pessoal de cópias de projetos que já fiz ou participei. A ideia é usar como base pra um exercício de QA/segurança — vou montar um protótipo com bugs de propósito pra treinar entrevista de emprego. Não mexo em nada nos repositórios originais, só copio o código pra cá, sem carregar o histórico de commits.
 
-## Estrutura
+## O que tem aqui
 
-| Pasta | Projeto | Autoria | Status |
+| Pasta | Projeto | De quem é | Situação |
 |---|---|---|---|
-| `/site` | Site institucional STRATON.AI | Trabalho próprio do usuário (sócio da STRATON.AI) | ⏳ Pendente de importação — repositório privado, acesso da integração do Claude ainda não liberado |
-| `/sis` | SIS — Sistema Interno STRATON.AI | Trabalho próprio do usuário (sócio da STRATON.AI) | ⏳ Pendente de importação — repositório privado, acesso da integração do Claude ainda não liberado |
-| `/houston-education` | Houston Education | Projeto original de Henrique Gennari (github.com/HenriqueGennari), incluído com autorização pessoal dele, com o usuário como colaborador | ✅ Importado |
-| `/prevismob` | PrevIsmob | TCC em grupo do usuário — autoria original em github.com/joseguilherme01/Prevismob | ✅ Importado |
+| `/site` | Site institucional STRATON.AI | Meu, sou sócio da STRATON.AI | ⏳ Ainda não importei — repositório privado, a integração do Claude com o GitHub ainda não tem acesso liberado |
+| `/sis` | SIS — Sistema Interno STRATON.AI | Meu, sou sócio da STRATON.AI | ⏳ Ainda não importei — mesmo motivo, repositório privado sem acesso liberado |
+| `/houston-education` | Houston Education | Projeto original do Henrique Gennari (github.com/HenriqueGennari), ele deixou eu usar, entrei como colaborador | ✅ Já importado |
+| `/prevismob` | PrevIsmob | TCC que fiz em grupo — original em github.com/joseguilherme01/Prevismob | ✅ Já importado |
 
-Ver `ANALISE.md` na raiz para a análise comparativa completa (stack, tamanho, superfície de formulários e nota de adequação a bugs propositais).
+Escrevi a análise comparativa completa (stack, tamanho, formulários e nota de quanto cada um serve pra colocar bugs de propósito) no `ANALISE.md`.
 
-## Nota sobre `/site` e `/sis`
+## Sobre `/site` e `/sis` ainda não estarem aqui
 
-Esses dois repositórios são privados (`STRATON-AI/site-straton` e `STRATON-AI/SIS`). A tentativa de importação automática falhou porque a integração do Claude com o GitHub ainda não tem acesso liberado a eles, mesmo após ajustes de permissão feitos diretamente no GitHub. É necessário reautorizar/atualizar a instalação do GitHub App do Claude para incluir esses repositórios antes que a importação possa ser concluída.
+Os dois são repositórios privados (`STRATON-AI/site-straton` e `STRATON-AI/SIS`). Tentei importar automaticamente e não rolou — a integração do Claude com o GitHub não tem acesso a eles, mesmo depois de eu mexer nas permissões direto no GitHub. Vou precisar reautorizar/atualizar a instalação do GitHub App do Claude incluindo esses dois repositórios antes de conseguir puxar o código.
