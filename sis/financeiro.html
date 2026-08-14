@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Financeiro — SIS STRATON.AI</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="logo">SIS <span>STRATON.AI</span></div>
+  <nav>
+    <a href="index.html">Dashboard</a>
+    <a href="leads.html">Pipeline de Leads</a>
+    <a href="agenda.html">Agenda</a>
+    <a href="financeiro.html" class="active">Financeiro</a>
+    <a href="projetos.html">Projetos</a>
+    <a href="automacoes.html">Automações</a>
+  </nav>
+</aside>
+
+<main>
+  <div class="page-header">
+    <div>
+      <h1>Financeiro</h1>
+      <p>Gastos fixos — integração com Stripe e Asaas prevista, ainda não conectada neste protótipo</p>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Cadastrar gasto fixo</h2>
+    <form id="despesa-form">
+      <div class="form-grid">
+        <div>
+          <label for="produto">Produto / serviço</label>
+          <input type="text" id="produto" placeholder="Ex: Assinatura Vercel">
+        </div>
+        <div>
+          <label for="valor">Valor mensal (R$)</label>
+          <input type="number" id="valor" step="0.01" min="0" placeholder="0,00">
+        </div>
+      </div>
+      <div class="error-msg" id="despesa-error">Preenche produto e um valor maior que zero.</div>
+      <button type="submit" class="btn">Adicionar</button>
+    </form>
+  </div>
+
+  <div class="panel">
+    <h2>Gastos fixos cadastrados</h2>
+    <table>
+      <thead><tr><th>Produto</th><th>Valor mensal</th><th></th></tr></thead>
+      <tbody id="despesas-body"></tbody>
+    </table>
+    <p style="margin-top:1rem; font-size:1.05rem;">Total de gastos fixos: <strong id="total-despesas" style="color:var(--amber);">R$ 0,00</strong></p>
+  </div>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>

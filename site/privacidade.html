@@ -4,174 +4,45 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Política de Privacidade — STRATON.AI</title>
-<meta name="description" content="Política de Privacidade da STRATON.AI, em conformidade com a LGPD (Lei nº 13.709/2018).">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;max-width:100%}
-html{font-size:16px;overflow-x:hidden}
-body{overflow-x:hidden}
-:root{
-  --bg:#000000; --s1:#0a0a0a; --s2:#101010; --s3:#161616; --s4:#1f1f1f;
-  --am:#f59e0b; --am4:#fbbf24; --am6:#d97706;
-  --am12:rgba(245,158,11,.12); --am20:rgba(245,158,11,.20);
-  --am06:rgba(245,158,11,.06); --bdam:rgba(245,158,11,.18);
-  --t100:#fff; --t70:rgba(255,255,255,.70); --t45:rgba(255,255,255,.45);
-  --t25:rgba(255,255,255,.25); --t10:rgba(255,255,255,.10);
-  --t06:rgba(255,255,255,.06); --t04:rgba(255,255,255,.04);
-  --bd:rgba(255,255,255,.08); --mx:1120px; --r:10px; --rl:16px;
-}
-body{
-  background:var(--bg);color:var(--t100);
-  font-family:'Space Grotesk',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
-  -webkit-font-smoothing:antialiased;line-height:1.6;
-}
-.w{max-width:var(--mx);margin:0 auto;padding:0 40px}
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:999;
-  height:58px;display:flex;align-items:center;justify-content:space-between;
-  padding:0 40px;
-  background:rgba(0,0,0,.85);
-  backdrop-filter:blur(24px) saturate(160%);
-  -webkit-backdrop-filter:blur(24px) saturate(160%);
-  border-bottom:.5px solid rgba(255,255,255,.06);
-}
-.logo{display:flex;align-items:center;text-decoration:none;cursor:pointer}
-.nav-cta{
-  padding:8px 20px;background:var(--am);color:#000;
-  font-size:13px;font-weight:800;border-radius:50px;text-decoration:none;
-}
-.sec{padding:88px 0}
-.sec-tag{display:inline-flex;align-items:center;gap:7px;font-size:10px;font-weight:700;
-  letter-spacing:.12em;text-transform:uppercase;color:var(--am);margin-bottom:16px}
-.tag-dot{width:6px;height:6px;background:var(--am);border-radius:50%}
-h1.sh{font-family:'Orbitron','Space Grotesk',sans-serif;font-size:clamp(26px,3.5vw,44px);font-weight:800;line-height:1.1;
-  letter-spacing:-.03em;margin-bottom:16px}
-h1.sh em{color:var(--am);font-style:normal}
-.dv-title{font-family:'Orbitron','Space Grotesk',sans-serif;font-size:clamp(20px,2.4vw,28px);font-weight:800;letter-spacing:-.025em;line-height:1.2}
-.dv-body{font-size:15px;color:var(--t70);line-height:1.7}
-.form-bul{list-style:none;display:flex;flex-direction:column;gap:10px}
-.form-bul li{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--t70)}
-.form-bul li::before{content:'→';color:var(--am);font-weight:800;flex-shrink:0}
-.btn-pill{
-  display:inline-flex;align-items:center;justify-content:center;gap:8px;
-  padding:14px 44px;background:var(--am);color:#000;
-  font-size:15px;font-weight:800;border-radius:50px;
-  text-decoration:none;border:none;cursor:pointer;font-family:inherit;
-}
-footer{
-  background:rgba(0,0,0,.85);
-  backdrop-filter:blur(20px) saturate(150%);
-  -webkit-backdrop-filter:blur(20px) saturate(150%);
-  border-top:.5px solid rgba(255,255,255,.06);padding:44px 40px;
-}
-.footer-inner{max-width:var(--mx);margin:0 auto;
-  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:24px}
-.footer-links{display:flex;gap:24px;list-style:none}
-.footer-links a{color:var(--t25);font-size:13px;text-decoration:none}
-.footer-contact{display:flex;flex-direction:column;gap:6px;text-align:right}
-.footer-contact a{color:var(--t25);font-size:12px;text-decoration:none}
-.footer-copy{width:100%;text-align:center;padding-top:24px;
-  border-top:.5px solid rgba(255,255,255,.04);font-size:11px;color:var(--t25)}
-.logo-img-circle{
-  width:38px;height:38px;
-  border-radius:50%;
-  object-fit:cover;
-  display:block;
-  border:1.5px solid rgba(245,158,11,.32);
-  box-shadow:0 0 0 1px rgba(245,158,11,.10),0 0 16px rgba(245,158,11,.16);
-  flex-shrink:0;
-}
-.footer-logo .logo-img-circle{width:34px;height:34px;}
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- ═══ NAV ═══════════════════════════════ -->
-<nav>
-  <a href="index.html" class="logo" aria-label="STN — início">
-    <img src="logo.png" alt="STN" class="logo-img-circle">
-  </a>
-  <a href="index.html" class="nav-cta">← Voltar ao site</a>
-</nav>
+<header>
+  <div class="logo">STRATON<span>.AI</span></div>
+  <nav>
+    <a href="index.html">Início</a>
+  </nav>
+</header>
 
-<!-- ═══ POLÍTICA DE PRIVACIDADE ══════════════ -->
-<div class="sec">
-  <div class="w" style="max-width:760px">
-    <div class="sec-tag"><span class="tag-dot"></span>LGPD — Lei nº 13.709/2018</div>
-    <h1 class="sh">Política de <em>Privacidade</em></h1>
-    <p style="font-size:13px;color:var(--t45);margin-bottom:24px">Última atualização: julho de 2026</p>
-    <p class="dv-body" style="margin-bottom:40px">A STRATON.AI ("nós", "empresa") respeita sua privacidade e está comprometida com a proteção dos seus dados pessoais, em conformidade com a Lei Geral de Proteção de Dados (LGPD — Lei nº 13.709/2018).</p>
+<div class="legal">
+  <h1>Política de Privacidade</h1>
+  <p style="color:var(--gray-300); margin-top:1rem;">Última atualização: agosto de 2026.</p>
 
-    <h2 class="dv-title" style="margin-top:40px;margin-bottom:14px">1. DADOS QUE COLETAMOS</h2>
-    <p class="dv-body">Quando você preenche nosso formulário, coletamos:</p>
-    <ul class="form-bul" style="margin-bottom:24px">
-      <li>Nome completo</li>
-      <li>Endereço de e-mail</li>
-      <li>Número de WhatsApp</li>
-      <li>Nome da empresa</li>
-      <li>Informações de qualificação (orçamento, cargo, tamanho da equipe)</li>
-      <li>Data e horário de reunião agendada</li>
-    </ul>
+  <h2>1. Quais dados coletamos</h2>
+  <p>Quando você preenche o formulário de contato no nosso site, coletamos nome, e-mail, telefone e, quando informado, o nome da sua empresa e a mensagem enviada.</p>
 
-    <h2 class="dv-title" style="margin-top:40px;margin-bottom:14px">2. COMO USAMOS SEUS DADOS</h2>
-    <p class="dv-body">Seus dados são usados exclusivamente para:</p>
-    <ul class="form-bul" style="margin-bottom:24px">
-      <li>Entrar em contato para confirmar e realizar a reunião agendada</li>
-      <li>Enviar lembretes da reunião via WhatsApp</li>
-      <li>Análise interna de qualificação de leads (Lead Score BANT)</li>
-      <li>Não vendemos, alugamos nem compartilhamos seus dados com terceiros</li>
-    </ul>
+  <h2>2. Pra que usamos</h2>
+  <p>Usamos esses dados exclusivamente pra entrar em contato sobre o diagnóstico solicitado. Não vendemos nem compartilhamos seus dados com terceiros pra fins de marketing.</p>
 
-    <h2 class="dv-title" style="margin-top:40px;margin-bottom:14px">3. ARMAZENAMENTO E SEGURANÇA</h2>
-    <ul class="form-bul" style="margin-bottom:24px">
-      <li>Seus dados são armazenados em servidores seguros (Supabase)</li>
-      <li>Utilizamos HTTPS em todas as comunicações</li>
-      <li>Acesso restrito apenas à equipe da STRATON.AI</li>
-      <li>Dados de reuniões passadas são mantidos por até 24 meses</li>
-    </ul>
+  <h2>3. Por quanto tempo guardamos</h2>
+  <p>Mantemos os dados de contato enquanto durar a conversa comercial ou o relacionamento com a empresa. Você pode pedir a exclusão a qualquer momento.</p>
 
-    <h2 class="dv-title" style="margin-top:40px;margin-bottom:14px">4. SEUS DIREITOS (LGPD)</h2>
-    <p class="dv-body">Você tem direito a:</p>
-    <ul class="form-bul" style="margin-bottom:24px">
-      <li>Confirmar se tratamos seus dados</li>
-      <li>Acessar seus dados pessoais</li>
-      <li>Corrigir dados incompletos ou desatualizados</li>
-      <li>Solicitar a exclusão dos seus dados</li>
-    </ul>
-    <p class="dv-body" style="margin-bottom:24px">Para exercer seus direitos: <a href="mailto:contato@straton.ai" style="color:var(--am)">contato@straton.ai</a></p>
+  <h2>4. Seus direitos (LGPD)</h2>
+  <ul style="padding-left:1.2rem;">
+    <li>Confirmar se tratamos algum dado seu</li>
+    <li>Corrigir dados incompletos ou desatualizados</li>
+    <li>Pedir a exclusão dos seus dados</li>
+    <li>Saber com quem compartilhamos, se compartilharmos</li>
+  </ul>
 
-    <h2 class="dv-title" style="margin-top:40px;margin-bottom:14px">5. COOKIES</h2>
-    <p class="dv-body" style="margin-bottom:24px">Nosso site utiliza cookies técnicos essenciais para funcionamento. Não utilizamos cookies de rastreamento de terceiros no momento.</p>
-
-    <h2 class="dv-title" style="margin-top:40px;margin-bottom:14px">6. CONTATO</h2>
-    <p class="dv-body">STRATON.AI — Brasília, DF<br>
-    E-mail: <a href="mailto:contato@straton.ai" style="color:var(--am)">contato@straton.ai</a><br>
-    WhatsApp: <a href="https://wa.me/5561982449459" style="color:var(--am)">+55 61 98244-9459</a></p>
-  </div>
+  <h2>5. Contato</h2>
+  <p>Dúvidas sobre esta política podem ser enviadas pelo formulário na página inicial.</p>
 </div>
 
-<!-- ═══ FOOTER ════════════════════════════ -->
 <footer>
-  <div class="footer-inner">
-    <a href="index.html" class="logo footer-logo" aria-label="STN — início">
-      <img src="logo.png" alt="STN" class="logo-img-circle">
-    </a>
-    <ul class="footer-links">
-      <li><a href="index.html#fazemos">Solução</a></li>
-      <li><a href="index.html#fases">Processo</a></li>
-      <li><a href="index.html#resultados">Resultados</a></li>
-      <li><a href="index.html#formulario">Contato</a></li>
-    </ul>
-    <div class="footer-contact">
-      <a href="https://www.instagram.com/straton.ai/" target="_blank">@straton.ai</a>
-      <a href="mailto:stratonbr@gmail.com">stratonbr@gmail.com</a>
-      <span style="font-size:12px;color:var(--t25)">Brasília, Brasil</span>
-    </div>
-    <a href="/privacidade.html" style="font-size:11px;color:var(--t45);text-decoration:none;margin:0 12px">Política de Privacidade</a>
-    <div class="footer-copy">© 2026 STRATON.AI · Todos os direitos reservados · Brasília, Brasil — Atendemos todo o Brasil</div>
-  </div>
+  <span>© STRATON.AI — Brasília, Brasil</span>
+  <span><a href="index.html">Voltar</a></span>
 </footer>
 
 </body>

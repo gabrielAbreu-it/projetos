@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agenda — SIS STRATON.AI</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="logo">SIS <span>STRATON.AI</span></div>
+  <nav>
+    <a href="index.html">Dashboard</a>
+    <a href="leads.html">Pipeline de Leads</a>
+    <a href="agenda.html" class="active">Agenda</a>
+    <a href="financeiro.html">Financeiro</a>
+    <a href="projetos.html">Projetos</a>
+    <a href="automacoes.html">Automações</a>
+  </nav>
+</aside>
+
+<main>
+  <div class="page-header">
+    <div>
+      <h1>Agenda</h1>
+      <p>Agendamentos da semana — cancelamento é ação de admin</p>
+    </div>
+  </div>
+
+  <div class="panel">
+    <table>
+      <thead><tr><th>Data</th><th>Lead</th><th>Tipo</th><th>Status</th><th></th></tr></thead>
+      <tbody id="agenda-body"></tbody>
+    </table>
+  </div>
+</main>
+
+<div class="modal-overlay" id="cancel-modal">
+  <div class="modal">
+    <h3>Cancelar agendamento?</h3>
+    <p>Essa ação avisa o lead automaticamente e libera o horário na agenda.</p>
+    <div class="actions">
+      <button class="btn secondary" onclick="closeCancelModal()">Voltar</button>
+      <button class="btn danger" onclick="confirmCancel()">Confirmar cancelamento</button>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

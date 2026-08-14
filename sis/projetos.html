@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projetos — SIS STRATON.AI</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="logo">SIS <span>STRATON.AI</span></div>
+  <nav>
+    <a href="index.html">Dashboard</a>
+    <a href="leads.html">Pipeline de Leads</a>
+    <a href="agenda.html">Agenda</a>
+    <a href="financeiro.html">Financeiro</a>
+    <a href="projetos.html" class="active">Projetos</a>
+    <a href="automacoes.html">Automações</a>
+  </nav>
+</aside>
+
+<main>
+  <div class="page-header">
+    <div>
+      <h1>Projetos</h1>
+      <p>Progresso, dailys e sprints dos projetos em andamento</p>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Novo projeto</h2>
+    <form id="novo-projeto-form" style="display:flex; gap:0.6rem;">
+      <input type="text" id="novo-projeto-nome" placeholder="Nome do projeto" style="flex:1;">
+      <button type="submit" class="btn">Criar</button>
+    </form>
+  </div>
+
+  <div id="projetos-list"></div>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>

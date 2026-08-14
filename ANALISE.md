@@ -1,22 +1,52 @@
 # Análise Comparativa dos Projetos
 
-Fiz essa análise a partir das cópias dos códigos que trouxe pra dentro deste repo (`projetos`). São os 4 projetos que eu tinha planejado no briefing; `/site` e `/sis` ainda ficam **pendentes de importação** (detalhes na seção de status lá embaixo) até eu resolver o acesso da integração do Claude aos repositórios privados `STRATON-AI/site-straton` e `STRATON-AI/SIS`. Assim que importar o código dos dois, completo as seções deles.
+São os 4 projetos que tinha planejado no briefing. `/houston-education` e `/prevismob` são cópias reais de trabalho — analisei o código deles direto. Já `/site` e `/sis` acabei não conseguindo copiar (acesso ao repositório privado da empresa travou, um deles ainda travou num gate de PI) e virei o plano: escrevi protótipos originais pra eles, com a mesma proposta e identidade visual, mas código e conteúdo meus, do zero. Por isso as duas primeiras seções abaixo descrevem o protótipo que construí, não uma análise de código copiado.
+
+Decisão de escopo: os 3 projetos que seguem pra Fase 2 (bugs propositais) são **`/houston-education`, `/prevismob` e `/sis`**. O `/site` fica de fora da Fase 2 por enquanto — ficou pronto como protótipo, mas não é prioridade pra bug injection.
 
 ---
 
-## `/site` — Site institucional STRATON.AI
+## `/site` — Site institucional STRATON.AI (protótipo original)
 
-**Situação:** pendente de importação (repositório privado `STRATON-AI/site-straton`, ainda sem acesso liberado pra integração do Claude — mais detalhes no README).
+**Situação:** protótipo escrito do zero, não é cópia do site real (sem acesso ao repositório privado `STRATON-AI/site-straton`).
 
-Sem o código em mãos ainda não dá pra fechar stack, tamanho, formulários ou nota com precisão. Pelo que lembro do briefing original, o projeto usa Supabase, n8n/uazapi e integração com Google Calendar — então tem bastante segredo e integração externa envolvida, o que deve dar bom material pra bugs de segurança/integração assim que eu importar.
+**Stack:**
+- HTML5/CSS3 puro, sem framework, uma folha de estilo compartilhada (`style.css`)
+- JS vanilla só pra validação de formulário no cliente
+
+**Tamanho:**
+- 3 páginas: landing (`index.html`), confirmação pós-formulário (`obrigado.html`), política de privacidade (`privacidade.html`)
+
+**Formulários e pontos de entrada de usuário:**
+- Formulário de captação de lead na landing (nome, e-mail, telefone, empresa, mensagem), com validação de e-mail no cliente via regex
+
+**Nível de maturidade:** protótipo simples, o suficiente pra ter um formulário real de captação pra eventualmente testar bug de validação — mas não é foco da Fase 2 agora.
 
 ---
 
-## `/sis` — SIS (Sistema Interno STRATON.AI)
+## `/sis` — SIS (Sistema Interno STRATON.AI, protótipo original)
 
-**Situação:** pendente de importação (repositório privado `STRATON-AI/SIS`, mesma história do acesso ainda não liberado — ver README).
+**Situação:** protótipo escrito do zero, a partir da especificação funcional real do sistema (sem acesso ao código do repositório privado `STRATON-AI/SIS`, e a tentativa de cópia direta foi barrada por um gate de segurança de propriedade intelectual).
 
-Ainda não tenho o código pra preencher essa parte.
+**Stack:**
+- HTML5/CSS3 puro + JS vanilla, sem framework
+- Dados mockados em `app.js`, estado persistido em `localStorage` do navegador (sem backend/banco real neste protótipo)
+- Identidade visual âmbar (`#F59E0B`) e preto, herdada do sistema real
+
+**Tamanho:**
+- 6 telas: Dashboard, Pipeline de Leads, Agenda, Financeiro, Projetos, Automações
+- 1 `style.css` e 1 `app.js` compartilhados entre as telas
+
+**Formulários e pontos de entrada de usuário (superfície de ataque pra Fase 2):**
+- **Pipeline de Leads:** kanban por status (novo/contato/proposta/fechado/perdido), marcação de lead frio, formulário de follow-up salvo por lead
+- **Financeiro:** formulário de cadastro de produto/valor com cálculo automático do total de gastos fixos — bom candidato pra bug de validação numérica (valor negativo, zero, não numérico)
+- **Agenda:** cancelamento de agendamento via modal de confirmação — bom candidato pra bug de lógica/estado (cancelamento sem confirmação, ou não reverter estado)
+- **Projetos:** criação de projeto e registro de dailys/sprints, barra de progresso
+
+**Nível de maturidade:** protótipo de frontend funcional (não é MVP descartável — segue a proposta de "frontend robusto" do sistema real), mas sem integração de backend/API real, como combinado pro escopo do protótipo.
+
+**Nota pra bugs propositais (1–5): 5/5**
+Justamente por ter sido desenhado com a Fase 2 em mente: formulário de valor no Financeiro, fluxo de status/follow-up no Pipeline de Leads e cancelamento na Agenda dão bastante espaço pra bug de validação, lógica invertida e estado inconsistente.
 
 ---
 
@@ -78,15 +108,15 @@ Vários formulários, autenticação própria + OAuth, lógica de cota e exporta
 
 ---
 
-## Status de importação
+## Status geral
 
-| Projeto | Situação |
-|---|---|
-| `/site` | ⏳ Pendente — falta liberar acesso da integração do Claude ao repositório privado |
-| `/sis` | ⏳ Pendente — mesma coisa, falta liberar acesso ao repositório privado |
-| `/houston-education` | ✅ Importado e sanitizado (não achei nenhum segredo real) |
-| `/prevismob` | ✅ Importado e sanitizado (não achei nenhum segredo real) |
+| Projeto | Origem | Situação | Entra na Fase 2? |
+|---|---|---|---|
+| `/site` | Protótipo original | ✅ Pronto | Não, por enquanto |
+| `/sis` | Protótipo original | ✅ Pronto | Sim |
+| `/houston-education` | Cópia real (autorizada) | ✅ Importado e sanitizado | Sim |
+| `/prevismob` | Cópia real (autorizada) | ✅ Importado e sanitizado | Sim |
 
-## PARE — preciso confirmar antes de ir pra Fase 2
+## Fase 2 confirmada
 
-Como combinei no briefing, só avanço pra Fase 2 (os bugs propositais) depois de eu ler essa análise e escolher 3 dos 4 projetos. Com `/site` e `/sis` ainda pendentes, minha escolha final fica travada até terminar a importação — mas já posso adiantar considerando `/houston-education` e `/prevismob` como certos (os dois tiraram 5/5) e decidir o terceiro entre `/site` e `/sis` assim que estiverem disponíveis.
+Os 3 projetos escolhidos são **`/houston-education`, `/prevismob` e `/sis`**. Pra cada um, o próximo passo é: documento de requisitos, o protótipo com os bugs propositais embutidos, e o relatório em Word separado com as falhas e como corrigi-las.

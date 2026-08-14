@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — SIS STRATON.AI</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="logo">SIS <span>STRATON.AI</span></div>
+  <nav>
+    <a href="index.html" class="active">Dashboard</a>
+    <a href="leads.html">Pipeline de Leads</a>
+    <a href="agenda.html">Agenda</a>
+    <a href="financeiro.html">Financeiro</a>
+    <a href="projetos.html">Projetos</a>
+    <a href="automacoes.html">Automações</a>
+  </nav>
+</aside>
+
+<main>
+  <div class="page-header">
+    <div>
+      <h1>Dashboard</h1>
+      <p>Visão geral da operação — dados mockados pra este protótipo</p>
+    </div>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi"><div class="label">Leads ativos</div><div class="value amber">37</div></div>
+    <div class="kpi"><div class="label">Agendamentos essa semana</div><div class="value">12</div></div>
+    <div class="kpi"><div class="label">Score médio de lead</div><div class="value">68</div></div>
+    <div class="kpi"><div class="label">Investimento em Ads (mês)</div><div class="value">R$ 4.250</div></div>
+  </div>
+
+  <div class="panel">
+    <h2>Leads por origem de campanha</h2>
+    <table>
+      <thead><tr><th>Campanha</th><th>Canal</th><th>Leads</th><th>Custo por lead</th></tr></thead>
+      <tbody>
+        <tr><td>Diagnóstico gratuito — Ago</td><td>Meta Ads</td><td>19</td><td>R$ 42,00</td></tr>
+        <tr><td>Automação de atendimento</td><td>Google Ads</td><td>11</td><td>R$ 58,00</td></tr>
+        <tr><td>Remarketing site</td><td>Meta Ads</td><td>7</td><td>R$ 21,00</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="panel">
+    <h2>Próximos agendamentos</h2>
+    <table>
+      <thead><tr><th>Data</th><th>Lead</th><th>Tipo</th></tr></thead>
+      <tbody>
+        <tr><td>15/08 — 10:00</td><td>Marina Costa (Ateliê MC)</td><td>Diagnóstico</td></tr>
+        <tr><td>15/08 — 14:30</td><td>Rafael Souza (Souza Contábil)</td><td>Proposta</td></tr>
+        <tr><td>16/08 — 09:00</td><td>Julia Ramos (JR Estética)</td><td>Onboarding</td></tr>
+      </tbody>
+    </table>
+  </div>
+</main>
+
+</body>
+</html>

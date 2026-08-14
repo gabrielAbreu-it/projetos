@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pipeline de Leads — SIS STRATON.AI</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="logo">SIS <span>STRATON.AI</span></div>
+  <nav>
+    <a href="index.html">Dashboard</a>
+    <a href="leads.html" class="active">Pipeline de Leads</a>
+    <a href="agenda.html">Agenda</a>
+    <a href="financeiro.html">Financeiro</a>
+    <a href="projetos.html">Projetos</a>
+    <a href="automacoes.html">Automações</a>
+  </nav>
+</aside>
+
+<main>
+  <div class="page-header">
+    <div>
+      <h1>Pipeline de Leads</h1>
+      <p>Clique num lead pra ver detalhes e registrar follow-up</p>
+    </div>
+  </div>
+
+  <div class="kanban" id="kanban"></div>
+
+  <div class="panel" id="detail-panel" style="display:none; margin-top:1.5rem;">
+    <h2 id="detail-name">—</h2>
+    <p id="detail-meta" style="color:var(--text-dim); font-size:0.85rem; margin-bottom:1rem;"></p>
+
+    <div class="form-grid">
+      <div>
+        <label for="detail-status">Status</label>
+        <select id="detail-status">
+          <option value="novo">Novo</option>
+          <option value="contato">Contato</option>
+          <option value="proposta">Proposta</option>
+          <option value="fechado">Fechado</option>
+          <option value="perdido">Perdido</option>
+        </select>
+      </div>
+      <div>
+        <label for="detail-frio">Lead frio?</label>
+        <select id="detail-frio">
+          <option value="nao">Não</option>
+          <option value="sim">Sim</option>
+        </select>
+      </div>
+    </div>
+
+    <label for="followup-text">Novo follow-up</label>
+    <textarea id="followup-text" rows="3" placeholder="Ex: liguei, sem resposta. Tentar de novo quinta."></textarea>
+    <div class="error-msg" id="followup-error">Escreva alguma coisa antes de salvar.</div>
+    <div style="margin-top:0.8rem; display:flex; gap:0.6rem;">
+      <button class="btn" id="save-followup">Salvar follow-up</button>
+      <button class="btn secondary" id="save-status">Salvar status</button>
+    </div>
+
+    <h3 style="margin-top:1.5rem; font-size:0.95rem;">Histórico de follow-up</h3>
+    <ul id="followup-list" style="margin-top:0.6rem; font-size:0.88rem; color:var(--text-dim); list-style:none;"></ul>
+  </div>
+</main>
+
+<script src="app.js"></script>
+<script>
+renderKanban();
+</script>
+</body>
+</html>
