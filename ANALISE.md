@@ -2,7 +2,7 @@
 
 São os 4 projetos que tinha planejado no briefing. `/houston-education` e `/prevismob` são cópias reais de trabalho — analisei o código deles direto. Já `/site` e `/sis` acabei não conseguindo copiar (acesso ao repositório privado da empresa travou, um deles ainda travou num gate de PI) e virei o plano: escrevi protótipos originais pra eles, com a mesma proposta e identidade visual, mas código e conteúdo meus, do zero. Por isso as duas primeiras seções abaixo descrevem o protótipo que construí, não uma análise de código copiado.
 
-Decisão de escopo: os 3 projetos que seguem pra Fase 2 (bugs propositais) são **`/houston-education`, `/prevismob` e `/sis`**. O `/site` fica de fora da Fase 2 por enquanto — ficou pronto como protótipo, mas não é prioridade pra bug injection.
+Decisão de escopo: como os 4 projetos ficaram prontos (2 cópias reais + 2 protótipos originais), a Fase 2 (bugs propositais) segue com os **4**: `/houston-education`, `/prevismob`, `/sis` e `/site`.
 
 ---
 
@@ -20,7 +20,10 @@ Decisão de escopo: os 3 projetos que seguem pra Fase 2 (bugs propositais) são 
 **Formulários e pontos de entrada de usuário:**
 - Formulário de captação de lead na landing (nome, e-mail, telefone, empresa, mensagem), com validação de e-mail no cliente via regex
 
-**Nível de maturidade:** protótipo simples, o suficiente pra ter um formulário real de captação pra eventualmente testar bug de validação — mas não é foco da Fase 2 agora.
+**Nível de maturidade:** protótipo simples, mas com formulário real de captação de lead com validação no cliente — o suficiente pra entrar na Fase 2.
+
+**Nota pra bugs propositais (1–5): 3/5**
+É só um formulário (nome, e-mail, telefone, empresa, mensagem) numa página só, então a variedade de bug é menor que nos outros três — mas dá pra explorar bem validação de e-mail/telefone e o que acontece quando o formulário é enviado sem passar pela validação client-side (ex: via fetch direto, sem JS).
 
 ---
 
@@ -112,11 +115,11 @@ Vários formulários, autenticação própria + OAuth, lógica de cota e exporta
 
 | Projeto | Origem | Situação | Entra na Fase 2? |
 |---|---|---|---|
-| `/site` | Protótipo original | ✅ Pronto | Não, por enquanto |
+| `/site` | Protótipo original | ✅ Pronto | Sim |
 | `/sis` | Protótipo original | ✅ Pronto | Sim |
 | `/houston-education` | Cópia real (autorizada) | ✅ Importado e sanitizado | Sim |
 | `/prevismob` | Cópia real (autorizada) | ✅ Importado e sanitizado | Sim |
 
 ## Fase 2 confirmada
 
-Os 3 projetos escolhidos são **`/houston-education`, `/prevismob` e `/sis`**. Pra cada um, o próximo passo é: documento de requisitos, o protótipo com os bugs propositais embutidos, e o relatório em Word separado com as falhas e como corrigi-las.
+Os 4 projetos entram: **`/houston-education`, `/prevismob`, `/sis` e `/site`**. Pra cada um, o próximo passo é: documento de requisitos, o protótipo com os bugs propositais embutidos, e o relatório em Word separado com as falhas e como corrigi-las.
