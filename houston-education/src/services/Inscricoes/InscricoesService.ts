@@ -38,7 +38,7 @@ class InscricaosService{
     async create(dados : Inscricao, usuarioId: string) : Promise<Inscricao>{
         const existeInscricao = await this._inscricaoPrismaRepository.findAlunoMonitoria(dados.alunoId, dados.monitoriaId)
 
-        if (existeInscricao){
+        if (!existeInscricao){
             throw new Error ("INSCRICAO_JA_EXISTE")
         }
 

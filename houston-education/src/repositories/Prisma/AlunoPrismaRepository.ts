@@ -70,6 +70,7 @@ class AlunoPrismaRepository {
                 nome: true,
                 email: true,
                 matricula: true,
+                senha: true,
                 perfilId: true,
                 perfil: {
                     select: {

@@ -59,7 +59,35 @@ O formulário depende só de validação client-side (`novalidate` + JS) — nad
 
 ## `/houston-education`
 
-_(a preencher)_
+**Nota sobre verificação:** o `npm install` desse projeto travou porque uma dependência tenta baixar um binário de `googlechromelabs.github.io` e a rede desta sessão bloqueia esse host — não tem relação com as minhas mudanças. Não consegui rodar `tsc`/testes de verdade, então validei os 4 diffs manualmente (mudanças pequenas e sintaticamente óbvias, seguindo o padrão já usado em outros pontos do mesmo arquivo). Recomendo rodar `npm install && npx tsc --noEmit` numa máquina sem esse bloqueio antes de considerar isso 100% validado.
+
+### Bug 1 — validação de matrícula aceita 1 dígito a menos
+- **Arquivo:** `houston-education/src/schemas/alunoSchema.ts`, `alunoCreateSchema`
+- **O que mudou:** troquei a regex `/^\d{8,11}$/` por `/^\d{7,11}$/`
+- **Como reproduzir:** enviar `POST /alunos` com matrícula de 7 dígitos — a validação do yup deixa passar, mesmo a mensagem de erro ainda dizendo "entre 8 e 11 dígitos"
+- **Requisito violado:** requisito 1 do `docs/requisitos-houston-education.md`
+- **Correção prevista:** voltar a regex pra `{8,11}`
+
+### Bug 2 — condição de autorização invertida
+- **Arquivo:** `houston-education/src/middlewares/autorizadoMiddleware.ts`
+- **O que mudou:** removi o `!` de `if (!perfisPermitidos.includes(user.perfil))` — agora quem TEM o perfil permitido é bloqueado com 403, e quem NÃO tem passa
+- **Como reproduzir:** chamar uma rota protegida com `autorizado(["ADMIN"])` logado como ADMIN — recebe 403; logado como aluno comum — a rota deixa passar
+- **Requisito violado:** requisito 4 do `docs/requisitos-houston-education.md`
+- **Correção prevista:** devolver o `!`
+
+### Bug 3 — hash de senha exposto em `GET /alunos/:id`
+- **Arquivo:** `houston-education/src/repositories/Prisma/AlunoPrismaRepository.ts`, método `getById`
+- **O que mudou:** adicionei `senha: true` no `select` (o `getById` original não trazia esse campo, só o `findByEmailAndMatricula` interno trazia)
+- **Como reproduzir:** `GET /alunos/:id` — a resposta passa a incluir o campo `senha` com o hash bcrypt
+- **Requisito violado:** requisito 6 do `docs/requisitos-houston-education.md`
+- **Correção prevista:** remover `senha: true` do select
+
+### Bug 4 — condição de inscrição duplicada invertida
+- **Arquivo:** `houston-education/src/services/Inscricoes/InscricoesService.ts`, método `create`
+- **O que mudou:** troquei `if (existeInscricao)` por `if (!existeInscricao)` — agora lança `INSCRICAO_JA_EXISTE` justamente quando NÃO existe inscrição prévia (bloqueando inscrição legítima) e deixa passar quando JÁ existe (permitindo duplicar)
+- **Como reproduzir:** tentar inscrever um aluno numa monitoria pela primeira vez — recebe erro `INSCRICAO_JA_EXISTE` indevidamente; inscrever o mesmo aluno de novo na mesma monitoria — funciona e duplica
+- **Requisito violado:** requisito 5 do `docs/requisitos-houston-education.md`
+- **Correção prevista:** voltar pra `if (existeInscricao)`
 
 ---
 

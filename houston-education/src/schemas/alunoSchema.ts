@@ -30,7 +30,7 @@ export const alunoCreateSchema = yup.object({
     nome : yup.string().required(),
     senha : yup.string().required(),
     email : yup.string().email().required(),
-    matricula : yup.string().matches(/^\d{8,11}$/, "Matrícula deve conter entre 8 e 11 dígitos numéricos").required(),
+    matricula : yup.string().matches(/^\d{7,11}$/, "Matrícula deve conter entre 8 e 11 dígitos numéricos").required(),
 }).noUnknown();
 
 export const alunoUpdatePerfilSchema = yup.object({
