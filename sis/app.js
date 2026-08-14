@@ -101,6 +101,11 @@ document.addEventListener("DOMContentLoaded", () => {
       const status = document.getElementById("detail-status").value;
       const frio = document.getElementById("detail-frio").value;
       saveLeadState(currentLeadId, { status, frio });
+      if (frio === "sim") {
+        const all = JSON.parse(localStorage.getItem("sis_followups") || "{}");
+        delete all[currentLeadId];
+        localStorage.setItem("sis_followups", JSON.stringify(all));
+      }
       renderKanban();
       openLead(currentLeadId);
     });
@@ -143,6 +148,10 @@ let agendaToCancel = null;
 
 function askCancel(id) {
   agendaToCancel = id;
+  const saved = JSON.parse(localStorage.getItem("sis_agenda") || "{}");
+  saved[id] = { ...(saved[id] || {}), status: "cancelado" };
+  localStorage.setItem("sis_agenda", JSON.stringify(saved));
+  renderAgenda();
   document.getElementById("cancel-modal").classList.add("open");
 }
 
@@ -200,7 +209,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const valor = document.getElementById("valor").value;
       const error = document.getElementById("despesa-error");
 
-      if (!produto || !valor || Number(valor) <= 0) {
+      if (!produto || !valor || Number(valor) < 0) {
         error.style.display = "block";
         return;
       }
@@ -271,7 +280,6 @@ document.addEventListener("DOMContentLoaded", () => {
     novoForm.addEventListener("submit", (e) => {
       e.preventDefault();
       const nome = document.getElementById("novo-projeto-nome").value.trim();
-      if (!nome) return;
       const projetos = loadProjetos();
       projetos.push({ id: Date.now(), nome, progresso: 0, sprints: [] });
       saveProjetos(projetos);

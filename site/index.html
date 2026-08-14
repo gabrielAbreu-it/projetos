@@ -45,7 +45,7 @@
   <h2>Quer um diagnóstico da sua operação?</h2>
   <p style="color:var(--gray-300); margin-top:0.5rem;">Preenche o formulário que a gente entra em contato pra entender o cenário antes de propor qualquer coisa.</p>
 
-  <form id="lead-form" action="obrigado.html" method="get">
+  <form id="lead-form" action="obrigado.html" method="get" novalidate>
     <div>
       <label for="nome">Nome</label>
       <input type="text" id="nome" name="nome" required>
@@ -57,7 +57,7 @@
     </div>
     <div>
       <label for="telefone">Telefone / WhatsApp</label>
-      <input type="tel" id="telefone" name="telefone" placeholder="(61) 90000-0000" required>
+      <input type="tel" id="telefone" name="telefone" placeholder="(61) 90000-0000">
     </div>
     <div>
       <label for="empresa">Empresa</label>
@@ -80,7 +80,7 @@
 document.getElementById('lead-form').addEventListener('submit', function (e) {
   const email = document.getElementById('email');
   const emailError = document.getElementById('email-error');
-  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value);
+  const emailOk = /^[^\s@]+@[^\s@]+$/.test(email.value);
   if (!emailOk) {
     e.preventDefault();
     emailError.style.display = 'block';
