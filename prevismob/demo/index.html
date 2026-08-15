@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo — Bugs PrevIsmob</title>
+<style>
+  :root {
+    --amber: #F59E0B;
+    --black: #0A0A0A;
+    --panel: #171717;
+    --panel-2: #1F1F1F;
+    --border: #2A2A2A;
+    --text: #FAFAFA;
+    --text-dim: #A3A3A3;
+    --green: #22C55E;
+    --red: #EF4444;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: var(--black);
+    color: var(--text);
+    margin: 0;
+    padding: 2rem 1.5rem 4rem;
+    max-width: 900px;
+    margin-inline: auto;
+  }
+  header { margin-bottom: 2rem; }
+  .banner {
+    background: #78350F33;
+    border: 1px solid var(--amber);
+    color: var(--amber);
+    padding: 0.7rem 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+  h1 { font-size: 1.6rem; margin: 0 0 0.4rem; }
+  .subtitle { color: var(--text-dim); font-size: 0.9rem; margin-bottom: 1rem; }
+  .config {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.85rem;
+    margin-bottom: 1.5rem;
+  }
+  .config input {
+    flex: 1;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.4rem 0.6rem;
+    color: var(--text);
+    font-family: monospace;
+  }
+  nav.toc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+  }
+  nav.toc a {
+    color: var(--text-dim);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    padding: 0.4rem 0.8rem;
+    border-radius: 999px;
+    font-size: 0.82rem;
+  }
+  nav.toc a:hover { color: var(--amber); border-color: var(--amber); }
+
+  section.bug {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.6rem;
+    margin-bottom: 1.6rem;
+    scroll-margin-top: 1rem;
+  }
+  .bug-header {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 0.6rem;
+    flex-wrap: wrap;
+  }
+  .bug-header h2 { font-size: 1.15rem; margin: 0; }
+  .badge {
+    display: inline-block;
+    padding: 0.2rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .sev-baixa { background: #6B7280; }
+  .sev-media { background: #D97706; }
+  .sev-alta { background: #DC2626; }
+  .sev-critica { background: #991B1B; }
+
+  h3.label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-dim); margin: 1rem 0 0.4rem; }
+  .meta { font-size: 0.85rem; color: var(--text-dim); margin-bottom: 0.2rem; }
+  .meta b { color: var(--text); }
+
+  pre.code {
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.8rem;
+    overflow-x: auto;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .btn {
+    background: var(--amber);
+    color: var(--black);
+    font-weight: 700;
+    border: none;
+    padding: 0.6rem 1.3rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-top: 0.6rem;
+  }
+  .btn:hover { background: #B45309; color: var(--text); }
+  .btn:disabled { opacity: 0.5; cursor: wait; }
+
+  .result-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  @media (max-width: 640px) { .result-grid { grid-template-columns: 1fr; } }
+  .result-box {
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.8rem;
+    font-size: 0.85rem;
+  }
+  .result-box h4 { margin: 0 0 0.5rem; font-size: 0.78rem; text-transform: uppercase; color: var(--text-dim); }
+  .result-box pre { margin: 0; white-space: pre-wrap; word-break: break-word; font-size: 0.78rem; }
+  .note { font-size: 0.8rem; color: var(--text-dim); margin-top: 0.6rem; font-style: italic; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="banner">Demonstração — API local, projeto de exercício de QA/segurança</div>
+  <h1>Bugs propositais — PrevIsmob</h1>
+  <p class="subtitle">Cada seção chama a API real (fetch) que já roda com o bug ativo. Nada aqui corrige ou esconde a falha — só mostra o que a API responde ao vivo.</p>
+</header>
+
+<div class="config">
+  <label for="apiBase"><b>API base:</b></label>
+  <input type="text" id="apiBase" value="http://localhost:8000">
+</div>
+
+<nav class="toc">
+  <a href="#bug1">1. Área útil zero</a>
+  <a href="#bug2">2. Cota invertida</a>
+  <a href="#bug3">3. Bypass de e-mail</a>
+  <a href="#bug4">4. Hash de senha exposto</a>
+</nav>
+
+<!-- ============ BUG 1 ============ -->
+<section class="bug" id="bug1">
+  <div class="bug-header">
+    <h2>1. Formulário de previsão aceita área útil zero</h2>
+    <span class="badge sev-baixa">Baixa</span>
+  </div>
+  <div class="meta"><b>Endpoint:</b> POST /v1/prever (aceita chamada anônima/guest)</div>
+
+  <h3 class="label">Trecho de código com o bug</h3>
+  <pre class="code">## api.py — POST /v1/prever
+
+if dados.Area_Util is None or dados.Area_Util < 0:
+    raise HTTPException(status_code=422, detail="Area_Util deve ser maior que zero.")
+
+# era: dados.Area_Util <= 0 — o zero deixou de ser rejeitado</pre>
+
+  <h3 class="label">Como foi encontrado</h3>
+  <p>Revisão manual do bloco de validação no início do endpoint, antes de qualquer chamada ao modelo de ML.</p>
+
+  <button class="btn" onclick="reproduzirBug1()">Reproduzir</button>
+
+  <div class="result-grid">
+    <div class="result-box">
+      <h4>Esperado</h4>
+      <pre>422 — "Area_Util deve ser maior que zero."</pre>
+    </div>
+    <div class="result-box">
+      <h4>Obtido ao vivo</h4>
+      <pre id="out1">Clique em "Reproduzir" para chamar a API.</pre>
+    </div>
+  </div>
+  <p class="note">Esta chamada segue até o modelo de ML e a geocodificação real (Google Maps), então depende das credenciais configuradas no seu .env local. O que importa pra este bug é a resposta não vir com 422 por causa da área zero.</p>
+</section>
+
+<!-- ============ BUG 2 ============ -->
+<section class="bug" id="bug2">
+  <div class="bug-header">
+    <h2>2. Cota diária invertida entre guest e autenticado</h2>
+    <span class="badge sev-alta">Alta</span>
+  </div>
+  <div class="meta"><b>Endpoint:</b> POST /v1/prever — chamado 1x como guest e 1x autenticado</div>
+  <div class="meta">Registra e verifica um usuário novo automaticamente pra comparar os dois casos.</div>
+
+  <h3 class="label">Trecho de código com o bug</h3>
+  <pre class="code">## api.py — POST /v1/prever
+
+daily_limit = DAILY_LIMIT_GUEST if is_authenticated else DAILY_LIMIT_AUTH
+
+# era: DAILY_LIMIT_AUTH if is_authenticated else DAILY_LIMIT_GUEST
+# autenticado passou a receber o limite do guest, e vice-versa</pre>
+
+  <h3 class="label">Como foi encontrado</h3>
+  <p>Rodei a suíte de testes real do projeto (pytest) depois de inserir os bugs — <code>test_quota_auth_retorna_limite_maior</code> e outros 2 testes de cota falharam imediatamente, apontando pra essa linha.</p>
+  <p class="note">Nota: o endpoint GET /v1/quota tem sua própria cópia dessa linha, que não foi alterada — por isso esta demo usa o campo "quota" retornado dentro da própria resposta de POST /v1/prever, não o endpoint /v1/quota.</p>
+
+  <button class="btn" onclick="reproduzirBug2()">Reproduzir</button>
+
+  <div class="result-grid">
+    <div class="result-box">
+      <h4>Esperado</h4>
+      <pre>daily_limit do autenticado > daily_limit do guest</pre>
+    </div>
+    <div class="result-box">
+      <h4>Obtido ao vivo</h4>
+      <pre id="out2">Clique em "Reproduzir" para chamar a API.</pre>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BUG 3 ============ -->
+<section class="bug" id="bug3">
+  <div class="bug-header">
+    <h2>3. Bypass de verificação de e-mail (lógica invertida)</h2>
+    <span class="badge sev-critica">Crítica</span>
+  </div>
+  <div class="meta"><b>Endpoint:</b> POST /v1/auth/register + POST /v1/auth/login (sem verificar o e-mail)</div>
+
+  <h3 class="label">Trecho de código com o bug</h3>
+  <pre class="code">## api.py — POST /v1/auth/login
+
+# Regra rígida: login só é permitido com e-mail verificado.
+if user.get("email_verificado_em") is not None:
+    raise HTTPException(status_code=403, detail="Verifique seu e-mail antes de fazer login.")
+
+# era: is None — a condição foi invertida</pre>
+
+  <h3 class="label">Como foi encontrado</h3>
+  <p>Rodei a suíte de testes real (pytest) depois de inserir os bugs — <code>test_login_de_nao_verificado_retorna_403</code> e <code>test_login_apos_verificar_retorna_200_com_token</code> falharam, com efeito cascata em 3 testes de exclusão de conta que dependem do mesmo fluxo de login.</p>
+
+  <button class="btn" onclick="reproduzirBug3()">Reproduzir</button>
+
+  <div class="result-grid">
+    <div class="result-box">
+      <h4>Esperado</h4>
+      <pre>403 — "Verifique seu e-mail antes de fazer login."</pre>
+    </div>
+    <div class="result-box">
+      <h4>Obtido ao vivo</h4>
+      <pre id="out3">Clique em "Reproduzir" para chamar a API.</pre>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BUG 4 ============ -->
+<section class="bug" id="bug4">
+  <div class="bug-header">
+    <h2>4. Hash de senha exposto no payload de autenticação</h2>
+    <span class="badge sev-alta">Alta</span>
+  </div>
+  <div class="meta"><b>Endpoint:</b> mesmo login do bug 3</div>
+
+  <h3 class="label">Trecho de código com o bug</h3>
+  <pre class="code">## api.py — _build_user_payload (usada em login, registro e refresh)
+
+return {
+    "id_usuario": user["id_usuario"],
+    ...
+    "senha_hash": user.get("senha_hash"),   # <- linha adicionada
+}</pre>
+
+  <h3 class="label">Como foi encontrado</h3>
+  <p>Revisão manual de <code>_build_user_payload</code>, função reaproveitada por login, registro e refresh de token.</p>
+  <p class="note">Esta demo reusa o login do bug 3 (sem verificar e-mail) porque não depende do serviço real de envio de e-mail — mas a exposição do hash é uma falha independente e aconteceria em qualquer login bem-sucedido, verificado ou não.</p>
+
+  <button class="btn" onclick="reproduzirBug4()">Reproduzir</button>
+
+  <div class="result-grid">
+    <div class="result-box">
+      <h4>Esperado</h4>
+      <pre>Payload de usuário sem o campo "senha_hash"</pre>
+    </div>
+    <div class="result-box">
+      <h4>Obtido ao vivo</h4>
+      <pre id="out4">Clique em "Reproduzir" para chamar a API.</pre>
+    </div>
+  </div>
+</section>
+
+<script>
+function apiBase() { return document.getElementById('apiBase').value.replace(/\/$/, ''); }
+function fmt(status, body) { return 'HTTP ' + status + '\n\n' + JSON.stringify(body, null, 2); }
+
+function randomEmail() { return `demo${Date.now()}@teste.com`; }
+const SENHA_DEMO = 'DemoSenha123';
+
+function payloadImovel(areaUtil) {
+  return {
+    Nome_Predio: 'Residencial Demo',
+    Area_Util: areaUtil,
+    Valor_Condominio: 350.0,
+    Quartos: 2,
+    Vagas: 1,
+  };
+}
+
+async function reproduzirBug1() {
+  const out = document.getElementById('out1');
+  out.textContent = 'Chamando API...';
+  try {
+    const res = await fetch(apiBase() + '/v1/prever', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payloadImovel(0)),
+    });
+    const body = await res.json();
+    out.textContent = fmt(res.status, body);
+  } catch (e) {
+    out.textContent = 'Erro de rede: ' + e.message + '\n\n(confira se a API está rodando e a URL acima está certa)';
+  }
+}
+
+async function chamarPrever(headers, areaUtil = 60) {
+  const res = await fetch(apiBase() + '/v1/prever', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...headers },
+    body: JSON.stringify(payloadImovel(areaUtil)),
+  });
+  const body = await res.json();
+  return { status: res.status, body };
+}
+
+async function registrarEVerificar(email, senha) {
+  const reg = await fetch(apiBase() + '/v1/auth/register', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ nome: 'Usuário Demo', email, senha, confirmar_senha: senha }),
+  });
+  if (!reg.ok) {
+    const err = await reg.json();
+    throw new Error('Falha no registro: ' + JSON.stringify(err));
+  }
+  return reg;
+}
+
+async function reproduzirBug2() {
+  const out = document.getElementById('out2');
+  out.textContent = 'Chamando como guest e registrando um usuário pra comparar...';
+  try {
+    const guest = await chamarPrever({});
+
+    const email = randomEmail();
+    out.textContent = 'Guest chamado. Registrando usuário autenticado (' + email + ')...';
+    out.textContent += '\n\nNota: sem acesso ao e-mail real de verificação, este passo pode falhar com 403 (bug 3 resolve isso — veja a seção 3). Tentando login mesmo assim para fins de comparação.';
+
+    await registrarEVerificar(email, SENHA_DEMO);
+    const loginRes = await fetch(apiBase() + '/v1/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, senha: SENHA_DEMO }),
+    });
+    const loginBody = await loginRes.json();
+
+    if (!loginRes.ok || !loginBody.access_token) {
+      out.textContent =
+        '--- Guest ---\n' + fmt(guest.status, guest.body) + '\n\n' +
+        '--- Não foi possível logar como autenticado neste ambiente ---\n' + fmt(loginRes.status, loginBody) +
+        '\n\nRode a seção 3 primeiro (bypass de verificação) e depois repita este teste — o login sem verificar depende do mesmo bug.';
+      return;
+    }
+
+    const auth = await chamarPrever({ Authorization: 'Bearer ' + loginBody.access_token });
+
+    out.textContent =
+      '--- Guest (sem login) ---\n' + fmt(guest.status, guest.body) + '\n\n' +
+      '--- Autenticado ---\n' + fmt(auth.status, auth.body) + '\n\n' +
+      `--- Comparação ---\nguest.quota.daily_limit = ${guest.body?.quota?.daily_limit}\nauth.quota.daily_limit  = ${auth.body?.quota?.daily_limit}\n(esperado: auth > guest — o bug inverte isso)`;
+  } catch (e) {
+    out.textContent = 'Erro: ' + e.message;
+  }
+}
+
+async function reproduzirBug3() {
+  const out = document.getElementById('out3');
+  out.textContent = 'Registrando usuário novo (sem verificar e-mail) e tentando login...';
+  try {
+    const email = randomEmail();
+    await registrarEVerificar(email, SENHA_DEMO);
+
+    const res = await fetch(apiBase() + '/v1/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, senha: SENHA_DEMO }),
+    });
+    const body = await res.json();
+    out.textContent = 'Conta criada: ' + email + ' (e-mail NÃO verificado)\n\n' + fmt(res.status, body);
+  } catch (e) {
+    out.textContent = 'Erro: ' + e.message;
+  }
+}
+
+async function reproduzirBug4() {
+  const out = document.getElementById('out4');
+  out.textContent = 'Registrando usuário novo (sem verificar e-mail) e tentando login...';
+  try {
+    const email = randomEmail();
+    await registrarEVerificar(email, SENHA_DEMO);
+
+    const res = await fetch(apiBase() + '/v1/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, senha: SENHA_DEMO }),
+    });
+    const body = await res.json();
+    const hash = body?.usuario?.senha_hash;
+    const destaque = hash
+      ? '⚠️ Campo "senha_hash" presente no payload de usuário:\n' + hash + '\n\n--- resposta completa ---\n'
+      : '(campo "senha_hash" não apareceu — ver corpo completo abaixo)\n\n';
+    out.textContent = destaque + fmt(res.status, body);
+  } catch (e) {
+    out.textContent = 'Erro: ' + e.message;
+  }
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo — Bugs Houston Education</title>
+<style>
+  :root {
+    --amber: #F59E0B;
+    --black: #0A0A0A;
+    --panel: #171717;
+    --panel-2: #1F1F1F;
+    --border: #2A2A2A;
+    --text: #FAFAFA;
+    --text-dim: #A3A3A3;
+    --green: #22C55E;
+    --red: #EF4444;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: var(--black);
+    color: var(--text);
+    margin: 0;
+    padding: 2rem 1.5rem 4rem;
+    max-width: 900px;
+    margin-inline: auto;
+  }
+  header { margin-bottom: 2rem; }
+  .banner {
+    background: #78350F33;
+    border: 1px solid var(--amber);
+    color: var(--amber);
+    padding: 0.7rem 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+  h1 { font-size: 1.6rem; margin: 0 0 0.4rem; }
+  .subtitle { color: var(--text-dim); font-size: 0.9rem; margin-bottom: 1rem; }
+  .config {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.85rem;
+    margin-bottom: 1.5rem;
+  }
+  .config input {
+    flex: 1;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.4rem 0.6rem;
+    color: var(--text);
+    font-family: monospace;
+  }
+  nav.toc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+  }
+  nav.toc a {
+    color: var(--text-dim);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    padding: 0.4rem 0.8rem;
+    border-radius: 999px;
+    font-size: 0.82rem;
+  }
+  nav.toc a:hover { color: var(--amber); border-color: var(--amber); }
+
+  section.bug {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.6rem;
+    margin-bottom: 1.6rem;
+    scroll-margin-top: 1rem;
+  }
+  .bug-header {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 0.6rem;
+    flex-wrap: wrap;
+  }
+  .bug-header h2 { font-size: 1.15rem; margin: 0; }
+  .badge {
+    display: inline-block;
+    padding: 0.2rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .sev-baixa { background: #6B7280; }
+  .sev-media { background: #D97706; }
+  .sev-alta { background: #DC2626; }
+  .sev-critica { background: #991B1B; }
+
+  h3.label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-dim); margin: 1rem 0 0.4rem; }
+  .meta { font-size: 0.85rem; color: var(--text-dim); margin-bottom: 0.2rem; }
+  .meta b { color: var(--text); }
+
+  pre.code {
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.8rem;
+    overflow-x: auto;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .btn {
+    background: var(--amber);
+    color: var(--black);
+    font-weight: 700;
+    border: none;
+    padding: 0.6rem 1.3rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-top: 0.6rem;
+  }
+  .btn:hover { background: #B45309; color: var(--text); }
+  .btn:disabled { opacity: 0.5; cursor: wait; }
+
+  .result-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  @media (max-width: 640px) { .result-grid { grid-template-columns: 1fr; } }
+  .result-box {
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.8rem;
+    font-size: 0.85rem;
+  }
+  .result-box h4 { margin: 0 0 0.5rem; font-size: 0.78rem; text-transform: uppercase; color: var(--text-dim); }
+  .result-box pre { margin: 0; white-space: pre-wrap; word-break: break-word; font-size: 0.78rem; }
+  .status-ok { color: var(--green); font-weight: 700; }
+  .status-bad { color: var(--red); font-weight: 700; }
+  .note { font-size: 0.8rem; color: var(--text-dim); margin-top: 0.6rem; font-style: italic; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="banner">Demonstração — API local, projeto de exercício de QA/segurança</div>
+  <h1>Bugs propositais — Houston Education</h1>
+  <p class="subtitle">Cada seção chama a API real (fetch) que já roda com o bug ativo. Nada aqui corrige ou esconde a falha — só mostra o que a API responde ao vivo.</p>
+</header>
+
+<div class="config">
+  <label for="apiBase"><b>API base:</b></label>
+  <input type="text" id="apiBase" value="http://localhost:3000">
+</div>
+
+<nav class="toc">
+  <a href="#bug1">1. Matrícula fraca</a>
+  <a href="#bug2">2. Autorização invertida</a>
+  <a href="#bug3">3. Hash de senha exposto</a>
+  <a href="#bug4">4. Inscrição duplicada</a>
+</nav>
+
+<!-- ============ BUG 1 ============ -->
+<section class="bug" id="bug1">
+  <div class="bug-header">
+    <h2>1. Validação de matrícula aceita 1 dígito a menos</h2>
+    <span class="badge sev-baixa">Baixa</span>
+  </div>
+  <div class="meta"><b>Endpoint:</b> POST /alunos (cadastro, sem autenticação)</div>
+
+  <h3 class="label">Trecho de código com o bug</h3>
+  <pre class="code">// src/schemas/alunoSchema.ts — alunoCreateSchema
+
+matricula : yup.string().matches(/^\d{7,11}$/, "Matrícula deve conter entre 8 e 11 dígitos numéricos").required(),
+
+// era /^\d{8,11}$/ — o mínimo foi reduzido de 8 pra 7 dígitos</pre>
+
+  <h3 class="label">Como foi encontrado</h3>
+  <p>Revisão manual do schema de validação (yup) usado no cadastro de aluno, comparando a regex com a mensagem de erro que ela mesma exibe.</p>
+
+  <button class="btn" onclick="reproduzirBug1()">Reproduzir</button>
+
+  <div class="result-grid">
+    <div class="result-box">
+      <h4>Esperado</h4>
+      <pre>400 — erro de validação
+"Matrícula deve conter entre 8 e 11 dígitos numéricos"</pre>
+    </div>
+    <div class="result-box">
+      <h4>Obtido ao vivo</h4>
+      <pre id="out1">Clique em "Reproduzir" para chamar a API.</pre>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BUG 2 ============ -->
+<section class="bug" id="bug2">
+  <div class="bug-header">
+    <h2>2. Condição de autorização invertida</h2>
+    <span class="badge sev-critica">Crítica</span>
+  </div>
+  <div class="meta"><b>Endpoint:</b> GET /alunos/:id, logado como <b>Paulo (perfil MONITOR, não-admin)</b></div>
+  <div class="meta">Faz login automaticamente com a conta seed <code>paulo@email.com</code> antes de chamar o endpoint.</div>
+
+  <h3 class="label">Trecho de código com o bug</h3>
+  <pre class="code">// src/middlewares/autorizadoMiddleware.ts
+
+if (perfisPermitidos.includes(user.perfil)) {
+  return res.status(403).json({ error: "SEM_PERMISSAO_HOUSTON" });
+}
+
+// era: if (!perfisPermitidos.includes(user.perfil)) { ... }
+// o "!" foi removido — agora bloqueia quem TEM o perfil permitido</pre>
+
+  <h3 class="label">Como foi encontrado</h3>
+  <p>Revisão manual do middleware de autorização, comparando a condição com o nome do erro que ela lança (SEM_PERMISSAO) — o nome do erro só faz sentido no caminho "bloqueado", então a condição invertida chamou atenção na leitura.</p>
+
+  <button class="btn" onclick="reproduzirBug2()">Reproduzir</button>
+
+  <div class="result-grid">
+    <div class="result-box">
+      <h4>Esperado</h4>
+      <pre>403 — SEM_PERMISSAO_HOUSTON
+(Paulo é MONITOR, rota exige ADMIN)</pre>
+    </div>
+    <div class="result-box">
+      <h4>Obtido ao vivo</h4>
+      <pre id="out2">Clique em "Reproduzir" para chamar a API.</pre>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BUG 3 ============ -->
+<section class="bug" id="bug3">
+  <div class="bug-header">
+    <h2>3. Hash de senha exposto em GET /alunos/:id</h2>
+    <span class="badge sev-alta">Alta</span>
+  </div>
+  <div class="meta"><b>Endpoint:</b> GET /alunos/:id (mesma chamada do bug 2)</div>
+
+  <h3 class="label">Trecho de código com o bug</h3>
+  <pre class="code">// src/repositories/Prisma/AlunoPrismaRepository.ts — getById
+
+select: {
+  id: true, nome: true, email: true, matricula: true,
+  senha: true,   // <- campo adicionado, não deveria estar aqui
+  perfilId: true,
+  perfil: { select: { nome: true } }
+}</pre>
+
+  <h3 class="label">Como foi encontrado</h3>
+  <p>Comparei o <code>select</code> de <code>getById</code> com o de <code>findByEmailAndMatricula</code> (que legitimamente usa a senha só internamente) e simulei a resposta que a rota devolveria.</p>
+  <p class="note">Esta demo reusa a chamada do bug 2 porque não há credencial de ADMIN disponível neste ambiente de demonstração — mas a exposição do hash é uma falha independente: aconteceria do mesmo jeito numa chamada legítima feita por um ADMIN de verdade.</p>
+
+  <button class="btn" onclick="reproduzirBug3()">Reproduzir</button>
+
+  <div class="result-grid">
+    <div class="result-box">
+      <h4>Esperado</h4>
+      <pre>Resposta sem o campo "senha"</pre>
+    </div>
+    <div class="result-box">
+      <h4>Obtido ao vivo</h4>
+      <pre id="out3">Clique em "Reproduzir" para chamar a API.</pre>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BUG 4 ============ -->
+<section class="bug" id="bug4">
+  <div class="bug-header">
+    <h2>4. Condição de inscrição duplicada invertida</h2>
+    <span class="badge sev-alta">Alta</span>
+  </div>
+  <div class="meta"><b>Endpoint:</b> POST /inscricoes, logado como <b>João (perfil ALUNO)</b></div>
+  <div class="meta">Faz login com <code>joao@email.com</code>, busca uma monitoria disponível e tenta se inscrever <b>duas vezes seguidas</b>.</div>
+
+  <h3 class="label">Trecho de código com o bug</h3>
+  <pre class="code">// src/services/Inscricoes/InscricoesService.ts — create
+
+const existeInscricao = await this._inscricaoPrismaRepository.findAlunoMonitoria(dados.alunoId, dados.monitoriaId)
+
+if (!existeInscricao){
+    throw new Error ("INSCRICAO_JA_EXISTE")
+}
+
+// era: if (existeInscricao) { ... } — a condição foi invertida com "!"</pre>
+
+  <h3 class="label">Como foi encontrado</h3>
+  <p>Rastreei o fluxo de <code>create</code> até a checagem <code>findAlunoMonitoria</code> e revisei a condição que decide se bloqueia ou não a inscrição.</p>
+
+  <button class="btn" onclick="reproduzirBug4()">Reproduzir</button>
+
+  <div class="result-grid">
+    <div class="result-box">
+      <h4>Esperado</h4>
+      <pre>1ª tentativa: 201 (inscrição criada)
+2ª tentativa: 400 INSCRICAO_JA_EXISTE</pre>
+    </div>
+    <div class="result-box">
+      <h4>Obtido ao vivo</h4>
+      <pre id="out4">Clique em "Reproduzir" para chamar a API.</pre>
+    </div>
+  </div>
+  <p class="note">Como o bug persiste dados no banco local, rodar esta demo várias vezes pode ir acumulando inscrições duplicadas de fato — isso é o próprio bug se manifestando, não um erro da demo.</p>
+</section>
+
+<script>
+function apiBase() { return document.getElementById('apiBase').value.replace(/\/$/, ''); }
+
+function decodeJwt(token) {
+  const payload = token.split('.')[1];
+  const json = atob(payload.replace(/-/g, '+').replace(/_/g, '/'));
+  return JSON.parse(json);
+}
+
+async function login(email, senha) {
+  const res = await fetch(apiBase() + '/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, senha }),
+  });
+  const data = await res.json();
+  if (!res.ok || !data.token) {
+    throw new Error('Falha no login de ' + email + ': ' + JSON.stringify(data));
+  }
+  return data.token;
+}
+
+function fmt(status, body) {
+  return 'HTTP ' + status + '\n\n' + JSON.stringify(body, null, 2);
+}
+
+async function reproduzirBug1() {
+  const out = document.getElementById('out1');
+  out.textContent = 'Chamando API...';
+  try {
+    const email = `demo${Date.now()}@teste.com`;
+    const res = await fetch(apiBase() + '/alunos', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        nome: 'Aluno Demo',
+        email,
+        senha: 'Senha123!',
+        matricula: '1234567', // 7 dígitos — deveria falhar, mínimo é 8
+      }),
+    });
+    const body = await res.json();
+    out.textContent = fmt(res.status, body);
+  } catch (e) {
+    out.textContent = 'Erro de rede: ' + e.message + '\n\n(confira se a API está rodando e a URL acima está certa)';
+  }
+}
+
+async function reproduzirBug2() {
+  const out = document.getElementById('out2');
+  out.textContent = 'Fazendo login como Paulo (MONITOR) e chamando API...';
+  try {
+    const token = await login('paulo@email.com', 'P15l4!');
+    const { id } = decodeJwt(token);
+    const res = await fetch(apiBase() + '/alunos/' + id, {
+      headers: { Authorization: 'Bearer ' + token },
+    });
+    const body = await res.json();
+    out.textContent = fmt(res.status, body);
+  } catch (e) {
+    out.textContent = 'Erro: ' + e.message;
+  }
+}
+
+async function reproduzirBug3() {
+  const out = document.getElementById('out3');
+  out.textContent = 'Fazendo login como Paulo (MONITOR) e chamando API...';
+  try {
+    const token = await login('paulo@email.com', 'P15l4!');
+    const { id } = decodeJwt(token);
+    const res = await fetch(apiBase() + '/alunos/' + id, {
+      headers: { Authorization: 'Bearer ' + token },
+    });
+    const body = await res.json();
+    const destaque = body.senha
+      ? '⚠️ Campo "senha" presente na resposta:\n' + body.senha + '\n\n--- resposta completa ---\n'
+      : '(campo "senha" não apareceu na resposta — ver corpo completo abaixo)\n\n';
+    out.textContent = destaque + fmt(res.status, body);
+  } catch (e) {
+    out.textContent = 'Erro: ' + e.message;
+  }
+}
+
+async function reproduzirBug4() {
+  const out = document.getElementById('out4');
+  out.textContent = 'Fazendo login como João (ALUNO), buscando monitoria disponível...';
+  try {
+    const token = await login('joao@email.com', 'J414!');
+    const { id: alunoId } = decodeJwt(token);
+
+    const resMon = await fetch(apiBase() + '/monitorias/disponiveis', {
+      headers: { Authorization: 'Bearer ' + token },
+    });
+    const monitorias = await resMon.json();
+    if (!Array.isArray(monitorias) || monitorias.length === 0) {
+      out.textContent = 'Nenhuma monitoria disponível no banco local — rode o seed do projeto (prisma/seed.ts) antes de reproduzir este bug.';
+      return;
+    }
+    const monitoriaId = monitorias[0].id;
+
+    const tentativa = async () => {
+      const res = await fetch(apiBase() + '/inscricoes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
+        body: JSON.stringify({ alunoId, monitoriaId }),
+      });
+      const body = await res.json();
+      return { status: res.status, body };
+    };
+
+    const r1 = await tentativa();
+    const r2 = await tentativa();
+
+    out.textContent =
+      'Monitoria usada: ' + monitoriaId + '\n\n' +
+      '--- 1ª tentativa (deveria criar a inscrição) ---\n' + fmt(r1.status, r1.body) + '\n\n' +
+      '--- 2ª tentativa (deveria ser bloqueada por duplicidade) ---\n' + fmt(r2.status, r2.body);
+  } catch (e) {
+    out.textContent = 'Erro: ' + e.message;
+  }
+}
+</script>
+
+</body>
+</html>
