@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#fbf8f4" />
+    <title>Agendaí · Protótipo</title>
+    <meta name="description" content="Protótipo do Agendaí: app do cliente e painel do dono de um salão fictício." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../../assets/css/base.css" />
+    <link rel="stylesheet" href="../design-system/tokens.css" />
+    <link rel="stylesheet" href="../design-system/components.css" />
+    <style>
+      body {
+        background: radial-gradient(900px 500px at 80% 0%, #f6e3d8, transparent 60%), var(--ag-bg);
+        color: var(--ag-text);
+        font-family: var(--ag-font);
+      }
+      :focus-visible {
+        outline: 3px solid var(--ag-focus);
+        outline-offset: 3px;
+      }
+      main {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 56px 16px 64px;
+      }
+      .back {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        min-height: 44px;
+        color: var(--ag-primary);
+        font-weight: 700;
+        text-decoration: none;
+      }
+      h1 {
+        font-size: clamp(2rem, 5vw, 3rem);
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        margin-top: 16px;
+      }
+      .lead {
+        color: var(--ag-text-2);
+        font-size: 1.1rem;
+        max-width: 60ch;
+        margin-top: 12px;
+      }
+      .options {
+        display: grid;
+        gap: 16px;
+        margin-top: 32px;
+      }
+      @media (min-width: 720px) {
+        .options {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      .opt {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 28px;
+      }
+      .opt__icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 16px;
+        display: grid;
+        place-items: center;
+        background: var(--ag-primary-soft);
+        color: var(--ag-primary);
+      }
+      .opt__icon svg {
+        width: 28px;
+        height: 28px;
+      }
+      .opt h2 {
+        font-size: 1.4rem;
+        font-weight: 800;
+      }
+      .opt p {
+        color: var(--ag-text-2);
+      }
+      .opt ul {
+        color: var(--ag-text-2);
+        font-size: 0.95rem;
+        padding-left: 1.1em;
+      }
+      .opt .ag-btn {
+        margin-top: auto;
+        align-self: flex-start;
+      }
+      .note {
+        margin-top: 24px;
+        font-size: 0.9rem;
+        color: var(--ag-text-2);
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <a class="back" href="../index.html"><i data-lucide="arrow-left" aria-hidden="true"></i> Estudo de caso do Agendaí</a>
+      <h1>Protótipo do Agendaí</h1>
+      <p class="lead">
+        Duas interfaces do mesmo produto, usando o Studio Lume, um salão fictício em Brasília. Dá para agendar pelo app do cliente e
+        ver o horário aparecer no painel do dono, no mesmo navegador.
+      </p>
+      <div class="options">
+        <section class="ag-card opt" aria-labelledby="o1">
+          <span class="opt__icon" aria-hidden="true"><i data-lucide="smartphone"></i></span>
+          <h2 id="o1">App do cliente</h2>
+          <p>Celular. Para quem quer marcar um horário sem trocar mensagem.</p>
+          <ul>
+            <li>Serviço, profissional, data e hora, confirmar</li>
+            <li>Ver, remarcar e cancelar</li>
+          </ul>
+          <a class="ag-btn ag-btn--primary" href="cliente/index.html">Abrir app do cliente</a>
+        </section>
+        <section class="ag-card opt" aria-labelledby="o2">
+          <span class="opt__icon" aria-hidden="true"><i data-lucide="layout-dashboard"></i></span>
+          <h2 id="o2">Painel do dono</h2>
+          <p>Computador (funciona no celular também). Para organizar a agenda e ver os números.</p>
+          <ul>
+            <li>Agenda do dia e da semana, arrastar para remarcar</li>
+            <li>Clientes, serviços e profissionais</li>
+            <li>Faturamento, faltas e horários mais cheios</li>
+          </ul>
+          <a class="ag-btn ag-btn--primary" href="painel/index.html">Abrir painel do dono</a>
+        </section>
+      </div>
+      <p class="note">
+        Dados fictícios. A data do protótipo é quarta, 14 de outubro de 2026, 10:20.
+        <button type="button" class="ag-btn ag-btn--ghost ag-btn--sm" id="reiniciar">Apagar o que eu mudei</button>
+      </p>
+    </main>
+    <script src="https://unpkg.com/lucide@0.453.0/dist/umd/lucide.min.js"></script>
+    <script>
+      if (window.lucide) window.lucide.createIcons();
+      document.getElementById('reiniciar').addEventListener('click', function () {
+        try {
+          localStorage.removeItem('agendai-prototipo-v1');
+        } catch (e) {
+          /* nada a apagar */
+        }
+        this.textContent = 'Pronto, protótipo zerado';
+      });
+    </script>
+  </body>
+</html>

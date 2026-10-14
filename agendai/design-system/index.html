@@ -1,0 +1,609 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#fbf8f4" />
+    <title>Agendaí · Design system</title>
+    <meta name="description" content="Tokens e componentes do Agendaí com todos os estados." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../../assets/css/base.css" />
+    <link rel="stylesheet" href="tokens.css" />
+    <link rel="stylesheet" href="components.css" />
+    <style>
+      body {
+        background: var(--ag-bg);
+        color: var(--ag-text);
+        font-family: var(--ag-font);
+      }
+      a {
+        color: var(--ag-primary);
+      }
+      :focus-visible {
+        outline: 3px solid var(--ag-focus);
+        outline-offset: 2px;
+      }
+      h1,
+      h2,
+      h3 {
+        font-weight: 800;
+        line-height: 1.2;
+        letter-spacing: -0.01em;
+      }
+      .wrap {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 0 16px;
+      }
+      @media (min-width: 720px) {
+        .wrap {
+          padding: 0 32px;
+        }
+      }
+      header.top {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: rgba(251, 248, 244, 0.92);
+        backdrop-filter: blur(8px);
+        border-bottom: 1px solid var(--ag-line);
+      }
+      header.top .wrap {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-height: 60px;
+      }
+      .brand {
+        font-weight: 800;
+        color: var(--ag-primary);
+      }
+      .top-links {
+        margin-left: auto;
+        display: flex;
+        gap: 4px;
+      }
+      .top-links a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        padding: 0 12px;
+        border-radius: var(--ag-radius-md);
+        color: var(--ag-text-2);
+        text-decoration: none;
+        font-weight: 700;
+        font-size: var(--ag-fs-sm);
+      }
+      .top-links a:hover {
+        background: var(--ag-surface-2);
+        color: var(--ag-text);
+      }
+      .hero {
+        padding: 56px 0 24px;
+      }
+      .hero h1 {
+        font-size: clamp(2rem, 5vw, 3.2rem);
+      }
+      .hero p {
+        margin-top: 12px;
+        color: var(--ag-text-2);
+        max-width: 62ch;
+        font-size: var(--ag-fs-lg);
+      }
+      .toc {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 24px;
+      }
+      .toc a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 40px;
+        padding: 0 14px;
+        border-radius: var(--ag-radius-pill);
+        border: 1px solid var(--ag-line);
+        background: var(--ag-surface);
+        color: var(--ag-text);
+        text-decoration: none;
+        font-size: var(--ag-fs-sm);
+        font-weight: 700;
+      }
+      section.ds {
+        padding: 48px 0;
+        border-top: 1px solid var(--ag-line);
+        scroll-margin-top: 64px;
+      }
+      section.ds > h2 {
+        font-size: var(--ag-fs-2xl);
+        margin-bottom: 8px;
+      }
+      section.ds > p {
+        color: var(--ag-text-2);
+        max-width: 68ch;
+        margin-bottom: 24px;
+      }
+      h3.sub {
+        font-size: var(--ag-fs-lg);
+        margin: 32px 0 12px;
+      }
+      .swatches {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+        gap: 12px;
+      }
+      .sw {
+        border: 1px solid var(--ag-line);
+        border-radius: var(--ag-radius-md);
+        overflow: hidden;
+        background: var(--ag-surface);
+      }
+      .sw__c {
+        height: 72px;
+        border-bottom: 1px solid var(--ag-line);
+      }
+      .sw__i {
+        padding: 10px 12px;
+        font-size: var(--ag-fs-sm);
+        font-weight: 700;
+      }
+      .sw__i code {
+        display: block;
+        color: var(--ag-text-2);
+        font-size: var(--ag-fs-xs);
+        font-weight: 400;
+      }
+      .sw__i .ratio {
+        display: inline-block;
+        margin-top: 6px;
+        font-size: var(--ag-fs-xs);
+        color: var(--ag-success);
+      }
+      .table-wrap {
+        overflow-x: auto;
+        border: 1px solid var(--ag-line);
+        border-radius: var(--ag-radius-md);
+        background: var(--ag-surface);
+      }
+      table {
+        width: 100%;
+        min-width: 560px;
+        font-size: var(--ag-fs-sm);
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 12px 14px;
+        border-bottom: 1px solid var(--ag-line);
+        vertical-align: middle;
+      }
+      thead th {
+        background: var(--ag-surface-2);
+        color: var(--ag-text-2);
+        font-size: var(--ag-fs-xs);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+      tbody tr:last-child td {
+        border-bottom: 0;
+      }
+      .space-bar {
+        height: 16px;
+        background: var(--ag-primary);
+        border-radius: 3px;
+      }
+      .radii,
+      .shadows {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 16px;
+      }
+      .radii div,
+      .shadows div {
+        height: 96px;
+        display: grid;
+        place-items: center;
+        text-align: center;
+        background: var(--ag-surface);
+        border: 1px solid var(--ag-line);
+        font-size: var(--ag-fs-sm);
+        color: var(--ag-text-2);
+        padding: 8px;
+      }
+      .shadows div {
+        border: 0;
+        border-radius: var(--ag-radius-lg);
+      }
+      .states {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 16px;
+      }
+      .state {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 16px;
+        border-radius: var(--ag-radius-md);
+        border: 1px dashed var(--ag-line-strong);
+        background: rgba(255, 255, 255, 0.5);
+      }
+      .state > span:first-child {
+        font-size: var(--ag-fs-xs);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--ag-text-2);
+        font-weight: 800;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+      }
+      .note {
+        font-size: var(--ag-fs-sm);
+        color: var(--ag-text-2);
+        margin-top: 12px;
+      }
+      .static-modal {
+        position: static;
+        display: block;
+        margin: 0;
+        width: 100%;
+      }
+      .strip {
+        max-width: 390px;
+        border: 1px solid var(--ag-line);
+        border-radius: var(--ag-radius-lg);
+        overflow: hidden;
+      }
+      .side-demo {
+        max-width: 260px;
+        padding: 12px;
+        background: var(--ag-surface);
+        border: 1px solid var(--ag-line);
+        border-radius: var(--ag-radius-lg);
+      }
+      .toast-stack {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        max-width: 420px;
+      }
+      pre {
+        margin: 16px 0 0;
+        padding: 14px 16px;
+        border-radius: var(--ag-radius-md);
+        background: var(--ag-surface);
+        border: 1px solid var(--ag-line);
+        overflow-x: auto;
+        font-size: 0.8rem;
+        color: var(--ag-text-2);
+      }
+      footer {
+        border-top: 1px solid var(--ag-line);
+        padding: 32px 0 48px;
+        color: var(--ag-text-2);
+        font-size: var(--ag-fs-sm);
+      }
+      .appt-demo {
+        padding: 6px 8px;
+        border-radius: 8px;
+        border-left: 4px solid var(--c);
+        background: var(--c-soft);
+        font-size: var(--ag-fs-xs);
+        min-width: 150px;
+      }
+      .appt-demo strong {
+        display: block;
+        font-size: var(--ag-fs-sm);
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+    <header class="top">
+      <div class="wrap">
+        <span class="brand">Agendaí</span>
+        <nav class="top-links" aria-label="Páginas do projeto">
+          <a href="../index.html">Estudo de caso</a>
+          <a href="../prototipo/index.html">Protótipo</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="conteudo" class="wrap">
+      <div class="hero">
+        <h1>Design system</h1>
+        <p>
+          Tokens e componentes do app do cliente e do painel do dono. As três telas (cliente, painel e esta página) leem o mesmo
+          <code>tokens.css</code> e o mesmo <code>components.css</code>.
+        </p>
+        <nav class="toc" aria-label="Seções">
+          <a href="#cores">Cores</a>
+          <a href="#tipografia">Tipografia</a>
+          <a href="#espacamento">Espaçamento</a>
+          <a href="#raios">Raios</a>
+          <a href="#sombras">Sombras</a>
+          <a href="#botao">Botão</a>
+          <a href="#input">Input</a>
+          <a href="#card">Card</a>
+          <a href="#chip">Chip</a>
+          <a href="#status">Status</a>
+          <a href="#modal">Modal</a>
+          <a href="#toast">Toast</a>
+          <a href="#navbar">Navbar</a>
+        </nav>
+      </div>
+
+      <section class="ds" id="cores" aria-labelledby="t-cores">
+        <h2 id="t-cores">Cores</h2>
+        <p>
+          Fundo creme em vez de branco puro, para a tela parecer de salão e não de banco. O verde-petróleo carrega as ações e passa
+          confiança. O coral aparece só como detalhe (linha do "agora" na agenda, fundo da capa), nunca em texto pequeno.
+          Contraste medido contra o fundo creme, a não ser quando indicado.
+        </p>
+        <h3 class="sub">Base</h3>
+        <div class="swatches">
+          <div class="sw"><div class="sw__c" style="background: var(--ag-bg)"></div><div class="sw__i">Fundo<code>--ag-bg · #FBF8F4</code></div></div>
+          <div class="sw"><div class="sw__c" style="background: var(--ag-surface)"></div><div class="sw__i">Superfície<code>--ag-surface · #FFFFFF</code></div></div>
+          <div class="sw"><div class="sw__c" style="background: var(--ag-surface-2)"></div><div class="sw__i">Superfície 2<code>--ag-surface-2 · #F3EEE7</code></div></div>
+          <div class="sw"><div class="sw__c" style="background: var(--ag-line-strong)"></div><div class="sw__i">Borda de campo<code>--ag-line-strong · #7C8783</code><span class="ratio">3,72:1 no branco</span></div></div>
+          <div class="sw"><div class="sw__c" style="background: var(--ag-text)"></div><div class="sw__i">Texto<code>--ag-text · #1F2523</code><span class="ratio">14,72:1</span></div></div>
+          <div class="sw"><div class="sw__c" style="background: var(--ag-text-2)"></div><div class="sw__i">Texto secundário<code>--ag-text-2 · #5E6763</code><span class="ratio">5,52:1</span></div></div>
+        </div>
+        <h3 class="sub">Marca e feedback</h3>
+        <div class="swatches">
+          <div class="sw"><div class="sw__c" style="background: var(--ag-primary)"></div><div class="sw__i">Verde-petróleo<code>--ag-primary · #1F5F5B</code><span class="ratio">branco sobre ele 7,38:1</span></div></div>
+          <div class="sw"><div class="sw__c" style="background: var(--ag-primary-soft)"></div><div class="sw__i">Verde suave<code>--ag-primary-soft · #E6F0EE</code><span class="ratio">verde sobre ele 6,35:1</span></div></div>
+          <div class="sw"><div class="sw__c" style="background: var(--ag-accent)"></div><div class="sw__i">Coral (decorativo)<code>--ag-accent · #E07A5F</code></div></div>
+          <div class="sw"><div class="sw__c" style="background: var(--ag-success)"></div><div class="sw__i">Confirmado<code>--ag-success · #147A4B</code><span class="ratio">4,81:1 no fundo suave</span></div></div>
+          <div class="sw"><div class="sw__c" style="background: var(--ag-warn)"></div><div class="sw__i">Aguardando<code>--ag-warn · #8A5A00</code><span class="ratio">5,43:1 no fundo suave</span></div></div>
+          <div class="sw"><div class="sw__c" style="background: var(--ag-error)"></div><div class="sw__i">Erro / faltou<code>--ag-error · #B42318</code><span class="ratio">6,57:1 no branco</span></div></div>
+          <div class="sw"><div class="sw__c" style="background: var(--ag-focus)"></div><div class="sw__i">Foco<code>--ag-focus · #1D5BBF</code><span class="ratio">6,01:1</span></div></div>
+        </div>
+        <h3 class="sub">Profissionais na agenda</h3>
+        <p class="note" style="margin: 0 0 12px">Cada profissional tem uma cor. O bloco usa o fundo claro com texto escuro (mais de 13:1) e a borda forte à esquerda.</p>
+        <div class="demo-row">
+          <div class="appt-demo" style="--c: var(--ag-pro-1); --c-soft: var(--ag-pro-1-soft)"><strong>Bruno</strong>#1F5F5B</div>
+          <div class="appt-demo" style="--c: var(--ag-pro-2); --c-soft: var(--ag-pro-2-soft)"><strong>Camila</strong>#A8481F</div>
+          <div class="appt-demo" style="--c: var(--ag-pro-3); --c-soft: var(--ag-pro-3-soft)"><strong>Júlia</strong>#6D3FC0</div>
+          <div class="appt-demo" style="--c: var(--ag-pro-4); --c-soft: var(--ag-pro-4-soft)"><strong>Diego</strong>#8A5A00</div>
+        </div>
+      </section>
+
+      <section class="ds" id="tipografia" aria-labelledby="t-tipo">
+        <h2 id="t-tipo">Tipografia</h2>
+        <p>
+          Uma família só: Plus Jakarta Sans. Arredondada o bastante para ser acolhedora, mas com números firmes, que importam no
+          painel (preço, horário, faturamento). Títulos em 800, texto em 400 e 500.
+        </p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">Token</th><th scope="col">Exemplo</th><th scope="col">Uso</th></tr></thead>
+            <tbody>
+              <tr><td>--ag-fs-3xl · 36</td><td style="font-size: var(--ag-fs-3xl); font-weight: 800">R$ 18.265,00</td><td>Números do painel</td></tr>
+              <tr><td>--ag-fs-2xl · 28</td><td style="font-size: var(--ag-fs-2xl); font-weight: 800">Studio Lume</td><td>Título de página</td></tr>
+              <tr><td>--ag-fs-xl · 22</td><td style="font-size: var(--ag-fs-xl); font-weight: 800">Qual serviço?</td><td>Título de tela no app</td></tr>
+              <tr><td>--ag-fs-lg · 18</td><td style="font-size: var(--ag-fs-lg); font-weight: 700">Mais pedidos</td><td>Título de seção</td></tr>
+              <tr><td>--ag-fs-md · 16</td><td style="font-size: var(--ag-fs-md)">Corte + barba com Bruno</td><td>Texto e campos</td></tr>
+              <tr><td>--ag-fs-sm · 14</td><td style="font-size: var(--ag-fs-sm)">O lembrete chega pelo WhatsApp.</td><td>Ajuda, metadados</td></tr>
+              <tr><td>--ag-fs-xs · 12</td><td style="font-size: var(--ag-fs-xs); font-weight: 700">Aguardando confirmação</td><td>Badges, legenda</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="ds" id="espacamento" aria-labelledby="t-esp">
+        <h2 id="t-esp">Espaçamento</h2>
+        <p>Base 4, igual nas duas interfaces. O painel usa mais 24 e 32 entre blocos; o app usa mais 12 e 16.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">Token</th><th scope="col">Valor</th><th scope="col">Escala</th></tr></thead>
+            <tbody>
+              <tr><td>--ag-space-1</td><td>4px</td><td><div class="space-bar" style="width: 4px"></div></td></tr>
+              <tr><td>--ag-space-2</td><td>8px</td><td><div class="space-bar" style="width: 8px"></div></td></tr>
+              <tr><td>--ag-space-3</td><td>12px</td><td><div class="space-bar" style="width: 12px"></div></td></tr>
+              <tr><td>--ag-space-4</td><td>16px</td><td><div class="space-bar" style="width: 16px"></div></td></tr>
+              <tr><td>--ag-space-5</td><td>20px</td><td><div class="space-bar" style="width: 20px"></div></td></tr>
+              <tr><td>--ag-space-6</td><td>24px</td><td><div class="space-bar" style="width: 24px"></div></td></tr>
+              <tr><td>--ag-space-8</td><td>32px</td><td><div class="space-bar" style="width: 32px"></div></td></tr>
+              <tr><td>--ag-space-10</td><td>40px</td><td><div class="space-bar" style="width: 40px"></div></td></tr>
+              <tr><td>--ag-space-12</td><td>48px</td><td><div class="space-bar" style="width: 48px"></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="note">Alvo de toque mínimo: <code>--ag-touch</code> = 44px, inclusive no painel.</p>
+      </section>
+
+      <section class="ds" id="raios" aria-labelledby="t-raios">
+        <h2 id="t-raios">Raios</h2>
+        <p>Mais arredondado que um sistema de gestão comum, para combinar com o tom acolhedor.</p>
+        <div class="radii">
+          <div style="border-radius: var(--ag-radius-sm)">sm · 6px<br />bloco da agenda</div>
+          <div style="border-radius: var(--ag-radius-md)">md · 10px<br />botões, campos</div>
+          <div style="border-radius: var(--ag-radius-lg)">lg · 16px<br />cards</div>
+          <div style="border-radius: var(--ag-radius-xl)">xl · 22px<br />modal</div>
+          <div style="border-radius: var(--ag-radius-pill)">pill<br />chips, badges</div>
+        </div>
+      </section>
+
+      <section class="ds" id="sombras" aria-labelledby="t-sombras">
+        <h2 id="t-sombras">Sombras</h2>
+        <p>Sombras quentes (marrom bem transparente), que combinam com o fundo creme melhor que cinza puro.</p>
+        <div class="shadows">
+          <div style="box-shadow: var(--ag-shadow-1)">shadow-1<br />cards</div>
+          <div style="box-shadow: var(--ag-shadow-2)">shadow-2<br />hover</div>
+          <div style="box-shadow: var(--ag-shadow-3)">shadow-3<br />modal, toast</div>
+        </div>
+      </section>
+
+      <section class="ds" id="botao" aria-labelledby="t-botao">
+        <h2 id="t-botao">Botão</h2>
+        <p>Primário verde para a ação principal da tela. Destrutivo com borda vermelha, sempre pedindo confirmação.</p>
+        <div class="states">
+          <div class="state"><span>Default</span><button class="ag-btn ag-btn--primary" type="button">Confirmar agendamento</button></div>
+          <div class="state"><span>Hover</span><button class="ag-btn ag-btn--primary is-hover" type="button" tabindex="-1">Confirmar agendamento</button></div>
+          <div class="state"><span>Foco</span><button class="ag-btn ag-btn--primary is-focus" type="button" tabindex="-1">Confirmar agendamento</button></div>
+          <div class="state"><span>Pressionado</span><button class="ag-btn ag-btn--primary is-active" type="button" tabindex="-1">Confirmar agendamento</button></div>
+          <div class="state"><span>Desabilitado</span><button class="ag-btn ag-btn--primary" type="button" disabled>Confirmar agendamento</button></div>
+          <div class="state"><span>Erro / destrutivo</span><button class="ag-btn ag-btn--danger" type="button">Cancelar horário</button></div>
+        </div>
+        <h3 class="sub">Variantes</h3>
+        <div class="states">
+          <div class="state"><span>Secundário</span><button class="ag-btn ag-btn--secondary" type="button">Remarcar</button><button class="ag-btn ag-btn--secondary is-hover" type="button" tabindex="-1">Hover</button><button class="ag-btn ag-btn--secondary is-focus" type="button" tabindex="-1">Foco</button><button class="ag-btn ag-btn--secondary" type="button" disabled>Desabilitado</button></div>
+          <div class="state"><span>Ghost</span><button class="ag-btn ag-btn--ghost" type="button">Ver ficha</button><button class="ag-btn ag-btn--ghost is-hover" type="button" tabindex="-1">Hover</button><button class="ag-btn ag-btn--ghost is-focus" type="button" tabindex="-1">Foco</button><button class="ag-btn ag-btn--ghost" type="button" disabled>Desabilitado</button></div>
+          <div class="state"><span>Destrutivo</span><button class="ag-btn ag-btn--danger" type="button">Cancelar</button><button class="ag-btn ag-btn--danger is-hover" type="button" tabindex="-1">Hover</button><button class="ag-btn ag-btn--danger is-focus" type="button" tabindex="-1">Foco</button><button class="ag-btn ag-btn--danger" type="button" disabled>Desabilitado</button></div>
+          <div class="state"><span>Ícone</span><div class="demo-row"><button class="ag-icon-btn" type="button" aria-label="Voltar"><i data-lucide="arrow-left" aria-hidden="true"></i></button><button class="ag-icon-btn" type="button" aria-label="Próximo dia"><i data-lucide="chevron-right" aria-hidden="true"></i></button></div></div>
+        </div>
+        <pre><code>&lt;button class="ag-btn ag-btn--primary ag-btn--lg"&gt;Confirmar agendamento&lt;/button&gt;</code></pre>
+      </section>
+
+      <section class="ds" id="input" aria-labelledby="t-input">
+        <h2 id="t-input">Input</h2>
+        <p>Label em negrito acima do campo, dica embaixo e erro com ícone. Opcional é escrito no label, para não precisar de asterisco.</p>
+        <div class="states">
+          <div class="state"><span>Default</span><div class="ag-field"><label class="ag-label" for="i1">WhatsApp</label><input class="ag-input" id="i1" placeholder="(61) 90000-0000" /></div></div>
+          <div class="state"><span>Hover</span><div class="ag-field"><label class="ag-label" for="i2">WhatsApp</label><input class="ag-input is-hover" id="i2" placeholder="(61) 90000-0000" tabindex="-1" /></div></div>
+          <div class="state"><span>Foco</span><div class="ag-field"><label class="ag-label" for="i3">WhatsApp</label><input class="ag-input is-focus" id="i3" value="(61) 98123-4567" tabindex="-1" /></div></div>
+          <div class="state"><span>Desabilitado</span><div class="ag-field"><label class="ag-label" for="i4">WhatsApp</label><input class="ag-input" id="i4" value="(61) 98123-4567" disabled /></div></div>
+          <div class="state"><span>Erro</span><div class="ag-field"><label class="ag-label" for="i5">WhatsApp</label><input class="ag-input" id="i5" value="123" aria-invalid="true" aria-describedby="i5-e" /><p class="ag-error-msg" id="i5-e"><i data-lucide="alert-circle" aria-hidden="true"></i>Confira o número: DDD + 8 ou 9 dígitos.</p></div></div>
+          <div class="state"><span>Textarea e select</span><div class="ag-field"><label class="ag-label" for="i6">Observação <span class="opt">(opcional)</span></label><textarea class="ag-textarea" id="i6" placeholder="Ex.: quero manter o comprimento"></textarea></div><div class="ag-field"><label class="ag-label" for="i7">Motivo</label><select class="ag-select" id="i7"><option>Imprevisto</option></select></div></div>
+        </div>
+      </section>
+
+      <section class="ds" id="card" aria-labelledby="t-card">
+        <h2 id="t-card">Card</h2>
+        <p>No app, escolher serviço ou profissional é tocar no card inteiro (um <code>label</code> com rádio dentro).</p>
+        <div class="states">
+          <div class="state"><span>Default</span><div class="ag-card ag-card--interactive"><strong>Corte + barba</strong><br /><span class="ag-hint">1 h · R$ 75,00</span></div></div>
+          <div class="state"><span>Hover</span><div class="ag-card ag-card--interactive is-hover"><strong>Corte + barba</strong><br /><span class="ag-hint">1 h · R$ 75,00</span></div></div>
+          <div class="state"><span>Foco</span><div class="ag-card ag-card--interactive is-focus"><strong>Corte + barba</strong><br /><span class="ag-hint">1 h · R$ 75,00</span></div></div>
+          <div class="state"><span>Selecionado</span><div class="ag-card ag-card--selected"><strong>Corte + barba</strong><br /><span class="ag-hint">1 h · R$ 75,00</span></div></div>
+          <div class="state"><span>Desabilitado</span><div class="ag-card ag-card--disabled"><strong>Coloração</strong><br /><span class="ag-hint">Indisponível</span></div></div>
+          <div class="state"><span>Erro</span><div class="ag-card ag-card--error"><strong>Horário ocupado</strong><br /><span class="ag-hint">Escolha outro</span></div></div>
+        </div>
+      </section>
+
+      <section class="ds" id="chip" aria-labelledby="t-chip">
+        <h2 id="t-chip">Chip</h2>
+        <p>Horários no app e filtro de profissional no painel. Números com largura fixa para os horários alinharem.</p>
+        <div class="states">
+          <div class="state"><span>Default</span><div class="demo-row"><button class="ag-chip" type="button" aria-pressed="false">14:30</button></div></div>
+          <div class="state"><span>Hover</span><div class="demo-row"><span class="ag-chip is-hover">14:30</span></div></div>
+          <div class="state"><span>Foco</span><div class="demo-row"><span class="ag-chip is-focus">14:30</span></div></div>
+          <div class="state"><span>Selecionado</span><div class="demo-row"><button class="ag-chip" type="button" aria-pressed="true">14:30</button></div></div>
+          <div class="state"><span>Desabilitado</span><div class="demo-row"><button class="ag-chip" type="button" disabled>14:30</button></div></div>
+          <div class="state"><span>Erro</span><div class="demo-row"><span class="ag-chip is-error">14:30</span></div></div>
+        </div>
+      </section>
+
+      <section class="ds" id="status" aria-labelledby="t-status">
+        <h2 id="t-status">Status do agendamento</h2>
+        <p>Ícone + texto + cor. "Aguardando confirmação" é quem recebeu o lembrete e ainda não respondeu.</p>
+        <div class="demo-row">
+          <span class="ag-badge ag-badge--confirmado"><i data-lucide="check" aria-hidden="true"></i>Confirmado</span>
+          <span class="ag-badge ag-badge--pendente"><i data-lucide="clock" aria-hidden="true"></i>Aguardando confirmação</span>
+          <span class="ag-badge ag-badge--concluido"><i data-lucide="check-check" aria-hidden="true"></i>Concluído</span>
+          <span class="ag-badge ag-badge--faltou"><i data-lucide="user-x" aria-hidden="true"></i>Faltou</span>
+          <span class="ag-badge ag-badge--cancelado"><i data-lucide="x" aria-hidden="true"></i>Cancelado</span>
+        </div>
+      </section>
+
+      <section class="ds" id="modal" aria-labelledby="t-modal">
+        <h2 id="t-modal">Modal</h2>
+        <p>
+          Para cancelar, remarcar e criar coisas no painel. Usa <code>&lt;dialog&gt;</code>: prende o foco, fecha com Esc ou clicando fora e
+          devolve o foco. O botão "Manter" fica à esquerda e recebe o foco primeiro.
+        </p>
+        <div class="states" style="grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr))">
+          <div class="state">
+            <span>Default</span>
+            <div class="ag-modal static-modal" role="presentation">
+              <div class="ag-modal__head"><p class="ag-modal__title">Cancelar este horário?</p></div>
+              <div class="ag-modal__body"><p>Corte + barba com Bruno, sexta, 16 de outubro às 18:00. O horário fica livre para outra pessoa.</p></div>
+              <div class="ag-modal__actions"><button class="ag-btn ag-btn--secondary is-focus" type="button" tabindex="-1">Manter</button><button class="ag-btn ag-btn--danger" type="button" tabindex="-1">Cancelar horário</button></div>
+            </div>
+          </div>
+          <div class="state">
+            <span>Ao vivo</span>
+            <p class="ag-hint">Abra para testar foco, Esc e clique fora.</p>
+            <button class="ag-btn ag-btn--secondary" type="button" id="abrir-modal">Abrir modal</button>
+          </div>
+        </div>
+        <dialog class="ag-modal" id="modal-demo" aria-labelledby="md-t" aria-describedby="md-x">
+          <div class="ag-modal__head"><h2 class="ag-modal__title" id="md-t">Cancelar este horário?</h2></div>
+          <div class="ag-modal__body"><p id="md-x">Corte + barba com Bruno, sexta, 16 de outubro às 18:00.</p></div>
+          <div class="ag-modal__actions"><button class="ag-btn ag-btn--secondary" type="button" data-close>Manter</button><button class="ag-btn ag-btn--danger" type="button" data-close>Cancelar horário</button></div>
+        </dialog>
+      </section>
+
+      <section class="ds" id="toast" aria-labelledby="t-toast">
+        <h2 id="t-toast">Toast</h2>
+        <p>Escuro sobre o fundo claro, para aparecer sem competir com o conteúdo. Toda ação que muda a agenda tem "Desfazer" por 7 segundos.</p>
+        <div class="toast-stack">
+          <div class="ag-toast"><span class="ag-toast__icon"><i data-lucide="check-circle-2" aria-hidden="true"></i></span><span>Observação salva.</span></div>
+          <div class="ag-toast"><span class="ag-toast__icon"><i data-lucide="check-circle-2" aria-hidden="true"></i></span><span>Remarcado: qui, 15 out, 15:00 com Diego.</span><button class="ag-toast__action" type="button">Desfazer</button></div>
+          <div class="ag-toast ag-toast--error"><span class="ag-toast__icon"><i data-lucide="alert-circle" aria-hidden="true"></i></span><span>Bruno já tem cliente nesse horário.</span></div>
+        </div>
+      </section>
+
+      <section class="ds" id="navbar" aria-labelledby="t-navbar">
+        <h2 id="t-navbar">Navbar</h2>
+        <p>Duas versões: abas embaixo no app do cliente e menu lateral no painel (que vira uma faixa rolável no celular).</p>
+        <div class="states" style="grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr))">
+          <div class="state">
+            <span>Abas do app · default, atual</span>
+            <div class="strip">
+              <nav class="ag-tabbar" aria-label="Exemplo de abas">
+                <a class="ag-tabbar__item" href="#navbar" aria-current="page"><i data-lucide="home" aria-hidden="true"></i>Início</a>
+                <a class="ag-tabbar__item" href="#navbar"><i data-lucide="calendar-plus" aria-hidden="true"></i>Agendar</a>
+                <a class="ag-tabbar__item" href="#navbar"><i data-lucide="calendar-days" aria-hidden="true"></i>Meus horários</a>
+              </nav>
+            </div>
+            <span class="ag-hint" style="text-transform:none;letter-spacing:0;font-weight:400">Hover, foco e desabilitado:</span>
+            <div class="strip">
+              <div class="ag-tabbar">
+                <span class="ag-tabbar__item is-hover"><i data-lucide="home" aria-hidden="true"></i>Hover</span>
+                <span class="ag-tabbar__item is-focus"><i data-lucide="calendar-plus" aria-hidden="true"></i>Foco</span>
+                <span class="ag-tabbar__item" aria-disabled="true"><i data-lucide="calendar-days" aria-hidden="true"></i>Desabilitado</span>
+              </div>
+            </div>
+          </div>
+          <div class="state">
+            <span>Menu do painel · todos os estados</span>
+            <div class="side-demo">
+              <nav class="ag-sidenav" aria-label="Exemplo de menu">
+                <a class="ag-sidenav__item" href="#navbar" aria-current="page"><i data-lucide="calendar-days" aria-hidden="true"></i>Agenda (atual)<span class="ag-sidenav__count">10</span></a>
+                <a class="ag-sidenav__item" href="#navbar"><i data-lucide="chart-column" aria-hidden="true"></i>Default</a>
+                <span class="ag-sidenav__item is-hover"><i data-lucide="users" aria-hidden="true"></i>Hover</span>
+                <span class="ag-sidenav__item is-focus"><i data-lucide="scissors" aria-hidden="true"></i>Foco</span>
+                <span class="ag-sidenav__item" aria-disabled="true"><i data-lucide="user-round" aria-hidden="true"></i>Desabilitado</span>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap">Agendaí · design system do protótipo · Gabriel Abreu</div>
+    </footer>
+
+    <script src="https://unpkg.com/lucide@0.453.0/dist/umd/lucide.min.js"></script>
+    <script>
+      if (window.lucide) window.lucide.createIcons();
+      var dlg = document.getElementById('modal-demo');
+      document.getElementById('abrir-modal').addEventListener('click', function () {
+        dlg.showModal();
+        dlg.querySelector('[data-close]').focus();
+      });
+      dlg.addEventListener('click', function (e) {
+        if (e.target === dlg || e.target.hasAttribute('data-close')) dlg.close();
+      });
+    </script>
+  </body>
+</html>
