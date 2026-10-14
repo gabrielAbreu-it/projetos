@@ -1,0 +1,616 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0a0f0d" />
+    <title>Roxx Energy · Design system</title>
+    <meta name="description" content="Tokens e componentes do Roxx Energy com todos os estados." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../assets/css/base.css" />
+    <link rel="stylesheet" href="tokens.css" />
+    <link rel="stylesheet" href="components.css" />
+    <style>
+      body {
+        background: var(--rx-bg);
+        color: var(--rx-text);
+        font-family: var(--rx-font-body);
+      }
+      a {
+        color: var(--rx-green);
+      }
+      :focus-visible {
+        outline: 3px solid var(--rx-focus);
+        outline-offset: 2px;
+      }
+      h1,
+      h2,
+      h3 {
+        font-family: var(--rx-font-display);
+        line-height: 1.15;
+      }
+      .wrap {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 0 16px;
+      }
+      @media (min-width: 720px) {
+        .wrap {
+          padding: 0 32px;
+        }
+      }
+      header.top {
+        border-bottom: 1px solid var(--rx-line);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: rgba(10, 15, 13, 0.9);
+        backdrop-filter: blur(8px);
+      }
+      header.top .wrap {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-height: 60px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-family: var(--rx-font-display);
+        font-weight: 700;
+      }
+      .brand svg {
+        color: var(--rx-green);
+      }
+      .top-links {
+        margin-left: auto;
+        display: flex;
+        gap: 4px;
+      }
+      .top-links a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        padding: 0 12px;
+        color: var(--rx-text-2);
+        text-decoration: none;
+        font-size: var(--rx-fs-sm);
+        border-radius: var(--rx-radius-sm);
+      }
+      .top-links a:hover {
+        color: var(--rx-text);
+        background: var(--rx-surface);
+      }
+      .hero {
+        padding: 56px 0 24px;
+      }
+      .hero h1 {
+        font-size: clamp(2rem, 5vw, 3.2rem);
+      }
+      .hero p {
+        margin-top: 12px;
+        color: var(--rx-text-2);
+        max-width: 62ch;
+        font-size: var(--rx-fs-lg);
+      }
+      .toc {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 24px;
+      }
+      .toc a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 40px;
+        padding: 0 14px;
+        border-radius: var(--rx-radius-pill);
+        border: 1px solid var(--rx-line);
+        color: var(--rx-text);
+        text-decoration: none;
+        font-size: var(--rx-fs-sm);
+      }
+      .toc a:hover {
+        border-color: var(--rx-line-strong);
+      }
+      section.ds {
+        padding: 48px 0;
+        border-top: 1px solid var(--rx-line);
+        scroll-margin-top: 64px;
+      }
+      section.ds > h2 {
+        font-size: var(--rx-fs-2xl);
+        margin-bottom: 8px;
+      }
+      section.ds > p {
+        color: var(--rx-text-2);
+        max-width: 68ch;
+        margin-bottom: 24px;
+      }
+      h3.sub {
+        font-size: var(--rx-fs-lg);
+        margin: 32px 0 12px;
+      }
+      .swatches {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+        gap: 12px;
+      }
+      .sw {
+        border: 1px solid var(--rx-line);
+        border-radius: var(--rx-radius-md);
+        overflow: hidden;
+        background: var(--rx-surface);
+      }
+      .sw__c {
+        height: 72px;
+        border-bottom: 1px solid var(--rx-line);
+      }
+      .sw__i {
+        padding: 10px 12px;
+        font-size: var(--rx-fs-sm);
+      }
+      .sw__i code {
+        display: block;
+        color: var(--rx-text-2);
+        font-size: var(--rx-fs-xs);
+      }
+      .sw__i .ratio {
+        display: inline-block;
+        margin-top: 6px;
+        font-size: var(--rx-fs-xs);
+        font-weight: 700;
+        color: var(--rx-green);
+      }
+      .table-wrap {
+        overflow-x: auto;
+        border: 1px solid var(--rx-line);
+        border-radius: var(--rx-radius-md);
+      }
+      table {
+        width: 100%;
+        min-width: 560px;
+        font-size: var(--rx-fs-sm);
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 12px 14px;
+        border-bottom: 1px solid var(--rx-line);
+        vertical-align: middle;
+      }
+      thead th {
+        color: var(--rx-text-2);
+        font-size: var(--rx-fs-xs);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        background: var(--rx-surface);
+      }
+      tbody tr:last-child td,
+      tbody tr:last-child th {
+        border-bottom: 0;
+      }
+      .type-row td:first-child {
+        white-space: nowrap;
+        color: var(--rx-text-2);
+      }
+      .space-bar {
+        height: 16px;
+        background: var(--rx-green);
+        border-radius: 3px;
+      }
+      .radii,
+      .shadows {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 16px;
+      }
+      .radii div,
+      .shadows div {
+        height: 96px;
+        display: grid;
+        place-items: center;
+        background: var(--rx-surface-2);
+        border: 1px solid var(--rx-line);
+        font-size: var(--rx-fs-sm);
+        color: var(--rx-text-2);
+        text-align: center;
+        padding: 8px;
+      }
+      .shadows div {
+        border-radius: var(--rx-radius-md);
+        background: var(--rx-surface);
+      }
+      .states {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+        gap: 16px;
+      }
+      .state {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 16px;
+        border-radius: var(--rx-radius-md);
+        border: 1px dashed var(--rx-line);
+      }
+      .state > span:first-child {
+        font-size: var(--rx-fs-xs);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--rx-text-2);
+        font-weight: 700;
+      }
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+      }
+      .note {
+        font-size: var(--rx-fs-sm);
+        color: var(--rx-text-2);
+        margin-top: 12px;
+      }
+      .static-modal {
+        position: static;
+        display: block;
+        margin: 0;
+      }
+      .phone-strip {
+        max-width: 390px;
+        border-radius: var(--rx-radius-lg);
+        overflow: hidden;
+        border: 1px solid var(--rx-line);
+      }
+      pre {
+        margin: 16px 0 0;
+        padding: 14px 16px;
+        border-radius: var(--rx-radius-md);
+        background: var(--rx-surface);
+        border: 1px solid var(--rx-line);
+        overflow-x: auto;
+        font-size: 0.8rem;
+        color: var(--rx-text-2);
+      }
+      footer {
+        border-top: 1px solid var(--rx-line);
+        padding: 32px 0 48px;
+        color: var(--rx-text-2);
+        font-size: var(--rx-fs-sm);
+      }
+      .toast-stack {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        max-width: 380px;
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+    <header class="top">
+      <div class="wrap">
+        <span class="brand"><i data-lucide="zap" aria-hidden="true"></i> Roxx Energy</span>
+        <nav class="top-links" aria-label="Páginas do projeto">
+          <a href="../index.html">Estudo de caso</a>
+          <a href="../prototipo/index.html">Protótipo</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="conteudo" class="wrap">
+      <div class="hero">
+        <h1>Design system</h1>
+        <p>
+          Os tokens e componentes que uso no protótipo. Os dois leem os mesmos arquivos (<code>tokens.css</code> e
+          <code>components.css</code>), então o que está aqui é exatamente o que aparece nas telas.
+        </p>
+        <nav class="toc" aria-label="Seções">
+          <a href="#cores">Cores</a>
+          <a href="#tipografia">Tipografia</a>
+          <a href="#espacamento">Espaçamento</a>
+          <a href="#raios">Raios</a>
+          <a href="#sombras">Sombras</a>
+          <a href="#botao">Botão</a>
+          <a href="#input">Input</a>
+          <a href="#card">Card</a>
+          <a href="#chip">Chip</a>
+          <a href="#status">Status</a>
+          <a href="#modal">Modal</a>
+          <a href="#toast">Toast</a>
+          <a href="#navbar">Navbar</a>
+        </nav>
+      </div>
+
+      <!-- CORES -->
+      <section class="ds" id="cores" aria-labelledby="t-cores">
+        <h2 id="t-cores">Cores</h2>
+        <p>
+          Fundo quase preto com um verde elétrico de destaque. O verde é reservado para a ação principal e para
+          "livre/carregando". O contraste ao lado de cada cor é medido contra o fundo <code>--rx-bg</code>, a não ser
+          quando indicado.
+        </p>
+
+        <h3 class="sub">Superfícies e texto</h3>
+        <div class="swatches">
+          <div class="sw"><div class="sw__c" style="background: var(--rx-bg)"></div><div class="sw__i">Fundo<code>--rx-bg · #0A0F0D</code></div></div>
+          <div class="sw"><div class="sw__c" style="background: var(--rx-surface)"></div><div class="sw__i">Superfície<code>--rx-surface · #121A17</code></div></div>
+          <div class="sw"><div class="sw__c" style="background: var(--rx-surface-2)"></div><div class="sw__i">Superfície 2<code>--rx-surface-2 · #1A2420</code></div></div>
+          <div class="sw"><div class="sw__c" style="background: var(--rx-surface-3)"></div><div class="sw__i">Superfície 3<code>--rx-surface-3 · #23302B</code></div></div>
+          <div class="sw"><div class="sw__c" style="background: var(--rx-line-strong)"></div><div class="sw__i">Borda de campo<code>--rx-line-strong · #6A7D76</code><span class="ratio">4,05:1 na superfície</span></div></div>
+          <div class="sw"><div class="sw__c" style="background: var(--rx-text)"></div><div class="sw__i">Texto<code>--rx-text · #EEF5F2</code><span class="ratio">17,46:1</span></div></div>
+          <div class="sw"><div class="sw__c" style="background: var(--rx-text-2)"></div><div class="sw__i">Texto secundário<code>--rx-text-2 · #A9BAB3</code><span class="ratio">9,53:1</span></div></div>
+          <div class="sw"><div class="sw__c" style="background: var(--rx-text-3)"></div><div class="sw__i">Placeholder<code>--rx-text-3 · #7D8F88</code><span class="ratio">5,19:1 na superfície</span></div></div>
+        </div>
+
+        <h3 class="sub">Marca e estados</h3>
+        <div class="swatches">
+          <div class="sw"><div class="sw__c" style="background: var(--rx-green)"></div><div class="sw__i">Verde elétrico<code>--rx-green · #39FF88</code><span class="ratio">14,57:1 · texto #03140A sobre ele 14,29:1</span></div></div>
+          <div class="sw"><div class="sw__c" style="background: var(--rx-busy)"></div><div class="sw__i">Ocupado<code>--rx-busy · #FFC14D</code><span class="ratio">10,95:1 na superfície</span></div></div>
+          <div class="sw"><div class="sw__c" style="background: var(--rx-error)"></div><div class="sw__i">Erro / fora<code>--rx-error · #FF6B6B</code><span class="ratio">6,96:1</span></div></div>
+          <div class="sw"><div class="sw__c" style="background: var(--rx-info)"></div><div class="sw__i">Informação e foco<code>--rx-info · #63C7FF</code><span class="ratio">10,25:1</span></div></div>
+          <div class="sw"><div class="sw__c" style="background: var(--rx-offline)"></div><div class="sw__i">Fora de serviço<code>--rx-offline · #8A9A94</code><span class="ratio">6,56:1</span></div></div>
+        </div>
+        <p class="note">Status nunca depende só da cor: todo badge tem texto ("Livre", "Ocupado", "Fora de serviço").</p>
+      </section>
+
+      <!-- TIPOGRAFIA -->
+      <section class="ds" id="tipografia" aria-labelledby="t-tipo">
+        <h2 id="t-tipo">Tipografia</h2>
+        <p>
+          Space Grotesk nos títulos e números grandes (porcentagem da bateria, valores). Tem um desenho técnico que
+          combina com energia. Inter no texto corrido e nos rótulos, porque lê bem em tamanho pequeno no celular.
+        </p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th scope="col">Token</th><th scope="col">Exemplo</th><th scope="col">Uso</th></tr>
+            </thead>
+            <tbody>
+              <tr class="type-row"><td>--rx-fs-hero · 56</td><td style="font-family: var(--rx-font-display); font-size: var(--rx-fs-hero); font-weight: 700; line-height: 1">80%</td><td>Bateria na recarga</td></tr>
+              <tr class="type-row"><td>--rx-fs-3xl · 36</td><td style="font-family: var(--rx-font-display); font-size: var(--rx-fs-3xl); font-weight: 700">R$ 50,94</td><td>Título do onboarding, valores</td></tr>
+              <tr class="type-row"><td>--rx-fs-2xl · 28</td><td style="font-family: var(--rx-font-display); font-size: var(--rx-fs-2xl); font-weight: 700">Asa Norte · CLN 204</td><td>Título da estação</td></tr>
+              <tr class="type-row"><td>--rx-fs-xl · 22</td><td style="font-family: var(--rx-font-display); font-size: var(--rx-fs-xl); font-weight: 700">Reservar</td><td>Título de tela</td></tr>
+              <tr class="type-row"><td>--rx-fs-lg · 18</td><td style="font-size: var(--rx-fs-lg); font-weight: 700">Conectores</td><td>Título de seção, botão grande</td></tr>
+              <tr class="type-row"><td>--rx-fs-md · 16</td><td style="font-size: var(--rx-fs-md)">Compatível com seu BYD Dolphin.</td><td>Texto, campos (16 evita zoom no iOS)</td></tr>
+              <tr class="type-row"><td>--rx-fs-sm · 14</td><td style="font-size: var(--rx-fs-sm)">3 de 4 compatíveis livres</td><td>Metadados, ajuda</td></tr>
+              <tr class="type-row"><td>--rx-fs-xs · 12</td><td style="font-size: var(--rx-fs-xs)">Recarga</td><td>Navbar, badges</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ESPAÇAMENTO -->
+      <section class="ds" id="espacamento" aria-labelledby="t-esp">
+        <h2 id="t-esp">Espaçamento</h2>
+        <p>Base 4. Entre cards uso 8, dentro de card 16, entre seções 20 a 24.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">Token</th><th scope="col">Valor</th><th scope="col">Escala</th></tr></thead>
+            <tbody>
+              <tr><td>--rx-space-1</td><td>4px</td><td><div class="space-bar" style="width: 4px"></div></td></tr>
+              <tr><td>--rx-space-2</td><td>8px</td><td><div class="space-bar" style="width: 8px"></div></td></tr>
+              <tr><td>--rx-space-3</td><td>12px</td><td><div class="space-bar" style="width: 12px"></div></td></tr>
+              <tr><td>--rx-space-4</td><td>16px</td><td><div class="space-bar" style="width: 16px"></div></td></tr>
+              <tr><td>--rx-space-5</td><td>20px</td><td><div class="space-bar" style="width: 20px"></div></td></tr>
+              <tr><td>--rx-space-6</td><td>24px</td><td><div class="space-bar" style="width: 24px"></div></td></tr>
+              <tr><td>--rx-space-8</td><td>32px</td><td><div class="space-bar" style="width: 32px"></div></td></tr>
+              <tr><td>--rx-space-10</td><td>40px</td><td><div class="space-bar" style="width: 40px"></div></td></tr>
+              <tr><td>--rx-space-12</td><td>48px</td><td><div class="space-bar" style="width: 48px"></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="note">Alvo de toque mínimo: <code>--rx-touch</code> = 44px. Botões grandes têm 56px.</p>
+      </section>
+
+      <!-- RAIOS -->
+      <section class="ds" id="raios" aria-labelledby="t-raios">
+        <h2 id="t-raios">Raios</h2>
+        <p>Cantos arredondados, mas não demais: o produto lida com dinheiro e precisa parecer sério.</p>
+        <div class="radii">
+          <div style="border-radius: var(--rx-radius-sm)">sm · 8px<br />badges pequenos</div>
+          <div style="border-radius: var(--rx-radius-md)">md · 12px<br />botões, campos</div>
+          <div style="border-radius: var(--rx-radius-lg)">lg · 16px<br />cards</div>
+          <div style="border-radius: var(--rx-radius-xl)">xl · 24px<br />modal</div>
+          <div style="border-radius: var(--rx-radius-pill)">pill<br />chips</div>
+        </div>
+      </section>
+
+      <!-- SOMBRAS -->
+      <section class="ds" id="sombras" aria-labelledby="t-sombras">
+        <h2 id="t-sombras">Sombras</h2>
+        <p>No tema escuro a sombra quase não aparece, então a hierarquia vem mais da cor da superfície. O brilho verde só aparece no hover do botão principal.</p>
+        <div class="shadows">
+          <div style="box-shadow: var(--rx-shadow-1)">shadow-1<br />pins</div>
+          <div style="box-shadow: var(--rx-shadow-2)">shadow-2<br />toast, prévia</div>
+          <div style="box-shadow: var(--rx-shadow-3)">shadow-3<br />modal</div>
+          <div style="box-shadow: var(--rx-glow)">glow<br />hover do primário</div>
+        </div>
+      </section>
+
+      <!-- BOTÃO -->
+      <section class="ds" id="botao" aria-labelledby="t-botao">
+        <h2 id="t-botao">Botão</h2>
+        <p>Quatro variantes. Só um primário por tela. O destrutivo (borda vermelha) é usado para encerrar recarga e cancelar reserva, sempre com confirmação.</p>
+        <div class="states">
+          <div class="state"><span>Default</span><button class="rx-btn rx-btn--primary" type="button">Reservar</button></div>
+          <div class="state"><span>Hover</span><button class="rx-btn rx-btn--primary is-hover" type="button" tabindex="-1">Reservar</button></div>
+          <div class="state"><span>Foco</span><button class="rx-btn rx-btn--primary is-focus" type="button" tabindex="-1">Reservar</button></div>
+          <div class="state"><span>Pressionado</span><button class="rx-btn rx-btn--primary is-active" type="button" tabindex="-1">Reservar</button></div>
+          <div class="state"><span>Desabilitado</span><button class="rx-btn rx-btn--primary" type="button" disabled>Reservar</button></div>
+          <div class="state"><span>Erro / destrutivo</span><button class="rx-btn rx-btn--danger" type="button">Encerrar recarga</button></div>
+        </div>
+        <h3 class="sub">Variantes</h3>
+        <div class="states">
+          <div class="state"><span>Secundário</span><button class="rx-btn rx-btn--secondary" type="button">Como chegar</button><button class="rx-btn rx-btn--secondary is-hover" type="button" tabindex="-1">Hover</button><button class="rx-btn rx-btn--secondary is-focus" type="button" tabindex="-1">Foco</button><button class="rx-btn rx-btn--secondary" type="button" disabled>Desabilitado</button></div>
+          <div class="state"><span>Ghost</span><button class="rx-btn rx-btn--ghost" type="button">Pular</button><button class="rx-btn rx-btn--ghost is-hover" type="button" tabindex="-1">Hover</button><button class="rx-btn rx-btn--ghost is-focus" type="button" tabindex="-1">Foco</button><button class="rx-btn rx-btn--ghost" type="button" disabled>Desabilitado</button></div>
+          <div class="state"><span>Destrutivo</span><button class="rx-btn rx-btn--danger" type="button">Cancelar reserva</button><button class="rx-btn rx-btn--danger is-hover" type="button" tabindex="-1">Hover</button><button class="rx-btn rx-btn--danger is-focus" type="button" tabindex="-1">Foco</button><button class="rx-btn rx-btn--danger" type="button" disabled>Desabilitado</button></div>
+          <div class="state"><span>Ícone</span><div class="demo-row"><button class="rx-icon-btn" type="button" aria-label="Voltar"><i data-lucide="arrow-left" aria-hidden="true"></i></button><button class="rx-icon-btn" type="button" aria-label="Trocar veículo"><i data-lucide="car" aria-hidden="true"></i></button></div><span class="note" style="margin:0">Sempre com <code>aria-label</code>.</span></div>
+        </div>
+        <pre><code>&lt;button class="rx-btn rx-btn--primary rx-btn--lg"&gt;Reservar&lt;/button&gt;</code></pre>
+      </section>
+
+      <!-- INPUT -->
+      <section class="ds" id="input" aria-labelledby="t-input">
+        <h2 id="t-input">Input</h2>
+        <p>Label sempre visível em cima do campo (placeholder não substitui label). 52px de altura e fonte 16px. O erro aparece em texto embaixo, com ícone, e o campo recebe <code>aria-invalid</code>.</p>
+        <div class="states">
+          <div class="state"><span>Default</span><div class="rx-field"><label class="rx-label" for="i1">Apelido</label><input class="rx-input" id="i1" placeholder="Ex.: Carro do trabalho" /></div></div>
+          <div class="state"><span>Hover</span><div class="rx-field"><label class="rx-label" for="i2">Apelido</label><input class="rx-input is-hover" id="i2" placeholder="Ex.: Carro do trabalho" tabindex="-1" /></div></div>
+          <div class="state"><span>Foco</span><div class="rx-field"><label class="rx-label" for="i3">Apelido</label><input class="rx-input is-focus" id="i3" value="Carro do trabalho" tabindex="-1" /></div></div>
+          <div class="state"><span>Desabilitado</span><div class="rx-field"><label class="rx-label" for="i4">Apelido</label><input class="rx-input" id="i4" value="Carro do trabalho" disabled /></div></div>
+          <div class="state"><span>Erro</span><div class="rx-field"><label class="rx-label" for="i5">Capacidade da bateria (kWh)</label><input class="rx-input" id="i5" value="4" aria-invalid="true" aria-describedby="i5-e" /><p class="rx-error-msg" id="i5-e"><i data-lucide="alert-circle" aria-hidden="true"></i>Informe um número entre 10 e 150.</p></div></div>
+          <div class="state"><span>Select</span><div class="rx-field"><label class="rx-label" for="i6">Modelo</label><select class="rx-select" id="i6"><option>BYD Dolphin</option><option>Nissan Leaf</option></select></div></div>
+        </div>
+      </section>
+
+      <!-- CARD -->
+      <section class="ds" id="card" aria-labelledby="t-card">
+        <h2 id="t-card">Card</h2>
+        <p>Base de quase tudo: estação na lista, conector, item do histórico, opção de pagamento. Quando é clicável, vira link ou label inteiro (área de toque grande).</p>
+        <div class="states">
+          <div class="state"><span>Default</span><a class="rx-card rx-card--interactive" href="#card"><strong>Asa Norte · CLN 204</strong><br /><span class="rx-hint">1,2 km · 3 de 4 livres</span></a></div>
+          <div class="state"><span>Hover</span><div class="rx-card rx-card--interactive is-hover"><strong>Asa Norte · CLN 204</strong><br /><span class="rx-hint">1,2 km · 3 de 4 livres</span></div></div>
+          <div class="state"><span>Foco</span><div class="rx-card rx-card--interactive is-focus"><strong>Asa Norte · CLN 204</strong><br /><span class="rx-hint">1,2 km · 3 de 4 livres</span></div></div>
+          <div class="state"><span>Selecionado</span><div class="rx-card rx-card--selected"><strong>A1 · CCS2</strong><br /><span class="rx-hint">60 kW · R$ 1,99/kWh</span></div></div>
+          <div class="state"><span>Desabilitado</span><div class="rx-card rx-card--disabled"><strong>A2 · CCS2</strong><br /><span class="rx-hint">Ocupado</span></div></div>
+          <div class="state"><span>Erro</span><div class="rx-card rx-card--error"><strong>B4 · Tipo 2</strong><br /><span class="rx-hint">Fora de serviço</span></div></div>
+        </div>
+      </section>
+
+      <!-- CHIP -->
+      <section class="ds" id="chip" aria-labelledby="t-chip">
+        <h2 id="t-chip">Chip</h2>
+        <p>Filtros do mapa, conectores do carro e horários da reserva. Usa <code>aria-pressed</code> quando é botão liga/desliga e um <code>input</code> escondido quando faz parte de formulário.</p>
+        <div class="states">
+          <div class="state"><span>Default</span><div class="demo-row"><button class="rx-chip" type="button" aria-pressed="false">Só livres</button></div></div>
+          <div class="state"><span>Hover</span><div class="demo-row"><span class="rx-chip is-hover">Só livres</span></div></div>
+          <div class="state"><span>Foco</span><div class="demo-row"><span class="rx-chip is-focus">Só livres</span></div></div>
+          <div class="state"><span>Selecionado</span><div class="demo-row"><button class="rx-chip" type="button" aria-pressed="true">CCS2</button></div></div>
+          <div class="state"><span>Desabilitado</span><div class="demo-row"><button class="rx-chip" type="button" disabled>80%</button></div></div>
+          <div class="state"><span>Erro</span><div class="demo-row"><span class="rx-chip is-error">Tipo 2</span></div></div>
+        </div>
+      </section>
+
+      <!-- STATUS -->
+      <section class="ds" id="status" aria-labelledby="t-status">
+        <h2 id="t-status">Status</h2>
+        <p>O coração do produto: dizer se o carregador está livre. Cor + bolinha + texto.</p>
+        <div class="demo-row">
+          <span class="rx-status rx-status--free">Livre</span>
+          <span class="rx-status rx-status--busy">Ocupado</span>
+          <span class="rx-status rx-status--off">Fora de serviço</span>
+          <span class="rx-status rx-status--off">Incompatível</span>
+          <span class="rx-status rx-status--info">Reserva 15 min</span>
+          <span class="rx-status rx-status--error">Falha</span>
+        </div>
+      </section>
+
+      <!-- MODAL -->
+      <section class="ds" id="modal" aria-labelledby="t-modal">
+        <h2 id="t-modal">Modal</h2>
+        <p>
+          Só para confirmar ações que custam dinheiro ou não dá para desfazer fácil. Usa o <code>&lt;dialog&gt;</code> nativo: prende o
+          foco, fecha com Esc e devolve o foco para quem abriu. O foco começa no botão seguro ("Continuar carregando").
+        </p>
+        <div class="states" style="grid-template-columns: repeat(auto-fill, minmax(300px, 1fr))">
+          <div class="state">
+            <span>Default</span>
+            <div class="rx-modal static-modal" role="presentation">
+              <div class="rx-modal__body">
+                <div class="rx-modal__icon"><i data-lucide="battery-warning" aria-hidden="true"></i></div>
+                <p class="rx-modal__title">Encerrar a recarga agora?</p>
+                <p class="rx-modal__text">A bateria está em 62%. Você paga só a energia usada até aqui: R$ 34,85.</p>
+                <div class="rx-modal__actions">
+                  <button class="rx-btn rx-btn--danger rx-btn--block" type="button" tabindex="-1">Encerrar recarga</button>
+                  <button class="rx-btn rx-btn--secondary rx-btn--block is-focus" type="button" tabindex="-1">Continuar carregando</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="state">
+            <span>Ao vivo</span>
+            <p class="rx-hint">Abra para testar foco, Esc e clique fora.</p>
+            <button class="rx-btn rx-btn--secondary" type="button" id="abrir-modal">Abrir modal</button>
+          </div>
+        </div>
+        <dialog class="rx-modal" id="modal-demo" aria-labelledby="md-t" aria-describedby="md-x">
+          <div class="rx-modal__body">
+            <div class="rx-modal__icon"><i data-lucide="calendar-x" aria-hidden="true"></i></div>
+            <h2 class="rx-modal__title" id="md-t">Cancelar a reserva?</h2>
+            <p class="rx-modal__text" id="md-x">Como ainda falta para o horário marcado, os R$ 3,00 voltam pra você.</p>
+            <div class="rx-modal__actions">
+              <button class="rx-btn rx-btn--danger rx-btn--block" type="button" data-close>Cancelar reserva</button>
+              <button class="rx-btn rx-btn--secondary rx-btn--block" type="button" data-close>Manter reserva</button>
+            </div>
+          </div>
+        </dialog>
+      </section>
+
+      <!-- TOAST -->
+      <section class="ds" id="toast" aria-labelledby="t-toast">
+        <h2 id="t-toast">Toast</h2>
+        <p>Confirma o que aconteceu sem interromper. Fica numa região <code>aria-live="polite"</code>. Quando dá para desfazer, aparece a ação.</p>
+        <div class="toast-stack">
+          <div class="rx-toast"><span class="rx-toast__icon"><i data-lucide="check-circle-2" aria-hidden="true"></i></span><span>Reserva feita. Taxa de R$ 3,00 paga.</span></div>
+          <div class="rx-toast"><span class="rx-toast__icon"><i data-lucide="check-circle-2" aria-hidden="true"></i></span><span>Reserva cancelada.</span><button class="rx-toast__action" type="button">Desfazer</button></div>
+          <div class="rx-toast rx-toast--error"><span class="rx-toast__icon"><i data-lucide="alert-circle" aria-hidden="true"></i></span><span>Não conseguimos liberar o cabo. Tente de novo.</span><button class="rx-toast__action" type="button">Tentar</button></div>
+        </div>
+      </section>
+
+      <!-- NAVBAR -->
+      <section class="ds" id="navbar" aria-labelledby="t-navbar">
+        <h2 id="t-navbar">Navbar</h2>
+        <p>Barra inferior com quatro destinos. O item atual fica verde, com um traço em cima e <code>aria-current="page"</code>. A bolinha em "Recarga" avisa que tem recarga rodando.</p>
+        <div class="states" style="grid-template-columns: 1fr">
+          <div class="state">
+            <span>Default + atual + recarga ativa</span>
+            <div class="phone-strip">
+              <nav class="rx-navbar" aria-label="Exemplo de navbar">
+                <a class="rx-navbar__item" href="#navbar" aria-current="page"><i data-lucide="map" aria-hidden="true"></i>Mapa</a>
+                <a class="rx-navbar__item" href="#navbar"><i data-lucide="battery-charging" aria-hidden="true"></i>Recarga<span class="rx-navbar__dot"></span></a>
+                <a class="rx-navbar__item" href="#navbar"><i data-lucide="receipt" aria-hidden="true"></i>Histórico</a>
+                <a class="rx-navbar__item" href="#navbar"><i data-lucide="car" aria-hidden="true"></i>Meu carro</a>
+              </nav>
+            </div>
+          </div>
+          <div class="state">
+            <span>Hover · Foco · Desabilitado</span>
+            <div class="phone-strip">
+              <div class="rx-navbar">
+                <span class="rx-navbar__item"><i data-lucide="map" aria-hidden="true"></i>Mapa</span>
+                <span class="rx-navbar__item is-hover"><i data-lucide="battery-charging" aria-hidden="true"></i>Hover</span>
+                <span class="rx-navbar__item is-focus"><i data-lucide="receipt" aria-hidden="true"></i>Foco</span>
+                <span class="rx-navbar__item" aria-disabled="true"><i data-lucide="car" aria-hidden="true"></i>Desabilitado</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap">Roxx Energy · design system do protótipo · Gabriel Abreu</div>
+    </footer>
+
+    <script src="https://unpkg.com/lucide@0.453.0/dist/umd/lucide.min.js"></script>
+    <script>
+      if (window.lucide) window.lucide.createIcons();
+      var dlg = document.getElementById('modal-demo');
+      document.getElementById('abrir-modal').addEventListener('click', function () {
+        dlg.showModal();
+        dlg.querySelectorAll('[data-close]')[1].focus();
+      });
+      dlg.addEventListener('click', function (e) {
+        if (e.target === dlg || e.target.hasAttribute('data-close')) dlg.close();
+      });
+    </script>
+  </body>
+</html>
