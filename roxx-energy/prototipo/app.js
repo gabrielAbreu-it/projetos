@@ -119,7 +119,12 @@
     });
     var status = 'incompativel';
     if (compat.length) status = livres.length ? 'livre' : ocupados.length ? 'ocupado' : 'fora';
-    var potMax = Math.max.apply(null, st.pontos.map(function (p) { return p.potencia; }));
+    // Potência do pin: só conta conector compatível que está funcionando
+    var funcionando = compat.filter(function (p) {
+      return p.status !== 'fora';
+    });
+    var basePot = funcionando.length ? funcionando : compat.length ? compat : st.pontos;
+    var potMax = Math.max.apply(null, basePot.map(function (p) { return p.potencia; }));
     var precoMin = Math.min.apply(null, (compat.length ? compat : st.pontos).map(function (p) { return p.preco; }));
     return { compat: compat, livres: livres, status: status, potMax: potMax, precoMin: precoMin };
   }
@@ -212,7 +217,7 @@
       ['mapa', 'map', 'Mapa'],
       ['recarga', 'battery-charging', 'Recarga'],
       ['historico', 'receipt', 'Histórico'],
-      ['perfil', 'car', 'Veículo']
+      ['perfil', 'car', 'Meu carro']
     ];
     var ativa = state.sessao && state.sessao.status !== 'concluida';
     nav.innerHTML =
@@ -424,7 +429,7 @@
             return (
               '<li><a class="rx-card rx-card--interactive station-card' + (sel === st ? ' rx-card--selected' : '') + '" href="#estacao/' + st.id + '">' +
               '<div><div class="station-card__name">' + st.nome + '</div>' + badgeStatus(r.status) + '</div>' +
-              '<div class="station-card__price">' + brl(r.precoMin) + '<small>por kWh</small></div>' +
+              '<div class="station-card__price"><small>a partir de</small>' + brl(r.precoMin) + '<small>por kWh</small></div>' +
               '<div class="station-card__meta">' +
               '<span>' + ic('navigation') + km(st.distancia) + '</span>' +
               '<span>' + ic('plug') + textoDisponibilidade(st, r) + '</span>' +
@@ -443,7 +448,7 @@
       '<div class="map-head">' +
       '<div class="row row--between"><div><h1 tabindex="-1" data-focus style="font-size:var(--rx-fs-xl)">Estações perto de você</h1>' +
       '<p class="small muted">Brasília · ' + (v.apelido ? esc(v.apelido) + ' · ' : '') + v.modelo + '</p></div>' +
-      '<a class="rx-icon-btn" href="#perfil" aria-label="Trocar veículo">' + ic('car') + '</a></div>' +
+      '<a class="rx-icon-btn" href="#perfil" aria-label="Trocar carro">' + ic('car') + '</a></div>' +
       '<form class="search" role="search" data-form="busca"><label class="sr-only" for="busca">Buscar estação ou endereço</label>' +
       ic('search') + '<input class="rx-input" id="busca" type="search" placeholder="Buscar estação ou endereço" value="' + esc(state.busca) + '" autocomplete="off"></form>' +
       '<div class="chips-scroll" role="group" aria-label="Filtros">' +
@@ -453,7 +458,7 @@
       chip('tipo', 'T2', 'Tipo 2', f.tipos.indexOf('T2') !== -1) +
       chip('tipo', 'CHADEMO', 'CHAdeMO', f.tipos.indexOf('CHADEMO') !== -1) +
       '</div></div>' +
-      '<div class="map">' + mapaSVG() + '<span class="map__me" style="left:46%;top:44%" title="Você está aqui"></span>' + pins + '</div>' +
+      '<div class="map">' + mapaSVG() + '<span class="map__me" style="left:38%;top:38%" title="Você está aqui"></span>' + pins + '</div>' +
       '<div class="legend" aria-label="Legenda do mapa"><span><i style="background:var(--rx-free)"></i>Livre</span><span><i style="background:var(--rx-busy)"></i>Ocupado</span><span><i style="background:var(--rx-surface-3);border:1px solid var(--rx-line-strong)"></i>Fora de serviço ou incompatível</span><span><i style="background:var(--rx-info)"></i>Você</span></div>' +
       preview +
       '<div class="list-head"><h2>Lista</h2><p class="small muted" aria-live="polite">' + lista.length + (lista.length === 1 ? ' estação' : ' estações') + '</p></div>' +
@@ -824,10 +829,11 @@
     if (pg.pixAberto) {
       corpo =
         '<div class="rx-card pix">' + qrSVG() +
-        '<p class="small muted">Abra o app do seu banco e leia o QR code, ou copie o código.</p>' +
+        '<p class="row small" role="status"><span class="spinner" aria-hidden="true"></span>Aguardando o pagamento · o código vale por 10 min</p>' +
+        '<p class="small muted">Abra o app do seu banco e leia o QR code, ou copie o código. Quando o banco confirmar, esta tela muda sozinha.</p>' +
         '<div class="pix__code" id="pix-code">00020126580014BR.GOV.BCB.PIX0136roxx-demo-' + total.toFixed(2).replace('.', '') + '5204000053039865802BR</div>' +
         '<button type="button" class="rx-btn rx-btn--secondary rx-btn--block" data-action="copiar-pix">' + ic('copy') + 'Copiar código Pix</button></div>' +
-        '<div class="sticky-actions"><button type="button" class="rx-btn rx-btn--primary rx-btn--lg" data-action="pix-pago">Já paguei</button></div>';
+        '<div class="sticky-actions"><button type="button" class="rx-btn rx-btn--secondary rx-btn--lg" data-action="pix-pago">Simular confirmação do banco</button></div>';
     } else {
       corpo =
         '<fieldset class="stack" style="border:0;padding:0;margin:0"><legend class="rx-label" style="margin-bottom:8px">Forma de pagamento</legend>' +
@@ -965,12 +971,12 @@
     var c = D.pagamento.cartao;
     return (
       '<section class="screen">' +
-      '<div class="topbar"><h1 tabindex="-1" data-focus>Veículo</h1></div>' +
+      '<div class="topbar"><h1 tabindex="-1" data-focus>Meu carro</h1></div>' +
       '<div class="rx-card stack"><div class="row"><span class="connector__icon">' + ic('car') + '</span><div><strong>' + v.modelo + '</strong>' +
       (v.apelido ? '<p class="small muted">' + esc(v.apelido) + '</p>' : '') + '</div></div>' +
       '<dl class="summary"><div><dt>Conectores</dt><dd>' + v.conectores.map(nomeConector).join(', ') + '</dd></div>' +
       '<div><dt>Bateria</dt><dd>' + num(v.bateria, 1) + ' kWh</dd></div></dl>' +
-      '<a class="rx-btn rx-btn--secondary rx-btn--block" href="#veiculo">' + ic('pencil') + 'Editar veículo</a></div>' +
+      '<a class="rx-btn rx-btn--secondary rx-btn--block" href="#veiculo">' + ic('pencil') + 'Editar carro</a></div>' +
       '<div class="rx-card stack"><p class="eyebrow">Pagamento</p><div class="row">' + ic('credit-card') + '<span>' + c.bandeira + ' •••• ' + c.final + '</span></div>' +
       '<div class="row">' + ic('qr-code') + '<span>Pix</span></div></div>' +
       '<div class="stack" style="margin-top:auto">' +
@@ -1005,7 +1011,7 @@
     pagamento: 'Pagamento',
     recibo: 'Recibo',
     historico: 'Histórico',
-    perfil: 'Veículo'
+    perfil: 'Meu carro'
   };
 
   function render() {
@@ -1334,7 +1340,7 @@
       state.filtros.tipos = conectores.slice();
       state.filtros.iniciado = true;
       salvarVeiculo();
-      toast(eraNovo ? 'Pronto! Mostrando estações compatíveis.' : 'Veículo atualizado.');
+      toast(eraNovo ? 'Pronto! Mostrando estações compatíveis.' : 'Carro atualizado.');
       location.hash = '#mapa';
     }
 

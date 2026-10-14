@@ -515,6 +515,8 @@ label.rx-chip:has(input:disabled) {
 
 .map__me {
   position: absolute;
+  z-index: 1;
+  pointer-events: none;
   width: 18px;
   height: 18px;
   border-radius: 50%;
