@@ -250,10 +250,16 @@
       '</div></fieldset>' +
       '<fieldset class="stack"><legend class="sr-only">Horário em ' + AG.dataLonga(fluxo.data) + '</legend>' + slots + '</fieldset>' +
       '<p class="ag-error-msg" id="erro-hora"' + (fluxo.erro === 'hora' ? '' : ' hidden') + '>' + ic('alert-circle') + 'Escolha um horário.</p>' +
+      (fluxo.prof === 'qualquer' ? '<p class="small" id="quem-atende" aria-live="polite">' + quemAtende() + '</p>' : '') +
       '<p class="small muted">' + AG.duracao(s.duracao) + ' · ' + AG.brl(s.preco) + '</p>' +
       '<div class="sticky-actions"><button type="submit" class="ag-btn ag-btn--primary ag-btn--lg">Continuar</button></div>' +
       '</form></section>'
     );
+  }
+
+  function quemAtende() {
+    if (!fluxo.hora || !fluxo.profEscolhido) return '<span class="muted">Escolha um horário para ver quem vai te atender.</span>';
+    return ic('user-round', ' style="width:16px;height:16px;display:inline;vertical-align:-3px"') + ' Nesse horário, quem atende é <strong>' + AG.prof(fluxo.profEscolhido).nome + '</strong>.';
   }
 
   function telaConfirmar() {
@@ -300,7 +306,9 @@
       '<div class="ag-field"><label class="ag-label" for="obs">Observação <span class="opt">(opcional)</span></label>' +
       '<textarea class="ag-textarea" id="obs" name="obs" maxlength="140" placeholder="Ex.: quero manter o comprimento"></textarea></div>' +
       '<label class="ag-check"><input type="checkbox" name="lembrete" checked><span>Me lembrar no WhatsApp um dia antes</span></label>' +
-      '<div class="note">' + ic('info') + '<span>' + D.negocio.politica + '</span></div>' +
+      (fluxo.data === D.hoje && U.min(fluxo.hora) - U.min(D.agora) < 120
+        ? '<div class="note note--warn">' + ic('alert-triangle') + '<span>Esse horário é daqui a menos de 2 horas. Depois de confirmar, para mudar ou cancelar só falando com o salão.</span></div>'
+        : '<div class="note">' + ic('info') + '<span>' + D.negocio.politica + '</span></div>') +
       '<div class="sticky-actions"><button type="submit" class="ag-btn ag-btn--primary ag-btn--lg">Confirmar agendamento</button></div>' +
       '</form></section>'
     );
@@ -519,6 +527,11 @@
       fluxo.hora = t.value;
       fluxo.profEscolhido = t.getAttribute('data-prof');
       document.getElementById('erro-hora').hidden = true;
+      var quem = document.getElementById('quem-atende');
+      if (quem) {
+        quem.innerHTML = quemAtende();
+        AG.icones();
+      }
     }
   });
 

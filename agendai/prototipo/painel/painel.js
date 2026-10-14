@@ -39,9 +39,10 @@
     return p[0] + ' ' + p[p.length - 1][0] + '.';
   }
 
-  function pendentesFuturos() {
+  // Mesmo número do cabeçalho da agenda: quem ainda não confirmou o horário de hoje
+  function pendentesHoje() {
     return D.agendamentos.filter(function (a) {
-      return a.status === 'pendente' && !AG.noPassado(a.data, a.inicio);
+      return a.status === 'pendente' && a.data === D.hoje;
     }).length;
   }
 
@@ -65,13 +66,13 @@
       ['servicos', 'scissors', 'Serviços'],
       ['profissionais', 'user-round', 'Profissionais']
     ];
-    var pend = pendentesFuturos();
+    var pend = pendentesHoje();
     sidenav.innerHTML = itens
       .map(function (it) {
         var atual = rota === it[0];
         return (
           '<a class="ag-sidenav__item" href="#' + it[0] + '"' + (atual ? ' aria-current="page"' : '') + '>' + ic(it[1]) + it[2] +
-          (it[0] === 'agenda' && pend ? '<span class="ag-sidenav__count" title="Aguardando confirmação">' + pend + '<span class="sr-only"> aguardando confirmação</span></span>' : '') +
+          (it[0] === 'agenda' && pend ? '<span class="ag-sidenav__count" title="Aguardando confirmação hoje">' + pend + '<span class="sr-only"> aguardando confirmação hoje</span></span>' : '') +
           '</a>'
         );
       })
@@ -87,11 +88,11 @@
     var label = c.nome + ', ' + s.nome + ', ' + a.inicio + ' às ' + AG.fim(a) + ', com ' + p.curto + ', ' + AG.STATUS[a.status].txt.toLowerCase();
     var movel = (a.status === 'confirmado' || a.status === 'pendente') && !AG.noPassado(a.data, a.inicio);
     return (
-      '<button type="button" class="appt pro-' + p.cor + ' appt--' + a.status + (mini ? ' appt--mini' : '') + '" data-id="' + a.id + '"' + (movel ? ' data-movel="1"' : '') +
+      '<button type="button"' + (mini ? ' title="' + esc(label) + '"' : '') + ' class="appt pro-' + p.cor + ' appt--' + a.status + (mini ? ' appt--mini' : '') + '" data-id="' + a.id + '"' + (movel ? ' data-movel="1"' : '') +
       ' style="grid-row:' + linha + ' / span ' + span + ';grid-column:' + col + '" aria-label="' + esc(label) + '">' +
       '<span class="appt__status" aria-hidden="true">' + ic(AG.STATUS[a.status].icone) + '</span>' +
       '<strong>' + esc(mini ? c.nome.split(' ')[0] : nomeCurtoCliente(c)) + '</strong>' +
-      (mini ? '<span>' + a.inicio + '</span>' : span === 1 ? '<span>' + a.inicio + ' · ' + s.nome + '</span>' : '<span>' + s.nome + '</span><span>' + a.inicio + '–' + AG.fim(a) + '</span>') +
+      (mini ? '' : span === 1 ? '<span>' + a.inicio + ' · ' + s.nome + '</span>' : '<span>' + s.nome + '</span><span>' + a.inicio + '–' + AG.fim(a) + '</span>') +
       '</button>'
     );
   }
@@ -161,7 +162,7 @@
       var r = (U.min(a.inicio) - U.min(D.negocio.abre)) / 30;
       html += blocoAgendamento(a, 2 + di * L + li, r + 2, L > 1);
     });
-    var min = L > 1 ? '46px' : '140px';
+    var min = L > 1 ? '64px' : '140px';
     return '<div class="cal" style="grid-template-columns:56px repeat(' + dias.length * L + ', minmax(' + min + ', 1fr));grid-template-rows:56px repeat(' + hs.length + ', ' + ROW + 'px)">' + html + '</div>';
   }
 
@@ -204,8 +205,8 @@
       '<span>' + ic('check', ' style="width:14px;height:14px;color:var(--ag-success)"') + 'Confirmado</span>' +
       '<span>' + ic('clock', ' style="width:14px;height:14px;color:var(--ag-warn)"') + 'Aguardando (listrado)</span>' +
       '<span>' + ic('user-x', ' style="width:14px;height:14px;color:var(--ag-error)"') + 'Faltou</span></div>' +
-      '<div class="cal-wrap" id="cal-wrap">' + (estado.modo === 'dia' ? gradeDia() : gradeSemana()) + '</div>' +
-      '<p class="tip">' + ic('move') + 'Arraste um horário para remarcar. Pelo teclado: abra o horário e use "Remarcar". Clique num espaço vazio para agendar.</p>'
+      '<p class="tip">' + ic('move') + 'Arraste um horário para remarcar. Pelo teclado: abra o horário e use "Remarcar". Clique num espaço vazio para agendar.</p>' +
+      '<div class="cal-wrap" id="cal-wrap">' + (estado.modo === 'dia' ? gradeDia() : gradeSemana()) + '</div>'
     );
   }
 
@@ -229,6 +230,9 @@
     if (aberto && comecou) {
       acoes.push('<button type="button" class="ag-btn ag-btn--primary" data-det="concluir">' + ic('check-check') + 'Concluído</button>');
       acoes.push('<button type="button" class="ag-btn ag-btn--danger" data-det="faltou">' + ic('user-x') + 'Faltou</button>');
+    }
+    if (a.status === 'concluido' || a.status === 'faltou') {
+      acoes.push('<button type="button" class="ag-btn ag-btn--secondary" data-det="corrigir">' + ic('undo-2') + 'Marquei errado</button>');
     }
     if (aberto && !comecou) {
       acoes.push('<button type="button" class="ag-btn ag-btn--secondary" data-det="remarcar">' + ic('calendar-clock') + 'Remarcar</button>');
@@ -265,7 +269,7 @@
       dialog.close();
       if (acao === 'remarcar') return formRemarcar(a.id);
       if (acao === 'cancelar') return cancelar(a.id);
-      mudarStatus(a.id, { confirmar: 'confirmado', concluir: 'concluido', faltou: 'faltou' }[acao]);
+      mudarStatus(a.id, { confirmar: 'confirmado', concluir: 'concluido', faltou: 'faltou', corrigir: 'confirmado' }[acao]);
     };
     dialog.showModal();
     dialog.querySelector('[data-det="fechar"]').focus();
@@ -277,7 +281,7 @@
     a.status = novo;
     AG.salvarAgendamento(a);
     render();
-    var txt = { confirmado: 'Presença confirmada.', concluido: 'Atendimento concluído.', faltou: 'Falta registrada.' }[novo];
+    var txt = { confirmado: antes === 'pendente' ? 'Presença confirmada.' : 'Status corrigido para confirmado.', concluido: 'Atendimento concluído.', faltou: 'Falta registrada.' }[novo];
     AG.toast(txt, {
       acao: 'Desfazer',
       onAcao: function () {
