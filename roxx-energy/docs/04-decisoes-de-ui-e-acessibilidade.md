@@ -2,7 +2,7 @@
 
 [← Voltar ao índice](README.md)
 
-Todos os valores estão no [design system](../design-system/index.html), que usa os mesmos arquivos CSS do protótipo.
+Todos os valores estão no [design system](https://gabrielabreu-it.github.io/projetos/roxx-energy/design-system/) (GitHub Pages), que usa os mesmos arquivos CSS do protótipo.
 
 ## Cor
 

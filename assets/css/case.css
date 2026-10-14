@@ -679,3 +679,71 @@ code {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 0.88em;
 }
+
+/* Diagramas em SVG (fluxos e arquitetura) */
+.d-node {
+  fill: var(--c-surface-2);
+  stroke: var(--c-line-strong);
+  stroke-width: 1.5;
+}
+
+.d-node--decision {
+  fill: var(--c-surface);
+  stroke: var(--c-accent);
+  stroke-dasharray: 5 4;
+}
+
+.d-node--end {
+  fill: var(--c-accent);
+  stroke: var(--c-accent);
+}
+
+.d-txt {
+  fill: var(--c-text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.d-node--end + .d-txt,
+.d-txt--strong {
+  font-weight: 700;
+}
+
+.d-node--end + text,
+.d-node--end + text + text {
+  fill: var(--c-accent-ink);
+}
+
+.d-small {
+  fill: var(--c-text);
+  font-family: var(--font-body);
+  font-size: 12px;
+}
+
+.d-small--muted {
+  fill: var(--c-muted);
+}
+
+.d-line {
+  fill: none;
+  stroke: var(--c-muted);
+  stroke-width: 1.5;
+}
+
+.d-arrowhead {
+  fill: var(--c-muted);
+}
+
+.more-prints {
+  margin-top: 8px;
+}
+
+.more-prints summary {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: var(--c-link);
+  font-weight: 600;
+}

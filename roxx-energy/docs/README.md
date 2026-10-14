@@ -1,6 +1,6 @@
 # Roxx Energy · documentação de processo
 
-Material de trabalho do case. A versão para leitura rápida está no [estudo de caso](../index.html).
+Material de trabalho do case. A versão para leitura rápida está no [estudo de caso](https://gabrielabreu-it.github.io/projetos/roxx-energy/) (GitHub Pages).
 
 1. [Problema, objetivo e benchmark](01-problema-e-benchmark.md)
 2. [Proto-persona e jornada](02-persona-e-jornada.md)
@@ -12,5 +12,5 @@ Material de trabalho do case. A versão para leitura rápida está no [estudo de
 
 Também aqui:
 
-- [Wireframes de baixa fidelidade](wireframes/index.html)
+- [Wireframes de baixa fidelidade](https://gabrielabreu-it.github.io/projetos/roxx-energy/docs/wireframes/) (GitHub Pages)
 - [Prints das telas](prints/)

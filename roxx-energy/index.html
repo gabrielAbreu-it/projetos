@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0a0f0d" />
+    <title>Roxx Energy · Estudo de caso · Gabriel Abreu</title>
+    <meta
+      name="description"
+      content="Estudo de caso do Roxx Energy: app mobile para encontrar carregador livre, compatível e funcionando, reservar e pagar a recarga do carro elétrico."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../assets/css/base.css" />
+    <link rel="stylesheet" href="../assets/css/case.css" />
+    <style>
+      :root {
+        --font-head: "Space Grotesk", system-ui, sans-serif;
+        --font-body: "Inter", system-ui, sans-serif;
+        --c-bg: #0a0f0d;
+        --c-surface: #121a17;
+        --c-surface-2: #1a2420;
+        --c-line: #2a3833;
+        --c-line-strong: #6a7d76;
+        --c-text: #eef5f2;
+        --c-muted: #a9bab3;
+        --c-accent: #39ff88;
+        --c-accent-ink: #03140a;
+        --c-accent-text: #39ff88;
+        --c-link: #39ff88;
+        --c-focus: #63c7ff;
+        --c-warn-bg: rgba(255, 193, 77, 0.14);
+        --c-warn-text: #ffc14d;
+        --c-warn-line: #ffc14d;
+        --c-danger-text: #ff6b6b;
+      }
+      .sev {
+        display: inline-grid;
+        place-items: center;
+        min-width: 28px;
+        height: 28px;
+        border-radius: 8px;
+        font-weight: 700;
+        background: var(--c-surface-2);
+      }
+      .sev--3 {
+        background: rgba(255, 107, 107, 0.18);
+        color: #ff8a8a;
+      }
+      .sev--2 {
+        background: rgba(255, 193, 77, 0.16);
+        color: #ffc14d;
+      }
+      .ok {
+        color: var(--c-accent-text);
+      }
+    </style>
+  </head>
+  <body class="case">
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+    <header class="case-top">
+      <div class="wrap">
+        <a class="case-top__back" href="../index.html"><i data-lucide="arrow-left" aria-hidden="true"></i> Portfólio</a>
+        <nav class="case-top__links" aria-label="Links do projeto">
+          <a class="btn-case" href="design-system/index.html"><i data-lucide="palette" aria-hidden="true"></i><span>Design system</span></a>
+          <a class="btn-case btn-case--primary" href="prototipo/index.html"><i data-lucide="smartphone" aria-hidden="true"></i><span>Abrir protótipo</span></a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="conteudo">
+      <section class="case-hero">
+        <div class="wrap">
+          <span class="eyebrow">Estudo de caso · App mobile</span>
+          <h1>Roxx Energy</h1>
+          <p class="case-hero__lead">
+            Um app para quem tem carro elétrico achar um carregador livre, funcionando e compatível antes de sair de casa, reservar a
+            vaga e pagar a recarga no mesmo lugar.
+          </p>
+          <dl class="case-meta">
+            <div><dt>Papel</dt><dd>UX/UI Designer, projeto individual</dd></div>
+            <div><dt>Tipo</dt><dd>Projeto conceitual, app iOS e Android</dd></div>
+            <div><dt>Entregas</dt><dd>Pesquisa, fluxos, wireframes, UI, design system, protótipo</dd></div>
+            <div><dt>Ferramentas</dt><dd>HTML, CSS, JavaScript, Lucide</dd></div>
+          </dl>
+          <figure class="case-cover">
+            <img
+              src="../assets/img/capa-roxx-energy.png"
+              width="1600"
+              height="900"
+              alt="Três telas do Roxx Energy em tema escuro com verde elétrico: o mapa de estações, a recarga em andamento com o anel em 80% e o histórico de gastos."
+            />
+          </figure>
+        </div>
+      </section>
+
+      <div class="wrap case-body">
+        <nav class="toc" aria-label="Seções do estudo de caso">
+          <details open>
+            <summary>Neste case</summary>
+            <ol>
+              <li><a href="#problema">Problema e objetivo</a></li>
+              <li><a href="#benchmark">Benchmark</a></li>
+              <li><a href="#persona">Persona e jornada</a></li>
+              <li><a href="#fluxos">Arquitetura e fluxos</a></li>
+              <li><a href="#wireframes">Wireframes</a></li>
+              <li><a href="#ui">Decisões de UI</a></li>
+              <li><a href="#acessibilidade">Acessibilidade</a></li>
+              <li><a href="#heuristica">Avaliação heurística</a></li>
+              <li><a href="#teste">Roteiro de teste</a></li>
+              <li><a href="#proximos">Próximos passos</a></li>
+            </ol>
+          </details>
+        </nav>
+
+        <div>
+          <!-- 1 -->
+          <section class="case-section" id="problema" aria-labelledby="h-problema">
+            <span class="section-num">01</span>
+            <h2 id="h-problema">Problema e objetivo</h2>
+            <p>Quem tem carro elétrico no Brasil sai de casa sem saber três coisas sobre o carregador onde pretende parar:</p>
+            <ol>
+              <li><strong>Se vai estar livre.</strong> Pode ter fila, ou um carro estacionado na vaga sem carregar.</li>
+              <li><strong>Se está funcionando.</strong> Ponto quebrado é comum e a informação demora a chegar nos apps.</li>
+              <li><strong>Se é compatível.</strong> CCS2, Tipo 2, CHAdeMO, AC ou DC: nem todo ponto serve em todo carro.</li>
+            </ol>
+            <p>Na prática a pessoa usa mais de um app, liga para o estabelecimento ou só descobre quando chega.</p>
+            <div class="callout">
+              <strong>Objetivo</strong>
+              Fazer o motorista achar, em menos de um minuto, um carregador livre, funcionando e compatível, garantir a vaga e pagar sem sair do app.
+            </div>
+            <p>O que considero sucesso para o protótipo:</p>
+            <ul>
+              <li>Achar uma estação compatível e livre sem precisar entender a diferença entre os conectores.</li>
+              <li>Saber quanto vai pagar antes de começar e quanto está pagando durante a recarga.</li>
+              <li>Ter o gasto do mês num lugar só.</li>
+            </ul>
+          </section>
+
+          <!-- 2 -->
+          <section class="case-section" id="benchmark" aria-labelledby="h-benchmark">
+            <span class="section-num">02</span>
+            <h2 id="h-benchmark">Benchmark</h2>
+            <p>
+              Analisei cinco produtos reais que resolvem parte do problema, pelas lojas de apps, sites oficiais e matérias da imprensa
+              especializada, em outubro de 2026. Esses apps mudam rápido: onde não encontrei a informação, escrevi "não encontrei", e não "não tem".
+            </p>
+            <div class="table-wrap" tabindex="0" role="region" aria-label="Tabela comparativa do benchmark">
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col">Funcionalidade</th>
+                    <th scope="col">PlugShare</th>
+                    <th scope="col">Tupi (antiga Tupinambá)</th>
+                    <th scope="col">Zletric</th>
+                    <th scope="col">EZVolt</th>
+                    <th scope="col">Shell Recharge</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><th scope="row">O que é</th><td>Mapa colaborativo mundial</td><td>App que reúne várias redes e faz a recarga</td><td>Rede própria, forte em condomínios</td><td>Rede própria de eletropostos</td><td>Carga rápida em postos Shell (Raízen)</td></tr>
+                  <tr><th scope="row">Filtro por conector</th><td>Sim, muitos filtros</td><td>Sim, AC/DC e plugue</td><td>Sim</td><td>Sim</td><td>Pela rede de parceiros</td></tr>
+                  <tr><th scope="row">Status em tempo real</th><td>Em parte: rede integrada ou check-in</td><td>Sim</td><td>Não encontrei detalhes</td><td>Sim</td><td>Livre/ocupado (relato de 2022)</td></tr>
+                  <tr><th scope="row">Reserva</th><td>Não encontrei</td><td>Sim, exceto carga rápida</td><td>Não encontrei</td><td>Sim, via BYD Recharge</td><td>Até 15 min antes (relato de 2022)</td></tr>
+                  <tr><th scope="row">Iniciar e pagar no app</th><td>Não encontrei para o Brasil</td><td>Sim, com carteira e Pix</td><td>Sim, cartão de crédito</td><td>Sim, cartão e Ticket Car</td><td>Sim, pelo app da Tupinambá na época</td></tr>
+                  <tr><th scope="row">Histórico e gastos</th><td>Não é o foco</td><td>Sim</td><td>Não encontrei</td><td>Não encontrei</td><td>Não encontrei</td></tr>
+                  <tr><th scope="row">Avaliações</th><td>Sim, ponto forte</td><td>Não encontrei</td><td>Não encontrei</td><td>Não encontrei</td><td>Não encontrei</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h3>Pontos fortes e falhas</h3>
+            <div class="grid-cards">
+              <article class="card"><h4>PlugShare</h4><p><strong>Forte:</strong> maior base de pontos e comunidade ativa, com fotos e check-ins.</p><p><strong>Falha:</strong> fora das redes integradas, o status depende de check-in. Um "funcionando" de três dias atrás diz pouco.</p></article>
+              <article class="card"><h4>Tupi</h4><p><strong>Forte:</strong> o mais completo: junta redes, filtra por compatibilidade, reserva, inicia e cobra com Pix.</p><p><strong>Falha:</strong> a reserva não vale para carga rápida, onde costuma ter mais disputa.</p></article>
+              <article class="card"><h4>Zletric</h4><p><strong>Forte:</strong> está onde o carro já fica parado por horas: condomínio, shopping, estacionamento.</p><p><strong>Falha:</strong> só encontrei pagamento com cartão de crédito, e nada de reserva.</p></article>
+              <article class="card"><h4>EZVolt</h4><p><strong>Forte:</strong> disponibilidade em tempo real e liberação da recarga pelo app.</p><p><strong>Falha:</strong> a mesma rede aparece em dois apps. O motorista precisa escolher em qual confiar.</p></article>
+              <article class="card"><h4>Shell Recharge</h4><p><strong>Forte:</strong> carregadores de 50 e 150 kW em postos, pensados para recarga rápida.</p><p><strong>Falha:</strong> no começo, o pagamento era pelo app de outra empresa. Mais um cadastro, mais um app.</p></article>
+            </div>
+
+            <h3>O que eu levei para o Roxx</h3>
+            <div class="table-wrap" tabindex="0" role="region" aria-label="O que levei do benchmark">
+              <table>
+                <thead><tr><th scope="col">Observação</th><th scope="col">Decisão no Roxx</th></tr></thead>
+                <tbody>
+                  <tr><td>Status sem data de atualização não passa confiança (PlugShare)</td><td>Todo status mostra <strong>há quantos minutos foi atualizado</strong></td></tr>
+                  <tr><td>A checagem de plugue existe (Tupi), mas depende do usuário ligar o filtro</td><td>O carro é cadastrado no onboarding e o <strong>filtro de conector já vem ligado</strong></td></tr>
+                  <tr><td>Reserva só para AC deixa de fora o caso mais disputado (Tupi)</td><td><strong>Reserva para AC e DC</strong>, com 15 min de tolerância (ideia que vi no Shell Recharge)</td></tr>
+                  <tr><td>Pagamento espalhado em apps diferentes (Shell Recharge, EZVolt)</td><td>Reservar, carregar e <strong>pagar no mesmo app</strong>, com Pix e cartão salvo</td></tr>
+                  <tr><td>Avaliações ajudam a decidir (PlugShare)</td><td>Avaliações curtas na estação e botão para <strong>reportar problema</strong></td></tr>
+                  <tr><td>Pouca visão de gasto</td><td><strong>Histórico com total do mês</strong> e comparação com meses anteriores</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h3>Referências visuais</h3>
+            <p>Não usei prints desses produtos. Anotei o padrão que me interessava e como ele aparece no Roxx.</p>
+            <div class="grid-cards">
+              <article class="card"><h4>Apps de mobilidade</h4><p>Uber e 99: mapa dominante, prévia do item escolhido, ação principal fixa no rodapé.</p><p><strong>No Roxx:</strong> prévia da estação abaixo do mapa e botões fixos nas telas de decisão.</p></article>
+              <article class="card"><h4>Bancos digitais</h4><p>Nubank e Inter: Pix com valor em destaque, QR code e "copia e cola".</p><p><strong>No Roxx:</strong> mesma estrutura no pagamento, para não ensinar nada novo.</p></article>
+              <article class="card"><h4>Anéis de atividade</h4><p>Apple Fitness: progresso circular lido de relance.</p><p><strong>No Roxx:</strong> anel da bateria na recarga em andamento.</p></article>
+              <article class="card"><h4>Painéis de carro elétrico</h4><p>Tema escuro, números grandes e verde ligado a energia.</p><p><strong>No Roxx:</strong> identidade escura com verde elétrico e números em Space Grotesk.</p></article>
+            </div>
+          </section>
+
+          <!-- 3 -->
+          <section class="case-section" id="persona" aria-labelledby="h-persona">
+            <span class="section-num">03</span>
+            <h2 id="h-persona">Proto-persona e jornada</h2>
+            <p><span class="tag-hipotese"><i data-lucide="flask-conical" aria-hidden="true"></i> Hipótese</span></p>
+            <p>
+              Montei esta proto-persona a partir do benchmark e do meu entendimento do problema. Ainda não conversei com motoristas.
+              Validar essas suposições é o primeiro objetivo do roteiro de teste.
+            </p>
+            <div class="persona">
+              <div class="persona__id">
+                <div class="persona__avatar" aria-hidden="true">R</div>
+                <h3>Rafael, 34</h3>
+                <p>Analista de sistemas em Brasília. Tem um BYD Dolphin e mora num apartamento sem tomada na garagem. Carrega em ponto público duas ou três vezes por semana, quase sempre depois do trabalho.</p>
+                <p><strong>"Só quero chegar e carregar."</strong></p>
+              </div>
+              <div class="persona__cols">
+                <div><h4>Objetivos</h4><ul><li>Carregar rápido no caminho de casa</li><li>Saber quanto gastou no mês</li><li>Não precisar entender de conector</li></ul></div>
+                <div><h4>Frustrações</h4><ul><li>Chegar e o ponto estar ocupado ou quebrado</li><li>Não saber o preço antes de começar</li><li>Um app para cada rede</li></ul></div>
+                <div><h4>Suposições a validar</h4><ul><li>Confia mais no status quando vê a hora da atualização</li><li>Aceita taxa de reserva se ela for abatida</li><li>15 min de tolerância bastam na cidade</li></ul></div>
+              </div>
+            </div>
+
+            <h3>Jornada atual, sem o Roxx</h3>
+            <div class="journey" tabindex="0" role="region" aria-label="Mapa da jornada">
+              <div class="journey__grid" style="--steps: 5">
+                <div class="j-row">Etapa</div>
+                <div class="j-head">Planejar</div><div class="j-head">Ir até o ponto</div><div class="j-head">Chegar</div><div class="j-head">Carregar</div><div class="j-head">Pagar e sair</div>
+                <div class="j-row">O que faz</div>
+                <div>Abre um ou dois apps para ver pontos no caminho</div><div>Dirige até o ponto escolhido</div><div>Procura a vaga e o carregador</div><div>Pluga e inicia pelo app ou totem</div><div>Paga e vai embora</div>
+                <div class="j-row">O que pensa</div>
+                <div>"Esse status está certo?"</div><div>"E se chegar alguém antes?"</div><div>"Esse conector serve?"</div><div>"Quanto falta? Quanto já gastei?"</div><div>"Quanto gastei no mês?"</div>
+                <div class="j-row">Sentimento</div>
+                <div class="j-mood"><i data-lucide="frown" aria-hidden="true"></i>Desconfiado</div><div class="j-mood"><i data-lucide="frown" aria-hidden="true"></i>Ansioso</div><div class="j-mood"><i data-lucide="angry" aria-hidden="true"></i>Frustrado se der errado</div><div class="j-mood"><i data-lucide="meh" aria-hidden="true"></i>Sem visibilidade</div><div class="j-mood"><i data-lucide="meh" aria-hidden="true"></i>Indiferente</div>
+                <div class="j-row">Dor</div>
+                <div class="j-pain">Status velho e muitos apps</div><div class="j-pain">Sem garantia de vaga</div><div class="j-pain">Ocupado, quebrado ou incompatível</div><div class="j-pain">Sem custo parcial nem previsão</div><div class="j-pain">Gastos espalhados</div>
+                <div class="j-row">Oportunidade</div>
+                <div>Status com hora da atualização e filtro pelo carro</div><div>Reserva com tolerância</div><div>Compatibilidade checada antes de sair</div><div>Anel, tempo restante e custo ao vivo</div><div>Recibo e histórico do mês</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- 4 -->
+          <section class="case-section" id="fluxos" aria-labelledby="h-fluxos">
+            <span class="section-num">04</span>
+            <h2 id="h-fluxos">Arquitetura de informação e fluxos</h2>
+            <p>
+              Quatro áreas na barra inferior. O mapa é a tela inicial porque a primeira pergunta do motorista é sempre "onde eu carrego?".
+              A recarga ganhou uma aba própria porque é a tela que a pessoa volta a abrir várias vezes enquanto espera.
+            </p>
+            <figure class="figure">
+              <div class="figure__box" tabindex="0" role="region" aria-label="Diagrama da arquitetura de informação"><svg viewBox="0 0 912 390" role="img" aria-labelledby="ia-roxx-t ia-roxx-d" xmlns="http://www.w3.org/2000/svg"><title id="ia-roxx-t">Arquitetura de informação do Roxx Energy</title><desc id="ia-roxx-d">Roxx Energy: Mapa (Busca, Filtros, Lista de estações, Estação, Reserva); Recarga (Reserva ativa, Conectar o cabo, Recarga em andamento, Pagamento, Recibo); Histórico (Gasto do mês, Gráfico de 6 meses, Lista de recargas); Meu carro (Editar carro, Formas de pagamento, Ver introdução)</desc><rect class="d-node d-node--end" x="336.0" y="16" width="240" height="48" rx="24"/><text class="d-txt d-txt--strong" x="456.0" y="45.0" text-anchor="middle">Roxx Energy</text><path class="d-line" d="M456.0 64 L456.0 86"/><path class="d-line" d="M120.0 86 L792.0 86"/><path class="d-line" d="M120.0 86 L120.0 96"/><rect class="d-node d-node--decision" x="20" y="96" width="200" height="44" rx="10"/><text class="d-txt d-txt--strong" x="120.0" y="123.0" text-anchor="middle">Mapa</text><rect class="d-node" x="34" y="156" width="186" height="34" rx="8"/><text class="d-small" x="127.0" y="178.0" text-anchor="middle">Busca</text><path class="d-line" d="M26 140 L26 173.0 L34 173.0"/><rect class="d-node" x="34" y="198" width="186" height="34" rx="8"/><text class="d-small" x="127.0" y="220.0" text-anchor="middle">Filtros</text><path class="d-line" d="M26 140 L26 215.0 L34 215.0"/><rect class="d-node" x="34" y="240" width="186" height="34" rx="8"/><text class="d-small" x="127.0" y="262.0" text-anchor="middle">Lista de estações</text><path class="d-line" d="M26 140 L26 257.0 L34 257.0"/><rect class="d-node" x="34" y="282" width="186" height="34" rx="8"/><text class="d-small" x="127.0" y="304.0" text-anchor="middle">Estação</text><path class="d-line" d="M26 140 L26 299.0 L34 299.0"/><rect class="d-node" x="34" y="324" width="186" height="34" rx="8"/><text class="d-small" x="127.0" y="346.0" text-anchor="middle">Reserva</text><path class="d-line" d="M26 140 L26 341.0 L34 341.0"/><path class="d-line" d="M344.0 86 L344.0 96"/><rect class="d-node d-node--decision" x="244" y="96" width="200" height="44" rx="10"/><text class="d-txt d-txt--strong" x="344.0" y="123.0" text-anchor="middle">Recarga</text><rect class="d-node" x="258" y="156" width="186" height="34" rx="8"/><text class="d-small" x="351.0" y="178.0" text-anchor="middle">Reserva ativa</text><path class="d-line" d="M250 140 L250 173.0 L258 173.0"/><rect class="d-node" x="258" y="198" width="186" height="34" rx="8"/><text class="d-small" x="351.0" y="220.0" text-anchor="middle">Conectar o cabo</text><path class="d-line" d="M250 140 L250 215.0 L258 215.0"/><rect class="d-node" x="258" y="240" width="186" height="34" rx="8"/><text class="d-small" x="351.0" y="262.0" text-anchor="middle">Recarga em andamento</text><path class="d-line" d="M250 140 L250 257.0 L258 257.0"/><rect class="d-node" x="258" y="282" width="186" height="34" rx="8"/><text class="d-small" x="351.0" y="304.0" text-anchor="middle">Pagamento</text><path class="d-line" d="M250 140 L250 299.0 L258 299.0"/><rect class="d-node" x="258" y="324" width="186" height="34" rx="8"/><text class="d-small" x="351.0" y="346.0" text-anchor="middle">Recibo</text><path class="d-line" d="M250 140 L250 341.0 L258 341.0"/><path class="d-line" d="M568.0 86 L568.0 96"/><rect class="d-node d-node--decision" x="468" y="96" width="200" height="44" rx="10"/><text class="d-txt d-txt--strong" x="568.0" y="123.0" text-anchor="middle">Histórico</text><rect class="d-node" x="482" y="156" width="186" height="34" rx="8"/><text class="d-small" x="575.0" y="178.0" text-anchor="middle">Gasto do mês</text><path class="d-line" d="M474 140 L474 173.0 L482 173.0"/><rect class="d-node" x="482" y="198" width="186" height="34" rx="8"/><text class="d-small" x="575.0" y="220.0" text-anchor="middle">Gráfico de 6 meses</text><path class="d-line" d="M474 140 L474 215.0 L482 215.0"/><rect class="d-node" x="482" y="240" width="186" height="34" rx="8"/><text class="d-small" x="575.0" y="262.0" text-anchor="middle">Lista de recargas</text><path class="d-line" d="M474 140 L474 257.0 L482 257.0"/><path class="d-line" d="M792.0 86 L792.0 96"/><rect class="d-node d-node--decision" x="692" y="96" width="200" height="44" rx="10"/><text class="d-txt d-txt--strong" x="792.0" y="123.0" text-anchor="middle">Meu carro</text><rect class="d-node" x="706" y="156" width="186" height="34" rx="8"/><text class="d-small" x="799.0" y="178.0" text-anchor="middle">Editar carro</text><path class="d-line" d="M698 140 L698 173.0 L706 173.0"/><rect class="d-node" x="706" y="198" width="186" height="34" rx="8"/><text class="d-small" x="799.0" y="220.0" text-anchor="middle">Formas de pagamento</text><path class="d-line" d="M698 140 L698 215.0 L706 215.0"/><rect class="d-node" x="706" y="240" width="186" height="34" rx="8"/><text class="d-small" x="799.0" y="262.0" text-anchor="middle">Ver introdução</text><path class="d-line" d="M698 140 L698 257.0 L706 257.0"/></svg></div>
+              <figcaption>Arquitetura de informação. A versão em Mermaid está em <a href="https://github.com/gabrielAbreu-it/projetos/blob/main/roxx-energy/docs/03-arquitetura-e-fluxos.md">docs/03-arquitetura-e-fluxos.md</a> (abre no GitHub).</figcaption>
+            </figure>
+            <figure class="figure">
+              <div class="figure__box" tabindex="0" role="region" aria-label="Diagrama do fluxo principal"><svg viewBox="0 0 1008 392" role="img" aria-labelledby="fluxo-roxx-t fluxo-roxx-d" xmlns="http://www.w3.org/2000/svg"><title id="fluxo-roxx-t">Fluxo principal do Roxx Energy</title><desc id="fluxo-roxx-d">Abre o app → Mapa já filtrado pelo carro → Tem conector compatível livre? → Abre a estação → Reserva: conector e horário → Confirmada 15 min de tolerância → Chega e conecta o cabo → Recarga em andamento → Pagamento Pix ou cartão → Recibo e histórico</desc><defs><marker id="fluxo-roxx-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" class="d-arrowhead"/></marker></defs><path class="d-line" d="M220 52.0 L272 52.0" marker-end="url(#fluxo-roxx-a)"/><path class="d-line" d="M476 52.0 L528 52.0" marker-end="url(#fluxo-roxx-a)"/><path class="d-line" d="M732 52.0 L784 52.0" marker-end="url(#fluxo-roxx-a)"/><text class="d-small" x="760.0" y="44.0" text-anchor="middle">sim</text><path class="d-line" d="M888.0 84 L888.0 150" marker-end="url(#fluxo-roxx-a)"/><path class="d-line" d="M788 186.0 L736 186.0" marker-end="url(#fluxo-roxx-a)"/><path class="d-line" d="M532 186.0 L480 186.0" marker-end="url(#fluxo-roxx-a)"/><path class="d-line" d="M276 186.0 L224 186.0" marker-end="url(#fluxo-roxx-a)"/><path class="d-line" d="M120.0 218 L120.0 284" marker-end="url(#fluxo-roxx-a)"/><path class="d-line" d="M220 320.0 L272 320.0" marker-end="url(#fluxo-roxx-a)"/><rect class="d-node d-node--end" x="20" y="20" width="200" height="64" rx="32"/><text class="d-txt d-txt--strong" x="120.0" y="57.0" text-anchor="middle">Abre o app</text><rect class="d-node" x="276" y="20" width="200" height="64" rx="10"/><text class="d-txt" x="376.0" y="49.0" text-anchor="middle">Mapa já filtrado</text><text class="d-txt" x="376.0" y="65.0" text-anchor="middle">pelo carro</text><rect class="d-node d-node--decision" x="532" y="20" width="200" height="64" rx="10"/><text class="d-txt" x="632.0" y="49.0" text-anchor="middle">Tem conector</text><text class="d-txt" x="632.0" y="65.0" text-anchor="middle">compatível livre?</text><text class="d-small d-small--muted" x="632.0" y="102" text-anchor="middle">não: liga &#x27;Só livres&#x27; ou muda filtro</text><rect class="d-node" x="788" y="20" width="200" height="64" rx="10"/><text class="d-txt" x="888.0" y="57.0" text-anchor="middle">Abre a estação</text><rect class="d-node" x="788" y="154" width="200" height="64" rx="10"/><text class="d-txt" x="888.0" y="183.0" text-anchor="middle">Reserva: conector</text><text class="d-txt" x="888.0" y="199.0" text-anchor="middle">e horário</text><rect class="d-node" x="532" y="154" width="200" height="64" rx="10"/><text class="d-txt" x="632.0" y="183.0" text-anchor="middle">Confirmada</text><text class="d-txt" x="632.0" y="199.0" text-anchor="middle">15 min de tolerância</text><text class="d-small d-small--muted" x="632.0" y="236" text-anchor="middle">pode cancelar com Desfazer</text><rect class="d-node" x="276" y="154" width="200" height="64" rx="10"/><text class="d-txt" x="376.0" y="183.0" text-anchor="middle">Chega e</text><text class="d-txt" x="376.0" y="199.0" text-anchor="middle">conecta o cabo</text><rect class="d-node" x="20" y="154" width="200" height="64" rx="10"/><text class="d-txt" x="120.0" y="191.0" text-anchor="middle">Recarga em andamento</text><text class="d-small d-small--muted" x="120.0" y="236" text-anchor="middle">pode encerrar antes, com confirmação</text><rect class="d-node" x="20" y="288" width="200" height="64" rx="10"/><text class="d-txt" x="120.0" y="317.0" text-anchor="middle">Pagamento</text><text class="d-txt" x="120.0" y="333.0" text-anchor="middle">Pix ou cartão</text><rect class="d-node d-node--end" x="276" y="288" width="200" height="64" rx="32"/><text class="d-txt d-txt--strong" x="376.0" y="325.0" text-anchor="middle">Recibo e histórico</text></svg></div>
+              <figcaption>Fluxo principal: achar, reservar, carregar e pagar. Os caminhos de erro (sem resultado, cancelar, encerrar antes) estão detalhados no doc.</figcaption>
+            </figure>
+          </section>
+
+          <!-- 5 -->
+          <section class="case-section" id="wireframes" aria-labelledby="h-wireframes">
+            <span class="section-num">05</span>
+            <h2 id="h-wireframes">Wireframes</h2>
+            <p>
+              Antes de cor e tipografia, desenhei as oito telas principais em cinza, no tamanho real do celular, para decidir o que aparece e em que ordem.
+              Algumas decisões que saíram daqui:
+            </p>
+            <ul>
+              <li>O modelo do carro vem primeiro no cadastro e preenche os conectores sozinho.</li>
+              <li>Mapa e lista rolam juntos, em vez de a lista ficar escondida numa gaveta.</li>
+              <li>Horários fixos na reserva, em vez de um seletor de hora livre.</li>
+            </ul>
+            <figure class="figure">
+              <a href="docs/wireframes/index.html"><img src="docs/prints/wireframes-desktop.png" width="1440" height="900" loading="lazy" alt="Página com os oito wireframes do Roxx em tons de cinza, lado a lado." style="border-radius: 14px; border: 1px solid var(--c-line)" /></a>
+              <figcaption><a href="docs/wireframes/index.html">Abrir os wireframes</a> com as anotações de cada tela.</figcaption>
+            </figure>
+          </section>
+
+          <!-- 6 -->
+          <section class="case-section" id="ui" aria-labelledby="h-ui">
+            <span class="section-num">06</span>
+            <h2 id="h-ui">Decisões de UI</h2>
+            <h3>Cor</h3>
+            <p>
+              <strong>Tema escuro</strong> porque o app é muito usado à noite e dentro do carro, onde tela clara ofusca. O <strong>verde elétrico</strong>
+              significa "energia disponível" e aparece só em três lugares: ação principal, status livre e progresso da recarga. Se aparecesse em tudo,
+              deixaria de chamar atenção. Ocupado é <strong>âmbar</strong>, fora de serviço é <strong>cinza</strong>. Vermelho fica só para erro e ação destrutiva.
+            </p>
+            <div class="swatches">
+              <div class="swatch"><div class="swatch__color" style="background: #0a0f0d"></div><div class="swatch__info">Fundo<br /><code>#0A0F0D</code></div></div>
+              <div class="swatch"><div class="swatch__color" style="background: #1a2420"></div><div class="swatch__info">Superfície<br /><code>#1A2420</code></div></div>
+              <div class="swatch"><div class="swatch__color" style="background: #39ff88"></div><div class="swatch__info">Verde elétrico<br /><code>#39FF88</code></div></div>
+              <div class="swatch"><div class="swatch__color" style="background: #ffc14d"></div><div class="swatch__info">Ocupado<br /><code>#FFC14D</code></div></div>
+              <div class="swatch"><div class="swatch__color" style="background: #ff6b6b"></div><div class="swatch__info">Erro<br /><code>#FF6B6B</code></div></div>
+              <div class="swatch"><div class="swatch__color" style="background: #63c7ff"></div><div class="swatch__info">Info e foco<br /><code>#63C7FF</code></div></div>
+            </div>
+            <h3>Tipografia</h3>
+            <p>
+              <strong style="font-family: var(--font-head)">Space Grotesk</strong> nos títulos e números grandes (porcentagem, reais): tem um ar técnico e
+              números bem legíveis. <strong>Inter</strong> no texto e nos rótulos, porque lê bem em 12–14px, o tamanho dos metadados das estações.
+            </p>
+            <h3>Componentes</h3>
+            <div class="grid-cards">
+              <article class="card"><h4>Pin com potência</h4><p>Mostra os kW, que é o que o motorista compara primeiro. A cor diz o status e o rótulo acessível diz tudo por extenso.</p></article>
+              <article class="card"><h4>Status nunca só por cor</h4><p>Badge com cor, bolinha e texto, mais "atualizado há X min".</p></article>
+              <article class="card"><h4>Ação no rodapé</h4><p>Em estação, reserva e pagamento, o botão principal fica fixo ao alcance do polegar.</p></article>
+              <article class="card"><h4>Modal só com dinheiro envolvido</h4><p>Encerrar recarga e cancelar reserva. O foco começa no botão seguro.</p></article>
+            </div>
+            <p>Todos os tokens e componentes, com todos os estados, estão no <a href="design-system/index.html">design system</a>.</p>
+
+            <h3>Telas finais</h3>
+            <div class="gallery">
+              <figure><img src="docs/prints/mobile-03-mapa.png" width="390" height="844" loading="lazy" alt="Mapa com pins coloridos por status, filtros e lista de estações." /><figcaption>Mapa e filtros</figcaption></figure>
+              <figure><img src="docs/prints/mobile-04-estacao.png" width="390" height="844" loading="lazy" alt="Detalhe da estação Asa Norte CLN 204 com status, compatibilidade e conectores." /><figcaption>Detalhe da estação</figcaption></figure>
+              <figure><img src="docs/prints/mobile-05-reserva.png" width="390" height="844" loading="lazy" alt="Tela de reserva com escolha de conector e horário de chegada." /><figcaption>Reserva</figcaption></figure>
+              <figure><img src="docs/prints/mobile-07-recarga.png" width="390" height="844" loading="lazy" alt="Recarga em andamento com anel de progresso e métricas." /><figcaption>Recarga em andamento</figcaption></figure>
+              <figure><img src="docs/prints/mobile-08-pagamento-pix.png" width="390" height="844" loading="lazy" alt="Pagamento com Pix mostrando QR code e código copia e cola." /><figcaption>Pagamento</figcaption></figure>
+              <figure><img src="docs/prints/mobile-10-historico.png" width="390" height="844" loading="lazy" alt="Histórico com o gasto de outubro e gráfico de seis meses." /><figcaption>Histórico</figcaption></figure>
+            </div>
+            <details class="more-prints">
+              <summary>Ver as outras telas (onboarding, cadastro, reserva confirmada, recibo)</summary>
+              <div class="gallery">
+                <figure><img src="docs/prints/mobile-01-onboarding.png" width="390" height="844" loading="lazy" alt="Primeiro passo do onboarding: saiba antes de sair de casa." /><figcaption>Onboarding</figcaption></figure>
+                <figure><img src="docs/prints/mobile-02-cadastro.png" width="390" height="844" loading="lazy" alt="Cadastro do carro com modelo, conectores e apelido." /><figcaption>Cadastro do carro</figcaption></figure>
+                <figure><img src="docs/prints/mobile-02b-cadastro-erro.png" width="390" height="844" loading="lazy" alt="Cadastro do carro mostrando o erro de modelo não escolhido." /><figcaption>Cadastro com erro</figcaption></figure>
+                <figure><img src="docs/prints/mobile-06-reserva-confirmada.png" width="390" height="844" loading="lazy" alt="Reserva confirmada com horário de chegada e prazo de tolerância." /><figcaption>Reserva confirmada</figcaption></figure>
+                <figure><img src="docs/prints/mobile-07b-encerrar.png" width="390" height="844" loading="lazy" alt="Modal perguntando se quer encerrar a recarga agora." /><figcaption>Confirmação ao encerrar</figcaption></figure>
+                <figure><img src="docs/prints/mobile-09-recibo.png" width="390" height="844" loading="lazy" alt="Recibo do pagamento aprovado." /><figcaption>Recibo</figcaption></figure>
+              </div>
+            </details>
+          </section>
+
+          <!-- 7 -->
+          <section class="case-section" id="acessibilidade" aria-labelledby="h-a11y">
+            <span class="section-num">07</span>
+            <h2 id="h-a11y">Acessibilidade</h2>
+            <p>Calculei o contraste de cada par de cores usado no protótipo com a fórmula de luminância relativa da WCAG 2.1. Todos passam no nível AA.</p>
+            <div class="table-wrap" tabindex="0" role="region" aria-label="Tabela de contraste">
+              <table>
+                <thead><tr><th scope="col">Par</th><th scope="col">Razão</th><th scope="col">Mínimo AA</th><th scope="col">Resultado</th></tr></thead>
+                <tbody>
+                  <tr><td>Texto <code>#EEF5F2</code> sobre fundo <code>#0A0F0D</code></td><td>17,46:1</td><td>4,5:1</td><td class="ok">Passa</td></tr>
+                  <tr><td>Texto secundário <code>#A9BAB3</code> sobre fundo</td><td>9,53:1</td><td>4,5:1</td><td class="ok">Passa</td></tr>
+                  <tr><td>Texto secundário sobre superfície <code>#1A2420</code></td><td>7,87:1</td><td>4,5:1</td><td class="ok">Passa</td></tr>
+                  <tr><td>Placeholder <code>#7D8F88</code> sobre superfície <code>#121A17</code></td><td>5,19:1</td><td>4,5:1</td><td class="ok">Passa</td></tr>
+                  <tr><td>Texto <code>#03140A</code> sobre botão verde <code>#39FF88</code></td><td>14,29:1</td><td>4,5:1</td><td class="ok">Passa</td></tr>
+                  <tr><td>Âmbar <code>#FFC14D</code> sobre superfície</td><td>10,95:1</td><td>4,5:1</td><td class="ok">Passa</td></tr>
+                  <tr><td>Vermelho <code>#FF6B6B</code> sobre fundo</td><td>6,96:1</td><td>4,5:1</td><td class="ok">Passa</td></tr>
+                  <tr><td>Borda de campo <code>#6A7D76</code> sobre superfície</td><td>4,05:1</td><td>3:1 (não texto)</td><td class="ok">Passa</td></tr>
+                  <tr><td>Anel de foco <code>#63C7FF</code> sobre fundo</td><td>10,25:1</td><td>3:1 (não texto)</td><td class="ok">Passa</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <ul class="checklist">
+              <li><i data-lucide="check" aria-hidden="true"></i><span><strong>Foco visível</strong> em tudo que é interativo: contorno azul de 3px com afastamento.</span></li>
+              <li><i data-lucide="check" aria-hidden="true"></i><span><strong>Alvos de 44px</strong> no mínimo. Os pins do mapa têm uma área de toque invisível que completa o tamanho.</span></li>
+              <li><i data-lucide="check" aria-hidden="true"></i><span><strong>Labels</strong> visíveis em todos os campos. Grupos de opção com <code>fieldset</code> e <code>legend</code>.</span></li>
+              <li><i data-lucide="check" aria-hidden="true"></i><span><strong>Erros</strong> em texto, ligados ao campo, e o foco vai para o primeiro campo com problema.</span></li>
+              <li><i data-lucide="check" aria-hidden="true"></i><span><strong>Teclado</strong>: o fluxo inteiro funciona com Tab, Enter e Espaço. O modal usa <code>&lt;dialog&gt;</code>, que prende o foco e fecha com Esc.</span></li>
+              <li><i data-lucide="check" aria-hidden="true"></i><span><strong>Leitor de tela</strong>: ao trocar de tela o foco vai para o título. A recarga anuncia o progresso a cada 10%.</span></li>
+              <li><i data-lucide="check" aria-hidden="true"></i><span><strong>Movimento reduzido</strong> respeitado e gráfico com tabela equivalente.</span></li>
+            </ul>
+          </section>
+
+          <!-- 8 -->
+          <section class="case-section" id="heuristica" aria-labelledby="h-heur">
+            <span class="section-num">08</span>
+            <h2 id="h-heur">Avaliação heurística</h2>
+            <p>
+              Com o protótipo pronto, passei por todas as telas com as 10 heurísticas de Nielsen. Avaliei sozinho, então isso não substitui teste com
+              usuário: serve para pegar os problemas mais óbvios antes de chamar alguém. Gravidade de 0 (não é problema) a 4 (catástrofe).
+            </p>
+            <div class="table-wrap" tabindex="0" role="region" aria-label="Tabela da avaliação heurística">
+              <table>
+                <thead><tr><th scope="col">Heurística</th><th scope="col">O que encontrei</th><th scope="col">Grav.</th><th scope="col">O que fiz</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row">1. Visibilidade do status</th><td>O pin do Noroeste mostrava "60 kW", mas o carregador de 60 kW estava fora de serviço.</td><td><span class="sev sev--3">3</span></td><td>O pin agora considera só conectores compatíveis funcionando.</td></tr>
+                  <tr><th scope="row">1. Visibilidade do status</th><td>No Pix não havia sinal de que o app esperava o pagamento, nem da validade do código.</td><td><span class="sev sev--2">2</span></td><td>"Aguardando o pagamento · o código vale por 10 min".</td></tr>
+                  <tr><th scope="row">2. Mundo real</th><td>"R$ 1,49 por kWh" no card era o preço do conector mais barato, mas parecia o da estação toda.</td><td><span class="sev sev--2">2</span></td><td>Agora aparece "a partir de".</td></tr>
+                  <tr><th scope="row">3. Controle e liberdade</th><td>Voltar em todas as telas, "Desfazer" no cancelamento e confirmação ao encerrar.</td><td><span class="sev">0</span></td><td>Nada a corrigir.</td></tr>
+                  <tr><th scope="row">4. Consistência</th><td>"Veículo", "Seu carro" e "Trocar veículo" para a mesma coisa.</td><td><span class="sev">1</span></td><td>Padronizei em "carro".</td></tr>
+                  <tr><th scope="row">5. Prevenção de erros</th><td>"Reservar" desabilitado com motivo escrito. Metas abaixo da carga atual desabilitadas.</td><td><span class="sev">0</span></td><td>Nada a corrigir.</td></tr>
+                  <tr><th scope="row">6. Reconhecer, não lembrar</th><td>A aba Recarga mostra a reserva ativa com horário e prazo.</td><td><span class="sev">0</span></td><td>Nada a corrigir.</td></tr>
+                  <tr><th scope="row">7. Eficiência</th><td>Quem carrega sempre no mesmo lugar repete mapa → estação → reserva toda vez.</td><td><span class="sev">1</span></td><td>Foi para os próximos passos.</td></tr>
+                  <tr><th scope="row">8. Minimalismo</th><td>O ponto "Você está aqui" ficava escondido atrás de um pin.</td><td><span class="sev">1</span></td><td>Mudei a posição e a camada.</td></tr>
+                  <tr><th scope="row">9. Recuperar de erros</th><td>As mensagens de erro apareciam antes de o usuário fazer qualquer coisa: o <code>display: flex</code> do componente vencia o atributo <code>hidden</code>.</td><td><span class="sev sev--3">3</span></td><td>Corrigi na base do CSS. Erro só aparece depois de enviar.</td></tr>
+                  <tr><th scope="row">10. Ajuda</th><td>Quem nunca carregou não sabe o que é CCS2 ou CHAdeMO.</td><td><span class="sev">1</span></td><td>Foi para os próximos passos.</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p>
+              Oito achados, seis corrigidos. Os dois mais graves eram justamente sobre o centro do produto: confiar na informação do carregador e
+              entender o que deu errado.
+            </p>
+          </section>
+
+          <!-- 9 -->
+          <section class="case-section" id="teste" aria-labelledby="h-teste">
+            <span class="section-num">09</span>
+            <h2 id="h-teste">Roteiro de teste de usabilidade</h2>
+            <p><span class="tag-hipotese"><i data-lucide="calendar-clock" aria-hidden="true"></i> Próximo passo, ainda não realizado</span></p>
+            <p>
+              Cinco motoristas que carregam em ponto público pelo menos uma vez por semana, pelo menos dois sem carregador em casa. Sessões de
+              30 minutos com o protótipo no celular do participante.
+            </p>
+            <div class="table-wrap" tabindex="0" role="region" aria-label="Tarefas do teste">
+              <table>
+                <thead><tr><th scope="col">#</th><th scope="col">Tarefa</th><th scope="col">Sucesso quando</th></tr></thead>
+                <tbody>
+                  <tr><td>1</td><td>"Você acabou de instalar o app. Deixe ele pronto para o seu carro."</td><td>Cadastra o modelo e chega no mapa</td></tr>
+                  <tr><td>2</td><td>"Encontre um lugar livre agora que sirva no seu carro."</td><td>Abre uma estação com conector compatível livre</td></tr>
+                  <tr><td>3</td><td>"Garanta a vaga para chegar às 19h."</td><td>Confirma a reserva com o horário certo</td></tr>
+                  <tr><td>4</td><td>"Você chegou. Comece a carregar e pare quando achar que está bom."</td><td>Inicia e encerra a recarga</td></tr>
+                  <tr><td>5</td><td>"Pague com Pix."</td><td>Chega no recibo</td></tr>
+                  <tr><td>6</td><td>"Quanto você gastou com recarga este mês?"</td><td>Encontra o total no histórico</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p><strong>Métricas:</strong> taxa de sucesso, tempo por tarefa (meta de menos de 1 minuto na tarefa 2), erros, SEQ depois de cada tarefa e SUS no fim.</p>
+            <p><strong>Perguntas-chave:</strong> você confiou no "livre"? O que entendeu da taxa de R$ 3,00? Quinze minutos de tolerância bastam? O que falta para usar só este app?</p>
+            <p>O roteiro completo está em <a href="https://github.com/gabrielAbreu-it/projetos/blob/main/roxx-energy/docs/06-roteiro-de-teste.md">docs/06-roteiro-de-teste.md</a> (abre no GitHub).</p>
+          </section>
+
+          <!-- 10 -->
+          <section class="case-section" id="proximos" aria-labelledby="h-proximos">
+            <span class="section-num">10</span>
+            <h2 id="h-proximos">Próximos passos</h2>
+            <ol>
+              <li>Rodar o teste com 5 motoristas e revisar a proto-persona com o que aparecer.</li>
+              <li>Favoritos e "carregar de novo" para quem usa sempre a mesma estação.</li>
+              <li>Um "o que é isso?" ao lado dos conectores, com foto de cada plugue.</li>
+              <li>Planejamento de viagem com paradas sugeridas entre cidades.</li>
+              <li>Fila de espera quando todos os conectores estiverem ocupados.</li>
+              <li>Testar a reserva com e sem taxa e ver o efeito nas reservas abandonadas.</li>
+            </ol>
+            <div class="next-links">
+              <a class="btn-case btn-case--primary" href="prototipo/index.html"><i data-lucide="smartphone" aria-hidden="true"></i>Abrir protótipo</a>
+              <a class="btn-case" href="design-system/index.html"><i data-lucide="palette" aria-hidden="true"></i>Design system</a>
+              <a class="btn-case" href="https://github.com/gabrielAbreu-it/projetos/tree/main/roxx-energy/docs"><i data-lucide="folder-open" aria-hidden="true"></i>Documentação</a>
+              <a class="btn-case" href="../agendai/index.html"><i data-lucide="arrow-right" aria-hidden="true"></i>Próximo case: Agendaí</a>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <footer class="case-footer">
+      <div class="wrap">
+        <span>Gabriel Abreu · UX/UI Designer · Brasília</span>
+        <span>Dados do protótipo são fictícios.</span>
+      </div>
+    </footer>
+
+    <script src="https://unpkg.com/lucide@0.453.0/dist/umd/lucide.min.js"></script>
+    <script src="../assets/js/case.js"></script>
+  </body>
+</html>
