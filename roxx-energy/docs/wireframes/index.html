@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Roxx Energy · Wireframes</title>
+    <meta name="description" content="Wireframes de baixa fidelidade das telas principais do Roxx Energy." />
+    <link rel="stylesheet" href="../../../assets/css/base.css" />
+    <link rel="stylesheet" href="../../../assets/css/wireframe.css" />
+  </head>
+  <body class="wf">
+    <main class="wf-wrap">
+      <header class="wf-head">
+        <a class="wf-back" href="../../index.html">← Estudo de caso do Roxx Energy</a>
+        <h1>Wireframes de baixa fidelidade</h1>
+        <p>
+          Primeira versão das telas principais, antes de pensar em cor e tipografia. O objetivo aqui era decidir o que aparece
+          em cada tela e em que ordem. Embaixo de cada uma anotei a decisão principal e o que mudou na UI final.
+        </p>
+      </header>
+
+      <div class="wf-grid">
+        <section class="wf-item" aria-labelledby="w1">
+          <h2 id="w1">1. Onboarding</h2>
+          <div class="wf-phone" role="img" aria-label="Wireframe do onboarding: ilustração, título, texto, indicador de passos e botão Próximo">
+            <div class="row"><div class="t w30"></div><div class="grow"></div><div class="t w20"></div></div>
+            <div class="x grow"></div>
+            <div class="t t--lg w80"></div>
+            <div class="t w100"></div>
+            <div class="t w60"></div>
+            <div class="row"><div class="b b--dark" style="width:20px;height:6px"></div><div class="b" style="width:6px;height:6px"></div><div class="b" style="width:6px;height:6px"></div></div>
+            <div class="b b--dark h44"></div>
+          </div>
+          <ul><li>Três passos: status, compatibilidade, reserva e pagamento.</li><li>Na UI final entrou um botão de voltar a partir do passo 2.</li></ul>
+        </section>
+
+        <section class="wf-item" aria-labelledby="w2">
+          <h2 id="w2">2. Cadastro do carro</h2>
+          <div class="wf-phone" role="img" aria-label="Wireframe do cadastro: campo modelo, chips de conector, campo apelido e botão salvar">
+            <div class="t t--lg w50"></div>
+            <div class="t w100"></div>
+            <div class="lbl">Modelo</div><div class="b b--line h36"></div>
+            <div class="lbl">Conectores</div>
+            <div class="row"><div class="pill w30"></div><div class="pill w30"></div><div class="pill w30"></div></div>
+            <div class="lbl">Apelido</div><div class="b b--line h36"></div>
+            <div class="b b--dark h44 mt-auto"></div>
+          </div>
+          <ul><li>O modelo vem primeiro e preenche os conectores sozinho. Assim quem não entende de conector não precisa decidir nada.</li></ul>
+        </section>
+
+        <section class="wf-item" aria-labelledby="w3">
+          <h2 id="w3">3. Mapa</h2>
+          <div class="wf-phone" role="img" aria-label="Wireframe do mapa: busca, chips de filtro, mapa com pins e lista de estações">
+            <div class="b b--line h28"></div>
+            <div class="row"><div class="pill w30"></div><div class="pill w30"></div><div class="pill w20"></div></div>
+            <div class="x h160"></div>
+            <div class="row"><div class="t w30"></div><div class="grow"></div><div class="t w20"></div></div>
+            <div class="b h60"></div>
+            <div class="b h60"></div>
+            <div class="row mt-auto"><div class="b grow h28"></div><div class="b grow h28"></div><div class="b grow h28"></div><div class="b grow h28"></div></div>
+          </div>
+          <ul><li>Pensei em mapa em tela cheia com a lista numa gaveta. Preferi mapa + lista rolando juntos: a gaveta esconderia a informação mais útil (disponibilidade e preço).</li></ul>
+        </section>
+
+        <section class="wf-item" aria-labelledby="w4">
+          <h2 id="w4">4. Estação</h2>
+          <div class="wf-phone" role="img" aria-label="Wireframe da estação: imagem, nome, status, conectores, avaliações e dois botões no rodapé">
+            <div class="x h60"></div>
+            <div class="t t--lg w70"></div>
+            <div class="t w50"></div>
+            <div class="row"><div class="pill w20"></div><div class="t w50"></div></div>
+            <div class="b h28"></div>
+            <div class="b b--line h36"></div>
+            <div class="b b--line h36"></div>
+            <div class="b b--line h36"></div>
+            <div class="t w40"></div>
+            <div class="row mt-auto"><div class="b grow h44"></div><div class="b b--dark grow h44"></div></div>
+          </div>
+          <ul><li>A faixa cinza abaixo do status virou o aviso "Compatível com seu carro" na UI final.</li></ul>
+        </section>
+
+        <section class="wf-item" aria-labelledby="w5">
+          <h2 id="w5">5. Reserva</h2>
+          <div class="wf-phone" role="img" aria-label="Wireframe da reserva: lista de conectores, grade de horários, explicação da tolerância e resumo">
+            <div class="t t--lg w40"></div>
+            <div class="b b--line h36"></div>
+            <div class="b b--line h36"></div>
+            <div class="row"><div class="pill grow"></div><div class="pill grow"></div><div class="pill grow"></div></div>
+            <div class="row"><div class="pill grow"></div><div class="pill grow"></div><div class="pill grow"></div></div>
+            <div class="b h36"></div>
+            <div class="b h60"></div>
+            <div class="b b--dark h44 mt-auto"></div>
+          </div>
+          <ul><li>Horários fixos em vez de um seletor de hora livre: menos toques e a regra de tolerância fica mais fácil de explicar.</li></ul>
+        </section>
+
+        <section class="wf-item" aria-labelledby="w6">
+          <h2 id="w6">6. Recarga em andamento</h2>
+          <div class="wf-phone" role="img" aria-label="Wireframe da recarga: anel de progresso grande, quatro métricas e botão encerrar">
+            <div class="t t--lg w40"></div>
+            <div class="circle" style="width:130px;height:130px;margin:8px auto;border:10px solid #bbb;background:#fff"></div>
+            <div class="row"><div class="b grow h44"></div><div class="b grow h44"></div></div>
+            <div class="row"><div class="b grow h44"></div><div class="b grow h44"></div></div>
+            <div class="row"><div class="pill w20"></div><div class="pill w20"></div><div class="pill w20"></div></div>
+            <div class="b b--line h44 mt-auto"></div>
+          </div>
+          <ul><li>Custo parcial está entre as quatro métricas principais porque "quanto já gastei?" é uma das dores da jornada.</li></ul>
+        </section>
+
+        <section class="wf-item" aria-labelledby="w7">
+          <h2 id="w7">7. Pagamento</h2>
+          <div class="wf-phone" role="img" aria-label="Wireframe do pagamento: resumo com total, duas opções de pagamento e botão pagar">
+            <div class="t t--lg w40"></div>
+            <div class="b h120"></div>
+            <div class="lbl">Forma de pagamento</div>
+            <div class="b b--line h44"></div>
+            <div class="b b--line h44"></div>
+            <div class="b b--dark h44 mt-auto"></div>
+          </div>
+          <ul><li>O desconto da taxa de reserva aparece numa linha própria no resumo para não parecer cobrança dupla.</li></ul>
+        </section>
+
+        <section class="wf-item" aria-labelledby="w8">
+          <h2 id="w8">8. Histórico</h2>
+          <div class="wf-phone" role="img" aria-label="Wireframe do histórico: total do mês, três números, gráfico de barras e lista de recargas">
+            <div class="t t--lg w40"></div>
+            <div class="b col" style="padding:8px">
+              <div class="t w40"></div><div class="t t--lg w60"></div>
+              <div class="row" style="align-items:flex-end;height:60px"><div class="b grow" style="height:70%;background:#bbb"></div><div class="b grow" style="height:80%;background:#bbb"></div><div class="b grow" style="height:60%;background:#bbb"></div><div class="b grow" style="height:90%;background:#bbb"></div><div class="b grow" style="height:75%;background:#bbb"></div><div class="b b--dark grow" style="height:65%"></div></div>
+            </div>
+            <div class="b h44"></div>
+            <div class="b h44"></div>
+            <div class="b h44"></div>
+          </div>
+          <ul><li>O gráfico ficou só com seis meses e uma barra destacada. Mais que isso não cabia com leitura confortável em 360px.</li></ul>
+        </section>
+      </div>
+
+      <p class="wf-note">
+        Desenhei esses wireframes direto em HTML para testar a ordem das informações no tamanho real do celular. Os retângulos com X
+        representam imagem ou mapa.
+      </p>
+    </main>
+  </body>
+</html>
