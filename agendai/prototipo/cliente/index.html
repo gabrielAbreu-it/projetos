@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#fbf8f4" />
+    <title>Agendaí · App do cliente</title>
+    <meta name="description" content="Protótipo do app de agendamento do Agendaí, visão do cliente. Dados fictícios." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../../../assets/css/base.css" />
+    <link rel="stylesheet" href="../../design-system/tokens.css" />
+    <link rel="stylesheet" href="../../design-system/components.css" />
+    <link rel="stylesheet" href="cliente.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#view">Pular para o conteúdo da tela</a>
+    <div class="stage">
+      <aside class="side" aria-label="Sobre o protótipo">
+        <p class="side__brand">Agendaí</p>
+        <p>App do cliente do <strong>Studio Lume</strong>, um salão fictício. O que você agendar aqui aparece no painel do dono, no mesmo navegador.</p>
+        <h2>Ir direto para a tela</h2>
+        <ol id="side-links">
+          <li><a href="#inicio">Início</a></li>
+          <li><a href="#servico">Escolher serviço</a></li>
+          <li><a href="#profissional">Escolher profissional</a></li>
+          <li><a href="#horario">Data e horário</a></li>
+          <li><a href="#confirmar">Confirmar</a></li>
+          <li><a href="#agendamentos">Meus horários</a></li>
+        </ol>
+        <div class="side__links">
+          <a class="ag-btn ag-btn--secondary" href="../painel/index.html"><i data-lucide="layout-dashboard" aria-hidden="true"></i> Abrir painel do dono</a>
+          <a class="ag-btn ag-btn--ghost" href="../../index.html"><i data-lucide="file-text" aria-hidden="true"></i> Estudo de caso</a>
+        </div>
+      </aside>
+
+      <div class="phone" id="app">
+        <div class="statusbar" aria-hidden="true">
+          <span>10:20</span>
+          <span><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span>
+        </div>
+        <main class="view" id="view" tabindex="-1"></main>
+        <nav class="nav-slot" id="nav" aria-label="Navegação principal"></nav>
+        <div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+        <dialog class="ag-modal" id="modal"></dialog>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/lucide@0.453.0/dist/umd/lucide.min.js"></script>
+    <script src="../shared/data.js"></script>
+    <script src="../shared/core.js"></script>
+    <script src="../shared/ui.js"></script>
+    <script src="cliente.js"></script>
+  </body>
+</html>
