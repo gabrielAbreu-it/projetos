@@ -22,7 +22,8 @@
     sessao: null,
     pagamento: { metodo: 'pix', pixAberto: false, processando: false },
     recibo: null,
-    historico: D.historico.slice()
+    historico: D.historico.slice(),
+    relatos: {}
   };
 
   var timer = null;
@@ -505,7 +506,7 @@
       '<p class="small muted">' + st.endereco + ' · ' + km(st.distancia) + '</p>' +
       '<div class="row" style="flex-wrap:wrap">' + badgeStatus(r.status) + '<span class="small muted">' + textoDisponibilidade(st, r) + ' · atualizado há ' + st.atualizado + ' min</span></div>' +
       '<p class="small muted">' + ic('clock', ' style="width:14px;height:14px;display:inline;vertical-align:-2px"') + ' ' + st.horario + '</p>' +
-      compatTxt +
+      compatTxt + blocoRelatos(st) +
       '</div>' +
       '<div class="section"><h2>Conectores</h2><ul class="list-plain">' + conectores + '</ul></div>' +
       '<div class="section"><h2>No local</h2><ul class="amenities">' +
@@ -534,6 +535,66 @@
       '</div></div>' +
       '</section>'
     );
+  }
+
+  // Relatos de motoristas: é o que mantém o status confiável fora das redes integradas
+  function blocoRelatos(st) {
+    var lista = (st.relatos || []).slice();
+    if (state.relatos[st.id]) lista.unshift(state.relatos[st.id]);
+    if (!lista.length) return '';
+    return (
+      '<div class="info-box info-box--warn">' + ic('message-square-warning') + '<span>' +
+      lista
+        .map(function (r) {
+          return r.meu
+            ? '<strong>Você reportou:</strong> ' + r.ponto + ' · ' + esc(r.motivo) + ' · ' + r.quando + '. Em verificação pelo operador.'
+            : '<strong>' + r.quantos + ' motoristas</strong> reportaram ' + r.ponto + ' · ' + esc(r.motivo).toLowerCase() + ' · ' + r.quando + '.';
+        })
+        .join('<br>') +
+      '</span></div>'
+    );
+  }
+
+  var MOTIVOS = ['Não liga ou sem energia', 'Vaga ocupada por carro que não está carregando', 'Cabo ou conector danificado', 'Preço diferente do app', 'Outro problema'];
+
+  function abrirRelato(id) {
+    var st = estacao(id);
+    modal.innerHTML =
+      '<form class="rx-modal__body" id="form-relato" novalidate>' +
+      '<div class="rx-modal__icon" style="background:var(--rx-busy-soft);color:var(--rx-busy)">' + ic('flag') + '</div>' +
+      '<h2 class="rx-modal__title" id="modal-title">Reportar problema</h2>' +
+      '<p class="rx-modal__text" id="modal-text">' + st.nome + '. Seu relato aparece para outros motoristas e vai para o operador.</p>' +
+      '<div class="stack" style="margin-top:16px">' +
+      '<div class="rx-field"><label class="rx-label" for="relato-ponto">Conector</label><select class="rx-select" id="relato-ponto" name="ponto">' +
+      st.pontos.map(function (p) { return '<option value="' + p.id + '">' + p.id + ' · ' + nomeConector(p.tipo) + ' ' + p.potencia + ' kW</option>'; }).join('') +
+      '</select></div>' +
+      '<fieldset class="report-opts" aria-describedby="relato-erro"><legend class="rx-label">O que aconteceu?</legend>' +
+      MOTIVOS.map(function (m, i) { return '<label class="report-opt"><input type="radio" name="motivo" value="' + i + '">' + m + '</label>'; }).join('') +
+      '</fieldset>' +
+      '<p class="rx-error-msg" id="relato-erro" hidden>' + ic('alert-circle') + 'Escolha o que aconteceu.</p>' +
+      '</div>' +
+      '<div class="rx-modal__actions"><button type="submit" class="rx-btn rx-btn--primary rx-btn--block">Enviar relato</button>' +
+      '<button type="button" class="rx-btn rx-btn--secondary rx-btn--block" data-modal="cancel">Cancelar</button></div>' +
+      '</form>';
+    icones();
+    var form = modal.querySelector('form');
+    modal.querySelector('[data-modal="cancel"]').onclick = function () { modal.close(); };
+    form.addEventListener('change', function () { document.getElementById('relato-erro').hidden = true; });
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var escolhido = form.querySelector('input[name="motivo"]:checked');
+      if (!escolhido) {
+        document.getElementById('relato-erro').hidden = false;
+        form.querySelector('input[name="motivo"]').focus();
+        return;
+      }
+      state.relatos[id] = { meu: true, ponto: form.ponto.value, motivo: MOTIVOS[+escolhido.value], quando: 'agora' };
+      modal.close();
+      render();
+      toast('Relato enviado. Outros motoristas já veem o aviso.');
+    });
+    modal.showModal();
+    form.ponto.focus();
   }
 
   function telaReserva(id) {
@@ -1123,7 +1184,7 @@
         toast('Abrindo a rota no seu app de mapas…');
         break;
       case 'reportar':
-        toast('Obrigado! Avisamos o operador e marcamos o carregador para revisão.');
+        abrirRelato(rotaAtual().param);
         break;
       case 'cancelar-reserva':
         confirmar({

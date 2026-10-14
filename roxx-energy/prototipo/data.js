@@ -119,6 +119,7 @@ window.RX_DATA = {
       totalAvaliacoes: 31,
       mapa: { x: 30, y: 22 },
       comodidades: ['Coberto'],
+      relatos: [{ ponto: 'A1', motivo: 'Não liga ou sem energia', quando: 'há 40 min', quantos: 3 }],
       pontos: [
         { id: 'A1', tipo: 'CCS2', potencia: 60, preco: 1.99, status: 'fora' },
         { id: 'B1', tipo: 'T2', potencia: 7, preco: 1.39, status: 'livre' },
