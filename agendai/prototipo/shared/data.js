@@ -112,6 +112,9 @@
         var base = h < 11 ? 0.32 : h < 14 ? 0.45 : h < 17 ? 0.5 : 0.78;
         if (dow === 6) base += 0.18;
         if (dow === 1) base -= 0.12;
+        // Quanto mais longe de hoje, menos horários já marcados
+        var adiante = Math.round((parse(data) - parse(hoje)) / 86400000);
+        if (adiante > 1) base *= Math.max(0.3, 1 - adiante / 14);
         if (rand() < base) {
           var opcoes = p.servicos.map(function (id) {
             return servicos.filter(function (s) { return s.id === id; })[0];
@@ -140,11 +143,15 @@
   }
 
   // Status conforme o relógio do protótipo
+  // Passado = já terminou. Quem está sendo atendido agora continua "confirmado".
+  // "Pendente" = recebeu o lembrete e ainda não respondeu; só existe para os próximos 2 dias.
   agendamentos.forEach(function (a) {
-    var passado = a.data < hoje || (a.data === hoje && min(a.inicio) < min(agora));
+    var dur = servicos.filter(function (s) { return s.id === a.servico; })[0].duracao;
+    var passado = a.data < hoje || (a.data === hoje && min(a.inicio) + dur <= min(agora));
     var r = rand();
     if (passado) a.status = r < 0.08 ? 'faltou' : r < 0.12 ? 'cancelado' : 'concluido';
-    else a.status = r < 0.2 ? 'pendente' : r < 0.23 ? 'cancelado' : 'confirmado';
+    else if (a.data <= somaDias(hoje, 2)) a.status = r < 0.22 ? 'pendente' : r < 0.25 ? 'cancelado' : 'confirmado';
+    else a.status = r < 0.03 ? 'cancelado' : 'confirmado';
   });
 
   // Agendamento do Lucas, usado na tela "Meus agendamentos"

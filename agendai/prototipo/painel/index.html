@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#fbf8f4" />
+    <title>Agendaí · Painel do dono</title>
+    <meta name="description" content="Protótipo do painel do dono no Agendaí: agenda, clientes, serviços, profissionais e números do mês. Dados fictícios." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../../../assets/css/base.css" />
+    <link rel="stylesheet" href="../../design-system/tokens.css" />
+    <link rel="stylesheet" href="../../design-system/components.css" />
+    <link rel="stylesheet" href="painel.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#view">Pular para o conteúdo</a>
+    <div class="shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <span class="brand__logo" aria-hidden="true">SL</span>
+          <div>
+            <strong>Studio Lume</strong>
+            <span>Agendaí · painel</span>
+          </div>
+        </div>
+        <nav class="ag-sidenav" id="sidenav" aria-label="Menu do painel"></nav>
+        <div class="sidebar__foot">
+          <a class="ag-btn ag-btn--ghost ag-btn--sm" href="../cliente/index.html"><i data-lucide="smartphone" aria-hidden="true"></i> Ver app do cliente</a>
+          <a class="ag-btn ag-btn--ghost ag-btn--sm" href="../../index.html"><i data-lucide="file-text" aria-hidden="true"></i> Estudo de caso</a>
+        </div>
+      </aside>
+      <main class="main" id="view" tabindex="-1"></main>
+    </div>
+    <div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+    <div class="drag-ghost" id="ghost" aria-hidden="true"></div>
+    <dialog class="ag-modal" id="modal"></dialog>
+
+    <script src="https://unpkg.com/lucide@0.453.0/dist/umd/lucide.min.js"></script>
+    <script src="../shared/data.js"></script>
+    <script src="../shared/core.js"></script>
+    <script src="../shared/ui.js"></script>
+    <script src="painel.js"></script>
+  </body>
+</html>
