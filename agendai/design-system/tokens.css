@@ -1,0 +1,97 @@
+/*
+  Agendaí — tokens
+  Fonte única de verdade: o app do cliente, o painel e a página do design system importam este arquivo.
+*/
+
+:root {
+  /* Superfícies */
+  --ag-bg: #fbf8f4;
+  --ag-surface: #ffffff;
+  --ag-surface-2: #f3eee7;
+  --ag-surface-3: #e9e2d8;
+  --ag-line: #e6dfd5;
+  --ag-line-strong: #7c8783;
+
+  /* Texto */
+  --ag-text: #1f2523;
+  --ag-text-2: #5e6763;
+  --ag-text-3: #6b7570;
+  --ag-text-disabled: #a3aaa6;
+  --ag-text-on-primary: #ffffff;
+
+  /* Marca: verde-petróleo e coral */
+  --ag-primary: #1f5f5b;
+  --ag-primary-hover: #174a47;
+  --ag-primary-press: #123b38;
+  --ag-primary-soft: #e6f0ee;
+  --ag-accent: #e07a5f; /* só decorativo, nunca em texto */
+  --ag-accent-text: #a8481f;
+  --ag-accent-soft: #fdede6;
+
+  /* Feedback */
+  --ag-success: #147a4b;
+  --ag-success-soft: #e7f6ee;
+  --ag-warn: #8a5a00;
+  --ag-warn-soft: #fff4dc;
+  --ag-error: #b42318;
+  --ag-error-soft: #fdecea;
+  --ag-info: #1d5bbf;
+  --ag-info-soft: #e8f0fc;
+
+  /* Foco */
+  --ag-focus: #1d5bbf;
+
+  /* Cores dos profissionais na agenda (fundo claro + borda) */
+  --ag-pro-1: #1f5f5b;
+  --ag-pro-1-soft: #e6f0ee;
+  --ag-pro-2: #a8481f;
+  --ag-pro-2-soft: #fdede6;
+  --ag-pro-3: #6d3fc0;
+  --ag-pro-3-soft: #f0eafb;
+  --ag-pro-4: #8a5a00;
+  --ag-pro-4-soft: #fff4dc;
+
+  /* Tipografia */
+  --ag-font: "Plus Jakarta Sans", system-ui, sans-serif;
+
+  --ag-fs-xs: 0.75rem; /* 12 */
+  --ag-fs-sm: 0.875rem; /* 14 */
+  --ag-fs-md: 1rem; /* 16 */
+  --ag-fs-lg: 1.125rem; /* 18 */
+  --ag-fs-xl: 1.375rem; /* 22 */
+  --ag-fs-2xl: 1.75rem; /* 28 */
+  --ag-fs-3xl: 2.25rem; /* 36 */
+
+  --ag-fw-regular: 400;
+  --ag-fw-medium: 500;
+  --ag-fw-bold: 700;
+  --ag-fw-black: 800;
+
+  /* Espaçamento (base 4) */
+  --ag-space-1: 4px;
+  --ag-space-2: 8px;
+  --ag-space-3: 12px;
+  --ag-space-4: 16px;
+  --ag-space-5: 20px;
+  --ag-space-6: 24px;
+  --ag-space-8: 32px;
+  --ag-space-10: 40px;
+  --ag-space-12: 48px;
+
+  /* Raios */
+  --ag-radius-sm: 6px;
+  --ag-radius-md: 10px;
+  --ag-radius-lg: 16px;
+  --ag-radius-xl: 22px;
+  --ag-radius-pill: 999px;
+
+  /* Sombras (quentes, discretas) */
+  --ag-shadow-1: 0 1px 2px rgba(60, 40, 20, 0.08);
+  --ag-shadow-2: 0 6px 18px rgba(60, 40, 20, 0.1);
+  --ag-shadow-3: 0 18px 44px rgba(60, 40, 20, 0.18);
+
+  --ag-touch: 44px;
+
+  --ag-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ag-dur: 160ms;
+}
