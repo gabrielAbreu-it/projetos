@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0a0f0d" />
+    <title>Roxx Energy · Protótipo</title>
+    <meta name="description" content="Protótipo navegável do Roxx Energy, app de recarga de carro elétrico. Dados fictícios." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../assets/css/base.css" />
+    <link rel="stylesheet" href="../design-system/tokens.css" />
+    <link rel="stylesheet" href="../design-system/components.css" />
+    <link rel="stylesheet" href="app.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#view">Pular para o conteúdo da tela</a>
+
+    <div class="stage">
+      <aside class="side" aria-label="Sobre o protótipo">
+        <div class="side__brand"><i data-lucide="zap" aria-hidden="true"></i> Roxx Energy</div>
+        <p>Protótipo navegável com dados fictícios. A recarga é simulada e acelerada: alguns segundos aqui valem minutos de verdade.</p>
+        <h2>Ir direto para a tela</h2>
+        <ol id="side-links">
+          <li><a href="#onboarding">Onboarding</a></li>
+          <li><a href="#veiculo">Cadastro do veículo</a></li>
+          <li><a href="#mapa">Mapa e filtros</a></li>
+          <li><a href="#estacao/cln204">Detalhe da estação</a></li>
+          <li><a href="#reserva/cln204">Reserva</a></li>
+          <li><a href="#recarga/demo">Recarga em andamento</a></li>
+          <li><a href="#pagamento">Pagamento</a></li>
+          <li><a href="#recibo">Recibo</a></li>
+          <li><a href="#historico">Histórico e gastos</a></li>
+        </ol>
+        <div class="side__links">
+          <a class="rx-btn rx-btn--secondary" href="../index.html"><i data-lucide="file-text" aria-hidden="true"></i> Estudo de caso</a>
+          <a class="rx-btn rx-btn--ghost" href="../design-system/index.html"><i data-lucide="palette" aria-hidden="true"></i> Design system</a>
+        </div>
+      </aside>
+
+      <div class="phone" id="app">
+        <div class="statusbar" aria-hidden="true">
+          <span>18:40</span>
+          <span><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span>
+        </div>
+        <main class="view" id="view" tabindex="-1"></main>
+        <nav class="nav-slot" id="nav" aria-label="Navegação principal"></nav>
+        <div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+        <dialog class="rx-modal" id="modal" aria-labelledby="modal-title" aria-describedby="modal-text"></dialog>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/lucide@0.453.0/dist/umd/lucide.min.js"></script>
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
