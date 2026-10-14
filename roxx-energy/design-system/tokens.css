@@ -1,0 +1,89 @@
+/*
+  Roxx Energy — tokens
+  Fonte única de verdade: o protótipo e a página do design system importam este arquivo.
+*/
+
+:root {
+  /* Superfícies (do mais fundo para o mais alto) */
+  --rx-bg: #0a0f0d;
+  --rx-surface: #121a17;
+  --rx-surface-2: #1a2420;
+  --rx-surface-3: #23302b;
+  --rx-line: #2a3833;
+  --rx-line-strong: #6a7d76;
+
+  /* Texto */
+  --rx-text: #eef5f2;
+  --rx-text-2: #a9bab3;
+  --rx-text-3: #7d8f88;
+  --rx-text-disabled: #5b6b65;
+
+  /* Marca: verde elétrico */
+  --rx-green: #39ff88;
+  --rx-green-hover: #6bffa6;
+  --rx-green-press: #22e070;
+  --rx-green-ink: #03140a;
+  --rx-green-soft: rgba(57, 255, 136, 0.12);
+  --rx-green-line: rgba(57, 255, 136, 0.4);
+
+  /* Estados de estação e feedback */
+  --rx-free: #39ff88;
+  --rx-busy: #ffc14d;
+  --rx-busy-soft: rgba(255, 193, 77, 0.14);
+  --rx-error: #ff6b6b;
+  --rx-error-soft: rgba(255, 107, 107, 0.14);
+  --rx-info: #63c7ff;
+  --rx-info-soft: rgba(99, 199, 255, 0.14);
+  --rx-offline: #8a9a94;
+
+  /* Foco */
+  --rx-focus: #63c7ff;
+
+  /* Tipografia */
+  --rx-font-display: "Space Grotesk", system-ui, sans-serif;
+  --rx-font-body: "Inter", system-ui, sans-serif;
+
+  --rx-fs-xs: 0.75rem; /* 12 */
+  --rx-fs-sm: 0.875rem; /* 14 */
+  --rx-fs-md: 1rem; /* 16 */
+  --rx-fs-lg: 1.125rem; /* 18 */
+  --rx-fs-xl: 1.375rem; /* 22 */
+  --rx-fs-2xl: 1.75rem; /* 28 */
+  --rx-fs-3xl: 2.25rem; /* 36 */
+  --rx-fs-hero: 3.5rem; /* 56 */
+
+  --rx-fw-regular: 400;
+  --rx-fw-medium: 500;
+  --rx-fw-bold: 700;
+
+  /* Espaçamento (base 4) */
+  --rx-space-1: 4px;
+  --rx-space-2: 8px;
+  --rx-space-3: 12px;
+  --rx-space-4: 16px;
+  --rx-space-5: 20px;
+  --rx-space-6: 24px;
+  --rx-space-8: 32px;
+  --rx-space-10: 40px;
+  --rx-space-12: 48px;
+
+  /* Raios */
+  --rx-radius-sm: 8px;
+  --rx-radius-md: 12px;
+  --rx-radius-lg: 16px;
+  --rx-radius-xl: 24px;
+  --rx-radius-pill: 999px;
+
+  /* Sombras */
+  --rx-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.45);
+  --rx-shadow-2: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --rx-shadow-3: 0 20px 48px rgba(0, 0, 0, 0.6);
+  --rx-glow: 0 0 0 1px var(--rx-green-line), 0 8px 28px rgba(57, 255, 136, 0.2);
+
+  /* Alvo mínimo de toque */
+  --rx-touch: 44px;
+
+  /* Movimento */
+  --rx-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --rx-dur: 180ms;
+}

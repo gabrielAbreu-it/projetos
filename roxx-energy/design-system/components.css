@@ -1,0 +1,520 @@
+/*
+  Roxx Energy — componentes
+  As classes .is-hover / .is-focus / .is-active só existem para mostrar os estados
+  na página do design system. No protótipo os estados vêm das pseudo-classes.
+*/
+
+/* ---------- Botão ---------- */
+.rx-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--rx-space-2);
+  min-height: var(--rx-touch);
+  padding: 0 var(--rx-space-5);
+  border-radius: var(--rx-radius-md);
+  border: 1px solid transparent;
+  font-family: var(--rx-font-body);
+  font-size: var(--rx-fs-md);
+  font-weight: var(--rx-fw-bold);
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background var(--rx-dur) var(--rx-ease), border-color var(--rx-dur) var(--rx-ease),
+    transform var(--rx-dur) var(--rx-ease), box-shadow var(--rx-dur) var(--rx-ease);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.rx-btn--lg {
+  min-height: 56px;
+  font-size: var(--rx-fs-lg);
+  border-radius: var(--rx-radius-lg);
+}
+
+.rx-btn--block {
+  width: 100%;
+}
+
+.rx-btn--primary {
+  background: var(--rx-green);
+  color: var(--rx-green-ink);
+}
+
+.rx-btn--primary:hover,
+.rx-btn--primary.is-hover {
+  background: var(--rx-green-hover);
+  box-shadow: var(--rx-glow);
+}
+
+.rx-btn--primary:active,
+.rx-btn--primary.is-active {
+  background: var(--rx-green-press);
+  transform: scale(0.98);
+}
+
+.rx-btn--secondary {
+  background: var(--rx-surface-2);
+  color: var(--rx-text);
+  border-color: var(--rx-line-strong);
+}
+
+.rx-btn--secondary:hover,
+.rx-btn--secondary.is-hover {
+  background: var(--rx-surface-3);
+  border-color: var(--rx-text-2);
+}
+
+.rx-btn--ghost {
+  background: transparent;
+  color: var(--rx-green);
+}
+
+.rx-btn--ghost:hover,
+.rx-btn--ghost.is-hover {
+  background: var(--rx-green-soft);
+}
+
+.rx-btn--danger {
+  background: transparent;
+  color: var(--rx-error);
+  border-color: var(--rx-error);
+}
+
+.rx-btn--danger:hover,
+.rx-btn--danger.is-hover {
+  background: var(--rx-error-soft);
+}
+
+.rx-btn:focus-visible,
+.rx-btn.is-focus {
+  outline: 3px solid var(--rx-focus);
+  outline-offset: 3px;
+}
+
+.rx-btn:disabled,
+.rx-btn[aria-disabled="true"] {
+  background: var(--rx-surface-2);
+  color: var(--rx-text-disabled);
+  border-color: var(--rx-line);
+  box-shadow: none;
+  transform: none;
+  cursor: not-allowed;
+}
+
+.rx-icon-btn {
+  display: inline-grid;
+  place-items: center;
+  width: var(--rx-touch);
+  height: var(--rx-touch);
+  border-radius: var(--rx-radius-pill);
+  border: 1px solid var(--rx-line);
+  background: var(--rx-surface);
+  color: var(--rx-text);
+  cursor: pointer;
+}
+
+.rx-icon-btn:hover {
+  background: var(--rx-surface-2);
+}
+
+.rx-icon-btn:focus-visible {
+  outline: 3px solid var(--rx-focus);
+  outline-offset: 2px;
+}
+
+/* ---------- Campo de texto ---------- */
+.rx-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--rx-space-2);
+}
+
+.rx-label {
+  font-size: var(--rx-fs-sm);
+  font-weight: var(--rx-fw-medium);
+  color: var(--rx-text);
+}
+
+.rx-input,
+.rx-select {
+  width: 100%;
+  min-height: 52px;
+  padding: 0 var(--rx-space-4);
+  border-radius: var(--rx-radius-md);
+  border: 1px solid var(--rx-line-strong);
+  background: var(--rx-surface);
+  color: var(--rx-text);
+  font-family: var(--rx-font-body);
+  font-size: var(--rx-fs-md);
+  transition: border-color var(--rx-dur) var(--rx-ease), box-shadow var(--rx-dur) var(--rx-ease);
+}
+
+.rx-select {
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--rx-text-2) 50%),
+    linear-gradient(135deg, var(--rx-text-2) 50%, transparent 50%);
+  background-position: calc(100% - 22px) 50%, calc(100% - 16px) 50%;
+  background-size: 6px 6px;
+  background-repeat: no-repeat;
+  padding-right: 44px;
+}
+
+.rx-input::placeholder {
+  color: var(--rx-text-3);
+}
+
+.rx-input:hover,
+.rx-select:hover,
+.rx-input.is-hover {
+  border-color: var(--rx-text-2);
+}
+
+.rx-input:focus,
+.rx-select:focus,
+.rx-input.is-focus {
+  outline: none;
+  border-color: var(--rx-focus);
+  box-shadow: 0 0 0 3px rgba(99, 199, 255, 0.35);
+}
+
+.rx-input:disabled,
+.rx-select:disabled {
+  background: var(--rx-bg);
+  border-color: var(--rx-line);
+  color: var(--rx-text-disabled);
+  cursor: not-allowed;
+}
+
+.rx-input[aria-invalid="true"],
+.rx-select[aria-invalid="true"] {
+  border-color: var(--rx-error);
+}
+
+.rx-input[aria-invalid="true"]:focus {
+  box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.3);
+}
+
+.rx-hint {
+  font-size: var(--rx-fs-sm);
+  color: var(--rx-text-2);
+}
+
+.rx-error-msg {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--rx-fs-sm);
+  color: var(--rx-error);
+}
+
+/* ---------- Card ---------- */
+.rx-card {
+  display: block;
+  width: 100%;
+  padding: var(--rx-space-4);
+  border-radius: var(--rx-radius-lg);
+  background: var(--rx-surface);
+  border: 1px solid var(--rx-line);
+  color: var(--rx-text);
+  text-align: left;
+  text-decoration: none;
+}
+
+.rx-card--interactive {
+  cursor: pointer;
+  transition: border-color var(--rx-dur) var(--rx-ease), background var(--rx-dur) var(--rx-ease);
+}
+
+.rx-card--interactive:hover,
+.rx-card--interactive.is-hover {
+  background: var(--rx-surface-2);
+  border-color: var(--rx-line-strong);
+}
+
+.rx-card--interactive:focus-visible,
+.rx-card--interactive.is-focus {
+  outline: 3px solid var(--rx-focus);
+  outline-offset: 2px;
+}
+
+.rx-card--selected {
+  border-color: var(--rx-green);
+  background: var(--rx-green-soft);
+}
+
+.rx-card--disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.rx-card--error {
+  border-color: var(--rx-error);
+}
+
+/* ---------- Chip (filtro) ---------- */
+.rx-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: var(--rx-touch);
+  padding: 0 var(--rx-space-4);
+  border-radius: var(--rx-radius-pill);
+  border: 1px solid var(--rx-line-strong);
+  background: var(--rx-surface);
+  color: var(--rx-text);
+  font-size: var(--rx-fs-sm);
+  font-weight: var(--rx-fw-medium);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.rx-chip:hover,
+.rx-chip.is-hover {
+  background: var(--rx-surface-2);
+}
+
+.rx-chip:focus-visible,
+.rx-chip.is-focus {
+  outline: 3px solid var(--rx-focus);
+  outline-offset: 2px;
+}
+
+.rx-chip[aria-pressed="true"],
+.rx-chip[aria-checked="true"],
+.rx-chip.is-selected {
+  background: var(--rx-green);
+  border-color: var(--rx-green);
+  color: var(--rx-green-ink);
+}
+
+.rx-chip:disabled {
+  color: var(--rx-text-disabled);
+  border-color: var(--rx-line);
+  background: transparent;
+  cursor: not-allowed;
+}
+
+.rx-chip.is-error {
+  border-color: var(--rx-error);
+  color: var(--rx-error);
+}
+
+/* ---------- Badge de status ---------- */
+.rx-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: var(--rx-radius-pill);
+  font-size: var(--rx-fs-xs);
+  font-weight: var(--rx-fw-bold);
+  white-space: nowrap;
+}
+
+.rx-status::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.rx-status--free {
+  color: var(--rx-free);
+  background: var(--rx-green-soft);
+}
+
+.rx-status--busy {
+  color: var(--rx-busy);
+  background: var(--rx-busy-soft);
+}
+
+.rx-status--off {
+  color: var(--rx-offline);
+  background: var(--rx-surface-2);
+}
+
+.rx-status--error {
+  color: var(--rx-error);
+  background: var(--rx-error-soft);
+}
+
+.rx-status--info {
+  color: var(--rx-info);
+  background: var(--rx-info-soft);
+}
+
+/* ---------- Modal (usa <dialog>) ---------- */
+.rx-modal {
+  width: min(360px, calc(100% - 32px));
+  padding: 0;
+  border: 1px solid var(--rx-line);
+  border-radius: var(--rx-radius-xl);
+  background: var(--rx-surface);
+  color: var(--rx-text);
+  box-shadow: var(--rx-shadow-3);
+}
+
+.rx-modal::backdrop {
+  background: rgba(3, 6, 5, 0.72);
+}
+
+.rx-modal__body {
+  padding: var(--rx-space-6);
+}
+
+.rx-modal__icon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  margin-bottom: var(--rx-space-4);
+  background: var(--rx-error-soft);
+  color: var(--rx-error);
+}
+
+.rx-modal__title {
+  font-family: var(--rx-font-display);
+  font-size: var(--rx-fs-xl);
+  margin: 0 0 var(--rx-space-2);
+}
+
+.rx-modal__text {
+  color: var(--rx-text-2);
+  margin: 0;
+}
+
+.rx-modal__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--rx-space-2);
+  margin-top: var(--rx-space-6);
+}
+
+/* ---------- Toast ---------- */
+.rx-toast {
+  display: flex;
+  align-items: center;
+  gap: var(--rx-space-3);
+  padding: var(--rx-space-3) var(--rx-space-4);
+  border-radius: var(--rx-radius-md);
+  background: var(--rx-surface-3);
+  border: 1px solid var(--rx-line-strong);
+  color: var(--rx-text);
+  font-size: var(--rx-fs-sm);
+  box-shadow: var(--rx-shadow-2);
+}
+
+.rx-toast__icon {
+  color: var(--rx-green);
+}
+
+.rx-toast--error {
+  border-color: var(--rx-error);
+}
+
+.rx-toast--error .rx-toast__icon {
+  color: var(--rx-error);
+}
+
+.rx-toast__action {
+  margin-left: auto;
+  min-height: var(--rx-touch);
+  padding: 0 var(--rx-space-2);
+  border: 0;
+  background: none;
+  color: var(--rx-green);
+  font-weight: var(--rx-fw-bold);
+  cursor: pointer;
+}
+
+.rx-toast__action:focus-visible {
+  outline: 3px solid var(--rx-focus);
+  border-radius: 6px;
+}
+
+/* ---------- Navbar (barra inferior) ---------- */
+.rx-navbar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--rx-line);
+  background: var(--rx-surface);
+  padding: var(--rx-space-1) var(--rx-space-2) var(--rx-space-2);
+}
+
+.rx-navbar__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-height: 56px;
+  border-radius: var(--rx-radius-md);
+  color: var(--rx-text-2);
+  font-size: var(--rx-fs-xs);
+  font-weight: var(--rx-fw-medium);
+  text-decoration: none;
+  position: relative;
+}
+
+.rx-navbar__item svg {
+  width: 22px;
+  height: 22px;
+}
+
+.rx-navbar__item:hover,
+.rx-navbar__item.is-hover {
+  color: var(--rx-text);
+}
+
+.rx-navbar__item:focus-visible,
+.rx-navbar__item.is-focus {
+  outline: 3px solid var(--rx-focus);
+  outline-offset: -3px;
+}
+
+.rx-navbar__item[aria-current="page"] {
+  color: var(--rx-green);
+}
+
+.rx-navbar__item[aria-current="page"]::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 24px;
+  height: 3px;
+  border-radius: 0 0 3px 3px;
+  background: var(--rx-green);
+}
+
+.rx-navbar__item[aria-disabled="true"] {
+  color: var(--rx-text-disabled);
+  pointer-events: none;
+}
+
+.rx-navbar__dot {
+  position: absolute;
+  top: 10px;
+  left: calc(50% + 8px);
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--rx-green);
+  box-shadow: 0 0 0 2px var(--rx-surface);
+}
+
+/* ---------- Barra de progresso ---------- */
+.rx-progress {
+  height: 8px;
+  border-radius: var(--rx-radius-pill);
+  background: var(--rx-surface-3);
+  overflow: hidden;
+}
+
+.rx-progress__bar {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--rx-green);
+  transition: width 400ms var(--rx-ease);
+}
