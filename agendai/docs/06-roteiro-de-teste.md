@@ -20,8 +20,8 @@
 
 | # | Tarefa | Sucesso quando |
 |---|---|---|
-| 1 | "Marque um corte + barba para sexta à noite, com qualquer barbeiro." | Chega na tela "Tudo certo!" |
-| 2 | "Você não vai conseguir ir. Mude para sábado." | Remarca sem cancelar e criar outro |
+| 1 | "Marque um corte + barba para sexta à tarde, com qualquer barbeiro." | Chega na tela "Tudo certo!" |
+| 2 | "Você não vai conseguir ir. Mude para outro dia da semana que vem." | Remarca sem cancelar e criar outro |
 | 3 | "Desista do horário." | Cancela e entende que pode desfazer |
 
 ## Tarefas do dono
