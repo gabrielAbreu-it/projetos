@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Gabriel Abreu · UX/UI Designer</title>
+    <meta name="description" content="Portfólio de Gabriel Abreu, UX/UI Designer em Brasília. Dois estudos de caso completos: Roxx Energy e Agendaí." />
+    <meta name="theme-color" content="#f7f6f2" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#111111" media="(prefers-color-scheme: dark)" />
+    <script>
+      // Aplica o tema salvo antes de pintar a página
+      (function () {
+        try {
+          var t = localStorage.getItem('portfolio-tema');
+          if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+        } catch (e) {
+          /* sem armazenamento: segue o sistema */
+        }
+      })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/base.css" />
+    <link rel="stylesheet" href="assets/css/vitrine.css" />
+  </head>
+  <body class="vitrine">
+    <a class="skip-link" href="#projetos">Pular para os projetos</a>
+
+    <header class="v-top">
+      <div class="v-wrap">
+        <a class="v-logo" href="#inicio">Gabriel Abreu</a>
+        <nav class="v-nav" aria-label="Seções">
+          <a href="#projetos">Projetos</a>
+          <a href="#processo">Como eu trabalho</a>
+          <a href="#contato">Contato</a>
+        </nav>
+        <button type="button" class="v-theme" id="tema" aria-label="Tema escuro" aria-pressed="false">
+          <i data-lucide="moon" class="i-moon" aria-hidden="true"></i>
+          <i data-lucide="sun" class="i-sun" aria-hidden="true"></i>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section class="v-hero" id="inicio" aria-labelledby="nome">
+        <div class="v-wrap">
+          <h1 id="nome">Gabriel Abreu</h1>
+          <p class="v-role">UX/UI Designer · Brasília</p>
+          <p class="v-intro">
+            Desenho produtos digitais do problema ao protótipo. Aqui estão dois projetos completos, cada um com pesquisa, fluxos,
+            wireframes, interface, design system e um protótipo que dá para usar no navegador.
+          </p>
+        </div>
+      </section>
+
+      <section class="v-section" id="projetos" aria-labelledby="t-projetos">
+        <div class="v-wrap">
+          <div class="v-section__head">
+            <h2 id="t-projetos">Projetos</h2>
+            <p>Dois produtos diferentes: um app escuro e técnico, um sistema claro e acolhedor.</p>
+          </div>
+
+          <div class="v-projects">
+            <article class="v-card" aria-labelledby="p-roxx">
+              <a class="v-card__cover" href="roxx-energy/index.html" tabindex="-1" aria-hidden="true">
+                <img src="assets/img/capa-roxx-energy.png" width="1600" height="900" alt="" />
+              </a>
+              <div class="v-card__body">
+                <span class="v-card__tag">App mobile · Mobilidade elétrica</span>
+                <h3 id="p-roxx">Roxx Energy</h3>
+                <p class="v-card__desc">
+                  App para quem tem carro elétrico achar um carregador livre, funcionando e compatível, reservar a vaga e pagar a recarga.
+                </p>
+                <dl class="v-meta">
+                  <div><dt>Tipo</dt><dd>App iOS e Android</dd></div>
+                  <div><dt>Papel</dt><dd>UX/UI, projeto individual</dd></div>
+                  <div><dt>Ferramentas</dt><dd>HTML, CSS, JS, Lucide</dd></div>
+                </dl>
+                <div class="v-actions">
+                  <a class="v-btn v-btn--primary" href="roxx-energy/index.html">Ler o case <span class="sr-only">do Roxx Energy</span><i data-lucide="arrow-right" aria-hidden="true"></i></a>
+                  <a class="v-btn" href="roxx-energy/prototipo/index.html"><i data-lucide="smartphone" aria-hidden="true"></i>Abrir protótipo <span class="sr-only">do Roxx Energy</span></a>
+                </div>
+              </div>
+            </article>
+
+            <article class="v-card" aria-labelledby="p-agendai">
+              <a class="v-card__cover" href="agendai/index.html" tabindex="-1" aria-hidden="true">
+                <img src="assets/img/capa-agendai.png" width="1600" height="900" alt="" />
+              </a>
+              <div class="v-card__body">
+                <span class="v-card__tag">App mobile + painel web · Serviços</span>
+                <h3 id="p-agendai">Agendaí</h3>
+                <p class="v-card__desc">
+                  Agendamento para salão, barbearia e estética: o cliente marca sozinho e o dono organiza a agenda e acompanha o mês.
+                </p>
+                <dl class="v-meta">
+                  <div><dt>Tipo</dt><dd>App do cliente e painel do dono</dd></div>
+                  <div><dt>Papel</dt><dd>UX/UI, projeto individual</dd></div>
+                  <div><dt>Ferramentas</dt><dd>HTML, CSS, JS, Lucide</dd></div>
+                </dl>
+                <div class="v-actions">
+                  <a class="v-btn v-btn--primary" href="agendai/index.html">Ler o case <span class="sr-only">do Agendaí</span><i data-lucide="arrow-right" aria-hidden="true"></i></a>
+                  <a class="v-btn" href="agendai/prototipo/index.html"><i data-lucide="calendar-check" aria-hidden="true"></i>Abrir protótipo <span class="sr-only">do Agendaí</span></a>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="v-section" id="processo" aria-labelledby="t-processo">
+        <div class="v-wrap">
+          <div class="v-section__head">
+            <h2 id="t-processo">Como eu trabalho</h2>
+            <p>O mesmo caminho nos dois projetos. Cada etapa está documentada dentro dos cases.</p>
+          </div>
+          <ol class="v-steps">
+            <li><span class="v-steps__n" aria-hidden="true">01</span><h3>Pesquisa</h3><p>Benchmark de produtos reais, proto-persona assumida como hipótese e jornada com as dores.</p></li>
+            <li><span class="v-steps__n" aria-hidden="true">02</span><h3>Fluxo</h3><p>Arquitetura de informação e os caminhos principais, incluindo os de erro.</p></li>
+            <li><span class="v-steps__n" aria-hidden="true">03</span><h3>Wireframe</h3><p>Telas em cinza no tamanho real, para decidir o que aparece e em que ordem.</p></li>
+            <li><span class="v-steps__n" aria-hidden="true">04</span><h3>UI</h3><p>Design system com tokens e estados, contraste conferido e protótipo navegável.</p></li>
+            <li><span class="v-steps__n" aria-hidden="true">05</span><h3>Teste</h3><p>Avaliação heurística do que fiz, correções e um roteiro de teste com usuários.</p></li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="v-section" id="contato" aria-labelledby="t-contato">
+        <div class="v-wrap">
+          <div class="v-section__head">
+            <h2 id="t-contato">Contato</h2>
+            <p>Quer conversar sobre um projeto ou uma vaga? Me chama.</p>
+          </div>
+          <div class="v-contact">
+            <a class="v-btn" href="https://www.linkedin.com/in/SEU-USUARIO"><i data-lucide="linkedin" aria-hidden="true"></i>LinkedIn</a>
+            <a class="v-btn" href="https://github.com/gabrielAbreu-it"><i data-lucide="github" aria-hidden="true"></i>GitHub</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="v-footer">
+      <div class="v-wrap">
+        <span>© 2026 Gabriel Abreu</span>
+        <span>Feito à mão em HTML, CSS e JavaScript.</span>
+      </div>
+    </footer>
+
+    <script src="https://unpkg.com/lucide@0.453.0/dist/umd/lucide.min.js"></script>
+    <script>
+      (function () {
+        if (window.lucide) window.lucide.createIcons();
+        var raiz = document.documentElement;
+        var botao = document.getElementById('tema');
+        var escuroSistema = window.matchMedia('(prefers-color-scheme: dark)');
+
+        function atual() {
+          return raiz.getAttribute('data-theme') || (escuroSistema.matches ? 'dark' : 'light');
+        }
+
+        function rotular() {
+          botao.setAttribute('aria-pressed', atual() === 'dark' ? 'true' : 'false');
+        }
+
+        botao.addEventListener('click', function () {
+          var novo = atual() === 'dark' ? 'light' : 'dark';
+          raiz.setAttribute('data-theme', novo);
+          try {
+            localStorage.setItem('portfolio-tema', novo);
+          } catch (e) {
+            /* sem armazenamento: vale só nesta visita */
+          }
+          rotular();
+        });
+        escuroSistema.addEventListener('change', rotular);
+        rotular();
+      })();
+    </script>
+  </body>
+</html>
