@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Agendaí · Wireframes</title>
+    <meta name="description" content="Wireframes de baixa fidelidade do app do cliente e do painel do dono do Agendaí." />
+    <link rel="stylesheet" href="../../../assets/css/base.css" />
+    <link rel="stylesheet" href="../../../assets/css/wireframe.css" />
+  </head>
+  <body class="wf">
+    <main class="wf-wrap">
+      <header class="wf-head">
+        <a class="wf-back" href="../../index.html">← Estudo de caso do Agendaí</a>
+        <h1>Wireframes de baixa fidelidade</h1>
+        <p>
+          As telas principais das duas interfaces, em cinza, antes da UI. Aqui decidi a ordem das informações e o tamanho de cada área.
+          Embaixo de cada tela está a decisão principal e o que mudou na UI final.
+        </p>
+      </header>
+
+      <h2 style="margin-top: 32px">App do cliente</h2>
+      <div class="wf-grid" style="margin-top: 16px">
+        <section class="wf-item" aria-labelledby="w1">
+          <h3 id="w1">1. Início do salão</h3>
+          <div class="wf-phone" role="img" aria-label="Wireframe do início: capa, nome do salão, próximo horário, botão agendar e lista de serviços">
+            <div class="x h60"></div>
+            <div class="t t--lg w60"></div>
+            <div class="t w80"></div>
+            <div class="b b--dark h60"></div>
+            <div class="b b--dark h36"></div>
+            <div class="lbl">Mais pedidos</div>
+            <div class="b b--line h36"></div>
+            <div class="b b--line h36"></div>
+            <div class="row mt-auto"><div class="b grow h28"></div><div class="b grow h28"></div><div class="b grow h28"></div></div>
+          </div>
+          <ul><li>O próximo horário do cliente vem antes do botão de agendar: quem já marcou quer conferir, não marcar de novo.</li></ul>
+        </section>
+
+        <section class="wf-item" aria-labelledby="w2">
+          <h3 id="w2">2. Serviço</h3>
+          <div class="wf-phone" role="img" aria-label="Wireframe da escolha de serviço: barra de passos e lista de serviços agrupados com preço">
+            <div class="t t--lg w50"></div>
+            <div class="row"><div class="b b--dark grow" style="height:4px"></div><div class="b grow" style="height:4px"></div><div class="b grow" style="height:4px"></div><div class="b grow" style="height:4px"></div></div>
+            <div class="lbl">Barbearia</div>
+            <div class="b b--line h36"></div><div class="b b--line h36"></div><div class="b b--line h36"></div>
+            <div class="lbl">Cabelo</div>
+            <div class="b b--line h36"></div><div class="b b--line h36"></div>
+            <div class="b b--dark h44 mt-auto"></div>
+          </div>
+          <ul><li>Preço e duração já na lista. O cliente decide pelo preço antes de qualquer outra coisa.</li></ul>
+        </section>
+
+        <section class="wf-item" aria-labelledby="w3">
+          <h3 id="w3">3. Profissional</h3>
+          <div class="wf-phone" role="img" aria-label="Wireframe da escolha de profissional: opção sem preferência e lista de profissionais com foto">
+            <div class="t t--lg w50"></div>
+            <div class="row"><div class="b b--dark grow" style="height:4px"></div><div class="b b--dark grow" style="height:4px"></div><div class="b grow" style="height:4px"></div><div class="b grow" style="height:4px"></div></div>
+            <div class="row b b--line" style="padding:8px"><div class="circle" style="width:28px;height:28px"></div><div class="col grow"><div class="t w60"></div><div class="t t--sm w80"></div></div></div>
+            <div class="row b b--line" style="padding:8px"><div class="circle" style="width:28px;height:28px"></div><div class="col grow"><div class="t w50"></div><div class="t t--sm w30"></div></div></div>
+            <div class="row b b--line" style="padding:8px"><div class="circle" style="width:28px;height:28px"></div><div class="col grow"><div class="t w50"></div><div class="t t--sm w30"></div></div></div>
+            <div class="b b--dark h44 mt-auto"></div>
+          </div>
+          <ul><li>"Sem preferência" é a primeira opção: para corte simples, o cliente quer o primeiro horário livre.</li></ul>
+        </section>
+
+        <section class="wf-item" aria-labelledby="w4">
+          <h3 id="w4">4. Data e hora</h3>
+          <div class="wf-phone" role="img" aria-label="Wireframe da data e hora: faixa de dias e grade de horários por período">
+            <div class="t t--lg w40"></div>
+            <div class="row"><div class="b b--dark" style="width:36px;height:44px"></div><div class="b b--line" style="width:36px;height:44px"></div><div class="b b--line" style="width:36px;height:44px"></div><div class="b b--line" style="width:36px;height:44px"></div><div class="b" style="width:36px;height:44px"></div></div>
+            <div class="lbl">Manhã</div>
+            <div class="row"><div class="pill grow"></div><div class="pill grow"></div><div class="pill grow"></div></div>
+            <div class="lbl">Tarde</div>
+            <div class="row"><div class="pill grow"></div><div class="pill grow"></div><div class="pill grow"></div></div>
+            <div class="row"><div class="pill grow"></div><div class="pill grow"></div><div class="pill grow"></div></div>
+            <div class="b b--dark h44 mt-auto"></div>
+          </div>
+          <ul><li>Só horários livres, divididos em manhã, tarde e noite. Na UI final entrou a linha "quem atende" quando é sem preferência.</li></ul>
+        </section>
+
+        <section class="wf-item" aria-labelledby="w5">
+          <h3 id="w5">5. Confirmar</h3>
+          <div class="wf-phone" role="img" aria-label="Wireframe da confirmação: resumo, campos de nome e WhatsApp, observação e botão confirmar">
+            <div class="t t--lg w40"></div>
+            <div class="b h80"></div>
+            <div class="lbl">Nome</div><div class="b b--line h28"></div>
+            <div class="lbl">WhatsApp</div><div class="b b--line h28"></div>
+            <div class="lbl">Observação</div><div class="b b--line h44"></div>
+            <div class="b b--dark h44 mt-auto"></div>
+          </div>
+          <ul><li>Nome e WhatsApp só no último passo, sem criar conta. Pedir cadastro antes faria muita gente desistir.</li></ul>
+        </section>
+
+        <section class="wf-item" aria-labelledby="w6">
+          <h3 id="w6">6. Meus horários</h3>
+          <div class="wf-phone" role="img" aria-label="Wireframe de meus horários: abas próximos e anteriores e cards com remarcar e cancelar">
+            <div class="t t--lg w50"></div>
+            <div class="row"><div class="b b--dark h28 grow"></div><div class="b h28 grow"></div></div>
+            <div class="b b--line col" style="padding:8px"><div class="row"><div class="b" style="width:36px;height:40px"></div><div class="col grow"><div class="t w60"></div><div class="t t--sm w80"></div></div></div><div class="row"><div class="b h28 grow"></div><div class="b b--line h28 grow"></div></div></div>
+            <div class="b b--line col" style="padding:8px"><div class="row"><div class="b" style="width:36px;height:40px"></div><div class="col grow"><div class="t w60"></div><div class="t t--sm w80"></div></div></div><div class="row"><div class="b h28 grow"></div><div class="b b--line h28 grow"></div></div></div>
+          </div>
+          <ul><li>Remarcar e cancelar ficam no próprio card, sem abrir outra tela.</li></ul>
+        </section>
+      </div>
+
+      <h2 style="margin-top: 48px">Painel do dono</h2>
+      <div class="wf-grid wf-grid--wide" style="margin-top: 16px">
+        <section class="wf-item" aria-labelledby="w7">
+          <h3 id="w7">7. Agenda do dia</h3>
+          <div class="wf-desk" role="img" aria-label="Wireframe da agenda: menu lateral, barra de ferramentas e grade com uma coluna por profissional">
+            <div class="wf-desk__side"><div class="t t--lg w80"></div><div class="b b--dark h20"></div><div class="b h20"></div><div class="b h20"></div><div class="b h20"></div><div class="b h20"></div></div>
+            <div class="wf-desk__main">
+              <div class="row"><div class="t t--lg w30"></div><div class="grow"></div><div class="b b--dark h20 w20"></div></div>
+              <div class="row"><div class="b h20 w20"></div><div class="circle" style="width:20px;height:20px"></div><div class="circle" style="width:20px;height:20px"></div><div class="t w30"></div></div>
+              <div class="wf-grid7">
+                <span></span><span class="on"></span><span></span><span class="on"></span><span></span>
+                <span></span><span class="on"></span><span class="on"></span><span></span><span></span>
+                <span></span><span></span><span class="on"></span><span></span><span class="on"></span>
+                <span></span><span class="on"></span><span></span><span class="on"></span><span class="on"></span>
+                <span></span><span></span><span></span><span class="on"></span><span></span>
+                <span></span><span class="on"></span><span class="on"></span><span></span><span class="on"></span>
+              </div>
+            </div>
+          </div>
+          <ul><li>A agenda é a tela inicial do painel. Considerei abrir nos números, mas o dono abre a agenda muitas vezes por dia e os números poucas vezes por semana.</li></ul>
+        </section>
+
+        <section class="wf-item" aria-labelledby="w8">
+          <h3 id="w8">8. Números do mês</h3>
+          <div class="wf-desk" role="img" aria-label="Wireframe dos números: quatro indicadores, gráfico de barras e dois gráficos menores">
+            <div class="wf-desk__side"><div class="t t--lg w80"></div><div class="b h20"></div><div class="b b--dark h20"></div><div class="b h20"></div><div class="b h20"></div><div class="b h20"></div></div>
+            <div class="wf-desk__main">
+              <div class="t t--lg w40"></div>
+              <div class="row"><div class="b grow h44"></div><div class="b grow h44"></div><div class="b grow h44"></div><div class="b grow h44"></div></div>
+              <div class="b b--line grow row" style="align-items:flex-end;padding:8px;gap:3px"><div class="b b--dark grow" style="height:60%"></div><div class="b b--dark grow" style="height:75%"></div><div class="b b--dark grow" style="height:50%"></div><div class="b grow" style="height:70%"></div><div class="b grow" style="height:40%"></div><div class="b grow" style="height:55%"></div></div>
+              <div class="row"><div class="b b--line grow h44"></div><div class="b b--line grow h44"></div></div>
+            </div>
+          </div>
+          <ul><li>Quatro números no topo respondem as perguntas da jornada. Os gráficos explicam o porquê.</li></ul>
+        </section>
+
+        <section class="wf-item" aria-labelledby="w9">
+          <h3 id="w9">9. Ficha do cliente</h3>
+          <div class="wf-desk" role="img" aria-label="Wireframe da ficha: dados e números do cliente à esquerda e histórico à direita">
+            <div class="wf-desk__side"><div class="t t--lg w80"></div><div class="b h20"></div><div class="b h20"></div><div class="b b--dark h20"></div><div class="b h20"></div><div class="b h20"></div></div>
+            <div class="wf-desk__main">
+              <div class="row" style="align-items:flex-start;gap:10px;flex:1">
+                <div class="col grow"><div class="b b--line col" style="padding:8px"><div class="row"><div class="circle" style="width:28px;height:28px"></div><div class="t t--lg w60"></div></div><div class="row"><div class="b grow h28"></div><div class="b grow h28"></div></div><div class="row"><div class="b grow h28"></div><div class="b grow h28"></div></div></div><div class="b b--line h60"></div></div>
+                <div class="col grow b b--line" style="padding:8px"><div class="t w40"></div><div class="t w100"></div><div class="t w100"></div><div class="t w100"></div><div class="t w100"></div></div>
+              </div>
+            </div>
+          </div>
+          <ul><li>Observações (alergia, preferência) em destaque. Na UI final elas também aparecem ao abrir qualquer horário do cliente.</li></ul>
+        </section>
+      </div>
+
+      <p class="wf-note">
+        Desenhei esses wireframes direto em HTML, no tamanho real de celular e de notebook. Retângulo com X é imagem; os quadradinhos da
+        agenda são horários ocupados.
+      </p>
+    </main>
+  </body>
+</html>
