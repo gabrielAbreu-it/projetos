@@ -699,7 +699,7 @@
       '<section class="ag-card chart-card" aria-labelledby="t-heat"><h2 id="t-heat">Horários mais cheios</h2><p>Quantidade de agendamentos por dia da semana e hora, no mês.</p>' + heat.html +
       '<div class="callout-num">' + ic('flame') + '<span>O horário mais disputado é <strong>' + AG.DIAS[heat.pico.d] + ', das ' + heat.pico.h + 'h às ' + (heat.pico.h + 1) + 'h</strong>. Bom momento para não marcar folga.</span></div></section>' +
       '<section class="ag-card chart-card" aria-labelledby="t-faltas"><h2 id="t-faltas">Faltas por profissional</h2><p>Clientes que não vieram, sobre o total de atendimentos de cada um.</p>' + faltasPorProf(n) +
-      '<div class="callout-num">' + ic('message-circle') + '<span>Clientes com lembrete confirmado faltam menos. Os ' + D.agendamentos.filter(function (a) { return a.status === 'pendente' && !AG.noPassado(a.data, a.inicio); }).length + ' horários "aguardando confirmação" recebem um segundo lembrete no dia.</span></div></section>' +
+      '<div class="callout-num">' + ic('message-circle') + '<span>Quem confirma o lembrete falta menos. Os ' + pendentesHoje() + ' clientes de hoje que ainda não confirmaram recebem um segundo lembrete 2 horas antes.</span></div></section>' +
       '</div>'
     );
   }
