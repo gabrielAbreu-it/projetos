@@ -514,12 +514,13 @@ h1:focus {
 
 .charts {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--ag-space-4);
 }
 
 @media (min-width: 1180px) {
   .charts {
-    grid-template-columns: 1.4fr 1fr;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
   }
   .charts .span-2 {
     grid-column: 1 / -1;
@@ -539,6 +540,11 @@ h1:focus {
 .chart {
   position: relative;
   overflow-x: auto;
+}
+
+.chart-card {
+  position: relative;
+  min-width: 0;
 }
 
 .chart svg {
@@ -703,6 +709,7 @@ h1:focus {
 }
 
 .table-scroll {
+  position: relative;
   overflow-x: auto;
 }
 
