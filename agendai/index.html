@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#fbf8f4" />
+    <title>Agendaí · Estudo de caso · Gabriel Abreu</title>
+    <meta
+      name="description"
+      content="Estudo de caso do Agendaí: agendamento para salão, barbearia e estética, com app do cliente e painel do dono."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../assets/css/base.css" />
+    <link rel="stylesheet" href="../assets/css/case.css" />
+    <style>
+      :root {
+        --font-head: "Plus Jakarta Sans", system-ui, sans-serif;
+        --font-body: "Plus Jakarta Sans", system-ui, sans-serif;
+        --c-bg: #fbf8f4;
+        --c-surface: #ffffff;
+        --c-surface-2: #f3eee7;
+        --c-line: #e6dfd5;
+        --c-line-strong: #7c8783;
+        --c-text: #1f2523;
+        --c-muted: #5e6763;
+        --c-accent: #1f5f5b;
+        --c-accent-ink: #ffffff;
+        --c-accent-text: #1f5f5b;
+        --c-link: #1f5f5b;
+        --c-focus: #1d5bbf;
+        --c-warn-bg: #fff4dc;
+        --c-warn-text: #8a5a00;
+        --c-warn-line: #d9a441;
+        --c-danger-text: #b42318;
+      }
+      .case h1,
+      .case h2 {
+        font-weight: 800;
+      }
+      .sev {
+        display: inline-grid;
+        place-items: center;
+        min-width: 28px;
+        height: 28px;
+        border-radius: 8px;
+        font-weight: 800;
+        background: var(--c-surface-2);
+      }
+      .sev--2 {
+        background: #fff4dc;
+        color: #8a5a00;
+      }
+      .ok {
+        color: #147a4b;
+        font-weight: 700;
+      }
+      .persona + .persona {
+        margin-top: 16px;
+      }
+    </style>
+  </head>
+  <body class="case">
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+    <header class="case-top">
+      <div class="wrap">
+        <a class="case-top__back" href="../index.html"><i data-lucide="arrow-left" aria-hidden="true"></i> Portfólio</a>
+        <nav class="case-top__links" aria-label="Links do projeto">
+          <a class="btn-case" href="design-system/index.html"><i data-lucide="palette" aria-hidden="true"></i><span>Design system</span></a>
+          <a class="btn-case btn-case--primary" href="prototipo/index.html"><i data-lucide="calendar-check" aria-hidden="true"></i><span>Abrir protótipo</span></a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="conteudo">
+      <section class="case-hero">
+        <div class="wrap">
+          <span class="eyebrow">Estudo de caso · App mobile + painel web</span>
+          <h1>Agendaí</h1>
+          <p class="case-hero__lead">
+            Agendamento para salão, barbearia e estética. O cliente marca sozinho, sem criar conta, e o dono organiza a agenda arrastando
+            horários e vê quanto faturou, quantos clientes faltaram e quais horários lotam.
+          </p>
+          <dl class="case-meta">
+            <div><dt>Papel</dt><dd>UX/UI Designer, projeto individual</dd></div>
+            <div><dt>Tipo</dt><dd>Projeto conceitual, app do cliente e painel do dono</dd></div>
+            <div><dt>Entregas</dt><dd>Pesquisa, fluxos, wireframes, UI, design system, protótipo</dd></div>
+            <div><dt>Ferramentas</dt><dd>HTML, CSS, JavaScript, Lucide</dd></div>
+          </dl>
+          <figure class="case-cover">
+            <img
+              src="../assets/img/capa-agendai.png"
+              width="1600"
+              height="900"
+              alt="O painel do dono do Agendaí com a agenda do dia em colunas por profissional, ao lado do app do cliente na tela de escolha de horário."
+            />
+          </figure>
+        </div>
+      </section>
+
+      <div class="wrap case-body">
+        <nav class="toc" aria-label="Seções do estudo de caso">
+          <details open>
+            <summary>Neste case</summary>
+            <ol>
+              <li><a href="#problema">Problema e objetivo</a></li>
+              <li><a href="#benchmark">Benchmark</a></li>
+              <li><a href="#persona">Personas e jornada</a></li>
+              <li><a href="#fluxos">Arquitetura e fluxos</a></li>
+              <li><a href="#wireframes">Wireframes</a></li>
+              <li><a href="#ui">Decisões de UI</a></li>
+              <li><a href="#acessibilidade">Acessibilidade</a></li>
+              <li><a href="#heuristica">Avaliação heurística</a></li>
+              <li><a href="#teste">Roteiro de teste</a></li>
+              <li><a href="#proximos">Próximos passos</a></li>
+            </ol>
+          </details>
+        </nav>
+
+        <div>
+          <section class="case-section" id="problema" aria-labelledby="h-problema">
+            <span class="section-num">01</span>
+            <h2 id="h-problema">Problema e objetivo</h2>
+            <p>
+              Em salão, barbearia e estética pequenos, o agendamento acontece pelo WhatsApp. O dono, que muitas vezes também atende, responde
+              entre um cliente e outro e anota numa agenda de papel. Resultado:
+            </p>
+            <ol>
+              <li><strong>Horário perdido:</strong> mensagem respondida tarde, cliente que desiste, encaixe que ninguém viu.</li>
+              <li><strong>Confirmação esquecida:</strong> ninguém lembra o cliente na véspera e ele não aparece.</li>
+              <li><strong>Sem visão do negócio:</strong> o dono não sabe quanto faturou, quantos faltaram nem quais horários lotam.</li>
+            </ol>
+            <div class="callout">
+              <strong>Objetivo</strong>
+              Tirar o agendamento da conversa no WhatsApp sem obrigar o cliente a criar conta, e dar ao dono uma agenda que ele organiza em
+              segundos e que mostra os números do mês.
+            </div>
+            <ul>
+              <li>O cliente marca um horário em menos de 1 minuto.</li>
+              <li>O dono remarca arrastando o horário, sem abrir formulário.</li>
+              <li>O dono vê faturamento e taxa de faltas sem fazer conta.</li>
+            </ul>
+          </section>
+
+          <section class="case-section" id="benchmark" aria-labelledby="h-benchmark">
+            <span class="section-num">02</span>
+            <h2 id="h-benchmark">Benchmark</h2>
+            <p>
+              Cinco produtos reais, analisados pelos sites oficiais, lojas de apps e matérias, em outubro de 2026. Onde não encontrei a
+              informação, escrevi "não encontrei".
+            </p>
+            <div class="table-wrap" tabindex="0" role="region" aria-label="Tabela comparativa do benchmark">
+              <table>
+                <thead>
+                  <tr><th scope="col">Funcionalidade</th><th scope="col">Booksy</th><th scope="col">Trinks</th><th scope="col">AppBarber</th><th scope="col">Fresha</th><th scope="col">Google Agenda</th></tr>
+                </thead>
+                <tbody>
+                  <tr><th scope="row">O que é</th><td>Marketplace e agenda de beleza</td><td>Gestão brasileira para salões</td><td>Gestão e agendamento para barbearias</td><td>Agendamento e marketplace de beleza</td><td>Agenda pessoal com página de agendamento</td></tr>
+                  <tr><th scope="row">Cliente agenda sozinho</th><td>Sim, app e marketplace</td><td>Sim, online e pelo Google Maps</td><td>Sim, app e painel web</td><td>Sim, app e marketplace</td><td>Sim, por link</td></tr>
+                  <tr><th scope="row">Lembrete</th><td>Sim</td><td>Sim, SMS</td><td>Sim, mensagens de retorno</td><td>Sim</td><td>Sim, e-mail</td></tr>
+                  <tr><th scope="row">Agenda por profissional</th><td>Sim</td><td>Sim</td><td>Sim</td><td>Sim</td><td>Não é o foco</td></tr>
+                  <tr><th scope="row">Financeiro</th><td>Relatórios</td><td>Caixa, despesas, comissões, estoque</td><td>Caixa, pacotes, estoque</td><td>Pagamentos e relatórios</td><td>Não</td></tr>
+                  <tr><th scope="row">Ficha do cliente</th><td>Sim</td><td>Sim</td><td>Sim</td><td>Sim</td><td>Não</td></tr>
+                  <tr><th scope="row">Foco no Brasil</th><td>Não</td><td>Sim</td><td>Sim</td><td>Não</td><td>Não</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h3>Pontos fortes e falhas</h3>
+            <div class="grid-cards">
+              <article class="card"><h4>Booksy</h4><p><strong>Forte:</strong> o marketplace traz cliente novo.</p><p><strong>Falha:</strong> mais um app e mais uma conta para o cliente. Para salão de bairro, que vive de cliente fixo, pesa mais do que ajuda.</p></article>
+              <article class="card"><h4>Trinks</h4><p><strong>Forte:</strong> gestão completa pensada para o Brasil e agendamento pelo Google Maps.</p><p><strong>Falha:</strong> a agenda, que o dono abre o dia todo, divide espaço com módulos que ele usa uma vez por mês.</p></article>
+              <article class="card"><h4>AppBarber</h4><p><strong>Forte:</strong> app próprio da barbearia, com fidelidade, pacotes e lista de espera.</p><p><strong>Falha:</strong> voltado a barbearia. Serviço longo de salão, como coloração de 2 horas, pede outra lógica de encaixe.</p></article>
+              <article class="card"><h4>Fresha</h4><p><strong>Forte:</strong> entrada gratuita e fluxo do cliente muito curto.</p><p><strong>Falha:</strong> o custo está nas taxas, o que exige atenção de quem começa. Produto global: o hábito de confirmar pelo WhatsApp não é o centro.</p></article>
+              <article class="card"><h4>Google Agenda</h4><p><strong>Forte:</strong> todo mundo já tem e a página de agendamento é grátis.</p><p><strong>Falha:</strong> não sabe o que é serviço, profissional ou falta. Não dá números do negócio.</p></article>
+            </div>
+
+            <h3>O que eu levei para o Agendaí</h3>
+            <div class="table-wrap" tabindex="0" role="region" aria-label="O que levei do benchmark">
+              <table>
+                <thead><tr><th scope="col">Observação</th><th scope="col">Decisão no Agendaí</th></tr></thead>
+                <tbody>
+                  <tr><td>Cliente de salão de bairro não quer mais uma conta (Booksy, Fresha)</td><td>Agendamento <strong>sem cadastro</strong>: nome e WhatsApp só no último passo</td></tr>
+                  <tr><td>A agenda divide espaço com módulos raros (Trinks, AppBarber)</td><td>A <strong>agenda é a tela inicial</strong> do painel; o resto fica em quatro itens de menu</td></tr>
+                  <tr><td>WhatsApp é o canal real no Brasil</td><td>Confirmação e lembrete pelo <strong>WhatsApp</strong>, com status "aguardando confirmação"</td></tr>
+                  <tr><td>Remarcar costuma ser formulário</td><td><strong>Arrastar para remarcar</strong>, com Desfazer e um caminho pelo teclado</td></tr>
+                  <tr><td>Números escondidos em relatórios</td><td>Uma tela com <strong>faturamento, faltas e horários mais cheios</strong></td></tr>
+                  <tr><td>O Google Agenda não sabe o que é serviço</td><td>Serviço tem <strong>duração e preço</strong>; só aparece horário onde o serviço cabe</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h3>Referências visuais</h3>
+            <div class="grid-cards">
+              <article class="card"><h4>Google Agenda e Outlook</h4><p>Grade com colunas, linha do "agora" e altura do bloco pela duração.</p><p><strong>No Agendaí:</strong> a agenda do painel, com uma coluna por profissional.</p></article>
+              <article class="card"><h4>Apps de delivery</h4><p>Passo a passo curto com resumo antes de confirmar.</p><p><strong>No Agendaí:</strong> 4 passos e resumo no final.</p></article>
+              <article class="card"><h4>Reserva de restaurante</h4><p>Dias numa faixa horizontal e horários em chips.</p><p><strong>No Agendaí:</strong> escolha de data e hora no app.</p></article>
+              <article class="card"><h4>Revistas de beleza e decoração</h4><p>Creme, terracota e verde escuro.</p><p><strong>No Agendaí:</strong> paleta clara e acolhedora, sem cara de banco.</p></article>
+            </div>
+          </section>
+
+          <section class="case-section" id="persona" aria-labelledby="h-persona">
+            <span class="section-num">03</span>
+            <h2 id="h-persona">Proto-personas e jornada</h2>
+            <p><span class="tag-hipotese"><i data-lucide="flask-conical" aria-hidden="true"></i> Hipótese</span></p>
+            <p>
+              Duas proto-personas montadas a partir do benchmark e do meu entendimento do problema. Não entrevistei donos nem clientes ainda;
+              validar isso é o primeiro objetivo do roteiro de teste. A principal é o dono: é quem paga e quem mais sofre com o problema.
+            </p>
+            <div class="persona">
+              <div class="persona__id">
+                <div class="persona__avatar" aria-hidden="true">S</div>
+                <h3>Sandra, 42 · dona</h3>
+                <p>Dona de um salão e barbearia com quatro profissionais na Asa Sul. Também atende. Agenda de papel no balcão e WhatsApp no bolso.</p>
+              </div>
+              <div class="persona__cols">
+                <div><h4>Objetivos</h4><ul><li>Parar de perder horário</li><li>Saber quanto entrou no mês</li><li>Encaixar cliente rápido</li></ul></div>
+                <div><h4>Frustrações</h4><ul><li>Cliente que não aparece</li><li>Sem tempo de olhar o celular atendendo</li><li>Não saber quais horários lotam</li></ul></div>
+                <div><h4>Suposições a validar</h4><ul><li>Abre a agenda muitas vezes por dia</li><li>Faltas caem com lembrete</li><li>Arrastar é mais rápido que formulário</li></ul></div>
+              </div>
+            </div>
+            <div class="persona">
+              <div class="persona__id">
+                <div class="persona__avatar" aria-hidden="true">L</div>
+                <h3>Lucas, 27 · cliente</h3>
+                <p>Corta cabelo e faz a barba a cada três semanas, no fim da tarde. Não gosta de ligar nem de esperar resposta.</p>
+              </div>
+              <div class="persona__cols">
+                <div><h4>Objetivos</h4><ul><li>Marcar em poucos toques</li><li>Ver horários livres de verdade</li></ul></div>
+                <div><h4>Frustrações</h4><ul><li>Esperar resposta no WhatsApp</li><li>Criar conta para marcar um corte</li></ul></div>
+                <div><h4>Suposições a validar</h4><ul><li>Aceita agendar sem conversar se a confirmação chegar no WhatsApp</li></ul></div>
+              </div>
+            </div>
+
+            <h3>Jornada atual da dona, sem o Agendaí</h3>
+            <div class="journey" tabindex="0" role="region" aria-label="Mapa da jornada">
+              <div class="journey__grid" style="--steps: 5">
+                <div class="j-row">Etapa</div>
+                <div class="j-head">Receber pedido</div><div class="j-head">Encaixar</div><div class="j-head">Confirmar</div><div class="j-head">Atender</div><div class="j-head">Fechar o mês</div>
+                <div class="j-row">O que faz</div>
+                <div>Recebe mensagem no WhatsApp</div><div>Olha a agenda de papel e responde</div><div>Manda mensagem na véspera, quando lembra</div><div>Atende e anota o valor</div><div>Soma os valores</div>
+                <div class="j-row">O que pensa</div>
+                <div>"Respondo quando terminar aqui"</div><div>"Esse horário está livre mesmo?"</div><div>"Esqueci de confirmar os de amanhã"</div><div>"Quem é o próximo?"</div><div>"Ganhei mais que no mês passado?"</div>
+                <div class="j-row">Sentimento</div>
+                <div class="j-mood"><i data-lucide="frown" aria-hidden="true"></i>Pressionada</div><div class="j-mood"><i data-lucide="meh" aria-hidden="true"></i>Insegura</div><div class="j-mood"><i data-lucide="frown" aria-hidden="true"></i>Culpada</div><div class="j-mood"><i data-lucide="smile" aria-hidden="true"></i>Focada</div><div class="j-mood"><i data-lucide="meh" aria-hidden="true"></i>Perdida</div>
+                <div class="j-row">Dor</div>
+                <div class="j-pain">Cliente desiste esperando resposta</div><div class="j-pain">Horário duplicado ou buraco</div><div class="j-pain">Cliente falta sem avisar</div><div class="j-pain">Não lembra o histórico do cliente</div><div class="j-pain">Nenhum número confiável</div>
+                <div class="j-row">Oportunidade</div>
+                <div>Cliente marca sozinho pelo link</div><div>Agenda que só oferece horário livre</div><div>Lembrete automático e status "aguardando"</div><div>Ficha com observações</div><div>Painel com faturamento, faltas e horários cheios</div>
+              </div>
+            </div>
+          </section>
+
+          <section class="case-section" id="fluxos" aria-labelledby="h-fluxos">
+            <span class="section-num">04</span>
+            <h2 id="h-fluxos">Arquitetura de informação e fluxos</h2>
+            <p>
+              O cliente tem três abas e um fluxo de quatro passos. O painel tem cinco itens de menu e abre direto na agenda, porque é a tela
+              que o dono usa o dia inteiro.
+            </p>
+            <figure class="figure">
+              <div class="figure__box" tabindex="0" role="region" aria-label="Diagrama da arquitetura de informação"><svg viewBox="0 0 1136 348" role="img" aria-labelledby="ia-agendai-t ia-agendai-d" xmlns="http://www.w3.org/2000/svg"><title id="ia-agendai-t">Arquitetura de informação do Agendaí</title><desc id="ia-agendai-d">Agendaí: App: Início (Dados do salão, Próximo horário, Mais pedidos); App: Agendar (Serviço, Profissional, Data e hora, Confirmar); App: Meus horários (Próximos, Anteriores, Remarcar, Cancelar); Painel: Agenda (Dia por profissional, Semana, Detalhe do horário, Novo agendamento); Painel: gestão (Números do mês, Clientes e ficha, Serviços, Profissionais)</desc><rect class="d-node d-node--end" x="448.0" y="16" width="240" height="48" rx="24"/><text class="d-txt d-txt--strong" x="568.0" y="45.0" text-anchor="middle">Agendaí</text><path class="d-line" d="M568.0 64 L568.0 86"/><path class="d-line" d="M120.0 86 L1016.0 86"/><path class="d-line" d="M120.0 86 L120.0 96"/><rect class="d-node d-node--decision" x="20" y="96" width="200" height="44" rx="10"/><text class="d-txt d-txt--strong" x="120.0" y="123.0" text-anchor="middle">App: Início</text><rect class="d-node" x="34" y="156" width="186" height="34" rx="8"/><text class="d-small" x="127.0" y="178.0" text-anchor="middle">Dados do salão</text><path class="d-line" d="M26 140 L26 173.0 L34 173.0"/><rect class="d-node" x="34" y="198" width="186" height="34" rx="8"/><text class="d-small" x="127.0" y="220.0" text-anchor="middle">Próximo horário</text><path class="d-line" d="M26 140 L26 215.0 L34 215.0"/><rect class="d-node" x="34" y="240" width="186" height="34" rx="8"/><text class="d-small" x="127.0" y="262.0" text-anchor="middle">Mais pedidos</text><path class="d-line" d="M26 140 L26 257.0 L34 257.0"/><path class="d-line" d="M344.0 86 L344.0 96"/><rect class="d-node d-node--decision" x="244" y="96" width="200" height="44" rx="10"/><text class="d-txt d-txt--strong" x="344.0" y="123.0" text-anchor="middle">App: Agendar</text><rect class="d-node" x="258" y="156" width="186" height="34" rx="8"/><text class="d-small" x="351.0" y="178.0" text-anchor="middle">Serviço</text><path class="d-line" d="M250 140 L250 173.0 L258 173.0"/><rect class="d-node" x="258" y="198" width="186" height="34" rx="8"/><text class="d-small" x="351.0" y="220.0" text-anchor="middle">Profissional</text><path class="d-line" d="M250 140 L250 215.0 L258 215.0"/><rect class="d-node" x="258" y="240" width="186" height="34" rx="8"/><text class="d-small" x="351.0" y="262.0" text-anchor="middle">Data e hora</text><path class="d-line" d="M250 140 L250 257.0 L258 257.0"/><rect class="d-node" x="258" y="282" width="186" height="34" rx="8"/><text class="d-small" x="351.0" y="304.0" text-anchor="middle">Confirmar</text><path class="d-line" d="M250 140 L250 299.0 L258 299.0"/><path class="d-line" d="M568.0 86 L568.0 96"/><rect class="d-node d-node--decision" x="468" y="96" width="200" height="44" rx="10"/><text class="d-txt d-txt--strong" x="568.0" y="123.0" text-anchor="middle">App: Meus horários</text><rect class="d-node" x="482" y="156" width="186" height="34" rx="8"/><text class="d-small" x="575.0" y="178.0" text-anchor="middle">Próximos</text><path class="d-line" d="M474 140 L474 173.0 L482 173.0"/><rect class="d-node" x="482" y="198" width="186" height="34" rx="8"/><text class="d-small" x="575.0" y="220.0" text-anchor="middle">Anteriores</text><path class="d-line" d="M474 140 L474 215.0 L482 215.0"/><rect class="d-node" x="482" y="240" width="186" height="34" rx="8"/><text class="d-small" x="575.0" y="262.0" text-anchor="middle">Remarcar</text><path class="d-line" d="M474 140 L474 257.0 L482 257.0"/><rect class="d-node" x="482" y="282" width="186" height="34" rx="8"/><text class="d-small" x="575.0" y="304.0" text-anchor="middle">Cancelar</text><path class="d-line" d="M474 140 L474 299.0 L482 299.0"/><path class="d-line" d="M792.0 86 L792.0 96"/><rect class="d-node d-node--decision" x="692" y="96" width="200" height="44" rx="10"/><text class="d-txt d-txt--strong" x="792.0" y="123.0" text-anchor="middle">Painel: Agenda</text><rect class="d-node" x="706" y="156" width="186" height="34" rx="8"/><text class="d-small" x="799.0" y="178.0" text-anchor="middle">Dia por profissional</text><path class="d-line" d="M698 140 L698 173.0 L706 173.0"/><rect class="d-node" x="706" y="198" width="186" height="34" rx="8"/><text class="d-small" x="799.0" y="220.0" text-anchor="middle">Semana</text><path class="d-line" d="M698 140 L698 215.0 L706 215.0"/><rect class="d-node" x="706" y="240" width="186" height="34" rx="8"/><text class="d-small" x="799.0" y="262.0" text-anchor="middle">Detalhe do horário</text><path class="d-line" d="M698 140 L698 257.0 L706 257.0"/><rect class="d-node" x="706" y="282" width="186" height="34" rx="8"/><text class="d-small" x="799.0" y="304.0" text-anchor="middle">Novo agendamento</text><path class="d-line" d="M698 140 L698 299.0 L706 299.0"/><path class="d-line" d="M1016.0 86 L1016.0 96"/><rect class="d-node d-node--decision" x="916" y="96" width="200" height="44" rx="10"/><text class="d-txt d-txt--strong" x="1016.0" y="123.0" text-anchor="middle">Painel: gestão</text><rect class="d-node" x="930" y="156" width="186" height="34" rx="8"/><text class="d-small" x="1023.0" y="178.0" text-anchor="middle">Números do mês</text><path class="d-line" d="M922 140 L922 173.0 L930 173.0"/><rect class="d-node" x="930" y="198" width="186" height="34" rx="8"/><text class="d-small" x="1023.0" y="220.0" text-anchor="middle">Clientes e ficha</text><path class="d-line" d="M922 140 L922 215.0 L930 215.0"/><rect class="d-node" x="930" y="240" width="186" height="34" rx="8"/><text class="d-small" x="1023.0" y="262.0" text-anchor="middle">Serviços</text><path class="d-line" d="M922 140 L922 257.0 L930 257.0"/><rect class="d-node" x="930" y="282" width="186" height="34" rx="8"/><text class="d-small" x="1023.0" y="304.0" text-anchor="middle">Profissionais</text><path class="d-line" d="M922 140 L922 299.0 L930 299.0"/></svg></div>
+              <figcaption>As duas interfaces. Versão em Mermaid em <a href="https://github.com/gabrielAbreu-it/projetos/blob/main/agendai/docs/03-arquitetura-e-fluxos.md">docs/03-arquitetura-e-fluxos.md</a> (abre no GitHub).</figcaption>
+            </figure>
+            <figure class="figure">
+              <div class="figure__box" tabindex="0" role="region" aria-label="Diagrama do fluxo do cliente"><svg viewBox="0 0 1008 258" role="img" aria-labelledby="fluxo-cliente-t fluxo-cliente-d" xmlns="http://www.w3.org/2000/svg"><title id="fluxo-cliente-t">Fluxo do cliente para agendar</title><desc id="fluxo-cliente-d">Abre o link do salão → Escolhe o serviço → Profissional ou sem preferência → Dia e horário livre → Resumo, nome e WhatsApp → Horário ainda está livre? → Agendado aviso no WhatsApp</desc><defs><marker id="fluxo-cliente-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" class="d-arrowhead"/></marker></defs><path class="d-line" d="M220 52.0 L272 52.0" marker-end="url(#fluxo-cliente-a)"/><path class="d-line" d="M476 52.0 L528 52.0" marker-end="url(#fluxo-cliente-a)"/><path class="d-line" d="M732 52.0 L784 52.0" marker-end="url(#fluxo-cliente-a)"/><path class="d-line" d="M888.0 84 L888.0 150" marker-end="url(#fluxo-cliente-a)"/><path class="d-line" d="M788 186.0 L736 186.0" marker-end="url(#fluxo-cliente-a)"/><path class="d-line" d="M532 186.0 L480 186.0" marker-end="url(#fluxo-cliente-a)"/><text class="d-small" x="504.0" y="178.0" text-anchor="middle">sim</text><rect class="d-node d-node--end" x="20" y="20" width="200" height="64" rx="32"/><text class="d-txt d-txt--strong" x="120.0" y="49.0" text-anchor="middle">Abre o link</text><text class="d-txt d-txt--strong" x="120.0" y="65.0" text-anchor="middle">do salão</text><rect class="d-node" x="276" y="20" width="200" height="64" rx="10"/><text class="d-txt" x="376.0" y="49.0" text-anchor="middle">Escolhe</text><text class="d-txt" x="376.0" y="65.0" text-anchor="middle">o serviço</text><rect class="d-node" x="532" y="20" width="200" height="64" rx="10"/><text class="d-txt" x="632.0" y="49.0" text-anchor="middle">Profissional ou</text><text class="d-txt" x="632.0" y="65.0" text-anchor="middle">sem preferência</text><rect class="d-node" x="788" y="20" width="200" height="64" rx="10"/><text class="d-txt" x="888.0" y="57.0" text-anchor="middle">Dia e horário livre</text><text class="d-small d-small--muted" x="888.0" y="102" text-anchor="middle">só aparecem horários livres</text><rect class="d-node" x="788" y="154" width="200" height="64" rx="10"/><text class="d-txt" x="888.0" y="183.0" text-anchor="middle">Resumo, nome</text><text class="d-txt" x="888.0" y="199.0" text-anchor="middle">e WhatsApp</text><text class="d-small d-small--muted" x="888.0" y="236" text-anchor="middle">sem criar conta</text><rect class="d-node d-node--decision" x="532" y="154" width="200" height="64" rx="10"/><text class="d-txt" x="632.0" y="183.0" text-anchor="middle">Horário ainda</text><text class="d-txt" x="632.0" y="199.0" text-anchor="middle">está livre?</text><text class="d-small d-small--muted" x="632.0" y="236" text-anchor="middle">não: volta para escolher outro</text><rect class="d-node d-node--end" x="276" y="154" width="200" height="64" rx="32"/><text class="d-txt d-txt--strong" x="376.0" y="183.0" text-anchor="middle">Agendado</text><text class="d-txt d-txt--strong" x="376.0" y="199.0" text-anchor="middle">aviso no WhatsApp</text></svg></div>
+              <figcaption>Cliente: agendar. Remarcar e cancelar seguem pela tela "Meus horários".</figcaption>
+            </figure>
+            <figure class="figure">
+              <div class="figure__box" tabindex="0" role="region" aria-label="Diagrama do fluxo do dono"><svg viewBox="0 0 1008 258" role="img" aria-labelledby="fluxo-dono-t fluxo-dono-d" xmlns="http://www.w3.org/2000/svg"><title id="fluxo-dono-t">Fluxo do dono para remarcar</title><desc id="fluxo-dono-d">Agenda do dia → Arrasta o bloco → Destino válido? → Solta no horário → Remarcado cliente avisado</desc><defs><marker id="fluxo-dono-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" class="d-arrowhead"/></marker></defs><path class="d-line" d="M220 52.0 L272 52.0" marker-end="url(#fluxo-dono-a)"/><path class="d-line" d="M476 52.0 L528 52.0" marker-end="url(#fluxo-dono-a)"/><path class="d-line" d="M732 52.0 L784 52.0" marker-end="url(#fluxo-dono-a)"/><text class="d-small" x="760.0" y="44.0" text-anchor="middle">sim</text><path class="d-line" d="M888.0 84 L888.0 150" marker-end="url(#fluxo-dono-a)"/><rect class="d-node d-node--end" x="20" y="20" width="200" height="64" rx="32"/><text class="d-txt d-txt--strong" x="120.0" y="57.0" text-anchor="middle">Agenda do dia</text><rect class="d-node" x="276" y="20" width="200" height="64" rx="10"/><text class="d-txt" x="376.0" y="57.0" text-anchor="middle">Arrasta o bloco</text><text class="d-small d-small--muted" x="376.0" y="102" text-anchor="middle">ou abre e usa Remarcar</text><rect class="d-node d-node--decision" x="532" y="20" width="200" height="64" rx="10"/><text class="d-txt" x="632.0" y="57.0" text-anchor="middle">Destino válido?</text><text class="d-small d-small--muted" x="632.0" y="102" text-anchor="middle">não: célula vermelha com o motivo</text><rect class="d-node" x="788" y="20" width="200" height="64" rx="10"/><text class="d-txt" x="888.0" y="57.0" text-anchor="middle">Solta no horário</text><rect class="d-node d-node--end" x="788" y="154" width="200" height="64" rx="32"/><text class="d-txt d-txt--strong" x="888.0" y="183.0" text-anchor="middle">Remarcado</text><text class="d-txt d-txt--strong" x="888.0" y="199.0" text-anchor="middle">cliente avisado</text><text class="d-small d-small--muted" x="888.0" y="236" text-anchor="middle">Desfazer por 7 segundos</text></svg></div>
+              <figcaption>Dono: remarcar arrastando, com caminho alternativo pelo teclado.</figcaption>
+            </figure>
+          </section>
+
+          <section class="case-section" id="wireframes" aria-labelledby="h-wireframes">
+            <span class="section-num">05</span>
+            <h2 id="h-wireframes">Wireframes</h2>
+            <p>Seis telas do app e três do painel, em cinza. Algumas decisões que saíram daqui:</p>
+            <ul>
+              <li>O próximo horário do cliente aparece antes do botão de agendar.</li>
+              <li>"Sem preferência" é a primeira opção de profissional.</li>
+              <li>Nome e WhatsApp só no último passo, sem criar conta.</li>
+              <li>O painel abre na agenda, não nos números.</li>
+            </ul>
+            <figure class="figure">
+              <a href="docs/wireframes/index.html"><img src="docs/prints/wireframes-desktop.png" width="1440" height="900" loading="lazy" alt="Página com os wireframes do Agendaí em tons de cinza." style="border-radius: 14px; border: 1px solid var(--c-line)" /></a>
+              <figcaption><a href="docs/wireframes/index.html">Abrir os wireframes</a> com as anotações.</figcaption>
+            </figure>
+          </section>
+
+          <section class="case-section" id="ui" aria-labelledby="h-ui">
+            <span class="section-num">06</span>
+            <h2 id="h-ui">Decisões de UI</h2>
+            <h3>Cor</h3>
+            <p>
+              <strong>Fundo creme</strong> em vez de branco puro, para a tela parecer de salão e não de banco. <strong>Verde-petróleo</strong> nas ações:
+              passa calma e confiança e serve tanto para salão feminino quanto para barbearia. <strong>Coral</strong> só como detalhe (linha do "agora",
+              capa do salão), porque não tem contraste para texto. Cada profissional tem uma cor na agenda, sempre como borda forte e fundo claro.
+            </p>
+            <div class="swatches">
+              <div class="swatch"><div class="swatch__color" style="background: #fbf8f4"></div><div class="swatch__info">Fundo creme<br /><code>#FBF8F4</code></div></div>
+              <div class="swatch"><div class="swatch__color" style="background: #1f5f5b"></div><div class="swatch__info">Verde-petróleo<br /><code>#1F5F5B</code></div></div>
+              <div class="swatch"><div class="swatch__color" style="background: #e07a5f"></div><div class="swatch__info">Coral (detalhe)<br /><code>#E07A5F</code></div></div>
+              <div class="swatch"><div class="swatch__color" style="background: #147a4b"></div><div class="swatch__info">Confirmado<br /><code>#147A4B</code></div></div>
+              <div class="swatch"><div class="swatch__color" style="background: #8a5a00"></div><div class="swatch__info">Aguardando<br /><code>#8A5A00</code></div></div>
+              <div class="swatch"><div class="swatch__color" style="background: #b42318"></div><div class="swatch__info">Faltou / erro<br /><code>#B42318</code></div></div>
+            </div>
+            <h3>Tipografia</h3>
+            <p>
+              Uma família só, <strong>Plus Jakarta Sans</strong>: arredondada o bastante para o tom acolhedor, com números firmes para preço, horário e
+              faturamento. Números com largura fixa para alinhar na agenda e nas tabelas.
+            </p>
+            <h3>Componentes</h3>
+            <div class="grid-cards">
+              <article class="card"><h4>Card que é o botão</h4><p>No app, o card inteiro de serviço e profissional é o alvo de toque.</p></article>
+              <article class="card"><h4>Só horários livres</h4><p>Agrupados em manhã, tarde e noite. Mostrar os ocupados poluiria sem ajudar.</p></article>
+              <article class="card"><h4>Arrastar com aviso</h4><p>A célula de destino fica verde ou vermelha antes de soltar, com o motivo escrito.</p></article>
+              <article class="card"><h4>Desfazer em vez de "tem certeza?"</h4><p>Mudanças reversíveis vêm com Desfazer por 7 segundos. Modal só para cancelar.</p></article>
+            </div>
+            <p>Tokens e componentes, com todos os estados, no <a href="design-system/index.html">design system</a>.</p>
+
+            <h3>Telas finais: app do cliente</h3>
+            <div class="gallery">
+              <figure><img src="docs/prints/cliente-mobile-01-inicio.png" width="390" height="844" loading="lazy" alt="Início do Studio Lume com o próximo horário do cliente e o botão de agendar." /><figcaption>Início</figcaption></figure>
+              <figure><img src="docs/prints/cliente-mobile-02-servico.png" width="390" height="844" loading="lazy" alt="Lista de serviços agrupados por categoria com preço e duração." /><figcaption>Serviço</figcaption></figure>
+              <figure><img src="docs/prints/cliente-mobile-04-horario.png" width="390" height="844" loading="lazy" alt="Faixa de dias e horários livres agrupados em manhã, tarde e noite." /><figcaption>Data e hora</figcaption></figure>
+              <figure><img src="docs/prints/cliente-mobile-05-confirmar.png" width="390" height="844" loading="lazy" alt="Resumo do agendamento com campos de nome e WhatsApp." /><figcaption>Confirmar</figcaption></figure>
+              <figure><img src="docs/prints/cliente-mobile-07-meus-horarios.png" width="390" height="844" loading="lazy" alt="Meus horários com botões de remarcar e cancelar." /><figcaption>Meus horários</figcaption></figure>
+            </div>
+            <h3>Telas finais: painel do dono</h3>
+            <div class="gallery gallery--wide">
+              <figure><img src="docs/prints/painel-desktop-01-agenda-dia.png" width="1440" height="900" loading="lazy" alt="Agenda do dia com uma coluna por profissional e a linha do horário atual." /><figcaption>Agenda do dia</figcaption></figure>
+              <figure><img src="docs/prints/painel-desktop-02-arrastar.png" width="1440" height="900" loading="lazy" alt="Um horário sendo arrastado, com a célula de destino destacada e o novo horário escrito ao lado do cursor." /><figcaption>Arrastar para remarcar</figcaption></figure>
+              <figure><img src="docs/prints/painel-desktop-04-numeros.png" width="1440" height="900" loading="lazy" alt="Números de outubro: faturamento, atendimentos, taxa de faltas, ticket médio e gráfico de faturamento por dia." /><figcaption>Números do mês</figcaption></figure>
+              <figure><img src="docs/prints/painel-desktop-06-ficha.png" width="1440" height="900" loading="lazy" alt="Ficha da cliente com visitas, gasto, faltas, observações e histórico." /><figcaption>Ficha do cliente</figcaption></figure>
+            </div>
+            <details class="more-prints">
+              <summary>Ver as outras telas (profissional, sucesso, semana, horários cheios, serviços, celular)</summary>
+              <div class="gallery">
+                <figure><img src="docs/prints/cliente-mobile-03-profissional.png" width="390" height="844" loading="lazy" alt="Escolha do profissional com a opção sem preferência." /><figcaption>Profissional</figcaption></figure>
+                <figure><img src="docs/prints/cliente-mobile-06-sucesso.png" width="390" height="844" loading="lazy" alt="Tela de agendamento confirmado." /><figcaption>Agendado</figcaption></figure>
+                <figure><img src="docs/prints/cliente-mobile-08-cancelar.png" width="390" height="844" loading="lazy" alt="Modal perguntando se quer cancelar o horário, com motivo opcional." /><figcaption>Cancelar</figcaption></figure>
+                <figure><img src="docs/prints/painel-mobile-01-agenda.png" width="390" height="844" loading="lazy" alt="Painel do dono aberto no celular, com a agenda rolando dentro do quadro." /><figcaption>Painel no celular</figcaption></figure>
+              </div>
+              <div class="gallery gallery--wide">
+                <figure><img src="docs/prints/painel-desktop-03-semana.png" width="1440" height="900" loading="lazy" alt="Agenda da semana com todos os profissionais." /><figcaption>Agenda da semana</figcaption></figure>
+                <figure><img src="docs/prints/painel-desktop-05-horarios-cheios.png" width="1440" height="900" loading="lazy" alt="Mapa de calor dos horários mais cheios e faltas por profissional." /><figcaption>Horários mais cheios e faltas</figcaption></figure>
+                <figure><img src="docs/prints/painel-desktop-07-servicos.png" width="1440" height="900" loading="lazy" alt="Tabela de serviços com duração, preço, quem faz e se aparece no app." /><figcaption>Serviços</figcaption></figure>
+                <figure><img src="docs/prints/painel-desktop-08-detalhe.png" width="1440" height="900" loading="lazy" alt="Detalhe de um horário com as ações disponíveis." /><figcaption>Detalhe do horário</figcaption></figure>
+              </div>
+            </details>
+          </section>
+
+          <section class="case-section" id="acessibilidade" aria-labelledby="h-a11y">
+            <span class="section-num">07</span>
+            <h2 id="h-a11y">Acessibilidade</h2>
+            <p>Contraste calculado para cada par de cores usado, com a fórmula da WCAG 2.1. Todos passam no nível AA.</p>
+            <div class="table-wrap" tabindex="0" role="region" aria-label="Tabela de contraste">
+              <table>
+                <thead><tr><th scope="col">Par</th><th scope="col">Razão</th><th scope="col">Mínimo AA</th><th scope="col">Resultado</th></tr></thead>
+                <tbody>
+                  <tr><td>Texto <code>#1F2523</code> sobre fundo <code>#FBF8F4</code></td><td>14,72:1</td><td>4,5:1</td><td class="ok">Passa</td></tr>
+                  <tr><td>Texto secundário <code>#5E6763</code> sobre fundo</td><td>5,52:1</td><td>4,5:1</td><td class="ok">Passa</td></tr>
+                  <tr><td>Placeholder <code>#6B7570</code> sobre branco</td><td>4,77:1</td><td>4,5:1</td><td class="ok">Passa</td></tr>
+                  <tr><td>Branco sobre botão <code>#1F5F5B</code></td><td>7,38:1</td><td>4,5:1</td><td class="ok">Passa</td></tr>
+                  <tr><td>Confirmado <code>#147A4B</code> sobre <code>#E7F6EE</code></td><td>4,81:1</td><td>4,5:1</td><td class="ok">Passa</td></tr>
+                  <tr><td>Aguardando <code>#8A5A00</code> sobre <code>#FFF4DC</code></td><td>5,43:1</td><td>4,5:1</td><td class="ok">Passa</td></tr>
+                  <tr><td>Erro <code>#B42318</code> sobre branco</td><td>6,57:1</td><td>4,5:1</td><td class="ok">Passa</td></tr>
+                  <tr><td>Texto escuro sobre fundos dos profissionais</td><td>13,26:1 a 14,27:1</td><td>4,5:1</td><td class="ok">Passa</td></tr>
+                  <tr><td>Borda de campo <code>#7C8783</code> sobre branco</td><td>3,72:1</td><td>3:1 (não texto)</td><td class="ok">Passa</td></tr>
+                  <tr><td>Anel de foco <code>#1D5BBF</code> sobre fundo</td><td>6,01:1</td><td>3:1 (não texto)</td><td class="ok">Passa</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <ul class="checklist">
+              <li><i data-lucide="check" aria-hidden="true"></i><span><strong>Foco visível</strong> azul de 3px em tudo que é interativo.</span></li>
+              <li><i data-lucide="check" aria-hidden="true"></i><span><strong>Alvos de 44px</strong>, inclusive no painel: botões pequenos, chips, abas e o seletor Dia/Semana.</span></li>
+              <li><i data-lucide="check" aria-hidden="true"></i><span><strong>Labels</strong> em todos os campos e "(opcional)" escrito, sem asterisco.</span></li>
+              <li><i data-lucide="check" aria-hidden="true"></i><span><strong>Arrastar não é o único caminho:</strong> todo horário abre um detalhe com "Remarcar", que funciona pelo teclado.</span></li>
+              <li><i data-lucide="check" aria-hidden="true"></i><span><strong>Blocos da agenda</strong> são botões com rótulo completo para leitor de tela.</span></li>
+              <li><i data-lucide="check" aria-hidden="true"></i><span><strong>Gráficos</strong> com tabela equivalente, e o mapa de calor mostra o número dentro da célula, não só a cor.</span></li>
+              <li><i data-lucide="check" aria-hidden="true"></i><span><strong>Status</strong> sempre com ícone e texto; "aguardando" também é listrado na agenda.</span></li>
+            </ul>
+          </section>
+
+          <section class="case-section" id="heuristica" aria-labelledby="h-heur">
+            <span class="section-num">08</span>
+            <h2 id="h-heur">Avaliação heurística</h2>
+            <p>
+              Com as duas interfaces prontas, passei por todas as telas com as 10 heurísticas de Nielsen. Avaliei sozinho: serve para pegar os
+              problemas óbvios antes do teste com usuários. Gravidade de 0 a 4.
+            </p>
+            <div class="table-wrap" tabindex="0" role="region" aria-label="Tabela da avaliação heurística">
+              <table>
+                <thead><tr><th scope="col">Heurística</th><th scope="col">O que encontrei</th><th scope="col">Grav.</th><th scope="col">O que fiz</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row">1. Visibilidade do status</th><td>Com "Sem preferência", o cliente escolhia o horário sem saber quem ia atender.</td><td><span class="sev">1</span></td><td>"Nesse horário, quem atende é Diego Lima" aparece ao escolher.</td></tr>
+                  <tr><th scope="row">2. Mundo real</th><td>Termos conferidos: "aguardando confirmação", "faltou", "remarcar", "ticket médio".</td><td><span class="sev">0</span></td><td>Nada a corrigir.</td></tr>
+                  <tr><th scope="row">3. Controle e liberdade</th><td>"Concluído" ou "Faltou" marcado por engano só saía pelo toast de 7 segundos.</td><td><span class="sev sev--2">2</span></td><td>Botão "Marquei errado" no detalhe.</td></tr>
+                  <tr><th scope="row">4. Consistência</th><td>Menu dizia "Agenda 19" (pendentes dos próximos dias) e o cabeçalho "10 aguardando" (só hoje).</td><td><span class="sev sev--2">2</span></td><td>Os dois contam só os de hoje.</td></tr>
+                  <tr><th scope="row">5. Prevenção de erros</th><td>Dava para marcar para daqui a 1 hora sem aviso e, logo depois, o app dizia que não dava mais para mudar.</td><td><span class="sev sev--2">2</span></td><td>Aviso da regra de 2 horas antes de confirmar.</td></tr>
+                  <tr><th scope="row">6. Reconhecer, não lembrar</th><td>O detalhe do horário já mostra a observação da ficha (ex.: alergia).</td><td><span class="sev">0</span></td><td>Nada a corrigir.</td></tr>
+                  <tr><th scope="row">7. Eficiência</th><td>Para ver um dia daqui a três semanas, só clicando "próximo" várias vezes.</td><td><span class="sev">1</span></td><td>Foi para os próximos passos.</td></tr>
+                  <tr><th scope="row">8. Minimalismo</th><td>Semana com todos os profissionais: blocos de 46px viravam "Pe…" e "10:…".</td><td><span class="sev sev--2">2</span></td><td>Só o primeiro nome, coluna mínima de 64px e rótulo completo.</td></tr>
+                  <tr><th scope="row">9. Recuperar de erros</th><td>Arrastar para destino inválido já mostra o motivo antes de soltar.</td><td><span class="sev">0</span></td><td>Nada a corrigir.</td></tr>
+                  <tr><th scope="row">10. Ajuda</th><td>A dica de arrastar ficava embaixo da grade, fora da tela num notebook.</td><td><span class="sev">1</span></td><td>Subi a dica para cima da grade.</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p>Sete achados, seis corrigidos. Os de gravidade 2 eram de controle e consistência: o tipo de coisa que faz o dono desconfiar do sistema e voltar para o papel.</p>
+          </section>
+
+          <section class="case-section" id="teste" aria-labelledby="h-teste">
+            <span class="section-num">09</span>
+            <h2 id="h-teste">Roteiro de teste de usabilidade</h2>
+            <p><span class="tag-hipotese"><i data-lucide="calendar-clock" aria-hidden="true"></i> Próximo passo, ainda não realizado</span></p>
+            <p>5 donos ou gerentes de salão que agendam pelo WhatsApp (40 min, no próprio salão) e 5 clientes que vão a salão todo mês (20 min, remoto, no celular deles).</p>
+            <div class="table-wrap" tabindex="0" role="region" aria-label="Tarefas do teste">
+              <table>
+                <thead><tr><th scope="col">Quem</th><th scope="col">Tarefa</th><th scope="col">Sucesso quando</th></tr></thead>
+                <tbody>
+                  <tr><td>Cliente</td><td>"Marque um corte + barba para sexta à noite, com qualquer barbeiro."</td><td>Chega em "Tudo certo!"</td></tr>
+                  <tr><td>Cliente</td><td>"Você não vai conseguir ir. Mude para sábado."</td><td>Remarca sem cancelar e criar outro</td></tr>
+                  <tr><td>Dono</td><td>"O cliente das 13:30 do Diego pediu para passar para o fim da tarde."</td><td>Remarca para um horário livre</td></tr>
+                  <tr><td>Dono</td><td>"A cliente que está com a Júlia agora já foi atendida. Registre."</td><td>Marca como concluído</td></tr>
+                  <tr><td>Dono</td><td>"Quanto o salão já faturou este mês? E quanto já está agendado?"</td><td>Lê os dois valores</td></tr>
+                  <tr><td>Dono</td><td>"Qual é o horário mais cheio da semana?"</td><td>Encontra no mapa de calor</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p><strong>Métricas:</strong> sucesso e tempo por tarefa, quantos donos descobrem o arrastar sem ler a dica, erros, SEQ e SUS.</p>
+            <p>Roteiro completo em <a href="https://github.com/gabrielAbreu-it/projetos/blob/main/agendai/docs/06-roteiro-de-teste.md">docs/06-roteiro-de-teste.md</a> (abre no GitHub).</p>
+          </section>
+
+          <section class="case-section" id="proximos" aria-labelledby="h-proximos">
+            <span class="section-num">10</span>
+            <h2 id="h-proximos">Próximos passos</h2>
+            <ol>
+              <li>Rodar o teste com donos e clientes e revisar as proto-personas.</li>
+              <li>"Ir para uma data" no painel.</li>
+              <li>Durações de 15 em 15 minutos.</li>
+              <li>Lista de espera quando alguém cancelar um horário disputado.</li>
+              <li>Comissões por profissional a partir do faturamento que o painel já calcula.</li>
+              <li>Bloqueio de agenda (folga, almoço) direto na grade.</li>
+              <li>Integração real com o WhatsApp e medir se a taxa de faltas cai.</li>
+            </ol>
+            <div class="next-links">
+              <a class="btn-case btn-case--primary" href="prototipo/index.html"><i data-lucide="calendar-check" aria-hidden="true"></i>Abrir protótipo</a>
+              <a class="btn-case" href="design-system/index.html"><i data-lucide="palette" aria-hidden="true"></i>Design system</a>
+              <a class="btn-case" href="https://github.com/gabrielAbreu-it/projetos/tree/main/agendai/docs"><i data-lucide="folder-open" aria-hidden="true"></i>Documentação</a>
+              <a class="btn-case" href="../roxx-energy/index.html"><i data-lucide="arrow-right" aria-hidden="true"></i>Outro case: Roxx Energy</a>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <footer class="case-footer">
+      <div class="wrap">
+        <span>Gabriel Abreu · UX/UI Designer · Brasília</span>
+        <span>Dados do protótipo são fictícios.</span>
+      </div>
+    </footer>
+
+    <script src="https://unpkg.com/lucide@0.453.0/dist/umd/lucide.min.js"></script>
+    <script src="../assets/js/case.js"></script>
+  </body>
+</html>
