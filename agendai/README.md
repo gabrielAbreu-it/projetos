@@ -8,6 +8,12 @@ Agendamento para salão, barbearia e estética. O **cliente** marca sozinho, sem
 
 ![Telas do Agendaí](../assets/img/capa-agendai.png)
 
+## Resumo
+
+- **Problema:** o dono atende pelo WhatsApp, perde horário, esquece de confirmar e não sabe quanto faturou no mês.
+- **Solução:** link de agendamento sem cadastro para o cliente e um painel em que o dono arrasta horários para remarcar e vê faturamento, faltas e horários mais cheios.
+- **Resultado:** duas interfaces navegáveis com 14 telas, design system com 8 componentes, benchmark de 5 produtos e avaliação heurística com 7 problemas encontrados e 6 corrigidos.
+
 ## Problema
 
 O dono de um salão pequeno atende pelo WhatsApp: perde horário quando demora a responder, esquece de confirmar e o cliente falta, e não tem visão do faturamento.
@@ -23,7 +29,7 @@ O dono de um salão pequeno atende pelo WhatsApp: perde horário quando demora a
 5. **Decisões de UI e acessibilidade**, com contraste WCAG AA calculado → [docs/04](docs/04-decisoes-de-ui-e-acessibilidade.md)
 6. **Avaliação heurística** do meu protótipo: 7 achados, 6 corrigidos → [docs/05](docs/05-avaliacao-heuristica.md)
 7. **Roteiro de teste de usabilidade** (próximo passo) → [docs/06](docs/06-roteiro-de-teste.md)
-8. **Próximos passos** → [docs/07](docs/07-proximos-passos.md)
+8. **Próximos passos, métricas de sucesso e aprendizados** → [docs/07](docs/07-proximos-passos.md)
 
 ### O que levei do benchmark
 

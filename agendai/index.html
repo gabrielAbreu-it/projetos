@@ -89,6 +89,11 @@
             <div><dt>Entregas</dt><dd>Pesquisa, fluxos, wireframes, UI, design system, protótipo</dd></div>
             <div><dt>Ferramentas</dt><dd>HTML, CSS, JavaScript, Lucide</dd></div>
           </dl>
+          <section class="case-summary" aria-label="Resumo do case">
+            <div><h2>Problema</h2><p>O dono atende pelo WhatsApp, perde horário, esquece de confirmar e não sabe quanto faturou no mês.</p></div>
+            <div><h2>Solução</h2><p>Link de agendamento sem cadastro para o cliente e um painel em que o dono arrasta horários para remarcar e vê faturamento, faltas e horários mais cheios.</p></div>
+            <div><h2>Resultado</h2><p>Duas interfaces navegáveis com 14 telas, design system com 8 componentes, benchmark de 5 produtos e avaliação heurística com 7 problemas encontrados e 6 corrigidos.</p></div>
+          </section>
           <figure class="case-cover">
             <img
               src="../assets/img/capa-agendai.png"
@@ -114,7 +119,7 @@
               <li><a href="#acessibilidade">Acessibilidade</a></li>
               <li><a href="#heuristica">Avaliação heurística</a></li>
               <li><a href="#teste">Roteiro de teste</a></li>
-              <li><a href="#proximos">Próximos passos</a></li>
+              <li><a href="#proximos">Próximos passos e métricas</a></li>
             </ol>
           </details>
         </nav>
@@ -436,7 +441,7 @@
 
           <section class="case-section" id="proximos" aria-labelledby="h-proximos">
             <span class="section-num">10</span>
-            <h2 id="h-proximos">Próximos passos</h2>
+            <h2 id="h-proximos">Próximos passos, métricas e aprendizados</h2>
             <ol>
               <li>Rodar o teste com donos e clientes e revisar as proto-personas.</li>
               <li>"Ir para uma data" no painel.</li>
@@ -446,6 +451,26 @@
               <li>Bloqueio de agenda (folga, almoço) direto na grade.</li>
               <li>Integração real com o WhatsApp e medir se a taxa de faltas cai.</li>
             </ol>
+            <h3>Como eu mediria o sucesso</h3>
+            <p>Se o Agendaí fosse lançado, estes seriam os números que eu acompanharia. Nenhum deles existe ainda; são as metas que eu definiria.</p>
+            <div class="table-wrap" tabindex="0" role="region" aria-label="Métricas de sucesso">
+              <table>
+                <thead><tr><th scope="col">Métrica</th><th scope="col">Por que importa</th><th scope="col">Meta inicial</th></tr></thead>
+                <tbody>
+                  <tr><td>Agendamentos que chegam pelo link, e não pelo WhatsApp</td><td>Mostra se o cliente aceitou marcar sozinho</td><td>Metade em 3 meses</td></tr>
+                  <tr><td>Taxa de faltas antes e depois do lembrete</td><td>É a dor que mais custa dinheiro ao dono; o painel já mede</td><td>Cair pela metade</td></tr>
+                  <tr><td>Tempo para remarcar um horário</td><td>Valida o arrastar contra o formulário</td><td>Menos de 10 segundos</td></tr>
+                  <tr><td>Mensagens de agendamento por dia no WhatsApp do salão</td><td>Se o produto funciona, o dono conversa menos</td><td>Cair pela metade</td></tr>
+                  <tr><td>Donos que abrem "Números do mês" ao menos uma vez por semana</td><td>Diz se a visão do negócio é útil de verdade</td><td>Acima de 50%</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <h3>O que eu aprendi</h3>
+            <ul>
+              <li><strong>Duas interfaces exigem um design system de verdade.</strong> O app do cliente e o painel leem os mesmos tokens e componentes; sem isso, os dois lados teriam virado produtos diferentes.</li>
+              <li><strong>Dado de exemplo também precisa ser coerente.</strong> Gerei a agenda do mês com uma regra fixa, para o painel, o app, o design system e este case mostrarem os mesmos números.</li>
+              <li><strong>Gesto rápido não pode ser o único caminho.</strong> Arrastar para remarcar é o mais rápido no mouse, mas o mesmo resultado precisa existir pelo teclado e no celular.</li>
+            </ul>
             <div class="next-links">
               <a class="btn-case btn-case--primary" href="prototipo/index.html"><i data-lucide="calendar-check" aria-hidden="true"></i>Abrir protótipo</a>
               <a class="btn-case" href="design-system/index.html"><i data-lucide="palette" aria-hidden="true"></i>Design system</a>

@@ -749,3 +749,36 @@ code {
   color: var(--c-link);
   font-weight: 600;
 }
+
+/* Resumo do case no topo */
+.case-summary {
+  display: grid;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+@media (min-width: 860px) {
+  .case-summary {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.case-summary > div {
+  padding: 18px 20px;
+  border-radius: var(--c-radius);
+  background: var(--c-surface);
+  border: 1px solid var(--c-line);
+}
+
+.case-summary h2 {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--c-accent-text);
+  margin-bottom: 8px;
+  font-family: var(--font-body);
+}
+
+.case-summary p {
+  font-size: 0.95rem;
+}

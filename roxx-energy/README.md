@@ -8,6 +8,12 @@ App mobile para quem tem carro elétrico achar um carregador **livre, funcionand
 
 ![Telas do Roxx Energy](../assets/img/capa-roxx-energy.png)
 
+## Resumo
+
+- **Problema:** o motorista sai de casa sem saber se o carregador vai estar livre, funcionando e compatível.
+- **Solução:** mapa já filtrado pelo carro, status com a hora da atualização e relatos de outros motoristas, reserva com 15 minutos de tolerância (AC e DC), recarga acompanhada ao vivo e pagamento com Pix ou cartão.
+- **Resultado:** protótipo navegável com 11 telas e os estados de erro, design system com 8 componentes, benchmark de 5 produtos e avaliação heurística com 8 problemas encontrados e 6 corrigidos.
+
 ## Problema
 
 Quem tem carro elétrico no Brasil sai de casa sem saber se o carregador vai estar **livre**, **funcionando** e **compatível** com o carro. Na prática usa mais de um app, liga para o estabelecimento ou só descobre quando chega.
@@ -23,7 +29,7 @@ Quem tem carro elétrico no Brasil sai de casa sem saber se o carregador vai est
 5. **Decisões de UI e acessibilidade**, com contraste WCAG AA calculado → [docs/04](docs/04-decisoes-de-ui-e-acessibilidade.md)
 6. **Avaliação heurística** do meu protótipo: 8 achados, 6 corrigidos → [docs/05](docs/05-avaliacao-heuristica.md)
 7. **Roteiro de teste de usabilidade** (próximo passo) → [docs/06](docs/06-roteiro-de-teste.md)
-8. **Próximos passos** → [docs/07](docs/07-proximos-passos.md)
+8. **Próximos passos, métricas de sucesso e aprendizados** → [docs/07](docs/07-proximos-passos.md)
 
 ### O que levei do benchmark
 
@@ -60,6 +66,10 @@ flowchart LR
 | Reserva | Reserva confirmada | Recarga em andamento | Encerrar |
 |---|---|---|---|
 | <img src="docs/prints/mobile-05-reserva.png" alt="Reserva" width="190"> | <img src="docs/prints/mobile-06-reserva-confirmada.png" alt="Reserva confirmada" width="190"> | <img src="docs/prints/mobile-07-recarga.png" alt="Recarga em andamento" width="190"> | <img src="docs/prints/mobile-07b-encerrar.png" alt="Confirmação para encerrar" width="190"> |
+
+| Relatos na estação | Reportar problema | | |
+|---|---|---|---|
+| <img src="docs/prints/mobile-04c-relatos.png" alt="Relatos de motoristas na estação" width="190"> | <img src="docs/prints/mobile-04b-reportar.png" alt="Formulário de reportar problema" width="190"> | | |
 
 | Pagamento Pix | Recibo | Histórico | Erro no cadastro |
 |---|---|---|---|

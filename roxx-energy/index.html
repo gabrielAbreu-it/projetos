@@ -88,6 +88,11 @@
             <div><dt>Entregas</dt><dd>Pesquisa, fluxos, wireframes, UI, design system, protótipo</dd></div>
             <div><dt>Ferramentas</dt><dd>HTML, CSS, JavaScript, Lucide</dd></div>
           </dl>
+          <section class="case-summary" aria-label="Resumo do case">
+            <div><h2>Problema</h2><p>O motorista sai de casa sem saber se o carregador vai estar livre, funcionando e compatível com o carro.</p></div>
+            <div><h2>Solução</h2><p>Mapa já filtrado pelo carro, status com a hora da atualização e relatos de outros motoristas, reserva com 15 minutos de tolerância (AC e DC), recarga acompanhada ao vivo e pagamento com Pix ou cartão.</p></div>
+            <div><h2>Resultado</h2><p>Protótipo navegável com 11 telas e os estados de erro, design system com 8 componentes, benchmark de 5 produtos e avaliação heurística com 8 problemas encontrados e 6 corrigidos.</p></div>
+          </section>
           <figure class="case-cover">
             <img
               src="../assets/img/capa-roxx-energy.png"
@@ -113,7 +118,7 @@
               <li><a href="#acessibilidade">Acessibilidade</a></li>
               <li><a href="#heuristica">Avaliação heurística</a></li>
               <li><a href="#teste">Roteiro de teste</a></li>
-              <li><a href="#proximos">Próximos passos</a></li>
+              <li><a href="#proximos">Próximos passos e métricas</a></li>
             </ol>
           </details>
         </nav>
@@ -315,6 +320,7 @@
               <article class="card"><h4>Pin com potência</h4><p>Mostra os kW, que é o que o motorista compara primeiro. A cor diz o status e o rótulo acessível diz tudo por extenso.</p></article>
               <article class="card"><h4>Status nunca só por cor</h4><p>Badge com cor, bolinha e texto, mais "atualizado há X min".</p></article>
               <article class="card"><h4>Ação no rodapé</h4><p>Em estação, reserva e pagamento, o botão principal fica fixo ao alcance do polegar.</p></article>
+              <article class="card"><h4>Relatos de motoristas</h4><p>"Reportar problema" abre um formulário curto (conector e o que aconteceu). O relato aparece na estação para os próximos motoristas e vai para o operador.</p></article>
               <article class="card"><h4>Modal só com dinheiro envolvido</h4><p>Encerrar recarga e cancelar reserva. O foco começa no botão seguro.</p></article>
             </div>
             <p>Todos os tokens e componentes, com todos os estados, estão no <a href="design-system/index.html">design system</a>.</p>
@@ -329,11 +335,13 @@
               <figure><img src="docs/prints/mobile-10-historico.png" width="390" height="844" loading="lazy" alt="Histórico com o gasto de outubro e gráfico de seis meses." /><figcaption>Histórico</figcaption></figure>
             </div>
             <details class="more-prints">
-              <summary>Ver as outras telas (onboarding, cadastro, reserva confirmada, recibo)</summary>
+              <summary>Ver as outras telas (onboarding, cadastro, relatos, reserva confirmada, recibo)</summary>
               <div class="gallery">
                 <figure><img src="docs/prints/mobile-01-onboarding.png" width="390" height="844" loading="lazy" alt="Primeiro passo do onboarding: saiba antes de sair de casa." /><figcaption>Onboarding</figcaption></figure>
                 <figure><img src="docs/prints/mobile-02-cadastro.png" width="390" height="844" loading="lazy" alt="Cadastro do carro com modelo, conectores e apelido." /><figcaption>Cadastro do carro</figcaption></figure>
                 <figure><img src="docs/prints/mobile-02b-cadastro-erro.png" width="390" height="844" loading="lazy" alt="Cadastro do carro mostrando o erro de modelo não escolhido." /><figcaption>Cadastro com erro</figcaption></figure>
+                <figure><img src="docs/prints/mobile-04c-relatos.png" width="390" height="844" loading="lazy" alt="Estação do Noroeste com aviso de que 3 motoristas reportaram o conector A1 sem energia." /><figcaption>Relatos na estação</figcaption></figure>
+                <figure><img src="docs/prints/mobile-04b-reportar.png" width="390" height="844" loading="lazy" alt="Formulário para reportar problema no carregador, com conector e motivo." /><figcaption>Reportar problema</figcaption></figure>
                 <figure><img src="docs/prints/mobile-06-reserva-confirmada.png" width="390" height="844" loading="lazy" alt="Reserva confirmada com horário de chegada e prazo de tolerância." /><figcaption>Reserva confirmada</figcaption></figure>
                 <figure><img src="docs/prints/mobile-07b-encerrar.png" width="390" height="844" loading="lazy" alt="Modal perguntando se quer encerrar a recarga agora." /><figcaption>Confirmação ao encerrar</figcaption></figure>
                 <figure><img src="docs/prints/mobile-09-recibo.png" width="390" height="844" loading="lazy" alt="Recibo do pagamento aprovado." /><figcaption>Recibo</figcaption></figure>
@@ -435,7 +443,7 @@
           <!-- 10 -->
           <section class="case-section" id="proximos" aria-labelledby="h-proximos">
             <span class="section-num">10</span>
-            <h2 id="h-proximos">Próximos passos</h2>
+            <h2 id="h-proximos">Próximos passos, métricas e aprendizados</h2>
             <ol>
               <li>Rodar o teste com 5 motoristas e revisar a proto-persona com o que aparecer.</li>
               <li>Favoritos e "carregar de novo" para quem usa sempre a mesma estação.</li>
@@ -444,6 +452,26 @@
               <li>Fila de espera quando todos os conectores estiverem ocupados.</li>
               <li>Testar a reserva com e sem taxa e ver o efeito nas reservas abandonadas.</li>
             </ol>
+            <h3>Como eu mediria o sucesso</h3>
+            <p>Se o Roxx fosse lançado, estes seriam os números que eu acompanharia. Nenhum deles existe ainda; são as metas que eu definiria.</p>
+            <div class="table-wrap" tabindex="0" role="region" aria-label="Métricas de sucesso">
+              <table>
+                <thead><tr><th scope="col">Métrica</th><th scope="col">Por que importa</th><th scope="col">Meta inicial</th></tr></thead>
+                <tbody>
+                  <tr><td>Tempo de abrir o app até confirmar a reserva</td><td>É o objetivo do produto</td><td>Menos de 1 minuto</td></tr>
+                  <tr><td>Chegadas em que o conector reservado estava funcionando</td><td>Mede se o status é confiável, que é a dor principal</td><td>Acima de 95%</td></tr>
+                  <tr><td>Reservas que viram recarga</td><td>Mostra se a tolerância de 15 minutos e a taxa fazem sentido</td><td>Acima de 85%</td></tr>
+                  <tr><td>Relatos de problema confirmados pelo operador</td><td>Separa relato útil de ruído e calibra o peso do relato no status</td><td>Acompanhar, sem meta no início</td></tr>
+                  <tr><td>Motoristas que voltam a carregar pelo app no mês seguinte</td><td>Indica se o app virou o lugar padrão para carregar</td><td>Acima de 60%</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <h3>O que eu aprendi</h3>
+            <ul>
+              <li><strong>Testar o protótipo pega o que a tela parada esconde.</strong> Os dois problemas mais graves da avaliação heurística só apareceram usando o fluxo de verdade, e um deles era um bug de CSS que deixava as mensagens de erro sempre visíveis.</li>
+              <li><strong>O maior risco não é a interface, é o dado.</strong> Um status errado derruba a confiança no app inteiro. Por isso a hora da atualização em todo status e os relatos de motoristas na tela da estação.</li>
+              <li><strong>Restringir a cor de destaque deu clareza.</strong> Decidir que o verde só aparece em três lugares (ação principal, livre e progresso) resolveu a hierarquia de quase todas as telas.</li>
+            </ul>
             <div class="next-links">
               <a class="btn-case btn-case--primary" href="prototipo/index.html"><i data-lucide="smartphone" aria-hidden="true"></i>Abrir protótipo</a>
               <a class="btn-case" href="design-system/index.html"><i data-lucide="palette" aria-hidden="true"></i>Design system</a>

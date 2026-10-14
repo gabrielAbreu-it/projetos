@@ -25,6 +25,7 @@ Todos os valores estão no [design system](https://gabrielabreu-it.github.io/pro
 | Badge de status | Cor, bolinha e texto. Nunca só cor |
 | Card de estação | Inteiro clicável, com distância, disponibilidade compatível e preço |
 | Botões fixos no rodapé | Nas telas de decisão (estação, reserva, pagamento) a ação principal fica sempre ao alcance do polegar |
+| Relatos de motoristas | "Reportar problema" abre um formulário curto (conector e motivo). O relato aparece na estação para os próximos motoristas e vai para o operador |
 | Modal | Só para ações com dinheiro envolvido: encerrar recarga e cancelar reserva. Foco começa no botão seguro |
 | Toast | Confirma o que aconteceu. No cancelamento da reserva tem "Desfazer" |
 | Anel de progresso | Lido de relance, com o valor também em texto e `role="meter"` |
