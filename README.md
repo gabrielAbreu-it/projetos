@@ -44,7 +44,6 @@ Agendamento para salão, barbearia e estética: o cliente marca sozinho e o dono
 
 ## Contato
 
-- LinkedIn: https://www.linkedin.com/in/SEU-USUARIO
 - GitHub: https://github.com/gabrielAbreu-it
 
 ## Como rodar no computador
