@@ -2,7 +2,7 @@
 
 App mobile para quem tem carro elétrico achar um carregador **livre, funcionando e compatível**, reservar a vaga e pagar a recarga no mesmo lugar.
 
-**Papel:** UX/UI Designer, projeto individual · **Tipo:** projeto conceitual, app iOS e Android · **Ferramentas:** HTML, CSS, JavaScript, Lucide
+**Papel:** UX/UI Designer, projeto individual · **Tipo:** projeto conceitual, app iOS e Android · **Métodos:** benchmark, proto-persona, jornada, fluxos, wireframes, avaliação heurística e protótipo de alta fidelidade
 
 [Estudo de caso](https://gabrielabreu-it.github.io/projetos/roxx-energy/) · [Protótipo](https://gabrielabreu-it.github.io/projetos/roxx-energy/prototipo/) · [Design system](https://gabrielabreu-it.github.io/projetos/roxx-energy/design-system/) · [Wireframes](https://gabrielabreu-it.github.io/projetos/roxx-energy/docs/wireframes/) · [Documentação completa](docs/)
 
@@ -27,7 +27,7 @@ Quem tem carro elétrico no Brasil sai de casa sem saber se o carregador vai est
 3. **Arquitetura de informação e fluxos** → [docs/03](docs/03-arquitetura-e-fluxos.md)
 4. **Wireframes** de baixa fidelidade das 8 telas principais → [docs/wireframes](docs/wireframes/index.html)
 5. **Decisões de UI e acessibilidade**, com contraste WCAG AA calculado → [docs/04](docs/04-decisoes-de-ui-e-acessibilidade.md)
-6. **Avaliação heurística** do meu protótipo: 8 achados, 6 corrigidos → [docs/05](docs/05-avaliacao-heuristica.md)
+6. **Avaliação heurística** do meu protótipo, com antes e depois: 8 achados, 6 corrigidos → [docs/05](docs/05-avaliacao-heuristica.md)
 7. **Roteiro de teste de usabilidade** (próximo passo) → [docs/06](docs/06-roteiro-de-teste.md)
 8. **Próximos passos, métricas de sucesso e aprendizados** → [docs/07](docs/07-proximos-passos.md)
 
@@ -89,7 +89,7 @@ Design system e estudo de caso:
 
 - Contraste AA calculado para todos os pares de cor (texto principal 17,46:1, verde sobre fundo 14,57:1).
 - Foco visível, alvos de 44px, labels em todos os campos, erros ligados ao campo.
-- Fluxo inteiro pelo teclado; modal com `<dialog>` nativo.
+- Fluxo inteiro pelo teclado; o modal mantém o foco e fecha com Esc.
 - A recarga anuncia o progresso para leitor de tela a cada 10%.
 
 ## Estrutura
@@ -97,8 +97,8 @@ Design system e estudo de caso:
 ```
 roxx-energy/
 ├── index.html          estudo de caso
-├── prototipo/          protótipo (index.html, app.js, app.css, data.js)
-├── design-system/      tokens.css, components.css e a página com todos os estados
+├── prototipo/          protótipo de alta fidelidade
+├── design-system/      cores, tipografia, espaçamento e componentes com todos os estados
 └── docs/               pesquisa, fluxos, wireframes e prints
 ```
 

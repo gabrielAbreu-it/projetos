@@ -85,3 +85,14 @@ flowchart TD
   G[Estação sem conector livre compatível] --> H[Botão Reservar desabilitado com motivo escrito]
   I[Filtros sem resultado] --> J[Estado vazio com Limpar filtros]
 ```
+
+## Priorização do MVP
+
+Com os fluxos desenhados, separei o que entra na primeira versão. O critério: o que resolve a dor principal da jornada entra primeiro.
+
+| Prioridade | O que | Por quê |
+|---|---|---|
+| Precisa ter | Mapa com status e hora da atualização, filtro pelo carro, preço por conector, reserva com tolerância, recarga ao vivo com custo, pagamento com Pix e cartão | Sem isso o problema principal (livre, funcionando, compatível) não é resolvido |
+| Deveria ter | Relatos de motoristas, histórico com gasto do mês, avaliações | Aumentam a confiança e o motivo de voltar ao app, mas o fluxo funciona sem eles |
+| Poderia ter | Favoritos e "carregar de novo", ajuda sobre conectores, fila de espera | Facilitam a vida de quem já usa; entram depois do teste |
+| Não agora | Planejamento de viagem, programa de pontos, carregador doméstico | Outro problema, outro público ou depende de parceria |

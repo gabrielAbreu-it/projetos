@@ -20,6 +20,18 @@ Sucesso no protótipo:
 - O dono remarca um cliente arrastando o horário, sem abrir formulário.
 - O dono descobre o faturamento do mês e a taxa de faltas sem fazer conta.
 
+### Como podemos…
+
+- Como podemos deixar o cliente marcar sozinho sem perder a proximidade do atendimento pelo WhatsApp?
+- Como podemos reduzir as faltas sem o dono precisar lembrar de confirmar cada cliente?
+- Como podemos mostrar ao dono como vai o negócio sem relatório complicado?
+
+### Fora do escopo
+
+- Pagamento antecipado pelo app: o salão de bairro recebe no local.
+- Comissões, caixa e estoque: são importantes, mas viram outro produto (ver próximos passos).
+- Marketplace para atrair clientes novos: o foco é organizar quem já é cliente.
+
 ## Benchmark
 
 Analisei cinco produtos reais. As informações vêm dos sites oficiais, das lojas de apps e de matérias, consultadas em outubro de 2026. Onde não encontrei a informação, escrevi "não encontrei".

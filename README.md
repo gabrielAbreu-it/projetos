@@ -2,7 +2,7 @@
 
 **UX/UI Designer · Brasília**
 
-Desenho produtos digitais do problema ao protótipo. Aqui estão dois projetos completos, cada um com pesquisa, fluxos, wireframes, interface, design system e um protótipo que dá para usar no navegador.
+Desenho produtos digitais do problema ao protótipo. Aqui estão dois projetos completos, cada um com pesquisa, fluxos, wireframes, interface, design system, avaliação heurística e um protótipo de alta fidelidade que dá para testar.
 
 **Ver o portfólio:** https://gabrielabreu-it.github.io/projetos/
 
@@ -16,9 +16,9 @@ Desenho produtos digitais do problema ao protótipo. Aqui estão dois projetos c
 
 App para quem tem carro elétrico achar um carregador livre, funcionando e compatível, reservar a vaga e pagar a recarga.
 
-| Tipo | Papel | Ferramentas |
+| Tipo | Papel | Métodos |
 |---|---|---|
-| App iOS e Android | UX/UI, projeto individual | HTML, CSS, JavaScript, Lucide |
+| App iOS e Android | UX/UI, projeto individual | Benchmark, proto-persona, jornada, fluxos, wireframes, avaliação heurística |
 
 [Estudo de caso](https://gabrielabreu-it.github.io/projetos/roxx-energy/) · [Protótipo](https://gabrielabreu-it.github.io/projetos/roxx-energy/prototipo/) · [Design system](https://gabrielabreu-it.github.io/projetos/roxx-energy/design-system/) · [Documentação](roxx-energy/docs/)
 
@@ -28,9 +28,9 @@ App para quem tem carro elétrico achar um carregador livre, funcionando e compa
 
 Agendamento para salão, barbearia e estética: o cliente marca sozinho e o dono organiza a agenda e acompanha o mês.
 
-| Tipo | Papel | Ferramentas |
+| Tipo | Papel | Métodos |
 |---|---|---|
-| App do cliente e painel do dono | UX/UI, projeto individual | HTML, CSS, JavaScript, Lucide |
+| App do cliente e painel do dono | UX/UI, projeto individual | Benchmark, duas proto-personas, jornada, fluxos, wireframes, avaliação heurística |
 
 [Estudo de caso](https://gabrielabreu-it.github.io/projetos/agendai/) · [Protótipo](https://gabrielabreu-it.github.io/projetos/agendai/prototipo/) · [Design system](https://gabrielabreu-it.github.io/projetos/agendai/design-system/) · [Documentação](agendai/docs/)
 
@@ -63,7 +63,7 @@ As fontes vêm do Google Fonts e os ícones do Lucide (versão 0.453.0), os dois
 ```
 /
 ├── index.html          vitrine do portfólio
-├── assets/             CSS, JS e imagens compartilhadas
+├── assets/             estilos e imagens compartilhados
 ├── roxx-energy/        projeto 1
 │   ├── index.html      estudo de caso
 │   ├── prototipo/      protótipo navegável

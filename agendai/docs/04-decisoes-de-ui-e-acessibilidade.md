@@ -2,7 +2,7 @@
 
 [← Voltar ao índice](README.md)
 
-Tudo está no [design system](https://gabrielabreu-it.github.io/projetos/agendai/design-system/) (GitHub Pages). O app do cliente, o painel e a página do design system usam os mesmos arquivos CSS.
+Tudo está no [design system](https://gabrielabreu-it.github.io/projetos/agendai/design-system/) (GitHub Pages). O app do cliente e o painel usam os mesmos componentes, então o que está documentado é o que aparece nas telas.
 
 ## Cor
 
@@ -15,13 +15,13 @@ Tudo está no [design system](https://gabrielabreu-it.github.io/projetos/agendai
 ## Tipografia
 
 - **Plus Jakarta Sans** em tudo. É arredondada, o que ajuda no tom acolhedor, e os números são firmes, o que importa no painel (preço, horário, faturamento).
-- Títulos em 800, texto em 400/500. Números com `tabular-nums` para os horários e valores alinharem.
+- Títulos em 800, texto em 400/500. Números com largura fixa, para os horários e valores alinharem na agenda e nas tabelas.
 
 ## Componentes
 
 | Componente | Decisão |
 |---|---|
-| Card de opção | No app, o card inteiro é o alvo de toque (um `label` com rádio dentro) |
+| Card de opção | No app, o card inteiro é o alvo de toque (o card inteiro responde ao toque, não só o círculo de seleção) |
 | Chips de horário | Só aparecem horários livres, agrupados em manhã, tarde e noite. Mostrar os ocupados poluiria a tela sem ajudar a decidir |
 | Faixa de dias | 14 dias para frente; domingo aparece desabilitado com "fechado" no rótulo acessível |
 | Grade da agenda | Uma coluna por profissional no dia. A altura do bloco é a duração do serviço |
@@ -56,9 +56,9 @@ O texto de botão desabilitado (`#A3AAA6`) fica abaixo de 4,5:1 de propósito: a
 - **Foco visível** azul de 3px em tudo que é interativo.
 - **Alvos de 44px**, inclusive no painel (botões pequenos, chips, abas e o seletor Dia/Semana).
 - **Labels** visíveis em todos os campos; "(opcional)" escrito no label, sem asterisco.
-- **Erros** em texto com ícone, ligados por `aria-describedby`, e foco no primeiro campo com problema.
+- **Erros** em texto com ícone, lidos junto com o campo pelo leitor de tela, e foco no primeiro campo com problema.
 - **Arrastar não é o único caminho**: todo horário abre um detalhe com "Remarcar", que funciona pelo teclado com selects de profissional, data e hora.
 - **Blocos da agenda** são botões com rótulo completo para leitor de tela ("Ana Almeida, Corte feminino, 14:00 às 15:00, com Camila, confirmado").
 - **Gráficos** têm tabela equivalente (escondida visualmente ou em "Ver dados em tabela") e o mapa de calor mostra o número dentro de cada célula, não só a cor.
-- **Trocar de tela** leva o foco para o título; mudanças de data na agenda são anunciadas (`aria-live`).
+- **Trocar de tela** leva o foco para o título; mudanças de data na agenda são anunciadas pelo leitor de tela.
 - **Movimento reduzido** respeitado.

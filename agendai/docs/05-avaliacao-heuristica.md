@@ -24,3 +24,12 @@ Gravidade na escala do Nielsen: **0** não é problema · **1** cosmético · **
 - 7 achados no total. Em 3 das 10 heurísticas não encontrei problema.
 - 6 corrigidos no protótipo, 1 foi para os próximos passos.
 - Nenhum achado de gravidade 3 ou 4. Os de gravidade 2 eram de controle e consistência: coisas que fazem o dono desconfiar do sistema, que é o maior risco para quem está saindo do papel.
+
+## Antes e depois
+
+![Confirmação antes e depois: entrou o aviso da regra de 2 horas para horários próximos.](prints/antes-depois-confirmar.png)
+
+![Agenda da semana antes e depois: nomes cortados viraram primeiros nomes legíveis.](prints/antes-depois-semana.png)
+
+![Menu antes e depois: o número de pendentes passou a bater com o cabeçalho.](prints/antes-depois-badge.png)
+

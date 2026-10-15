@@ -301,6 +301,33 @@
         display: block;
         font-size: var(--ag-fs-sm);
       }
+      .uso {
+        display: grid;
+        gap: 12px;
+        margin-top: 20px;
+      }
+      @media (min-width: 720px) {
+        .uso {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      .uso > div {
+        padding: 14px 16px;
+        border-radius: 12px;
+        border: 1px solid var(--ag-line);
+      }
+      .uso strong {
+        display: block;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin-bottom: 4px;
+      }
+      .uso p {
+        font-size: 0.9rem;
+        margin: 0;
+        opacity: 0.85;
+      }
     </style>
   </head>
   <body>
@@ -320,7 +347,7 @@
         <h1>Design system</h1>
         <p>
           Tokens e componentes do app do cliente e do painel do dono. As três telas (cliente, painel e esta página) leem o mesmo
-          <code>tokens.css</code> e o mesmo <code>components.css</code>.
+          a mesma base de cores, tipografia e componentes.
         </p>
         <nav class="toc" aria-label="Seções">
           <a href="#cores">Cores</a>
@@ -416,7 +443,7 @@
             </tbody>
           </table>
         </div>
-        <p class="note">Alvo de toque mínimo: <code>--ag-touch</code> = 44px, inclusive no painel.</p>
+        <p class="note">Alvo de toque mínimo: 44px, inclusive no painel.</p>
       </section>
 
       <section class="ds" id="raios" aria-labelledby="t-raios">
@@ -459,7 +486,7 @@
           <div class="state"><span>Destrutivo</span><button class="ag-btn ag-btn--danger" type="button">Cancelar</button><button class="ag-btn ag-btn--danger is-hover" type="button" tabindex="-1">Hover</button><button class="ag-btn ag-btn--danger is-focus" type="button" tabindex="-1">Foco</button><button class="ag-btn ag-btn--danger" type="button" disabled>Desabilitado</button></div>
           <div class="state"><span>Ícone</span><div class="demo-row"><button class="ag-icon-btn" type="button" aria-label="Voltar"><i data-lucide="arrow-left" aria-hidden="true"></i></button><button class="ag-icon-btn" type="button" aria-label="Próximo dia"><i data-lucide="chevron-right" aria-hidden="true"></i></button></div></div>
         </div>
-        <pre><code>&lt;button class="ag-btn ag-btn--primary ag-btn--lg"&gt;Confirmar agendamento&lt;/button&gt;</code></pre>
+        <div class="uso"><div><strong>Quando usar</strong><p>Primário para avançar no fluxo (Continuar, Confirmar). Secundário para Remarcar. Destrutivo para Cancelar.</p></div><div><strong>Evite</strong><p>Botão primário para ação destrutiva. Texto genérico como "OK": o botão diz o que vai acontecer.</p></div></div>
       </section>
 
       <section class="ds" id="input" aria-labelledby="t-input">
@@ -473,11 +500,12 @@
           <div class="state"><span>Erro</span><div class="ag-field"><label class="ag-label" for="i5">WhatsApp</label><input class="ag-input" id="i5" value="123" aria-invalid="true" aria-describedby="i5-e" /><p class="ag-error-msg" id="i5-e"><i data-lucide="alert-circle" aria-hidden="true"></i>Confira o número: DDD + 8 ou 9 dígitos.</p></div></div>
           <div class="state"><span>Textarea e select</span><div class="ag-field"><label class="ag-label" for="i6">Observação <span class="opt">(opcional)</span></label><textarea class="ag-textarea" id="i6" placeholder="Ex.: quero manter o comprimento"></textarea></div><div class="ag-field"><label class="ag-label" for="i7">Motivo</label><select class="ag-select" id="i7"><option>Imprevisto</option></select></div></div>
         </div>
+        <div class="uso"><div><strong>Quando usar</strong><p>Só no último passo do agendamento (nome e WhatsApp) e nos formulários do painel.</p></div><div><strong>Evite</strong><p>Pedir cadastro antes de mostrar horários. Asterisco para obrigatório: o opcional é que fica escrito.</p></div></div>
       </section>
 
       <section class="ds" id="card" aria-labelledby="t-card">
         <h2 id="t-card">Card</h2>
-        <p>No app, escolher serviço ou profissional é tocar no card inteiro (um <code>label</code> com rádio dentro).</p>
+        <p>No app, escolher serviço ou profissional é tocar no card inteiro (não só o círculo de seleção).</p>
         <div class="states">
           <div class="state"><span>Default</span><div class="ag-card ag-card--interactive"><strong>Corte + barba</strong><br /><span class="ag-hint">1 h · R$ 75,00</span></div></div>
           <div class="state"><span>Hover</span><div class="ag-card ag-card--interactive is-hover"><strong>Corte + barba</strong><br /><span class="ag-hint">1 h · R$ 75,00</span></div></div>
@@ -486,6 +514,7 @@
           <div class="state"><span>Desabilitado</span><div class="ag-card ag-card--disabled"><strong>Coloração</strong><br /><span class="ag-hint">Indisponível</span></div></div>
           <div class="state"><span>Erro</span><div class="ag-card ag-card--error"><strong>Horário ocupado</strong><br /><span class="ag-hint">Escolha outro</span></div></div>
         </div>
+        <div class="uso"><div><strong>Quando usar</strong><p>Escolha de serviço e profissional no app; números e listas no painel.</p></div><div><strong>Evite</strong><p>Card sem hierarquia: preço e duração sempre no mesmo lugar.</p></div></div>
       </section>
 
       <section class="ds" id="chip" aria-labelledby="t-chip">
@@ -499,6 +528,7 @@
           <div class="state"><span>Desabilitado</span><div class="demo-row"><button class="ag-chip" type="button" disabled>14:30</button></div></div>
           <div class="state"><span>Erro</span><div class="demo-row"><span class="ag-chip is-error">14:30</span></div></div>
         </div>
+        <div class="uso"><div><strong>Quando usar</strong><p>Horários livres e filtro de profissional na agenda da semana.</p></div><div><strong>Evite</strong><p>Mostrar horário ocupado como chip desabilitado: polui a tela sem ajudar a decidir.</p></div></div>
       </section>
 
       <section class="ds" id="status" aria-labelledby="t-status">
@@ -511,12 +541,13 @@
           <span class="ag-badge ag-badge--faltou"><i data-lucide="user-x" aria-hidden="true"></i>Faltou</span>
           <span class="ag-badge ag-badge--cancelado"><i data-lucide="x" aria-hidden="true"></i>Cancelado</span>
         </div>
+        <div class="uso"><div><strong>Quando usar</strong><p>Em todo horário da agenda e em "Meus horários", sempre com ícone e texto.</p></div><div><strong>Evite</strong><p>Diferenciar "aguardando" só pela cor: na agenda ele também é listrado.</p></div></div>
       </section>
 
       <section class="ds" id="modal" aria-labelledby="t-modal">
         <h2 id="t-modal">Modal</h2>
         <p>
-          Para cancelar, remarcar e criar coisas no painel. Usa <code>&lt;dialog&gt;</code>: prende o foco, fecha com Esc ou clicando fora e
+          Para cancelar, remarcar e criar coisas no painel. Mantém o foco dentro dele, fecha com Esc ou clicando fora e
           devolve o foco. O botão "Manter" fica à esquerda e recebe o foco primeiro.
         </p>
         <div class="states" style="grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr))">
@@ -539,6 +570,7 @@
           <div class="ag-modal__body"><p id="md-x">Corte + barba com Bruno, sexta, 16 de outubro às 18:00.</p></div>
           <div class="ag-modal__actions"><button class="ag-btn ag-btn--secondary" type="button" data-close>Manter</button><button class="ag-btn ag-btn--danger" type="button" data-close>Cancelar horário</button></div>
         </dialog>
+        <div class="uso"><div><strong>Quando usar</strong><p>Cancelar (pede motivo opcional) e formulários do painel (novo agendamento, serviço, profissional).</p></div><div><strong>Evite</strong><p>Para confirmar o que é reversível: nesses casos, toast com Desfazer.</p></div></div>
       </section>
 
       <section class="ds" id="toast" aria-labelledby="t-toast">
@@ -549,6 +581,7 @@
           <div class="ag-toast"><span class="ag-toast__icon"><i data-lucide="check-circle-2" aria-hidden="true"></i></span><span>Remarcado: qui, 15 out, 15:00 com Diego.</span><button class="ag-toast__action" type="button">Desfazer</button></div>
           <div class="ag-toast ag-toast--error"><span class="ag-toast__icon"><i data-lucide="alert-circle" aria-hidden="true"></i></span><span>Bruno já tem cliente nesse horário.</span></div>
         </div>
+        <div class="uso"><div><strong>Quando usar</strong><p>Toda mudança na agenda, com Desfazer por 7 segundos.</p></div><div><strong>Evite</strong><p>Mensagens longas: se precisa de mais de uma linha, é outro componente.</p></div></div>
       </section>
 
       <section class="ds" id="navbar" aria-labelledby="t-navbar">
@@ -586,6 +619,7 @@
             </div>
           </div>
         </div>
+        <div class="uso"><div><strong>Quando usar</strong><p>Abas embaixo no app (3 destinos) e menu lateral no painel (5 destinos).</p></div><div><strong>Evite</strong><p>Mais de cinco itens no menu. Esconder a agenda atrás de outro nível.</p></div></div>
       </section>
     </main>
 

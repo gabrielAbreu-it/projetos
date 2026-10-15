@@ -2,7 +2,7 @@
 
 [← Voltar ao índice](README.md)
 
-Todos os valores estão no [design system](https://gabrielabreu-it.github.io/projetos/roxx-energy/design-system/) (GitHub Pages), que usa os mesmos arquivos CSS do protótipo.
+Todos os valores estão no [design system](https://gabrielabreu-it.github.io/projetos/roxx-energy/design-system/) (GitHub Pages). O protótipo usa exatamente esses componentes, então o que está documentado é o que aparece nas telas.
 
 ## Cor
 
@@ -28,7 +28,7 @@ Todos os valores estão no [design system](https://gabrielabreu-it.github.io/pro
 | Relatos de motoristas | "Reportar problema" abre um formulário curto (conector e motivo). O relato aparece na estação para os próximos motoristas e vai para o operador |
 | Modal | Só para ações com dinheiro envolvido: encerrar recarga e cancelar reserva. Foco começa no botão seguro |
 | Toast | Confirma o que aconteceu. No cancelamento da reserva tem "Desfazer" |
-| Anel de progresso | Lido de relance, com o valor também em texto e `role="meter"` |
+| Anel de progresso | Lido de relance, com a porcentagem também escrita no centro e anunciada pelo leitor de tela |
 
 ## Acessibilidade
 
@@ -55,10 +55,10 @@ Calculei a razão de contraste de cada par usado no protótipo com a fórmula de
 ### Outros cuidados
 
 - **Foco visível** em todos os elementos interativos: contorno azul de 3px com afastamento.
-- **Alvos de toque de 44px** no mínimo (`--rx-touch`). Os pins do mapa têm 34px de altura no desenho, mas uma área de toque invisível completa os 44px.
-- **Labels** visíveis em todos os campos. Grupos de opções usam `fieldset` e `legend`.
-- **Erros** em texto, com ícone, ligados ao campo por `aria-describedby`, e o foco vai para o primeiro campo com erro.
-- **Navegação por teclado**: dá para fazer o fluxo inteiro só com Tab, Enter e Espaço. O modal usa `<dialog>` nativo, que prende o foco e fecha com Esc.
+- **Alvos de toque de 44px** no mínimo. Os pins do mapa têm 34px de altura no desenho, mas uma área de toque invisível completa os 44px.
+- **Labels** visíveis em todos os campos. Grupos de opções têm um título que o leitor de tela anuncia.
+- **Erros** em texto, com ícone, lidos junto com o campo pelo leitor de tela, e o foco vai para o primeiro campo com erro.
+- **Navegação por teclado**: dá para fazer o fluxo inteiro só com Tab, Enter e Espaço. O modal mantém o foco dentro dele e fecha com Esc.
 - **Leitor de tela**: ao trocar de tela o foco vai para o título. A recarga anuncia o progresso a cada 10%, e não a cada segundo, para não atropelar a leitura.
-- **Movimento reduzido**: animações desligadas com `prefers-reduced-motion`.
+- **Movimento reduzido**: quem pede menos animação no sistema não vê animações.
 - **Gráfico** do histórico tem uma tabela equivalente escondida visualmente para leitores de tela.

@@ -22,6 +22,18 @@ O que considero sucesso para o protótipo:
 - Saber quanto vai pagar antes de começar, e quanto está pagando durante a recarga.
 - Ter o gasto do mês num lugar só.
 
+### Como podemos…
+
+- Como podemos fazer o motorista confiar no status do carregador antes de sair de casa?
+- Como podemos tirar do motorista a necessidade de entender de conector e potência?
+- Como podemos garantir a vaga sem punir quem atrasa um pouco no trânsito?
+
+### Fora do escopo
+
+- Planejamento de viagem entre cidades (fica para depois, ver próximos passos).
+- Carregador em casa ou no condomínio: o problema aqui é o ponto público.
+- Painel do operador da rede: o case é sobre o motorista.
+
 ## Benchmark
 
 Analisei cinco produtos reais que resolvem parte do problema. As informações vêm das páginas nas lojas de apps, dos sites oficiais e de matérias da imprensa especializada, consultadas em outubro de 2026. Esses apps mudam com frequência: onde não encontrei informação, escrevi "não encontrei", e não "não tem".

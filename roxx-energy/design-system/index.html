@@ -291,6 +291,33 @@
         gap: 12px;
         max-width: 380px;
       }
+      .uso {
+        display: grid;
+        gap: 12px;
+        margin-top: 20px;
+      }
+      @media (min-width: 720px) {
+        .uso {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      .uso > div {
+        padding: 14px 16px;
+        border-radius: 12px;
+        border: 1px solid var(--rx-line);
+      }
+      .uso strong {
+        display: block;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin-bottom: 4px;
+      }
+      .uso p {
+        font-size: 0.9rem;
+        margin: 0;
+        opacity: 0.85;
+      }
     </style>
   </head>
   <body>
@@ -309,8 +336,7 @@
       <div class="hero">
         <h1>Design system</h1>
         <p>
-          Os tokens e componentes que uso no protótipo. Os dois leem os mesmos arquivos (<code>tokens.css</code> e
-          <code>components.css</code>), então o que está aqui é exatamente o que aparece nas telas.
+          Cores, tipografia, espaçamento e os componentes do Roxx, cada um com todos os estados e com orientação de quando usar. O protótipo usa exatamente estes componentes, então o que está aqui é o que aparece nas telas.
         </p>
         <nav class="toc" aria-label="Seções">
           <a href="#cores">Cores</a>
@@ -407,7 +433,7 @@
             </tbody>
           </table>
         </div>
-        <p class="note">Alvo de toque mínimo: <code>--rx-touch</code> = 44px. Botões grandes têm 56px.</p>
+        <p class="note">Alvo de toque mínimo: 44px. Botões grandes têm 56px.</p>
       </section>
 
       <!-- RAIOS -->
@@ -452,15 +478,15 @@
           <div class="state"><span>Secundário</span><button class="rx-btn rx-btn--secondary" type="button">Como chegar</button><button class="rx-btn rx-btn--secondary is-hover" type="button" tabindex="-1">Hover</button><button class="rx-btn rx-btn--secondary is-focus" type="button" tabindex="-1">Foco</button><button class="rx-btn rx-btn--secondary" type="button" disabled>Desabilitado</button></div>
           <div class="state"><span>Ghost</span><button class="rx-btn rx-btn--ghost" type="button">Pular</button><button class="rx-btn rx-btn--ghost is-hover" type="button" tabindex="-1">Hover</button><button class="rx-btn rx-btn--ghost is-focus" type="button" tabindex="-1">Foco</button><button class="rx-btn rx-btn--ghost" type="button" disabled>Desabilitado</button></div>
           <div class="state"><span>Destrutivo</span><button class="rx-btn rx-btn--danger" type="button">Cancelar reserva</button><button class="rx-btn rx-btn--danger is-hover" type="button" tabindex="-1">Hover</button><button class="rx-btn rx-btn--danger is-focus" type="button" tabindex="-1">Foco</button><button class="rx-btn rx-btn--danger" type="button" disabled>Desabilitado</button></div>
-          <div class="state"><span>Ícone</span><div class="demo-row"><button class="rx-icon-btn" type="button" aria-label="Voltar"><i data-lucide="arrow-left" aria-hidden="true"></i></button><button class="rx-icon-btn" type="button" aria-label="Trocar veículo"><i data-lucide="car" aria-hidden="true"></i></button></div><span class="note" style="margin:0">Sempre com <code>aria-label</code>.</span></div>
+          <div class="state"><span>Ícone</span><div class="demo-row"><button class="rx-icon-btn" type="button" aria-label="Voltar"><i data-lucide="arrow-left" aria-hidden="true"></i></button><button class="rx-icon-btn" type="button" aria-label="Trocar veículo"><i data-lucide="car" aria-hidden="true"></i></button></div><span class="note" style="margin:0">Sempre com um nome para o leitor de tela.</span></div>
         </div>
-        <pre><code>&lt;button class="rx-btn rx-btn--primary rx-btn--lg"&gt;Reservar&lt;/button&gt;</code></pre>
+        <div class="uso"><div><strong>Quando usar</strong><p>Primário para a única ação principal da tela (Reservar, Pagar). Secundário para alternativas (Como chegar). Destrutivo para encerrar ou cancelar.</p></div><div><strong>Evite</strong><p>Dois primários na mesma tela. Destrutivo sem confirmação quando envolve dinheiro.</p></div></div>
       </section>
 
       <!-- INPUT -->
       <section class="ds" id="input" aria-labelledby="t-input">
         <h2 id="t-input">Input</h2>
-        <p>Label sempre visível em cima do campo (placeholder não substitui label). 52px de altura e fonte 16px. O erro aparece em texto embaixo, com ícone, e o campo recebe <code>aria-invalid</code>.</p>
+        <p>Label sempre visível em cima do campo (placeholder não substitui label). 52px de altura e fonte 16px. O erro aparece em texto embaixo, com ícone, e a borda do campo fica vermelha.</p>
         <div class="states">
           <div class="state"><span>Default</span><div class="rx-field"><label class="rx-label" for="i1">Apelido</label><input class="rx-input" id="i1" placeholder="Ex.: Carro do trabalho" /></div></div>
           <div class="state"><span>Hover</span><div class="rx-field"><label class="rx-label" for="i2">Apelido</label><input class="rx-input is-hover" id="i2" placeholder="Ex.: Carro do trabalho" tabindex="-1" /></div></div>
@@ -469,6 +495,7 @@
           <div class="state"><span>Erro</span><div class="rx-field"><label class="rx-label" for="i5">Capacidade da bateria (kWh)</label><input class="rx-input" id="i5" value="4" aria-invalid="true" aria-describedby="i5-e" /><p class="rx-error-msg" id="i5-e"><i data-lucide="alert-circle" aria-hidden="true"></i>Informe um número entre 10 e 150.</p></div></div>
           <div class="state"><span>Select</span><div class="rx-field"><label class="rx-label" for="i6">Modelo</label><select class="rx-select" id="i6"><option>BYD Dolphin</option><option>Nissan Leaf</option></select></div></div>
         </div>
+        <div class="uso"><div><strong>Quando usar</strong><p>Quando a informação não pode ser escolhida de uma lista (apelido, capacidade da bateria).</p></div><div><strong>Evite</strong><p>Pedir o que dá para deduzir: o modelo do carro já preenche os conectores.</p></div></div>
       </section>
 
       <!-- CARD -->
@@ -483,12 +510,13 @@
           <div class="state"><span>Desabilitado</span><div class="rx-card rx-card--disabled"><strong>A2 · CCS2</strong><br /><span class="rx-hint">Ocupado</span></div></div>
           <div class="state"><span>Erro</span><div class="rx-card rx-card--error"><strong>B4 · Tipo 2</strong><br /><span class="rx-hint">Fora de serviço</span></div></div>
         </div>
+        <div class="uso"><div><strong>Quando usar</strong><p>Para itens que a pessoa compara e escolhe: estações, conectores, formas de pagamento.</p></div><div><strong>Evite</strong><p>Card dentro de card. Quando o card é clicável, não colocar outro botão competindo dentro dele.</p></div></div>
       </section>
 
       <!-- CHIP -->
       <section class="ds" id="chip" aria-labelledby="t-chip">
         <h2 id="t-chip">Chip</h2>
-        <p>Filtros do mapa, conectores do carro e horários da reserva. Usa <code>aria-pressed</code> quando é botão liga/desliga e um <code>input</code> escondido quando faz parte de formulário.</p>
+        <p>Filtros do mapa, conectores do carro e horários da reserva. Funciona como liga/desliga nos filtros e como escolha única nos horários.</p>
         <div class="states">
           <div class="state"><span>Default</span><div class="demo-row"><button class="rx-chip" type="button" aria-pressed="false">Só livres</button></div></div>
           <div class="state"><span>Hover</span><div class="demo-row"><span class="rx-chip is-hover">Só livres</span></div></div>
@@ -497,6 +525,7 @@
           <div class="state"><span>Desabilitado</span><div class="demo-row"><button class="rx-chip" type="button" disabled>80%</button></div></div>
           <div class="state"><span>Erro</span><div class="demo-row"><span class="rx-chip is-error">Tipo 2</span></div></div>
         </div>
+        <div class="uso"><div><strong>Quando usar</strong><p>Filtros rápidos do mapa e escolhas curtas, como horário e meta da recarga.</p></div><div><strong>Evite</strong><p>Mais de seis chips numa linha. Para escolhas longas, use lista.</p></div></div>
       </section>
 
       <!-- STATUS -->
@@ -511,14 +540,14 @@
           <span class="rx-status rx-status--info">Reserva 15 min</span>
           <span class="rx-status rx-status--error">Falha</span>
         </div>
+        <div class="uso"><div><strong>Quando usar</strong><p>Sempre que a informação for o estado do carregador. Junto do status, mostrar há quanto tempo foi atualizado.</p></div><div><strong>Evite</strong><p>Status só com cor. Usar vermelho para "ocupado": vermelho é erro.</p></div></div>
       </section>
 
       <!-- MODAL -->
       <section class="ds" id="modal" aria-labelledby="t-modal">
         <h2 id="t-modal">Modal</h2>
         <p>
-          Só para confirmar ações que custam dinheiro ou não dá para desfazer fácil. Usa o <code>&lt;dialog&gt;</code> nativo: prende o
-          foco, fecha com Esc e devolve o foco para quem abriu. O foco começa no botão seguro ("Continuar carregando").
+          Só para confirmar ações que custam dinheiro ou não dá para desfazer fácil. Mantém o foco dentro dele, fecha com Esc e devolve o foco para onde a pessoa estava. O foco começa no botão seguro ("Continuar carregando").
         </p>
         <div class="states" style="grid-template-columns: repeat(auto-fill, minmax(300px, 1fr))">
           <div class="state">
@@ -552,23 +581,25 @@
             </div>
           </div>
         </dialog>
+        <div class="uso"><div><strong>Quando usar</strong><p>Ações com dinheiro ou difíceis de desfazer: encerrar recarga, cancelar reserva, reportar problema.</p></div><div><strong>Evite</strong><p>Para mensagens que um toast resolve. Modal em cima de modal.</p></div></div>
       </section>
 
       <!-- TOAST -->
       <section class="ds" id="toast" aria-labelledby="t-toast">
         <h2 id="t-toast">Toast</h2>
-        <p>Confirma o que aconteceu sem interromper. Fica numa região <code>aria-live="polite"</code>. Quando dá para desfazer, aparece a ação.</p>
+        <p>Confirma o que aconteceu sem interromper. É anunciado pelo leitor de tela sem interromper a leitura. Quando dá para desfazer, aparece a ação.</p>
         <div class="toast-stack">
           <div class="rx-toast"><span class="rx-toast__icon"><i data-lucide="check-circle-2" aria-hidden="true"></i></span><span>Reserva feita. Taxa de R$ 3,00 paga.</span></div>
           <div class="rx-toast"><span class="rx-toast__icon"><i data-lucide="check-circle-2" aria-hidden="true"></i></span><span>Reserva cancelada.</span><button class="rx-toast__action" type="button">Desfazer</button></div>
           <div class="rx-toast rx-toast--error"><span class="rx-toast__icon"><i data-lucide="alert-circle" aria-hidden="true"></i></span><span>Não conseguimos liberar o cabo. Tente de novo.</span><button class="rx-toast__action" type="button">Tentar</button></div>
         </div>
+        <div class="uso"><div><strong>Quando usar</strong><p>Confirmar o que aconteceu (reserva feita, código copiado) e oferecer Desfazer.</p></div><div><strong>Evite</strong><p>Erro que exige ação da pessoa: aí o erro fica na tela, junto do campo.</p></div></div>
       </section>
 
       <!-- NAVBAR -->
       <section class="ds" id="navbar" aria-labelledby="t-navbar">
         <h2 id="t-navbar">Navbar</h2>
-        <p>Barra inferior com quatro destinos. O item atual fica verde, com um traço em cima e <code>aria-current="page"</code>. A bolinha em "Recarga" avisa que tem recarga rodando.</p>
+        <p>Barra inferior com quatro destinos. O item atual fica verde, com um traço em cima, e o leitor de tela anuncia "página atual". A bolinha em "Recarga" avisa que tem recarga rodando.</p>
         <div class="states" style="grid-template-columns: 1fr">
           <div class="state">
             <span>Default + atual + recarga ativa</span>
@@ -593,6 +624,7 @@
             </div>
           </div>
         </div>
+        <div class="uso"><div><strong>Quando usar</strong><p>Os quatro destinos principais, sempre visíveis nas telas de topo.</p></div><div><strong>Evite</strong><p>Esconder a barra durante a recarga: a pessoa precisa voltar a ela.</p></div></div>
       </section>
     </main>
 

@@ -25,5 +25,5 @@ Se o Agendaí fosse lançado, estes seriam os números que eu acompanharia. Nenh
 ## O que eu aprendi
 
 - **Duas interfaces exigem um design system de verdade.** O app do cliente e o painel leem os mesmos tokens e componentes; sem isso, os dois lados teriam virado produtos diferentes.
-- **Dado de exemplo também precisa ser coerente.** Gerei a agenda do mês com uma regra fixa, para o painel, o app, o design system e o case mostrarem os mesmos números.
+- **Número só ajuda quando responde uma pergunta.** Cada bloco de "Números do mês" nasceu de uma pergunta da jornada da dona: quanto entrou, quem está faltando e quando o salão lota. O que não respondia nenhuma delas ficou de fora.
 - **Gesto rápido não pode ser o único caminho.** Arrastar para remarcar é o mais rápido no mouse, mas o mesmo resultado precisa existir pelo teclado e no celular.

@@ -17,7 +17,7 @@ Gravidade na escala do Nielsen: **0** não é problema · **1** cosmético · **
 | 6 | Reconhecer em vez de lembrar | Conferi: a aba Recarga mostra a reserva ativa com horário e prazo, sem o usuário precisar lembrar onde reservou. | 0 | Nada a corrigir. |
 | 7 | Flexibilidade e eficiência | Quem carrega sempre no mesmo lugar precisa repetir o caminho mapa → estação → reserva toda vez. | 1 | Não corrigi agora. Está nos próximos passos (favoritos e "carregar de novo"). |
 | 8 | Estética e design minimalista | O ponto azul de "Você está aqui" ficava escondido atrás de um pin no mapa. | 1 | Mudei a posição e coloquei o ponto acima do mapa, sem bloquear o clique nos pins. |
-| 9 | Reconhecer, diagnosticar e corrigir erros | As mensagens de erro do cadastro e da reserva apareciam antes de o usuário fazer qualquer coisa. O CSS do componente (`display: flex`) passava por cima do atributo `hidden`. | 3 | Corrigi na base do CSS (`[hidden] { display: none !important }`). Os erros só aparecem depois de tentar enviar. |
+| 9 | Reconhecer, diagnosticar e corrigir erros | As mensagens de erro do cadastro e da reserva apareciam antes de o motorista fazer qualquer coisa, como se ele já tivesse errado. | 3 | O erro só aparece depois de tentar avançar, ao lado do campo com problema. |
 | 10 | Ajuda e documentação | Quem nunca carregou não sabe o que é CCS2 ou CHAdeMO. Hoje só existe a dica "preenchemos pelo modelo". | 1 | Não corrigi agora. Próximos passos: um "o que é isso?" ao lado dos conectores. |
 
 ## Resumo
@@ -25,3 +25,12 @@ Gravidade na escala do Nielsen: **0** não é problema · **1** cosmético · **
 - 8 achados no total. Em 3 das 10 heurísticas não encontrei problema.
 - 6 corrigidos no protótipo, 2 foram para os próximos passos.
 - Os dois mais graves (gravidade 3) eram exatamente sobre o problema central do produto: confiar na informação do carregador e entender o que deu errado.
+
+## Antes e depois
+
+![Mapa antes e depois: o pin do Noroeste passou de 60 kW para 7 kW e o preço ganhou "a partir de".](prints/antes-depois-mapa.png)
+
+![Reserva antes e depois: a mensagem de erro deixou de aparecer antes da ação.](prints/antes-depois-reserva.png)
+
+![Pix antes e depois: entrou o status de aguardando pagamento e a validade do código.](prints/antes-depois-pix.png)
+

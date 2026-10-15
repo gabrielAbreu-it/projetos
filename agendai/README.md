@@ -2,7 +2,7 @@
 
 Agendamento para salão, barbearia e estética. O **cliente** marca sozinho, sem criar conta. O **dono** organiza a agenda arrastando horários e vê faturamento, faltas e horários mais cheios.
 
-**Papel:** UX/UI Designer, projeto individual · **Tipo:** projeto conceitual, app do cliente e painel do dono · **Ferramentas:** HTML, CSS, JavaScript, Lucide
+**Papel:** UX/UI Designer, projeto individual · **Tipo:** projeto conceitual, app do cliente e painel do dono · **Métodos:** benchmark, duas proto-personas, jornada, fluxos, wireframes, avaliação heurística e protótipo de alta fidelidade
 
 [Estudo de caso](https://gabrielabreu-it.github.io/projetos/agendai/) · [Protótipo](https://gabrielabreu-it.github.io/projetos/agendai/prototipo/) · [Design system](https://gabrielabreu-it.github.io/projetos/agendai/design-system/) · [Wireframes](https://gabrielabreu-it.github.io/projetos/agendai/docs/wireframes/) · [Documentação completa](docs/)
 
@@ -27,7 +27,7 @@ O dono de um salão pequeno atende pelo WhatsApp: perde horário quando demora a
 3. **Arquitetura de informação e fluxos** das duas interfaces → [docs/03](docs/03-arquitetura-e-fluxos.md)
 4. **Wireframes** de baixa fidelidade: 6 telas do app e 3 do painel → [docs/wireframes](docs/wireframes/index.html)
 5. **Decisões de UI e acessibilidade**, com contraste WCAG AA calculado → [docs/04](docs/04-decisoes-de-ui-e-acessibilidade.md)
-6. **Avaliação heurística** do meu protótipo: 7 achados, 6 corrigidos → [docs/05](docs/05-avaliacao-heuristica.md)
+6. **Avaliação heurística** do meu protótipo, com antes e depois: 7 achados, 6 corrigidos → [docs/05](docs/05-avaliacao-heuristica.md)
 7. **Roteiro de teste de usabilidade** (próximo passo) → [docs/06](docs/06-roteiro-de-teste.md)
 8. **Próximos passos, métricas de sucesso e aprendizados** → [docs/07](docs/07-proximos-passos.md)
 
@@ -118,8 +118,8 @@ agendai/
 │   ├── index.html      entrada: escolha entre cliente e painel
 │   ├── cliente/        app do cliente (mobile)
 │   ├── painel/         painel do dono (desktop e responsivo)
-│   └── shared/         dados fictícios, regras e componentes de toast e modal
-├── design-system/      tokens.css, components.css e a página com todos os estados
+│   └── shared/         dados fictícios usados pelas duas interfaces
+├── design-system/      cores, tipografia, espaçamento e componentes com todos os estados
 └── docs/               pesquisa, fluxos, wireframes e prints
 ```
 

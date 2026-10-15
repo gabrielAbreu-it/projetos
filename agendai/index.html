@@ -87,7 +87,7 @@
             <div><dt>Papel</dt><dd>UX/UI Designer, projeto individual</dd></div>
             <div><dt>Tipo</dt><dd>Projeto conceitual, app do cliente e painel do dono</dd></div>
             <div><dt>Entregas</dt><dd>Pesquisa, fluxos, wireframes, UI, design system, protótipo</dd></div>
-            <div><dt>Ferramentas</dt><dd>HTML, CSS, JavaScript, Lucide</dd></div>
+            <div><dt>Métodos</dt><dd>Benchmark, duas proto-personas, jornada, fluxos, wireframes, avaliação heurística</dd></div>
           </dl>
           <section class="case-summary" aria-label="Resumo do case">
             <div><h2>Problema</h2><p>O dono atende pelo WhatsApp, perde horário, esquece de confirmar e não sabe quanto faturou no mês.</p></div>
@@ -146,6 +146,18 @@
               <li>O cliente marca um horário em menos de 1 minuto.</li>
               <li>O dono remarca arrastando o horário, sem abrir formulário.</li>
               <li>O dono vê faturamento e taxa de faltas sem fazer conta.</li>
+            </ul>
+            <h3>Como podemos…</h3>
+            <ul>
+              <li>Como podemos deixar o cliente marcar sozinho sem perder a proximidade do atendimento pelo WhatsApp?</li>
+              <li>Como podemos reduzir as faltas sem o dono precisar lembrar de confirmar cada cliente?</li>
+              <li>Como podemos mostrar ao dono como vai o negócio sem relatório complicado?</li>
+            </ul>
+            <h3>Fora do escopo</h3>
+            <ul>
+              <li>Pagamento antecipado pelo app: o salão de bairro recebe no local.</li>
+              <li>Comissões, caixa e estoque: são importantes, mas viram outro produto (ver próximos passos).</li>
+              <li>Marketplace para atrair clientes novos: o foco é organizar quem já é cliente.</li>
             </ul>
           </section>
 
@@ -277,6 +289,9 @@
               <div class="figure__box" tabindex="0" role="region" aria-label="Diagrama do fluxo do dono"><svg viewBox="0 0 1008 258" role="img" aria-labelledby="fluxo-dono-t fluxo-dono-d" xmlns="http://www.w3.org/2000/svg"><title id="fluxo-dono-t">Fluxo do dono para remarcar</title><desc id="fluxo-dono-d">Agenda do dia → Arrasta o bloco → Destino válido? → Solta no horário → Remarcado cliente avisado</desc><defs><marker id="fluxo-dono-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" class="d-arrowhead"/></marker></defs><path class="d-line" d="M220 52.0 L272 52.0" marker-end="url(#fluxo-dono-a)"/><path class="d-line" d="M476 52.0 L528 52.0" marker-end="url(#fluxo-dono-a)"/><path class="d-line" d="M732 52.0 L784 52.0" marker-end="url(#fluxo-dono-a)"/><text class="d-small" x="760.0" y="44.0" text-anchor="middle">sim</text><path class="d-line" d="M888.0 84 L888.0 150" marker-end="url(#fluxo-dono-a)"/><rect class="d-node d-node--end" x="20" y="20" width="200" height="64" rx="32"/><text class="d-txt d-txt--strong" x="120.0" y="57.0" text-anchor="middle">Agenda do dia</text><rect class="d-node" x="276" y="20" width="200" height="64" rx="10"/><text class="d-txt" x="376.0" y="57.0" text-anchor="middle">Arrasta o bloco</text><text class="d-small d-small--muted" x="376.0" y="102" text-anchor="middle">ou abre e usa Remarcar</text><rect class="d-node d-node--decision" x="532" y="20" width="200" height="64" rx="10"/><text class="d-txt" x="632.0" y="57.0" text-anchor="middle">Destino válido?</text><text class="d-small d-small--muted" x="632.0" y="102" text-anchor="middle">não: célula vermelha com o motivo</text><rect class="d-node" x="788" y="20" width="200" height="64" rx="10"/><text class="d-txt" x="888.0" y="57.0" text-anchor="middle">Solta no horário</text><rect class="d-node d-node--end" x="788" y="154" width="200" height="64" rx="32"/><text class="d-txt d-txt--strong" x="888.0" y="183.0" text-anchor="middle">Remarcado</text><text class="d-txt d-txt--strong" x="888.0" y="199.0" text-anchor="middle">cliente avisado</text><text class="d-small d-small--muted" x="888.0" y="236" text-anchor="middle">Desfazer por 7 segundos</text></svg></div>
               <figcaption>Dono: remarcar arrastando, com caminho alternativo pelo teclado.</figcaption>
             </figure>
+            <h3>Priorização do MVP</h3>
+            <p>Com os fluxos desenhados, separei o que entra na primeira versão. O critério foi simples: o que resolve a dor principal da jornada entra primeiro.</p>
+            <div class="table-wrap" tabindex="0" role="region" aria-label="Priorização do MVP"><table><thead><tr><th scope="col">Prioridade</th><th scope="col">O que</th><th scope="col">Por quê</th></tr></thead><tbody><tr><th scope="row">Precisa ter</th><td>Agendar em 4 passos sem cadastro, só horários livres, agenda por profissional, remarcar e cancelar dos dois lados, status de confirmação</td><td>Resolve as três dores: horário perdido, falta e mensagem sem resposta</td></tr><tr><th scope="row">Deveria ter</th><td>Arrastar para remarcar, números do mês, ficha do cliente com observações</td><td>Deixam o dono mais rápido e dão visão do negócio</td></tr><tr><th scope="row">Poderia ter</th><td>Ir para uma data, lista de espera, bloqueio de agenda</td><td>Ajustes de quem já usa no dia a dia</td></tr><tr><th scope="row">Não agora</th><td>Comissões, estoque, pagamento online, marketplace</td><td>Aumentam muito o escopo e afastam o foco da agenda</td></tr></tbody></table></div>
           </section>
 
           <section class="case-section" id="wireframes" aria-labelledby="h-wireframes">
@@ -414,6 +429,13 @@
                 </tbody>
               </table>
             </div>
+            <h3>Antes e depois</h3>
+            <p>As telas abaixo são do protótipo antes e depois das correções.</p>
+            <div class="gallery gallery--ad">
+              <figure><img src="docs/prints/antes-depois-confirmar.png" loading="lazy" alt="Confirmação antes e depois: entrou o aviso da regra de 2 horas para horários próximos." /><figcaption>Confirmar: aviso da regra de 2 horas</figcaption></figure>
+              <figure><img src="docs/prints/antes-depois-semana.png" loading="lazy" alt="Agenda da semana antes e depois: nomes cortados viraram primeiros nomes legíveis." /><figcaption>Semana: nomes legíveis</figcaption></figure>
+              <figure><img src="docs/prints/antes-depois-badge.png" loading="lazy" alt="Menu antes e depois: o número de pendentes passou a bater com o cabeçalho." /><figcaption>Menu: um número só para pendentes</figcaption></figure>
+            </div>
             <p>Sete achados, seis corrigidos. Os de gravidade 2 eram de controle e consistência: o tipo de coisa que faz o dono desconfiar do sistema e voltar para o papel.</p>
           </section>
 
@@ -468,7 +490,7 @@
             <h3>O que eu aprendi</h3>
             <ul>
               <li><strong>Duas interfaces exigem um design system de verdade.</strong> O app do cliente e o painel leem os mesmos tokens e componentes; sem isso, os dois lados teriam virado produtos diferentes.</li>
-              <li><strong>Dado de exemplo também precisa ser coerente.</strong> Gerei a agenda do mês com uma regra fixa, para o painel, o app, o design system e este case mostrarem os mesmos números.</li>
+              <li><strong>Número só ajuda quando responde uma pergunta.</strong> Cada bloco de "Números do mês" nasceu de uma pergunta da jornada da dona: quanto entrou, quem está faltando e quando o salão lota. O que não respondia nenhuma delas ficou de fora.</li>
               <li><strong>Gesto rápido não pode ser o único caminho.</strong> Arrastar para remarcar é o mais rápido no mouse, mas o mesmo resultado precisa existir pelo teclado e no celular.</li>
             </ul>
             <div class="next-links">

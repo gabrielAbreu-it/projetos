@@ -86,7 +86,7 @@
             <div><dt>Papel</dt><dd>UX/UI Designer, projeto individual</dd></div>
             <div><dt>Tipo</dt><dd>Projeto conceitual, app iOS e Android</dd></div>
             <div><dt>Entregas</dt><dd>Pesquisa, fluxos, wireframes, UI, design system, protótipo</dd></div>
-            <div><dt>Ferramentas</dt><dd>HTML, CSS, JavaScript, Lucide</dd></div>
+            <div><dt>Métodos</dt><dd>Benchmark, proto-persona, jornada, fluxos, wireframes, avaliação heurística</dd></div>
           </dl>
           <section class="case-summary" aria-label="Resumo do case">
             <div><h2>Problema</h2><p>O motorista sai de casa sem saber se o carregador vai estar livre, funcionando e compatível com o carro.</p></div>
@@ -144,6 +144,18 @@
               <li>Achar uma estação compatível e livre sem precisar entender a diferença entre os conectores.</li>
               <li>Saber quanto vai pagar antes de começar e quanto está pagando durante a recarga.</li>
               <li>Ter o gasto do mês num lugar só.</li>
+            </ul>
+            <h3>Como podemos…</h3>
+            <ul>
+              <li>Como podemos fazer o motorista confiar no status do carregador antes de sair de casa?</li>
+              <li>Como podemos tirar do motorista a necessidade de entender de conector e potência?</li>
+              <li>Como podemos garantir a vaga sem punir quem atrasa um pouco no trânsito?</li>
+            </ul>
+            <h3>Fora do escopo</h3>
+            <ul>
+              <li>Planejamento de viagem entre cidades (fica para depois, ver próximos passos).</li>
+              <li>Carregador em casa ou no condomínio: o problema aqui é o ponto público.</li>
+              <li>Painel do operador da rede: o case é sobre o motorista.</li>
             </ul>
           </section>
 
@@ -271,6 +283,9 @@
               <div class="figure__box" tabindex="0" role="region" aria-label="Diagrama do fluxo principal"><svg viewBox="0 0 1008 392" role="img" aria-labelledby="fluxo-roxx-t fluxo-roxx-d" xmlns="http://www.w3.org/2000/svg"><title id="fluxo-roxx-t">Fluxo principal do Roxx Energy</title><desc id="fluxo-roxx-d">Abre o app → Mapa já filtrado pelo carro → Tem conector compatível livre? → Abre a estação → Reserva: conector e horário → Confirmada 15 min de tolerância → Chega e conecta o cabo → Recarga em andamento → Pagamento Pix ou cartão → Recibo e histórico</desc><defs><marker id="fluxo-roxx-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" class="d-arrowhead"/></marker></defs><path class="d-line" d="M220 52.0 L272 52.0" marker-end="url(#fluxo-roxx-a)"/><path class="d-line" d="M476 52.0 L528 52.0" marker-end="url(#fluxo-roxx-a)"/><path class="d-line" d="M732 52.0 L784 52.0" marker-end="url(#fluxo-roxx-a)"/><text class="d-small" x="760.0" y="44.0" text-anchor="middle">sim</text><path class="d-line" d="M888.0 84 L888.0 150" marker-end="url(#fluxo-roxx-a)"/><path class="d-line" d="M788 186.0 L736 186.0" marker-end="url(#fluxo-roxx-a)"/><path class="d-line" d="M532 186.0 L480 186.0" marker-end="url(#fluxo-roxx-a)"/><path class="d-line" d="M276 186.0 L224 186.0" marker-end="url(#fluxo-roxx-a)"/><path class="d-line" d="M120.0 218 L120.0 284" marker-end="url(#fluxo-roxx-a)"/><path class="d-line" d="M220 320.0 L272 320.0" marker-end="url(#fluxo-roxx-a)"/><rect class="d-node d-node--end" x="20" y="20" width="200" height="64" rx="32"/><text class="d-txt d-txt--strong" x="120.0" y="57.0" text-anchor="middle">Abre o app</text><rect class="d-node" x="276" y="20" width="200" height="64" rx="10"/><text class="d-txt" x="376.0" y="49.0" text-anchor="middle">Mapa já filtrado</text><text class="d-txt" x="376.0" y="65.0" text-anchor="middle">pelo carro</text><rect class="d-node d-node--decision" x="532" y="20" width="200" height="64" rx="10"/><text class="d-txt" x="632.0" y="49.0" text-anchor="middle">Tem conector</text><text class="d-txt" x="632.0" y="65.0" text-anchor="middle">compatível livre?</text><text class="d-small d-small--muted" x="632.0" y="102" text-anchor="middle">não: liga &#x27;Só livres&#x27; ou muda filtro</text><rect class="d-node" x="788" y="20" width="200" height="64" rx="10"/><text class="d-txt" x="888.0" y="57.0" text-anchor="middle">Abre a estação</text><rect class="d-node" x="788" y="154" width="200" height="64" rx="10"/><text class="d-txt" x="888.0" y="183.0" text-anchor="middle">Reserva: conector</text><text class="d-txt" x="888.0" y="199.0" text-anchor="middle">e horário</text><rect class="d-node" x="532" y="154" width="200" height="64" rx="10"/><text class="d-txt" x="632.0" y="183.0" text-anchor="middle">Confirmada</text><text class="d-txt" x="632.0" y="199.0" text-anchor="middle">15 min de tolerância</text><text class="d-small d-small--muted" x="632.0" y="236" text-anchor="middle">pode cancelar com Desfazer</text><rect class="d-node" x="276" y="154" width="200" height="64" rx="10"/><text class="d-txt" x="376.0" y="183.0" text-anchor="middle">Chega e</text><text class="d-txt" x="376.0" y="199.0" text-anchor="middle">conecta o cabo</text><rect class="d-node" x="20" y="154" width="200" height="64" rx="10"/><text class="d-txt" x="120.0" y="191.0" text-anchor="middle">Recarga em andamento</text><text class="d-small d-small--muted" x="120.0" y="236" text-anchor="middle">pode encerrar antes, com confirmação</text><rect class="d-node" x="20" y="288" width="200" height="64" rx="10"/><text class="d-txt" x="120.0" y="317.0" text-anchor="middle">Pagamento</text><text class="d-txt" x="120.0" y="333.0" text-anchor="middle">Pix ou cartão</text><rect class="d-node d-node--end" x="276" y="288" width="200" height="64" rx="32"/><text class="d-txt d-txt--strong" x="376.0" y="325.0" text-anchor="middle">Recibo e histórico</text></svg></div>
               <figcaption>Fluxo principal: achar, reservar, carregar e pagar. Os caminhos de erro (sem resultado, cancelar, encerrar antes) estão detalhados no doc.</figcaption>
             </figure>
+            <h3>Priorização do MVP</h3>
+            <p>Com os fluxos desenhados, separei o que entra na primeira versão. O critério foi simples: o que resolve a dor principal da jornada entra primeiro.</p>
+            <div class="table-wrap" tabindex="0" role="region" aria-label="Priorização do MVP"><table><thead><tr><th scope="col">Prioridade</th><th scope="col">O que</th><th scope="col">Por quê</th></tr></thead><tbody><tr><th scope="row">Precisa ter</th><td>Mapa com status e hora da atualização, filtro pelo carro, preço por conector, reserva com tolerância, recarga ao vivo com custo, pagamento com Pix e cartão</td><td>Sem isso o problema principal (livre, funcionando, compatível) não é resolvido</td></tr><tr><th scope="row">Deveria ter</th><td>Relatos de motoristas, histórico com gasto do mês, avaliações</td><td>Aumentam a confiança e o motivo de voltar ao app, mas o fluxo funciona sem eles</td></tr><tr><th scope="row">Poderia ter</th><td>Favoritos e "carregar de novo", ajuda sobre conectores, fila de espera</td><td>Facilitam a vida de quem já usa; entram depois do teste</td></tr><tr><th scope="row">Não agora</th><td>Planejamento de viagem, programa de pontos, carregador doméstico</td><td>Outro problema, outro público ou depende de parceria</td></tr></tbody></table></div>
           </section>
 
           <!-- 5 -->
@@ -373,9 +388,9 @@
             <ul class="checklist">
               <li><i data-lucide="check" aria-hidden="true"></i><span><strong>Foco visível</strong> em tudo que é interativo: contorno azul de 3px com afastamento.</span></li>
               <li><i data-lucide="check" aria-hidden="true"></i><span><strong>Alvos de 44px</strong> no mínimo. Os pins do mapa têm uma área de toque invisível que completa o tamanho.</span></li>
-              <li><i data-lucide="check" aria-hidden="true"></i><span><strong>Labels</strong> visíveis em todos os campos. Grupos de opção com <code>fieldset</code> e <code>legend</code>.</span></li>
+              <li><i data-lucide="check" aria-hidden="true"></i><span><strong>Labels</strong> visíveis em todos os campos. Grupos de opção têm um título que o leitor de tela anuncia.</span></li>
               <li><i data-lucide="check" aria-hidden="true"></i><span><strong>Erros</strong> em texto, ligados ao campo, e o foco vai para o primeiro campo com problema.</span></li>
-              <li><i data-lucide="check" aria-hidden="true"></i><span><strong>Teclado</strong>: o fluxo inteiro funciona com Tab, Enter e Espaço. O modal usa <code>&lt;dialog&gt;</code>, que prende o foco e fecha com Esc.</span></li>
+              <li><i data-lucide="check" aria-hidden="true"></i><span><strong>Teclado</strong>: o fluxo inteiro funciona com Tab, Enter e Espaço. O modal mantém o foco dentro dele e fecha com Esc.</span></li>
               <li><i data-lucide="check" aria-hidden="true"></i><span><strong>Leitor de tela</strong>: ao trocar de tela o foco vai para o título. A recarga anuncia o progresso a cada 10%.</span></li>
               <li><i data-lucide="check" aria-hidden="true"></i><span><strong>Movimento reduzido</strong> respeitado e gráfico com tabela equivalente.</span></li>
             </ul>
@@ -402,10 +417,17 @@
                   <tr><th scope="row">6. Reconhecer, não lembrar</th><td>A aba Recarga mostra a reserva ativa com horário e prazo.</td><td><span class="sev">0</span></td><td>Nada a corrigir.</td></tr>
                   <tr><th scope="row">7. Eficiência</th><td>Quem carrega sempre no mesmo lugar repete mapa → estação → reserva toda vez.</td><td><span class="sev">1</span></td><td>Foi para os próximos passos.</td></tr>
                   <tr><th scope="row">8. Minimalismo</th><td>O ponto "Você está aqui" ficava escondido atrás de um pin.</td><td><span class="sev">1</span></td><td>Mudei a posição e a camada.</td></tr>
-                  <tr><th scope="row">9. Recuperar de erros</th><td>As mensagens de erro apareciam antes de o usuário fazer qualquer coisa: o <code>display: flex</code> do componente vencia o atributo <code>hidden</code>.</td><td><span class="sev sev--3">3</span></td><td>Corrigi na base do CSS. Erro só aparece depois de enviar.</td></tr>
+                  <tr><th scope="row">9. Recuperar de erros</th><td>As mensagens de erro do cadastro e da reserva apareciam antes de o motorista fazer qualquer coisa, como se ele já tivesse errado.</td><td><span class="sev sev--3">3</span></td><td>O erro só aparece depois de tentar avançar, ao lado do campo com problema.</td></tr>
                   <tr><th scope="row">10. Ajuda</th><td>Quem nunca carregou não sabe o que é CCS2 ou CHAdeMO.</td><td><span class="sev">1</span></td><td>Foi para os próximos passos.</td></tr>
                 </tbody>
               </table>
+            </div>
+            <h3>Antes e depois</h3>
+            <p>As telas abaixo são do protótipo antes e depois das correções.</p>
+            <div class="gallery gallery--ad">
+              <figure><img src="docs/prints/antes-depois-mapa.png" loading="lazy" alt="Mapa antes e depois: o pin do Noroeste passou de 60 kW para 7 kW e o preço ganhou "a partir de"." /><figcaption>Mapa: potência real e preço "a partir de"</figcaption></figure>
+              <figure><img src="docs/prints/antes-depois-reserva.png" loading="lazy" alt="Reserva antes e depois: a mensagem de erro deixou de aparecer antes da ação." /><figcaption>Reserva: erro só depois de tentar confirmar</figcaption></figure>
+              <figure><img src="docs/prints/antes-depois-pix.png" loading="lazy" alt="Pix antes e depois: entrou o status de aguardando pagamento e a validade do código." /><figcaption>Pix: status de espera e validade</figcaption></figure>
             </div>
             <p>
               Oito achados, seis corrigidos. Os dois mais graves eram justamente sobre o centro do produto: confiar na informação do carregador e
@@ -468,7 +490,7 @@
             </div>
             <h3>O que eu aprendi</h3>
             <ul>
-              <li><strong>Testar o protótipo pega o que a tela parada esconde.</strong> Os dois problemas mais graves da avaliação heurística só apareceram usando o fluxo de verdade, e um deles era um bug de CSS que deixava as mensagens de erro sempre visíveis.</li>
+              <li><strong>Usar o fluxo pega o que a tela parada esconde.</strong> Os dois problemas mais graves da avaliação heurística só apareceram percorrendo o protótipo como um motorista: mensagens de erro aparecendo antes da hora e um pin anunciando 60 kW num carregador quebrado.</li>
               <li><strong>O maior risco não é a interface, é o dado.</strong> Um status errado derruba a confiança no app inteiro. Por isso a hora da atualização em todo status e os relatos de motoristas na tela da estação.</li>
               <li><strong>Restringir a cor de destaque deu clareza.</strong> Decidir que o verde só aparece em três lugares (ação principal, livre e progresso) resolveu a hierarquia de quase todas as telas.</li>
             </ul>

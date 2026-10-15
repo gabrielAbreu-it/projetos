@@ -24,6 +24,6 @@ Se o Roxx fosse lançado, estes seriam os números que eu acompanharia. Nenhum d
 
 ## O que eu aprendi
 
-- **Testar o protótipo pega o que a tela parada esconde.** Os dois problemas mais graves da avaliação heurística só apareceram usando o fluxo de verdade, e um deles era um bug de CSS que deixava as mensagens de erro sempre visíveis.
+- **Usar o fluxo pega o que a tela parada esconde.** Os dois problemas mais graves da avaliação heurística só apareceram percorrendo o protótipo como um motorista: mensagens de erro aparecendo antes da hora e um pin anunciando 60 kW num carregador quebrado.
 - **O maior risco não é a interface, é o dado.** Um status errado derruba a confiança no app inteiro. Por isso a hora da atualização em todo status e os relatos de motoristas na tela da estação.
 - **Restringir a cor de destaque deu clareza.** Decidir que o verde só aparece em três lugares (ação principal, livre e progresso) resolveu a hierarquia de quase todas as telas.
