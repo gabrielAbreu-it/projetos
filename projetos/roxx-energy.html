@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Roxx Energy · Gabriel Abreu</title>
+    <meta name="description" content="App para quem tem carro elétrico achar um carregador livre, funcionando e compatível, reservar a vaga e pagar a recarga no mesmo lugar." />
+    <meta name="theme-color" content="#f4f1ea" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)" />
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('portfolio-tema');
+          if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+        } catch (e) {
+          /* sem armazenamento: segue o sistema */
+        }
+      })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../assets/css/base.css" />
+    <link rel="stylesheet" href="../assets/css/aurora.css" />
+  </head>
+  <body class="aurora">
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+    <header class="a-wrap a-nav">
+      <div class="a-nav__bar glass">
+        <a class="a-logo" href="../index.html"><span class="a-logo__mark" aria-hidden="true">GA</span>Gabriel Abreu</a>
+        <nav class="a-links" aria-label="Principal"><a href="../index.html">Início</a><a href="../projetos/index.html" aria-current="page">Projetos</a><a href="../index.html#processo">Processo</a><a href="../index.html#sobre">Sobre</a></nav>
+        <button type="button" class="a-icon-btn" id="tema" aria-label="Tema escuro" aria-pressed="false"><i data-lucide="moon" class="i-moon" aria-hidden="true"></i><i data-lucide="sun" class="i-sun" aria-hidden="true"></i></button>
+        <a class="a-btn a-btn--ink a-btn--sm a-cta" href="../index.html#contato">Fale comigo</a>
+        <button type="button" class="a-icon-btn a-menu-btn" id="menu-btn" aria-label="Menu" aria-expanded="false" aria-controls="menu-mobile"><i data-lucide="menu" aria-hidden="true"></i></button>
+      </div>
+      <nav class="a-mobile-menu glass" id="menu-mobile" aria-label="Principal no celular" hidden><a href="../index.html">Início</a><a href="../projetos/index.html" aria-current="page">Projetos</a><a href="../index.html#processo">Processo</a><a href="../index.html#sobre">Sobre</a><a href="../index.html#contato">Fale comigo</a></nav>
+    </header>
+    <main id="conteudo">
+      <div class="a-wrap">
+        <div class="a-project-hero">
+          <a class="a-back" href="index.html"><i data-lucide="arrow-left" aria-hidden="true"></i>Projetos</a>
+          <span class="a-eyebrow">App mobile · Mobilidade elétrica · 2026</span>
+          <h1>Roxx Energy</h1>
+          <p class="a-lead">Um app para quem tem carro elétrico achar um carregador livre, funcionando e compatível, reservar a vaga e pagar a recarga no mesmo lugar.</p>
+          <div class="a-hero__actions">
+            <a class="a-btn a-btn--ink" href="../roxx-energy/prototipo/index.html">Abrir o protótipo <i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
+            <a class="a-btn a-btn--glass" href="../roxx-energy/index.html">Estudo de caso completo</a>
+          </div>
+          <dl class="a-meta glass"><div><dt>Papel</dt><dd>UX/UI Designer, individual</dd></div><div><dt>Plataforma</dt><dd>App iOS e Android</dd></div><div><dt>Métodos</dt><dd>Benchmark, persona, fluxos, heurística</dd></div><div><dt>Ano</dt><dd>2026</dd></div></dl>
+          <figure class="a-cover glass"><img src="../assets/img/capa-roxx-energy.png" width="1600" height="900" alt="Telas do Roxx Energy." /></figure>
+        </div>
+        <div class="a-story">
+          <nav class="a-toc" aria-label="Seções do projeto"><p>Neste projeto</p><ol><li><a href="#contexto">Contexto</a></li><li><a href="#processo">Processo</a></li><li><a href="#solucao">Solução</a></li><li><a href="#handoff">Handoff</a></li><li><a href="#resultado">Resultado</a></li><li><a href="#aprendizados">Aprendizados</a></li><li><a href="#entregas">Entregas</a></li></ol></nav>
+          <div>
+          <section class="a-chapter" id="contexto" aria-labelledby="t-contexto">
+            <h2 id="t-contexto">Contexto</h2>
+            <p>O carro elétrico cresce no Brasil, mas quem depende de carregador público ainda vive no escuro. A pessoa abre um ou dois apps, confia num status que pode ter dias, dirige até o ponto e só lá descobre se dá para carregar.</p>
+            <p>Desenhei o <strong>Roxx Energy</strong>, um app que junta as partes que hoje estão espalhadas: achar, garantir a vaga, carregar e pagar.</p>
+            <blockquote class="a-quote glass">Quem tem carro elétrico sai de casa sem saber se o carregador vai estar livre, funcionando e compatível.<small>O problema, em uma frase</small></blockquote>
+          </section>
+          <section class="a-chapter" id="processo" aria-labelledby="t-processo">
+            <h2 id="t-processo">Processo</h2>
+            <p>Comecei por um <strong>benchmark de cinco produtos reais</strong> (PlugShare, Tupi, Zletric, EZVolt e Shell Recharge). Cada um resolve um pedaço; nenhum resolve a confiança no status.</p>
+<div class="a-cards"><div class="glass"><h4>Status sem data</h4><p>Um "funcionando" de três dias atrás não diz nada. Todo status passou a mostrar há quantos minutos foi atualizado.</p></div><div class="glass"><h4>Filtro que ninguém liga</h4><p>Checar o plugue existe, mas depende do usuário. O carro é cadastrado no início e o filtro já vem ligado.</p></div><div class="glass"><h4>Reserva só para AC</h4><p>Justo a carga rápida, mais disputada, ficava de fora. Aqui a reserva vale para AC e DC, com 15 minutos de tolerância.</p></div></div>
+            <p>Com isso montei uma <strong>proto-persona</strong>, assumida como hipótese, e a jornada atual com as dores de cada etapa. Os fluxos vieram depois, junto com a priorização do que entra na primeira versão.</p>
+<figure class="a-figure glass"><img src="../roxx-energy/docs/prints/wireframes-desktop.png" width="1440" height="900" loading="lazy" alt="Wireframes em tons de cinza das oito telas principais." /><figcaption>Wireframes de baixa fidelidade: a ordem das informações antes da cor.</figcaption></figure>
+            <p>Com o protótipo pronto, fiz uma <strong>avaliação heurística</strong> com as 10 heurísticas de Nielsen. Encontrei 8 problemas e corrigi 6. O mais grave: um pin anunciava 60 kW num carregador quebrado.</p>
+<figure class="a-figure glass"><img src="../roxx-energy/docs/prints/antes-depois-mapa.png" width="1544" height="1824" loading="lazy" alt="Antes e depois do mapa: o pin passou de 60 kW para 7 kW e o preço ganhou a partir de." /><figcaption>Antes e depois de uma correção da avaliação heurística.</figcaption></figure>
+          </section>
+          <section class="a-chapter" id="solucao" aria-labelledby="t-solucao">
+            <h2 id="t-solucao">Solução</h2>
+            <p>O mapa já abre filtrado pelo carro. Cada estação mostra quantos conectores compatíveis estão livres e há quanto tempo isso foi atualizado. Motoristas podem relatar problemas, e o relato aparece para quem vem depois.</p>
+<div class="a-screens"><figure class="glass"><img src="../roxx-energy/docs/prints/mobile-03-mapa.png" width="390" height="844" loading="lazy" alt="Mapa com estações filtradas pelo carro." /><figcaption>Mapa filtrado pelo carro</figcaption></figure><figure class="glass"><img src="../roxx-energy/docs/prints/mobile-04c-relatos.png" width="390" height="844" loading="lazy" alt="Estação com relato de motoristas." /><figcaption>Status e relatos</figcaption></figure><figure class="glass"><img src="../roxx-energy/docs/prints/mobile-05-reserva.png" width="390" height="844" loading="lazy" alt="Reserva com conector e horário." /><figcaption>Reserva com tolerância</figcaption></figure><figure class="glass"><img src="../roxx-energy/docs/prints/mobile-07-recarga.png" width="390" height="844" loading="lazy" alt="Recarga em andamento com anel de progresso." /><figcaption>Recarga ao vivo</figcaption></figure><figure class="glass"><img src="../roxx-energy/docs/prints/mobile-08-pagamento-pix.png" width="390" height="844" loading="lazy" alt="Pagamento com Pix." /><figcaption>Pagamento</figcaption></figure><figure class="glass"><img src="../roxx-energy/docs/prints/mobile-10-historico.png" width="390" height="844" loading="lazy" alt="Histórico com gasto do mês." /><figcaption>Gasto do mês</figcaption></figure></div>
+          </section>
+          <section class="a-chapter" id="handoff" aria-labelledby="t-handoff">
+            <h2 id="t-handoff">Handoff</h2>
+            <p>Para o produto sair do papel, o desenvolvimento precisa de mais do que telas bonitas. Entreguei:</p>
+            <ul>
+              <li><strong>Design system</strong> com cores, tipografia, espaçamento e 8 componentes em todos os estados (padrão, hover, foco, desabilitado, erro), com quando usar e o que evitar.</li>
+              <li><strong>Protótipo navegável</strong> com os fluxos de erro, não só o caminho feliz.</li>
+              <li><strong>Contraste conferido</strong> para cada par de cores (WCAG AA) e regras de acessibilidade escritas.</li>
+              <li><strong>Documentação</strong> com fluxos, priorização do MVP e roteiro de teste.</li>
+            </ul>
+<figure class="a-figure glass"><img src="../roxx-energy/docs/prints/design-system-desktop.png" width="1440" height="900" loading="lazy" alt="Página do design system do Roxx Energy." /><figcaption>Design system: a mesma base que o protótipo usa.</figcaption></figure>
+          </section>
+          <section class="a-chapter" id="resultado" aria-labelledby="t-resultado">
+            <h2 id="t-resultado">Resultado</h2>
+<dl class="a-stats"><div class="glass"><dd>11</dd><dt>telas no protótipo</dt></div><div class="glass"><dd>8</dd><dt>componentes documentados</dt></div><div class="glass"><dd>8</dd><dt>problemas achados na heurística</dt></div><div class="glass"><dd>6</dd><dt>corrigidos antes de mostrar</dt></div></dl>
+            <p>O próximo passo é rodar o <strong>teste de usabilidade</strong> com cinco motoristas, que já tem roteiro, tarefas e métricas. Até lá, a proto-persona continua marcada como hipótese.</p>
+          </section>
+          <section class="a-chapter" id="aprendizados" aria-labelledby="t-aprendizados">
+            <h2 id="t-aprendizados">Aprendizados</h2>
+            <ul>
+              <li><strong>Usar o fluxo pega o que a tela parada esconde.</strong> Os dois problemas mais graves só apareceram percorrendo o protótipo como um motorista.</li>
+              <li><strong>O maior risco não é a interface, é o dado.</strong> Um status errado derruba a confiança no app inteiro, por isso a hora da atualização e os relatos.</li>
+              <li><strong>Restringir a cor de destaque deu clareza.</strong> O verde só aparece em três lugares: ação principal, livre e progresso.</li>
+            </ul>
+          </section>
+          <section class="a-chapter" id="entregas" aria-labelledby="t-entregas">
+            <h2 id="t-entregas">Entregas</h2>
+<ul class="a-deliverables"><li><a class="glass" href="../roxx-energy/prototipo/index.html"><i data-lucide="smartphone" aria-hidden="true"></i><div>Protótipo navegável<span>Do onboarding ao recibo</span></div><i class="go" data-lucide="arrow-up-right" aria-hidden="true"></i></a></li><li><a class="glass" href="../roxx-energy/index.html"><i data-lucide="file-text" aria-hidden="true"></i><div>Estudo de caso completo<span>As 10 etapas com tabelas e diagramas</span></div><i class="go" data-lucide="arrow-up-right" aria-hidden="true"></i></a></li><li><a class="glass" href="../roxx-energy/design-system/index.html"><i data-lucide="palette" aria-hidden="true"></i><div>Design system<span>Tokens e componentes com todos os estados</span></div><i class="go" data-lucide="arrow-up-right" aria-hidden="true"></i></a></li><li><a class="glass" href="../roxx-energy/docs/wireframes/index.html"><i data-lucide="layout-template" aria-hidden="true"></i><div>Wireframes<span>Baixa fidelidade das telas principais</span></div><i class="go" data-lucide="arrow-up-right" aria-hidden="true"></i></a></li><li><a class="glass" href="https://github.com/gabrielAbreu-it/projetos/tree/main/roxx-energy/docs"><i data-lucide="folder-open" aria-hidden="true"></i><div>Documentação<span>Pesquisa, fluxos, heurística e roteiro de teste</span></div><i class="go" data-lucide="arrow-up-right" aria-hidden="true"></i></a></li></ul>
+          </section>
+            <a class="a-next glass" href="agendai.html">
+              <div><span>Próximo projeto</span><strong>Agendaí</strong><p style="color:var(--a-muted);margin-top:6px">Agendamento para salão, barbearia e estética: o cliente marca sozinho, sem criar conta, e o dono organiza a agenda e acompanha o mês.</p></div>
+              <img src="../assets/img/capa-agendai.png" width="1600" height="900" alt="" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer class="a-footer">
+      <div class="a-wrap">
+        <span>© 2026 Gabriel Abreu · UX/UI Designer · Brasília</span>
+        <span>Projetos conceituais, com dados fictícios nos protótipos. <a href="../classico.html">Versão clássica do portfólio</a></span>
+      </div>
+    </footer>
+    <script src="https://unpkg.com/lucide@0.453.0/dist/umd/lucide.min.js"></script>
+    <script src="../assets/js/aurora.js"></script>
+  </body>
+</html>

@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Todos os projetos · Gabriel Abreu</title>
+    <meta name="description" content="Todos os estudos de caso de UX/UI de Gabriel Abreu." />
+    <meta name="theme-color" content="#f4f1ea" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)" />
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('portfolio-tema');
+          if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+        } catch (e) {
+          /* sem armazenamento: segue o sistema */
+        }
+      })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../assets/css/base.css" />
+    <link rel="stylesheet" href="../assets/css/aurora.css" />
+  </head>
+  <body class="aurora">
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+    <header class="a-wrap a-nav">
+      <div class="a-nav__bar glass">
+        <a class="a-logo" href="../index.html"><span class="a-logo__mark" aria-hidden="true">GA</span>Gabriel Abreu</a>
+        <nav class="a-links" aria-label="Principal"><a href="../index.html">Início</a><a href="../projetos/index.html" aria-current="page">Projetos</a><a href="../index.html#processo">Processo</a><a href="../index.html#sobre">Sobre</a></nav>
+        <button type="button" class="a-icon-btn" id="tema" aria-label="Tema escuro" aria-pressed="false"><i data-lucide="moon" class="i-moon" aria-hidden="true"></i><i data-lucide="sun" class="i-sun" aria-hidden="true"></i></button>
+        <a class="a-btn a-btn--ink a-btn--sm a-cta" href="../index.html#contato">Fale comigo</a>
+        <button type="button" class="a-icon-btn a-menu-btn" id="menu-btn" aria-label="Menu" aria-expanded="false" aria-controls="menu-mobile"><i data-lucide="menu" aria-hidden="true"></i></button>
+      </div>
+      <nav class="a-mobile-menu glass" id="menu-mobile" aria-label="Principal no celular" hidden><a href="../index.html">Início</a><a href="../projetos/index.html" aria-current="page">Projetos</a><a href="../index.html#processo">Processo</a><a href="../index.html#sobre">Sobre</a><a href="../index.html#contato">Fale comigo</a></nav>
+    </header>
+    <main id="conteudo" class="a-wrap">
+      <div class="a-page-head">
+        <span class="a-eyebrow">Portfólio</span>
+        <h1 class="a-display"><strong>Projetos</strong></h1>
+        <p class="a-lead">Estudos de caso completos, da pesquisa ao protótipo. Busque por nome, tema ou tipo de produto.</p>
+        <form class="a-search" role="search" onsubmit="return false">
+          <label class="sr-only" for="busca">Buscar projeto</label>
+          <i data-lucide="search" aria-hidden="true"></i>
+          <input id="busca" type="search" placeholder="Buscar projeto" autocomplete="off" />
+        </form>
+        <div class="a-filters" role="group" aria-label="Filtrar por tipo"><button type="button" class="a-chip" data-filtro="todos" aria-pressed="true">Todos</button><button type="button" class="a-chip" data-filtro="app" aria-pressed="false">App mobile</button><button type="button" class="a-chip" data-filtro="painel" aria-pressed="false">Painel web</button><button type="button" class="a-chip" data-filtro="mobilidade" aria-pressed="false">Mobilidade</button><button type="button" class="a-chip" data-filtro="servicos" aria-pressed="false">Serviços</button></div>
+      </div>
+      <p class="a-results" id="contagem" aria-live="polite">2 projetos</p>
+      <ul class="a-list" id="lista-projetos">
+          <li data-tags="app mobilidade">
+            <a class="a-item glass" href="roxx-energy.html">
+              <img src="../assets/img/capa-roxx-energy.png" width="1600" height="900" alt="" />
+              <div class="a-item__body">
+                <span class="a-eyebrow">App mobile · Mobilidade elétrica</span>
+                <h2>Roxx Energy</h2>
+                <p>App para quem tem carro elétrico achar um carregador livre, funcionando e compatível, reservar a vaga e pagar a recarga no mesmo lugar.</p>
+                <ul class="a-tags"><li>App mobile</li><li>Mobilidade</li><li>Pesquisa</li><li>Design system</li></ul>
+              </div>
+            </a>
+          </li>
+          <li data-tags="app painel servicos">
+            <a class="a-item glass" href="agendai.html">
+              <img src="../assets/img/capa-agendai.png" width="1600" height="900" alt="" />
+              <div class="a-item__body">
+                <span class="a-eyebrow">App mobile + painel web · Serviços</span>
+                <h2>Agendaí</h2>
+                <p>Agendamento para salão, barbearia e estética: o cliente marca sozinho, sem criar conta, e o dono organiza a agenda e acompanha o mês.</p>
+                <ul class="a-tags"><li>App mobile</li><li>Painel web</li><li>Serviços</li><li>Design system</li></ul>
+              </div>
+            </a>
+          </li>
+      </ul>
+      <div class="a-empty glass" id="vazio" hidden>
+        <p>Nenhum projeto com esse filtro.</p>
+        <button type="button" class="a-btn a-btn--glass" id="limpar" style="margin-top:12px">Limpar busca</button>
+      </div>
+      <div style="height:64px"></div>
+    </main>
+    <footer class="a-footer">
+      <div class="a-wrap">
+        <span>© 2026 Gabriel Abreu · UX/UI Designer · Brasília</span>
+        <span>Projetos conceituais, com dados fictícios nos protótipos. <a href="../classico.html">Versão clássica do portfólio</a></span>
+      </div>
+    </footer>
+    <script src="https://unpkg.com/lucide@0.453.0/dist/umd/lucide.min.js"></script>
+    <script src="../assets/js/aurora.js"></script>
+  </body>
+</html>

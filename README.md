@@ -63,6 +63,8 @@ As fontes vêm do Google Fonts e os ícones do Lucide (versão 0.453.0), os dois
 ```
 /
 ├── index.html          vitrine do portfólio
+├── projetos/           lista de projetos com busca e uma página-resumo por projeto
+├── classico.html       versão anterior da vitrine, mantida como referência
 ├── assets/             estilos e imagens compartilhados
 ├── roxx-energy/        projeto 1
 │   ├── index.html      estudo de caso
@@ -75,3 +77,7 @@ As fontes vêm do Google Fonts e os ícones do Lucide (versão 0.453.0), os dois
 | Tema escuro | Celular |
 |---|---|
 | <img src="assets/img/prints/vitrine-desktop-escuro.png" alt="Vitrine no tema escuro" width="560"> | <img src="assets/img/prints/vitrine-mobile-claro.png" alt="Vitrine no celular" width="220"> |
+
+| Todos os projetos | Página de projeto |
+|---|---|
+| <img src="assets/img/prints/todos-os-projetos-desktop.png" alt="Lista de projetos com busca e filtros" width="560"> | <img src="assets/img/prints/projeto-roxx-mobile.png" alt="Página do projeto Roxx Energy no celular" width="220"> |

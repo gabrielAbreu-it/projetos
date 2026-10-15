@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Agendaí · Gabriel Abreu</title>
+    <meta name="description" content="Agendamento para salão, barbearia e estética: o cliente marca sozinho, sem criar conta, e o dono organiza a agenda e acompanha o mês." />
+    <meta name="theme-color" content="#f4f1ea" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)" />
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('portfolio-tema');
+          if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+        } catch (e) {
+          /* sem armazenamento: segue o sistema */
+        }
+      })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../assets/css/base.css" />
+    <link rel="stylesheet" href="../assets/css/aurora.css" />
+  </head>
+  <body class="aurora">
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+    <header class="a-wrap a-nav">
+      <div class="a-nav__bar glass">
+        <a class="a-logo" href="../index.html"><span class="a-logo__mark" aria-hidden="true">GA</span>Gabriel Abreu</a>
+        <nav class="a-links" aria-label="Principal"><a href="../index.html">Início</a><a href="../projetos/index.html" aria-current="page">Projetos</a><a href="../index.html#processo">Processo</a><a href="../index.html#sobre">Sobre</a></nav>
+        <button type="button" class="a-icon-btn" id="tema" aria-label="Tema escuro" aria-pressed="false"><i data-lucide="moon" class="i-moon" aria-hidden="true"></i><i data-lucide="sun" class="i-sun" aria-hidden="true"></i></button>
+        <a class="a-btn a-btn--ink a-btn--sm a-cta" href="../index.html#contato">Fale comigo</a>
+        <button type="button" class="a-icon-btn a-menu-btn" id="menu-btn" aria-label="Menu" aria-expanded="false" aria-controls="menu-mobile"><i data-lucide="menu" aria-hidden="true"></i></button>
+      </div>
+      <nav class="a-mobile-menu glass" id="menu-mobile" aria-label="Principal no celular" hidden><a href="../index.html">Início</a><a href="../projetos/index.html" aria-current="page">Projetos</a><a href="../index.html#processo">Processo</a><a href="../index.html#sobre">Sobre</a><a href="../index.html#contato">Fale comigo</a></nav>
+    </header>
+    <main id="conteudo">
+      <div class="a-wrap">
+        <div class="a-project-hero">
+          <a class="a-back" href="index.html"><i data-lucide="arrow-left" aria-hidden="true"></i>Projetos</a>
+          <span class="a-eyebrow">App mobile + painel web · Serviços · 2026</span>
+          <h1>Agendaí</h1>
+          <p class="a-lead">Agendamento para salão, barbearia e estética: o cliente marca sozinho, sem criar conta, e o dono organiza a agenda arrastando horários e acompanha o mês.</p>
+          <div class="a-hero__actions">
+            <a class="a-btn a-btn--ink" href="../agendai/prototipo/index.html">Abrir o protótipo <i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
+            <a class="a-btn a-btn--glass" href="../agendai/index.html">Estudo de caso completo</a>
+          </div>
+          <dl class="a-meta glass"><div><dt>Papel</dt><dd>UX/UI Designer, individual</dd></div><div><dt>Plataforma</dt><dd>App mobile e painel web</dd></div><div><dt>Métodos</dt><dd>Benchmark, 2 personas, fluxos, heurística</dd></div><div><dt>Ano</dt><dd>2026</dd></div></dl>
+          <figure class="a-cover glass"><img src="../assets/img/capa-agendai.png" width="1600" height="900" alt="Telas do Agendaí." /></figure>
+        </div>
+        <div class="a-story">
+          <nav class="a-toc" aria-label="Seções do projeto"><p>Neste projeto</p><ol><li><a href="#contexto">Contexto</a></li><li><a href="#processo">Processo</a></li><li><a href="#solucao">Solução</a></li><li><a href="#handoff">Handoff</a></li><li><a href="#resultado">Resultado</a></li><li><a href="#aprendizados">Aprendizados</a></li><li><a href="#entregas">Entregas</a></li></ol></nav>
+          <div>
+          <section class="a-chapter" id="contexto" aria-labelledby="t-contexto">
+            <h2 id="t-contexto">Contexto</h2>
+            <p>No salão de bairro, o agendamento acontece no WhatsApp. O dono, que muitas vezes também atende, responde entre um cliente e outro e anota tudo numa agenda de papel.</p>
+            <p>Desenhei o <strong>Agendaí</strong> com dois lados: um link em que o cliente marca sozinho, sem criar conta, e um painel em que o dono organiza a agenda e vê como vai o mês.</p>
+            <blockquote class="a-quote glass">O dono perde horário, esquece de confirmar e não sabe quanto faturou no mês.<small>O problema, em uma frase</small></blockquote>
+          </section>
+          <section class="a-chapter" id="processo" aria-labelledby="t-processo">
+            <h2 id="t-processo">Processo</h2>
+            <p>Analisei <strong>cinco produtos reais</strong> (Booksy, Trinks, AppBarber, Fresha e Google Agenda) e anotei o que cada um faz bem e onde falha para um salão pequeno.</p>
+<div class="a-cards"><div class="glass"><h4>Mais uma conta</h4><p>Cliente de bairro não quer criar conta. Nome e WhatsApp só entram no último passo.</p></div><div class="glass"><h4>Agenda escondida</h4><p>Nos sistemas completos, a agenda divide espaço com módulos raros. Aqui ela é a tela inicial.</p></div><div class="glass"><h4>Remarcar é formulário</h4><p>Nos concorrentes, remarcar abre um formulário. Aqui virou arrastar na grade, com Desfazer e um caminho pelo teclado.</p></div></div>
+            <p>Montei <strong>duas proto-personas</strong> (a dona e o cliente), assumidas como hipótese, e a jornada atual da dona. Daí saíram os fluxos dos dois lados e a priorização do MVP.</p>
+<figure class="a-figure glass"><img src="../agendai/docs/prints/wireframes-desktop.png" width="1440" height="900" loading="lazy" alt="Wireframes em tons de cinza do app do cliente e do painel." /><figcaption>Wireframes: seis telas do app e três do painel.</figcaption></figure>
+            <p>A <strong>avaliação heurística</strong> encontrou 7 problemas e eu corrigi 6. Um deles: na semana com todos os profissionais, os nomes viravam "Pe…" e ninguém conseguia ler.</p>
+<figure class="a-figure glass"><img src="../agendai/docs/prints/antes-depois-semana.png" width="1648" height="2152" loading="lazy" alt="Antes e depois da agenda da semana: nomes cortados viraram primeiros nomes legíveis." /><figcaption>Antes e depois de uma correção da avaliação heurística.</figcaption></figure>
+          </section>
+          <section class="a-chapter" id="solucao" aria-labelledby="t-solucao">
+            <h2 id="t-solucao">Solução</h2>
+            <p>O cliente marca em quatro passos e só vê horários livres. O dono vê o dia em colunas por profissional, arrasta para remarcar e acompanha faturamento, faltas e horários mais cheios.</p>
+<div class="a-screens"><figure class="glass"><img src="../agendai/docs/prints/cliente-mobile-01-inicio.png" width="390" height="844" loading="lazy" alt="Início do salão no app do cliente." /><figcaption>Início do salão</figcaption></figure><figure class="glass"><img src="../agendai/docs/prints/cliente-mobile-04-horario.png" width="390" height="844" loading="lazy" alt="Escolha de data e horário." /><figcaption>Só horários livres</figcaption></figure><figure class="glass"><img src="../agendai/docs/prints/cliente-mobile-05-confirmar.png" width="390" height="844" loading="lazy" alt="Confirmação com nome e WhatsApp." /><figcaption>Sem criar conta</figcaption></figure><figure class="glass"><img src="../agendai/docs/prints/cliente-mobile-07-meus-horarios.png" width="390" height="844" loading="lazy" alt="Meus horários com remarcar e cancelar." /><figcaption>Remarcar e cancelar</figcaption></figure></div><figure class="a-figure glass"><img src="../agendai/docs/prints/painel-desktop-02-arrastar.png" width="1440" height="900" loading="lazy" alt="Agenda do dia com um horário sendo arrastado." /><figcaption>Painel: arrastar para remarcar, com o destino validado antes de soltar.</figcaption></figure><figure class="a-figure glass"><img src="../agendai/docs/prints/painel-desktop-04-numeros.png" width="1440" height="900" loading="lazy" alt="Números do mês com faturamento e faltas." /><figcaption>Números do mês: cada bloco responde uma pergunta da jornada da dona.</figcaption></figure>
+          </section>
+          <section class="a-chapter" id="handoff" aria-labelledby="t-handoff">
+            <h2 id="t-handoff">Handoff</h2>
+            <p>Os dois lados do produto usam a mesma base, o que facilita o trabalho de quem vai desenvolver:</p>
+            <ul>
+              <li><strong>Design system único</strong> para o app e o painel: cores, tipografia e 8 componentes com todos os estados, quando usar e o que evitar.</li>
+              <li><strong>Protótipo navegável</strong> das duas interfaces, ligadas entre si: o que o cliente agenda aparece no painel.</li>
+              <li><strong>Regras de negócio escritas</strong>: tolerância de 2 horas para mudar, horários de 30 minutos, o que conta como falta.</li>
+              <li><strong>Contraste conferido</strong> e alternativas de teclado para tudo que é arrastar.</li>
+            </ul>
+<figure class="a-figure glass"><img src="../agendai/docs/prints/design-system-desktop.png" width="1440" height="900" loading="lazy" alt="Página do design system do Agendaí." /><figcaption>Design system compartilhado pelas duas interfaces.</figcaption></figure>
+          </section>
+          <section class="a-chapter" id="resultado" aria-labelledby="t-resultado">
+            <h2 id="t-resultado">Resultado</h2>
+<dl class="a-stats"><div class="glass"><dd>14</dd><dt>telas nas duas interfaces</dt></div><div class="glass"><dd>8</dd><dt>componentes documentados</dt></div><div class="glass"><dd>7</dd><dt>problemas achados na heurística</dt></div><div class="glass"><dd>6</dd><dt>corrigidos antes de mostrar</dt></div></dl>
+            <p>O próximo passo é o <strong>teste de usabilidade</strong> com cinco donos e cinco clientes. O roteiro já está pronto, com tarefas e métricas.</p>
+          </section>
+          <section class="a-chapter" id="aprendizados" aria-labelledby="t-aprendizados">
+            <h2 id="t-aprendizados">Aprendizados</h2>
+            <ul>
+              <li><strong>Duas interfaces exigem um design system de verdade.</strong> Sem a mesma base, app e painel teriam virado produtos diferentes.</li>
+              <li><strong>Número só ajuda quando responde uma pergunta.</strong> O que não respondia "quanto entrou, quem falta, quando lota" ficou de fora.</li>
+              <li><strong>Gesto rápido não pode ser o único caminho.</strong> Arrastar é ótimo no mouse, mas precisa existir pelo teclado e no celular.</li>
+            </ul>
+          </section>
+          <section class="a-chapter" id="entregas" aria-labelledby="t-entregas">
+            <h2 id="t-entregas">Entregas</h2>
+<ul class="a-deliverables"><li><a class="glass" href="../agendai/prototipo/index.html"><i data-lucide="calendar-check" aria-hidden="true"></i><div>Protótipo navegável<span>App do cliente e painel do dono</span></div><i class="go" data-lucide="arrow-up-right" aria-hidden="true"></i></a></li><li><a class="glass" href="../agendai/index.html"><i data-lucide="file-text" aria-hidden="true"></i><div>Estudo de caso completo<span>As 10 etapas com tabelas e diagramas</span></div><i class="go" data-lucide="arrow-up-right" aria-hidden="true"></i></a></li><li><a class="glass" href="../agendai/design-system/index.html"><i data-lucide="palette" aria-hidden="true"></i><div>Design system<span>Tokens e componentes com todos os estados</span></div><i class="go" data-lucide="arrow-up-right" aria-hidden="true"></i></a></li><li><a class="glass" href="../agendai/docs/wireframes/index.html"><i data-lucide="layout-template" aria-hidden="true"></i><div>Wireframes<span>Baixa fidelidade do app e do painel</span></div><i class="go" data-lucide="arrow-up-right" aria-hidden="true"></i></a></li><li><a class="glass" href="https://github.com/gabrielAbreu-it/projetos/tree/main/agendai/docs"><i data-lucide="folder-open" aria-hidden="true"></i><div>Documentação<span>Pesquisa, fluxos, heurística e roteiro de teste</span></div><i class="go" data-lucide="arrow-up-right" aria-hidden="true"></i></a></li></ul>
+          </section>
+            <a class="a-next glass" href="roxx-energy.html">
+              <div><span>Próximo projeto</span><strong>Roxx Energy</strong><p style="color:var(--a-muted);margin-top:6px">App para quem tem carro elétrico achar um carregador livre, funcionando e compatível, reservar a vaga e pagar a recarga no mesmo lugar.</p></div>
+              <img src="../assets/img/capa-roxx-energy.png" width="1600" height="900" alt="" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer class="a-footer">
+      <div class="a-wrap">
+        <span>© 2026 Gabriel Abreu · UX/UI Designer · Brasília</span>
+        <span>Projetos conceituais, com dados fictícios nos protótipos. <a href="../classico.html">Versão clássica do portfólio</a></span>
+      </div>
+    </footer>
+    <script src="https://unpkg.com/lucide@0.453.0/dist/umd/lucide.min.js"></script>
+    <script src="../assets/js/aurora.js"></script>
+  </body>
+</html>
