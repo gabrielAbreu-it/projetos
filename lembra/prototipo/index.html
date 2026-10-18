@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#1f3c88" />
+    <title>Lembra · Protótipo</title>
+    <meta name="description" content="Protótipo navegável do Lembra, app de lembrete de remédios para pessoas idosas com acompanhamento do cuidador. Dados fictícios, não é orientação médica." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../../assets/css/base.css" />
+    <link rel="stylesheet" href="tokens.css" />
+    <link rel="stylesheet" href="app.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#view">Pular para o conteúdo da tela</a>
+
+    <div class="stage">
+      <aside class="side" aria-label="Sobre o protótipo">
+        <div class="side__brand"><span class="side__logo" aria-hidden="true"><i data-lucide="bell-ring"></i></span> Lembra</div>
+        <p>Protótipo navegável de um app de lembrete de remédios para pessoas idosas, com a visão de quem cuida. A hora está parada em <strong>sexta, 16 de outubro, 12:00</strong>.</p>
+        <p class="side__warn"><i data-lucide="info" aria-hidden="true"></i> Dados e remédios fictícios. Não é orientação médica.</p>
+        <h2>Ir direto para a tela</h2>
+        <ol id="side-links">
+          <li><a href="#agora">Agora: próximo remédio</a></li>
+          <li><a href="#tomei/d3">Confirmação "Tomei"</a></li>
+          <li><a href="#dia">Meu dia</a></li>
+          <li><a href="#esquecida/d2">Dose esquecida</a></li>
+          <li><a href="#remedios">Remédios e estoque</a></li>
+          <li><a href="#cadastro">Cadastrar remédio</a></li>
+          <li><a href="#ajustes">Tamanho da letra</a></li>
+          <li><a href="#cuidador">Visão do cuidador</a></li>
+        </ol>
+        <div class="side__links">
+          <a class="side-btn" href="../../projetos/lembra.html"><i data-lucide="file-text" aria-hidden="true"></i> Página do projeto</a>
+          <a class="side-btn side-btn--ghost" href="https://github.com/gabrielAbreu-it/projetos/tree/main/lembra/docs"><i data-lucide="book-open" aria-hidden="true"></i> Documentação</a>
+          <button class="side-btn side-btn--ghost" type="button" id="reset"><i data-lucide="rotate-ccw" aria-hidden="true"></i> Recomeçar a demonstração</button>
+        </div>
+      </aside>
+
+      <div class="phone" id="app">
+        <div class="statusbar" aria-hidden="true">
+          <span>12:00</span>
+          <span><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span>
+        </div>
+        <main class="view" id="view" tabindex="-1"></main>
+        <nav class="tabbar" id="nav" aria-label="Navegação principal"></nav>
+        <div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+        <dialog class="modal" id="modal" aria-labelledby="modal-title" aria-describedby="modal-text"></dialog>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/lucide@0.453.0/dist/umd/lucide.min.js"></script>
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

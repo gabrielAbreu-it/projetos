@@ -1,0 +1,68 @@
+/* Lembra — tokens de design
+   Base de texto 20px (ajustável para 24px e 28px na tela de Ajustes).
+   Todos os pares de cor de texto passam WCAG AA; os principais passam AAA (7:1). */
+
+:root {
+  /* Cores */
+  --lb-bg: #fff8ef;            /* creme quente */
+  --lb-surface: #ffffff;
+  --lb-surface-2: #f6eee3;
+  --lb-ink: #1a2238;           /* texto principal: 14,98:1 no fundo */
+  --lb-ink-2: #4a5168;         /* texto de apoio: 7,47:1 no fundo */
+  --lb-line: #e3d8ca;          /* divisórias decorativas */
+  --lb-field: #6e6556;         /* borda de campo: 5,45:1 */
+
+  --lb-blue: #1f3c88;          /* azul profundo: branco em cima 10,19:1 */
+  --lb-blue-strong: #152b66;
+  --lb-blue-soft: #e4eaf7;
+  --lb-orange: #f4a259;        /* laranja suave: só como fundo, com texto escuro (7,64:1) */
+  --lb-orange-soft: #fdebd7;
+  --lb-orange-ink: #8a4310;    /* texto laranja: 6,24:1 no laranja claro */
+
+  --lb-ok: #1e6b3a;
+  --lb-ok-soft: #e3f3e7;
+  --lb-late: #b3261e;
+  --lb-late-soft: #fce8e6;
+
+  --lb-focus: #c2410c;         /* anel de foco: 4,91:1 no fundo */
+  --lb-focus-on-dark: #f4a259; /* anel de foco em áreas azuis: 4,93:1 */
+
+  /* Tipografia */
+  --lb-font: "Atkinson Hyperlegible", "Segoe UI", Arial, sans-serif;
+  --lb-fs-sm: 0.9rem;
+  --lb-fs-md: 1rem;
+  --lb-fs-lg: 1.2rem;
+  --lb-fs-xl: 1.45rem;
+  --lb-fs-2xl: 1.8rem;
+  --lb-lh: 1.45;
+
+  /* Espaço e forma */
+  --lb-space-1: 0.25rem;
+  --lb-space-2: 0.5rem;
+  --lb-space-3: 0.75rem;
+  --lb-space-4: 1rem;
+  --lb-space-5: 1.5rem;
+  --lb-space-6: 2rem;
+  --lb-radius: 18px;
+  --lb-radius-lg: 26px;
+  --lb-tap: 3.4rem;            /* altura mínima de botão: 68px na letra padrão */
+  --lb-shadow: 0 2px 0 rgba(26, 34, 56, 0.06), 0 10px 30px rgba(26, 34, 56, 0.08);
+  --lb-dur: 180ms;
+}
+
+/* Contraste máximo (Ajustes) */
+html[data-contraste="max"] {
+  --lb-bg: #ffffff;
+  --lb-surface: #ffffff;
+  --lb-surface-2: #f2f2f2;
+  --lb-ink: #000000;
+  --lb-ink-2: #1a1a1a;
+  --lb-line: #000000;
+  --lb-field: #000000;
+  --lb-blue: #0b1f5c;
+  --lb-blue-soft: #e8ecf8;
+  --lb-orange-soft: #fff1e0;
+  --lb-orange-ink: #6b3008;
+  --lb-ok: #0d4d26;
+  --lb-late: #8e1410;
+}
