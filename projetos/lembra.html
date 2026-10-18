@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lembra · Gabriel Abreu</title>
+    <meta name="description" content="App para pessoas idosas tomarem os remédios na hora certa, com letra grande e botões enormes, e um familiar acompanhando as doses de longe." />
+    <meta name="theme-color" content="#f4f1ea" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)" />
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('portfolio-tema');
+          if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+        } catch (e) {
+          /* sem armazenamento: segue o sistema */
+        }
+      })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../assets/css/base.css" />
+    <link rel="stylesheet" href="../assets/css/aurora.css" />
+  </head>
+  <body class="aurora">
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+    <header class="a-wrap a-nav">
+      <div class="a-nav__bar glass">
+        <a class="a-logo" href="../index.html"><span class="a-logo__mark" aria-hidden="true">GA</span>Gabriel Abreu</a>
+        <nav class="a-links" aria-label="Principal"><a href="../index.html">Início</a><a href="../projetos/index.html" aria-current="page">Projetos</a><a href="../index.html#processo">Processo</a><a href="../index.html#sobre">Sobre</a></nav>
+        <button type="button" class="a-icon-btn" id="tema" aria-label="Tema escuro" aria-pressed="false"><i data-lucide="moon" class="i-moon" aria-hidden="true"></i><i data-lucide="sun" class="i-sun" aria-hidden="true"></i></button>
+        <a class="a-btn a-btn--ink a-btn--sm a-cta" href="../index.html#contato">Fale comigo</a>
+        <button type="button" class="a-icon-btn a-menu-btn" id="menu-btn" aria-label="Menu" aria-expanded="false" aria-controls="menu-mobile"><i data-lucide="menu" aria-hidden="true"></i></button>
+      </div>
+      <nav class="a-mobile-menu glass" id="menu-mobile" aria-label="Principal no celular" hidden><a href="../index.html">Início</a><a href="../projetos/index.html" aria-current="page">Projetos</a><a href="../index.html#processo">Processo</a><a href="../index.html#sobre">Sobre</a><a href="../index.html#contato">Fale comigo</a></nav>
+    </header>
+    <main id="conteudo">
+      <div class="a-wrap">
+        <div class="a-project-hero">
+          <a class="a-back" href="index.html"><i data-lucide="arrow-left" aria-hidden="true"></i>Projetos</a>
+          <span class="a-eyebrow">App mobile · Saúde · 2026</span>
+          <h1>Lembra</h1>
+          <p class="a-lead">Um lembrete de remédios pensado para quem tem 70 anos ou mais: uma ação por tela, letra a partir de 20px e a família sabendo no mesmo dia quando uma dose foi esquecida.</p>
+          <div class="a-hero__actions">
+            <a class="a-btn a-btn--ink" href="../lembra/prototipo/index.html">Abrir o protótipo <i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
+            <a class="a-btn a-btn--glass" href="https://github.com/gabrielAbreu-it/projetos/tree/main/lembra/docs">Documentação do processo</a>
+          </div>
+          <dl class="a-meta glass"><div><dt>Papel</dt><dd>UX/UI Designer, individual</dd></div><div><dt>Plataforma</dt><dd>App iOS e Android, com visão do cuidador</dd></div><div><dt>Métodos</dt><dd>Benchmark, proto-persona, jornada, fluxos, avaliação heurística e protótipo de alta fidelidade</dd></div><div><dt>Ano</dt><dd>2026</dd></div></dl>
+          <figure class="a-cover glass"><img src="../assets/img/capa-lembra.png" width="1600" height="900" alt="Telas do Lembra." /></figure>
+        </div>
+        <div class="a-story">
+          <nav class="a-toc" aria-label="Seções do projeto"><p>Neste projeto</p><ol><li><a href="#contexto">Contexto</a></li><li><a href="#processo">Processo</a></li><li><a href="#solucao">Solução</a></li><li><a href="#handoff">Handoff</a></li><li><a href="#resultado">Resultado</a></li><li><a href="#aprendizados">Aprendizados</a></li><li><a href="#entregas">Entregas</a></li></ol></nav>
+          <div>
+          <section class="a-chapter" id="contexto" aria-labelledby="t-contexto">
+            <h2 id="t-contexto">Contexto</h2>
+            <p>Muita gente idosa toma vários remédios por dia, cada um num horário. Os apps que existem costumam ter letra pequena, ícones sem nome e gestos escondidos. O alarme do celular toca, mas não guarda nada, e aí vem a pergunta de sempre: <strong>já tomei ou não?</strong></p>
+            <p>Do outro lado está o filho, a filha ou a cuidadora, que acompanha de longe e só fica sabendo da dose esquecida numa conversa dias depois. O Lembra é um projeto conceitual que fiz sozinho para resolver as duas pontas, com <strong>acessibilidade e design inclusivo</strong> como ponto de partida, não como ajuste no fim. Todos os remédios e dados do protótipo são fictícios e o app não dá orientação médica.</p>
+            <blockquote class="a-quote glass">Quem toma muitos remédios fica na dúvida se já tomou, e o familiar só descobre a dose esquecida dias depois.<small>O problema, em uma frase</small></blockquote>
+          </section>
+          <section class="a-chapter" id="processo" aria-labelledby="t-processo">
+            <h2 id="t-processo">Processo</h2>
+            <p>Comecei pelo benchmark de quatro produtos reais: <strong>Medisafe</strong> e <strong>MyTherapy</strong>, apps conhecidos de lembrete de remédio; os <strong>alarmes e lembretes do próprio celular</strong>, que muita gente idosa já usa; e o <strong>Meu SUS Digital</strong> (antigo Conecte SUS), para entender o contexto de saúde digital no Brasil. Olhei só características amplamente conhecidas de cada um.</p>
+<div class="a-cards"><div class="glass"><h4>O alarme é confiável, mas não registra</h4><p>O alarme do celular é conhecido e toca com confiança, mas não guarda o que foi tomado. No Lembra o lembrete toca como alarme e só para quando a pessoa toca em "Tomei" ou "Adiar".</p></div><div class="glass"><h4>Apps completos pesam na tela</h4><p>Os apps de remédio mais conhecidos fazem muita coisa, e isso aparece em telas cheias. Decidi por uma ação por tela: a tela "Agora" mostra só o próximo remédio e dois botões enormes.</p></div><div class="glass"><h4>Acompanhar de longe fica escondido</h4><p>Ter alguém que acompanha as doses já existe, mas como recurso secundário. No Lembra a visão do cuidador é central, com a dose atrasada em destaque e o botão de ligar.</p></div></div>
+            <p>Montei duas <strong>proto-personas, marcadas como hipótese</strong> porque não vieram de entrevistas: a Dona Lúcia, de 74 anos, que toma quatro remédios e fica na dúvida se já tomou, e a Ana, a filha que acompanha de longe. A jornada de um dia de remédios mostrou que o momento mais crítico é <em>depois</em> do horário, quando a dose foi esquecida. Daí saíram os fluxos de dose tomada, dose adiada, dose esquecida, cadastro em passos e a visão do cuidador.</p>
+            <p>Avaliei o meu próprio protótipo com as 10 heurísticas de Nielsen, com a letra no tamanho padrão e no maior. Achei <strong>9 problemas e corrigi 7</strong>; os 2 pendentes dependem de teste em aparelho real ou de uma tela nova. O mais grave: os botões "OK" e "Soneca" ficavam lado a lado, iguais, e era fácil tocar no errado. Agora "Tomei" é grande e azul em cima, e "Adiar 15 minutos" fica embaixo, com contorno e espaço entre os dois.</p>
+<figure class="a-figure glass"><img src="../lembra/docs/prints/antes-depois-botoes-tomei.png" width="900" height="954" loading="lazy" alt="Comparação da tela Agora. Antes: botões OK e Soneca pequenos, cinza e lado a lado. Depois: botão Tomei grande e azul, com Adiar 15 minutos com contorno logo abaixo." /><figcaption>Antes, "OK" e "Soneca" tinham o mesmo peso. Depois, a ação principal ficou clara e o adiar diz exatamente quanto tempo.</figcaption></figure>
+          </section>
+          <section class="a-chapter" id="solucao" aria-labelledby="t-solucao">
+            <h2 id="t-solucao">Solução</h2>
+            <p>A tela <strong>Agora</strong> mostra só o próximo remédio, com nome, dose e o desenho da caixa, e dois botões enormes: "Tomei" e "Adiar 15 minutos". Depois do toque, a tela inteira confirma, com a opção de desfazer. O <strong>Meu dia</strong> separa manhã, tarde e noite, com estados sempre escritos (tomado, atrasado, próximo), nunca só por cor. Quando uma dose é esquecida, o app pergunta o que aconteceu e lembra de não tomar dose dobrada. O cadastro é em três passos com erros explicados, o estoque avisa quando restam poucos comprimidos, e a letra vai de 20px a 28px com prévia. Para quem cuida, a dose atrasada aparece em vermelho no topo, com o botão de ligar.</p>
+<div class="a-screens"><figure class="glass"><img src="../lembra/docs/prints/mobile-01-agora.png" width="390" height="844" loading="lazy" alt="Tela Agora com faixa vermelha de remédio não marcado, cartão da Vitamina D com desenho da caixa e botões Tomei e Adiar 15 minutos" /><figcaption>Agora: só o próximo remédio e dois botões enormes</figcaption></figure><figure class="glass"><img src="../lembra/docs/prints/mobile-02-tomei.png" width="390" height="844" loading="lazy" alt="Confirmação com um grande sinal de certo, texto Pronto! Você tomou a Vitamina D e botão para desfazer" /><figcaption>Confirmação clara, com desfazer</figcaption></figure><figure class="glass"><img src="../lembra/docs/prints/mobile-03-meu-dia.png" width="390" height="844" loading="lazy" alt="Lista do dia dividida em manhã e tarde, com selos de tomado e atrasado escritos e com ícone" /><figcaption>Meu dia: estados com ícone e texto</figcaption></figure><figure class="glass"><img src="../lembra/docs/prints/mobile-04-dose-esquecida.png" width="390" height="844" loading="lazy" alt="Tela de dose esquecida perguntando o que aconteceu, com três opções e aviso para não tomar dose dobrada" /><figcaption>Dose esquecida: opções claras e aviso</figcaption></figure><figure class="glass"><img src="../lembra/docs/prints/mobile-05-estoque.png" width="390" height="844" loading="lazy" alt="Cartão laranja avisando que restam 3 comprimidos do remédio do colesterol, com botões para pedir à filha ou somar uma caixa nova" /><figcaption>Estoque acabando</figcaption></figure><figure class="glass"><img src="../lembra/docs/prints/mobile-06-cadastro-erro.png" width="390" height="844" loading="lazy" alt="Passo 1 do cadastro com campo de nome em vermelho e a mensagem de que o nome ficou muito curto" /><figcaption>Cadastro em passos com erro explicado</figcaption></figure><figure class="glass"><img src="../lembra/docs/prints/mobile-07-tamanho-da-letra.png" width="390" height="844" loading="lazy" alt="Ajustes com três tamanhos de letra, prévia ao vivo e chaves com Sim e Não escritos" /><figcaption>Tamanho da letra com prévia</figcaption></figure><figure class="glass"><img src="../lembra/docs/prints/mobile-08-cuidador.png" width="390" height="844" loading="lazy" alt="Visão da filha com cabeçalho azul, alerta vermelho de dose atrasada há 2 horas e botão Ligar para a Lúcia" /><figcaption>Visão do cuidador: atraso em destaque</figcaption></figure></div>
+          </section>
+          <section class="a-chapter" id="handoff" aria-labelledby="t-handoff">
+            <h2 id="t-handoff">Handoff</h2>
+            <p>Para o produto sair do papel, o desenvolvimento precisa de mais do que telas bonitas. Entreguei:</p>
+            <ul><li><strong>Tokens em variáveis</strong> de cor, tipografia, espaço e raio, com o modo de contraste máximo como um segundo conjunto de valores.</li><li><strong>Tabela de contraste</strong> de todos os pares de cor, com texto principal em 14,98:1 e botão principal em 10,19:1.</li><li><strong>Regras de acessibilidade</strong> por componente: alvo mínimo de 48px, foco visível, estado com ícone e texto, erros ligados ao campo e avisos lidos pelo leitor de tela.</li><li><strong>Fluxos documentados</strong> do caminho feliz, dose esquecida, cadastro e visão do cuidador, além de um roteiro de teste com 5 pessoas.</li></ul>
+          </section>
+          <section class="a-chapter" id="resultado" aria-labelledby="t-resultado">
+            <h2 id="t-resultado">Resultado</h2>
+<dl class="a-stats"><div class="glass"><dd>8</dd><dt>telas no protótipo</dt></div><div class="glass"><dd>9</dd><dt>problemas achados na heurística</dt></div><div class="glass"><dd>7</dd><dt>corrigidos</dt></div><div class="glass"><dd>4</dd><dt>produtos no benchmark</dt></div></dl>
+            <p>O próximo passo é testar com <strong>4 pessoas com 65 anos ou mais e 1 familiar</strong>, de preferência no celular delas e com a letra do jeito que já usam. As tarefas cobrem marcar a dose, desfazer, resolver uma dose esquecida, cadastrar um remédio e aumentar a letra. Eu mediria o sucesso sem ajuda, os toques errados entre "Tomei" e "Adiar" e o tempo até o cuidador saber de uma dose atrasada.</p>
+
+          </section>
+          <section class="a-chapter" id="aprendizados" aria-labelledby="t-aprendizados">
+            <h2 id="t-aprendizados">Aprendizados</h2>
+            <ul><li><strong>Letra grande muda o layout, não só o texto.</strong> Com 28px as telas precisaram se reorganizar: horários acima do nome, avisos quebrando em linhas e abas com rótulo fixo.</li><li><strong>O erro mais perigoso aparece depois do horário.</strong> A dose esquecida pediu mais cuidado que o caminho feliz, porque a pior saída seria uma dose dobrada.</li><li><strong>Para quem cuida, menos gráfico e mais ação.</strong> Um alerta claro com o botão de ligar resolve mais do que qualquer número.</li></ul>
+          </section>
+          <section class="a-chapter" id="entregas" aria-labelledby="t-entregas">
+            <h2 id="t-entregas">Entregas</h2>
+<ul class="a-deliverables"><li><a class="glass" href="../lembra/prototipo/index.html"><i data-lucide="smartphone" aria-hidden="true"></i><div>Protótipo navegável<span>Todas as telas, com dados fictícios</span></div><i class="go" data-lucide="arrow-up-right" aria-hidden="true"></i></a></li><li><a class="glass" href="https://github.com/gabrielAbreu-it/projetos/tree/main/lembra/docs"><i data-lucide="folder-open" aria-hidden="true"></i><div>Documentação<span>Pesquisa, fluxos, decisões de UI, heurística e roteiro de teste</span></div><i class="go" data-lucide="arrow-up-right" aria-hidden="true"></i></a></li></ul>
+          </section>
+            <a class="a-next glass" href="vizinho.html">
+              <div><span>Próximo projeto</span><strong>Vizinho</strong><p style="color:var(--a-muted);margin-top:6px">App do morador e painel da portaria para condomínios: aviso de encomenda com código de retirada, reserva do salão sem conflito e avisos importantes em destaque.</p></div>
+              <img src="../assets/img/capa-vizinho.png" width="1600" height="900" alt="" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer class="a-footer">
+      <div class="a-wrap">
+        <span>© 2026 Gabriel Abreu · UX/UI Designer · Brasília</span>
+        <span>Projetos conceituais, com dados fictícios nos protótipos. <a href="../classico.html">Versão clássica do portfólio</a></span>
+      </div>
+    </footer>
+    <script src="https://unpkg.com/lucide@0.453.0/dist/umd/lucide.min.js"></script>
+    <script src="../assets/js/aurora.js"></script>
+  </body>
+</html>

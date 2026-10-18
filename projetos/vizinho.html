@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Vizinho · Gabriel Abreu</title>
+    <meta name="description" content="App do morador e painel da portaria para condomínios: aviso de encomenda com código de retirada, reserva do salão sem conflito e avisos importantes em destaque." />
+    <meta name="theme-color" content="#f4f1ea" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)" />
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('portfolio-tema');
+          if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+        } catch (e) {
+          /* sem armazenamento: segue o sistema */
+        }
+      })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../assets/css/base.css" />
+    <link rel="stylesheet" href="../assets/css/aurora.css" />
+  </head>
+  <body class="aurora">
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+    <header class="a-wrap a-nav">
+      <div class="a-nav__bar glass">
+        <a class="a-logo" href="../index.html"><span class="a-logo__mark" aria-hidden="true">GA</span>Gabriel Abreu</a>
+        <nav class="a-links" aria-label="Principal"><a href="../index.html">Início</a><a href="../projetos/index.html" aria-current="page">Projetos</a><a href="../index.html#processo">Processo</a><a href="../index.html#sobre">Sobre</a></nav>
+        <button type="button" class="a-icon-btn" id="tema" aria-label="Tema escuro" aria-pressed="false"><i data-lucide="moon" class="i-moon" aria-hidden="true"></i><i data-lucide="sun" class="i-sun" aria-hidden="true"></i></button>
+        <a class="a-btn a-btn--ink a-btn--sm a-cta" href="../index.html#contato">Fale comigo</a>
+        <button type="button" class="a-icon-btn a-menu-btn" id="menu-btn" aria-label="Menu" aria-expanded="false" aria-controls="menu-mobile"><i data-lucide="menu" aria-hidden="true"></i></button>
+      </div>
+      <nav class="a-mobile-menu glass" id="menu-mobile" aria-label="Principal no celular" hidden><a href="../index.html">Início</a><a href="../projetos/index.html" aria-current="page">Projetos</a><a href="../index.html#processo">Processo</a><a href="../index.html#sobre">Sobre</a><a href="../index.html#contato">Fale comigo</a></nav>
+    </header>
+    <main id="conteudo">
+      <div class="a-wrap">
+        <div class="a-project-hero">
+          <a class="a-back" href="index.html"><i data-lucide="arrow-left" aria-hidden="true"></i>Projetos</a>
+          <span class="a-eyebrow">App mobile + painel web · Moradia · 2026</span>
+          <h1>Vizinho</h1>
+          <p class="a-lead">Encomenda que fica dias na portaria, salão reservado por duas famílias no mesmo sábado e aviso de falta de água perdido no grupo. Desenhei um app para o morador e um painel para o porteiro que resolvem as três coisas a partir do mesmo registro.</p>
+          <div class="a-hero__actions">
+            <a class="a-btn a-btn--ink" href="../vizinho/prototipo/index.html">Abrir o protótipo <i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
+            <a class="a-btn a-btn--glass" href="https://github.com/gabrielAbreu-it/projetos/tree/main/vizinho/docs">Documentação do processo</a>
+          </div>
+          <dl class="a-meta glass"><div><dt>Papel</dt><dd>UX/UI Designer, individual</dd></div><div><dt>Plataforma</dt><dd>App mobile + painel web</dd></div><div><dt>Métodos</dt><dd>Benchmark, proto-persona, jornada, fluxos, avaliação heurística, protótipo navegável</dd></div><div><dt>Ano</dt><dd>2026</dd></div></dl>
+          <figure class="a-cover glass"><img src="../assets/img/capa-vizinho.png" width="1600" height="900" alt="Telas do Vizinho." /></figure>
+        </div>
+        <div class="a-story">
+          <nav class="a-toc" aria-label="Seções do projeto"><p>Neste projeto</p><ol><li><a href="#contexto">Contexto</a></li><li><a href="#processo">Processo</a></li><li><a href="#solucao">Solução</a></li><li><a href="#handoff">Handoff</a></li><li><a href="#resultado">Resultado</a></li><li><a href="#aprendizados">Aprendizados</a></li><li><a href="#entregas">Entregas</a></li></ol></nav>
+          <div>
+          <section class="a-chapter" id="contexto" aria-labelledby="t-contexto">
+            <h2 id="t-contexto">Contexto</h2>
+            <p>Em muito prédio residencial, o porteiro anota a encomenda num caderno e interfona quando lembra. O morador descobre dias depois, e o pacote às vezes vai parar com a pessoa errada. A reserva do salão de festas é feita no mesmo caderno, e o conflito entre duas unidades só aparece no dia da festa. Já o aviso de falta de água divide espaço com venda de bolo no grupo de WhatsApp.</p>
+            <p>O Vizinho tem duas frentes que olham para o mesmo dado. O <strong>app do morador</strong> avisa quando chega algo e mostra o código de retirada, reserva áreas comuns com calendário e separa avisos importantes dos gerais. O <strong>painel da portaria</strong> registra a encomenda em poucos passos, mostra há quanto tempo cada uma está parada e entrega conferindo o código. Projeto conceitual, com dados fictícios.</p>
+            <blockquote class="a-quote glass">No condomínio, a encomenda, a reserva do salão e os avisos importantes ainda dependem do caderno da portaria e de um grupo de WhatsApp onde tudo se mistura.<small>O problema, em uma frase</small></blockquote>
+          </section>
+          <section class="a-chapter" id="processo" aria-labelledby="t-processo">
+            <h2 id="t-processo">Processo</h2>
+            <p>Comecei pelo benchmark de produtos reais de condomínio: <strong>Townsq</strong>, <strong>uCondo</strong>, <strong>Superlógica</strong> e <strong>CondoConta</strong>, olhando só o que eles mostram publicamente. Incluí o concorrente informal que quase todo prédio usa de graça: o <strong>grupo de WhatsApp com o caderno da portaria</strong>. Os produtos completos juntam muitos módulos e têm foco forte na parte financeira; o WhatsApp é simples, mas mistura tudo e não guarda histórico confiável.</p>
+<div class="a-cards"><div class="glass"><h4>O caderno é rápido</h4><p>Se registrar no painel demorar mais que anotar no papel, o porteiro volta ao caderno. O registro ficou com busca que aceita "b 304", tipo em um toque, foto opcional e o aviso já marcado.</p></div><div class="glass"><h4>Muitos módulos escondem o essencial</h4><p>Apps completos juntam boleto, assembleia e reservas no mesmo lugar. O início do morador responde só uma pergunta: tem algo para mim na portaria?</p></div><div class="glass"><h4>Aviso importante some no grupo</h4><p>No WhatsApp, falta de água e conversa ficam na mesma lista. Separei importante e geral, com destaque no início e confirmação de leitura.</p></div></div>
+            <p>Com o benchmark, montei duas proto-personas, <em>marcadas como hipótese</em> porque não entrevistei ninguém: a Mariana, moradora que passa o dia fora e silenciou o grupo do prédio, e o José, porteiro do turno da noite que não gosta de sistema com muita tela. A jornada da Mariana com uma encomenda mostrou onde o processo quebra: ninguém avisa, o turno seguinte não sabe do pacote e a retirada não deixa registro. Daí saíram os fluxos de encomenda (da chegada à retirada com código), reserva com conflito, avisos e visitante.</p>
+            <p>Com o protótipo pronto, fiz uma avaliação heurística com as 10 heurísticas de Nielsen. Encontrei <strong>9 problemas</strong> e corrigi <strong>8</strong>; o que sobrou (entregar várias encomendas da mesma unidade de uma vez) foi para os próximos passos. O mais grave, de severidade 3, estava no fluxo mais simples: às 18h40 dava para liberar um visitante "até 12h" de hoje, criando um passe que já nascia vencido. Agora os horários que passaram ficam desativados e o formulário recusa um horário vencido.</p>
+<figure class="a-figure glass"><img src="../vizinho/docs/prints/antes-depois-calendario.png" width="1544" height="944" loading="lazy" alt="Calendário de reserva antes e depois: antes, período livre e reservado eram pontos verde e cinza; depois, o reservado virou um anel vazio." /><figcaption>No calendário, livre e reservado diferiam só pela cor. Agora o reservado é um anel vazio, e a diferença aparece também na forma.</figcaption></figure>
+          </section>
+          <section class="a-chapter" id="solucao" aria-labelledby="t-solucao">
+            <h2 id="t-solucao">Solução</h2>
+            <p>No app, a Mariana abre e vê na hora o que está esperando na portaria, cada encomenda com foto, há quanto tempo chegou e um código de 6 números para mostrar ao porteiro. A reserva mostra no calendário quais períodos estão livres antes de ela escolher, pede a leitura das regras e, se outra unidade reservar o mesmo horário enquanto ela preenche, explica o conflito e oferece os horários livres mais próximos. Os avisos importantes aparecem em destaque e pedem confirmação de leitura. No painel, o José busca a unidade digitando "b 304", registra e o aviso sai na hora; a lista mostra as encomendas da mais antiga para a mais nova, com as paradas há mais de 3 dias em coral, e a entrega só acontece com o código certo ou com nome e documento de quem retira.</p>
+<div class="a-screens"><figure class="glass"><img src="../vizinho/docs/prints/mobile-01-inicio.png" width="390" height="844" loading="lazy" alt="Início do app do morador com aviso importante de falta de água e duas encomendas esperando na portaria" /><figcaption>Início: o que está na portaria e o aviso que importa</figcaption></figure><figure class="glass"><img src="../vizinho/docs/prints/mobile-02-encomenda.png" width="390" height="844" loading="lazy" alt="Detalhe da encomenda com código de retirada 905 164 e aviso de que está na portaria há 2 dias" /><figcaption>Código de retirada e tempo na portaria</figcaption></figure><figure class="glass"><img src="../vizinho/docs/prints/mobile-04-conflito.png" width="390" height="844" loading="lazy" alt="Reserva do salão com alerta de conflito de horário e três horários livres sugeridos" /><figcaption>Conflito de horário com alternativas</figcaption></figure><figure class="glass"><img src="../vizinho/docs/prints/mobile-05-reserva-confirmada.png" width="390" height="844" loading="lazy" alt="Reserva confirmada do salão de festas com data, horário, taxa e prazo para cancelar sem custo" /><figcaption>Reserva confirmada</figcaption></figure><figure class="glass"><img src="../vizinho/docs/prints/mobile-06-avisos.png" width="390" height="844" loading="lazy" alt="Lista de avisos com filtros Todos, Importantes e Gerais e o aviso de falta de água aberto com o botão Estou ciente" /><figcaption>Avisos importantes separados dos gerais</figcaption></figure><figure class="glass"><img src="../vizinho/docs/prints/mobile-08-portaria-pendentes.png" width="390" height="844" loading="lazy" alt="Painel da portaria no celular com resumo de encomendas na portaria, paradas e entregues hoje" /><figcaption>Painel da portaria também no celular</figcaption></figure></div>
+          </section>
+          <section class="a-chapter" id="handoff" aria-labelledby="t-handoff">
+            <h2 id="t-handoff">Handoff</h2>
+            <p>Para o produto sair do papel, o desenvolvimento precisa de mais do que telas bonitas. Entreguei:</p>
+            <ul><li><strong>Tokens em variáveis CSS</strong> compartilhados pelas duas interfaces: cores, tipografia, espaço, raio e sombra, com contraste AA documentado.</li><li><strong>Estados de cada componente</strong> no protótipo: vazio, erro, conflito, sucesso e desfazer, todos navegáveis.</li><li><strong>Fluxos em diagrama</strong> da encomenda, reserva, avisos e visitante, mostrando onde as duas interfaces se encontram.</li><li><strong>Prints em 390 x 844 e 1440 x 900</strong> e documentação do processo no repositório.</li></ul>
+          </section>
+          <section class="a-chapter" id="resultado" aria-labelledby="t-resultado">
+            <h2 id="t-resultado">Resultado</h2>
+<dl class="a-stats"><div class="glass"><dd>9</dd><dt>telas no protótipo</dt></div><div class="glass"><dd>9</dd><dt>problemas achados na heurística</dt></div><div class="glass"><dd>8</dd><dt>corrigidos</dt></div><div class="glass"><dd>4</dd><dt>produtos no benchmark</dt></div></dl>
+            <p>O próximo passo é testar com 5 pessoas: 3 moradores que recebem encomenda toda semana e 2 porteiros ou zeladores. Preparei 7 tarefas, como achar a encomenda e mostrar o código, reservar o salão e lidar com o conflito, e registrar uma caixa para o B 304 em menos de 30 segundos. Eu mediria a taxa de sucesso por tarefa e compararia o tempo de registro com o de anotar no caderno, que é o verdadeiro concorrente.</p>
+
+          </section>
+          <section class="a-chapter" id="aprendizados" aria-labelledby="t-aprendizados">
+            <h2 id="t-aprendizados">Aprendizados</h2>
+            <ul><li><strong>Dois usuários, um registro.</strong> Desenhar as duas pontas juntas me obrigou a definir o que passa entre elas, o código de retirada, antes de pensar nas telas.</li><li><strong>O concorrente é o caderno.</strong> Cada campo a mais é motivo para o porteiro voltar ao papel. Cortei até sobrar unidade, tipo e um botão.</li><li><strong>O óbvio também quebra.</strong> O único problema grave da avaliação estava no formulário de visitante, o fluxo que eu achava mais simples.</li></ul>
+          </section>
+          <section class="a-chapter" id="entregas" aria-labelledby="t-entregas">
+            <h2 id="t-entregas">Entregas</h2>
+<ul class="a-deliverables"><li><a class="glass" href="../vizinho/prototipo/index.html"><i data-lucide="smartphone" aria-hidden="true"></i><div>Protótipo navegável<span>Todas as telas, com dados fictícios</span></div><i class="go" data-lucide="arrow-up-right" aria-hidden="true"></i></a></li><li><a class="glass" href="https://github.com/gabrielAbreu-it/projetos/tree/main/vizinho/docs"><i data-lucide="folder-open" aria-hidden="true"></i><div>Documentação<span>Pesquisa, fluxos, decisões de UI, heurística e roteiro de teste</span></div><i class="go" data-lucide="arrow-up-right" aria-hidden="true"></i></a></li></ul>
+          </section>
+            <a class="a-next glass" href="roxx-energy.html">
+              <div><span>Próximo projeto</span><strong>Roxx Energy</strong><p style="color:var(--a-muted);margin-top:6px">App para quem tem carro elétrico achar um carregador livre, funcionando e compatível, reservar a vaga e pagar a recarga no mesmo lugar.</p></div>
+              <img src="../assets/img/capa-roxx-energy.png" width="1600" height="900" alt="" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer class="a-footer">
+      <div class="a-wrap">
+        <span>© 2026 Gabriel Abreu · UX/UI Designer · Brasília</span>
+        <span>Projetos conceituais, com dados fictícios nos protótipos. <a href="../classico.html">Versão clássica do portfólio</a></span>
+      </div>
+    </footer>
+    <script src="https://unpkg.com/lucide@0.453.0/dist/umd/lucide.min.js"></script>
+    <script src="../assets/js/aurora.js"></script>
+  </body>
+</html>

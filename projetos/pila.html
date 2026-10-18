@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pila · Gabriel Abreu</title>
+    <meta name="description" content="App de finanças para MEI e autônomos que separa o dinheiro do negócio do pessoal, mostra quanto sobrou no mês e lembra do DAS." />
+    <meta name="theme-color" content="#f4f1ea" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)" />
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('portfolio-tema');
+          if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+        } catch (e) {
+          /* sem armazenamento: segue o sistema */
+        }
+      })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../assets/css/base.css" />
+    <link rel="stylesheet" href="../assets/css/aurora.css" />
+  </head>
+  <body class="aurora">
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+    <header class="a-wrap a-nav">
+      <div class="a-nav__bar glass">
+        <a class="a-logo" href="../index.html"><span class="a-logo__mark" aria-hidden="true">GA</span>Gabriel Abreu</a>
+        <nav class="a-links" aria-label="Principal"><a href="../index.html">Início</a><a href="../projetos/index.html" aria-current="page">Projetos</a><a href="../index.html#processo">Processo</a><a href="../index.html#sobre">Sobre</a></nav>
+        <button type="button" class="a-icon-btn" id="tema" aria-label="Tema escuro" aria-pressed="false"><i data-lucide="moon" class="i-moon" aria-hidden="true"></i><i data-lucide="sun" class="i-sun" aria-hidden="true"></i></button>
+        <a class="a-btn a-btn--ink a-btn--sm a-cta" href="../index.html#contato">Fale comigo</a>
+        <button type="button" class="a-icon-btn a-menu-btn" id="menu-btn" aria-label="Menu" aria-expanded="false" aria-controls="menu-mobile"><i data-lucide="menu" aria-hidden="true"></i></button>
+      </div>
+      <nav class="a-mobile-menu glass" id="menu-mobile" aria-label="Principal no celular" hidden><a href="../index.html">Início</a><a href="../projetos/index.html" aria-current="page">Projetos</a><a href="../index.html#processo">Processo</a><a href="../index.html#sobre">Sobre</a><a href="../index.html#contato">Fale comigo</a></nav>
+    </header>
+    <main id="conteudo">
+      <div class="a-wrap">
+        <div class="a-project-hero">
+          <a class="a-back" href="index.html"><i data-lucide="arrow-left" aria-hidden="true"></i>Projetos</a>
+          <span class="a-eyebrow">App mobile · Finanças · 2026</span>
+          <h1>Pila</h1>
+          <p class="a-lead">Um app para quem trabalha por conta própria saber, em uma tela, quanto do dinheiro do mês é de verdade seu, sem precisar entender de contabilidade.</p>
+          <div class="a-hero__actions">
+            <a class="a-btn a-btn--ink" href="../pila/prototipo/index.html">Abrir o protótipo <i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
+            <a class="a-btn a-btn--glass" href="https://github.com/gabrielAbreu-it/projetos/tree/main/pila/docs">Documentação do processo</a>
+          </div>
+          <dl class="a-meta glass"><div><dt>Papel</dt><dd>UX/UI Designer, individual</dd></div><div><dt>Plataforma</dt><dd>App iOS e Android</dd></div><div><dt>Métodos</dt><dd>Benchmark, proto-persona, jornada, fluxos, avaliação heurística e protótipo</dd></div><div><dt>Ano</dt><dd>2026</dd></div></dl>
+          <figure class="a-cover glass"><img src="../assets/img/capa-pila.png" width="1600" height="900" alt="Telas do Pila." /></figure>
+        </div>
+        <div class="a-story">
+          <nav class="a-toc" aria-label="Seções do projeto"><p>Neste projeto</p><ol><li><a href="#contexto">Contexto</a></li><li><a href="#processo">Processo</a></li><li><a href="#solucao">Solução</a></li><li><a href="#handoff">Handoff</a></li><li><a href="#resultado">Resultado</a></li><li><a href="#aprendizados">Aprendizados</a></li><li><a href="#entregas">Entregas</a></li></ol></nav>
+          <div>
+          <section class="a-chapter" id="contexto" aria-labelledby="t-contexto">
+            <h2 id="t-contexto">Contexto</h2>
+            <p>Manicure, eletricista, confeiteira, motorista de app: muita gente que trabalha por conta própria recebe o Pix da cliente na mesma conta onde paga o mercado e a luz. No fim do mês sabe o saldo, mas não sabe quanto o trabalho deu de lucro nem quanto pode tirar para si.</p>
+            <p>Para quem é MEI ainda tem mais duas preocupações: pagar o <strong>DAS</strong> todo mês até o dia 20 e não passar do <strong>limite de faturamento anual</strong>. O Pila é um projeto conceitual que fiz sozinho para responder uma pergunta: <em>quanto é seu de verdade este mês?</em> Todos os dados do protótipo são fictícios, e os valores do DAS e do limite aparecem como exemplo, não como valores oficiais.</p>
+            <blockquote class="a-quote glass">O dinheiro do trabalho e o da casa caem na mesma conta, e a pessoa não sabe quanto lucrou, esquece o DAS e perde de vista o limite anual do MEI.<small>O problema, em uma frase</small></blockquote>
+          </section>
+          <section class="a-chapter" id="processo" aria-labelledby="t-processo">
+            <h2 id="t-processo">Processo</h2>
+            <p>Comecei por um benchmark de cinco produtos conhecidos: <strong>Mobills</strong> e <strong>Organizze</strong> (finanças pessoais), o <strong>app MEI do governo</strong> (canal oficial da guia do DAS), a <strong>Conta Azul</strong> (gestão para pequenas empresas) e a <strong>conta PJ de um banco digital</strong>, como Nubank ou Inter. Cada um resolve uma parte, mas nenhum junta o dia a dia do caixa com as obrigações do MEI numa linguagem simples.</p>
+<div class="a-cards"><div class="glass"><h4>Pessoal ou negócio?</h4><p>Os apps de finanças pessoais tratam tudo como gasto de uma pessoa. No Pila, todo registro responde "de quem é esse dinheiro?", e a categoria já sugere a resposta.</p></div><div class="glass"><h4>A guia não conversa com o caixa</h4><p>O canal oficial resolve a emissão do DAS, mas não ajuda a guardar o dinheiro. No Pila, o DAS já sai da conta do "quanto é seu" e tem lembrete antes do dia 20.</p></div><div class="glass"><h4>Gestão completa assusta</h4><p>Sistemas de gestão têm muitas telas e termos para quem trabalha sozinho. O Pila tem uma pergunta principal no início e usa palavras do dia a dia, como "entrou" e "saiu".</p></div></div>
+            <p>Com o benchmark, montei uma proto-persona, a Rosana, confeiteira MEI, <strong>marcada como hipótese</strong> porque não veio de entrevistas. A jornada dela mostrou os momentos de risco: o meio do mês, quando o saldo dá uma falsa tranquilidade, e o dia 20, quando o DAS é esquecido. A partir daí desenhei os fluxos de registrar uma entrada e de pagar o DAS, com todos os estados: vazio, erro, atraso e confirmação.</p>
+            <p>Avaliei a primeira versão do protótipo com as 10 heurísticas de Nielsen e encontrei <strong>8 problemas</strong>, dos quais <strong>corrigi 6</strong>. Os mais graves eram os valores do DAS e do limite parecerem oficiais, o que resolvi com um selo de "exemplo" em todos eles, e o erro do campo de valor, que aparecia só num aviso que sumia. Editar e excluir movimentações e enviar o relatório ao contador ficaram para a próxima versão.</p>
+<figure class="a-figure glass"><img src="../pila/docs/prints/antes-depois-erro-valor.png" width="904" height="976" loading="lazy" alt="Comparação do formulário de registro: antes, só um aviso genérico no topo; depois, o campo de valor marcado em vermelho, mensagem explicando o que digitar e resumo dos erros com links." /><figcaption>Antes, o aviso sumia e não dizia qual campo faltava. Depois, o erro fica no próprio campo, com exemplo do que digitar.</figcaption></figure>
+          </section>
+          <section class="a-chapter" id="solucao" aria-labelledby="t-solucao">
+            <h2 id="t-solucao">Solução</h2>
+            <p>A tela inicial mostra o valor que sobra para a pessoa e, logo abaixo, a conta inteira: o que entrou no negócio, o que saiu, o que foi separado para o DAS e a sobra. Registrar uma entrada ou saída leva poucos toques, com teclado numérico e a escolha entre negócio e pessoal já sugerida. A guia do DAS mostra o status do mês, como pagar no canal oficial e um estado de atraso que diz o que fazer agora. A barra do limite anual avisa em 70%, 80% e 90% e mostra quando a pessoa chegaria ao limite no ritmo atual.</p>
+<div class="a-screens"><figure class="glass"><img src="../pila/docs/prints/mobile-03-inicio.png" width="390" height="844" loading="lazy" alt="Tela inicial do Pila com o valor que sobra no mês, a conta de entradas, saídas e DAS, e cartões do DAS e do limite anual" /><figcaption>Início: quanto é seu de verdade</figcaption></figure><figure class="glass"><img src="../pila/docs/prints/mobile-04-registrar-erro.png" width="390" height="844" loading="lazy" alt="Formulário de nova movimentação com erro no campo de valor e na categoria" /><figcaption>Registro com erro visível</figcaption></figure><figure class="glass"><img src="../pila/docs/prints/mobile-05-movimentacoes.png" width="390" height="844" loading="lazy" alt="Lista de movimentações agrupadas por dia, com filtros de negócio, pessoal, entradas e saídas" /><figcaption>Movimentações com filtros</figcaption></figure><figure class="glass"><img src="../pila/docs/prints/mobile-06-das-atrasado.png" width="390" height="844" loading="lazy" alt="Tela do DAS em atraso com valor de exemplo, orientação e botão para marcar como pago" /><figcaption>DAS em atraso</figcaption></figure><figure class="glass"><img src="../pila/docs/prints/mobile-07-limite.png" width="390" height="844" loading="lazy" alt="Tela do limite anual com barra em 82%, marcas de aviso e gráfico de entradas por mês" /><figcaption>Alerta do limite anual</figcaption></figure><figure class="glass"><img src="../pila/docs/prints/mobile-02-primeiro-uso.png" width="390" height="844" loading="lazy" alt="Estado vazio do primeiro uso com explicação da conta e botão para registrar a primeira entrada" /><figcaption>Primeiro uso</figcaption></figure></div>
+          </section>
+          <section class="a-chapter" id="handoff" aria-labelledby="t-handoff">
+            <h2 id="t-handoff">Handoff</h2>
+            <p>Para o produto sair do papel, o desenvolvimento precisa de mais do que telas bonitas. Entreguei:</p>
+            <ul><li>Cores, tipografia, espaços e raios em <strong>tokens</strong>, com o contraste de cada par de cor anotado.</li><li>Componente de <strong>selo "exemplo"</strong> obrigatório em todo valor de DAS e de limite, para nunca parecer valor oficial.</li><li>Regras de validação do valor escritas: obrigatório, maior que zero, vírgula para centavos, e mensagens prontas para cada caso.</li><li>Estados de cada tela documentados: vazio, erro, atraso, pago e confirmação, com fluxos em diagrama.</li></ul>
+          </section>
+          <section class="a-chapter" id="resultado" aria-labelledby="t-resultado">
+            <h2 id="t-resultado">Resultado</h2>
+<dl class="a-stats"><div class="glass"><dd>9</dd><dt>telas no protótipo</dt></div><div class="glass"><dd>8</dd><dt>problemas achados na heurística</dt></div><div class="glass"><dd>6</dd><dt>corrigidos</dt></div><div class="glass"><dd>5</dd><dt>produtos no benchmark</dt></div></dl>
+            <p>O próximo passo é testar com 5 pessoas de atividades diferentes, com tarefas como registrar uma entrada, descobrir quanto pode tirar para si e marcar o DAS como pago. Eu mediria a taxa de sucesso, o tempo para registrar, os erros entre negócio e pessoal e se a pessoa consegue explicar a "sobra" com as próprias palavras.</p>
+
+          </section>
+          <section class="a-chapter" id="aprendizados" aria-labelledby="t-aprendizados">
+            <h2 id="t-aprendizados">Aprendizados</h2>
+            <ul><li><strong>Mostrar a conta gera confiança.</strong> Um número sozinho parece mágica; com a conta embaixo, vira algo que a pessoa consegue conferir.</li><li><strong>Valor de exemplo precisa parecer exemplo.</strong> Em finanças, um número sem contexto vira verdade. O selo virou parte do sistema.</li><li><strong>Atraso pede caminho, não bronca.</strong> A tela de DAS atrasado diz o que fazer agora, em vez de só pintar tudo de vermelho.</li></ul>
+          </section>
+          <section class="a-chapter" id="entregas" aria-labelledby="t-entregas">
+            <h2 id="t-entregas">Entregas</h2>
+<ul class="a-deliverables"><li><a class="glass" href="../pila/prototipo/index.html"><i data-lucide="smartphone" aria-hidden="true"></i><div>Protótipo navegável<span>Todas as telas, com dados fictícios</span></div><i class="go" data-lucide="arrow-up-right" aria-hidden="true"></i></a></li><li><a class="glass" href="https://github.com/gabrielAbreu-it/projetos/tree/main/pila/docs"><i data-lucide="folder-open" aria-hidden="true"></i><div>Documentação<span>Pesquisa, fluxos, decisões de UI, heurística e roteiro de teste</span></div><i class="go" data-lucide="arrow-up-right" aria-hidden="true"></i></a></li></ul>
+          </section>
+            <a class="a-next glass" href="lembra.html">
+              <div><span>Próximo projeto</span><strong>Lembra</strong><p style="color:var(--a-muted);margin-top:6px">App para pessoas idosas tomarem os remédios na hora certa, com letra grande e botões enormes, e um familiar acompanhando as doses de longe.</p></div>
+              <img src="../assets/img/capa-lembra.png" width="1600" height="900" alt="" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer class="a-footer">
+      <div class="a-wrap">
+        <span>© 2026 Gabriel Abreu · UX/UI Designer · Brasília</span>
+        <span>Projetos conceituais, com dados fictícios nos protótipos. <a href="../classico.html">Versão clássica do portfólio</a></span>
+      </div>
+    </footer>
+    <script src="https://unpkg.com/lucide@0.453.0/dist/umd/lucide.min.js"></script>
+    <script src="../assets/js/aurora.js"></script>
+  </body>
+</html>

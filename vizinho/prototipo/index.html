@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f6f6fb" />
+    <title>Vizinho · Protótipo</title>
+    <meta name="description" content="Protótipo do Vizinho: app do morador e painel da portaria de um condomínio fictício." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../../assets/css/base.css" />
+    <link rel="stylesheet" href="shared/tokens.css" />
+    <style>
+      body {
+        background:
+          radial-gradient(800px 480px at 85% 0%, #ffe1d6, transparent 62%),
+          radial-gradient(700px 520px at 0% 100%, #dedcff, transparent 70%),
+          var(--vz-bg);
+      }
+      main {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 56px 16px 64px;
+      }
+      .back {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        min-height: 44px;
+        color: var(--vz-primary);
+        font-weight: 700;
+        text-decoration: none;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 20px;
+      }
+      .brand span {
+        display: grid;
+        place-items: center;
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        background: var(--vz-primary);
+        color: #fff;
+      }
+      h1 {
+        font-size: clamp(2rem, 5vw, 3rem);
+      }
+      .lead {
+        color: var(--vz-text-2);
+        font-size: 1.1rem;
+        max-width: 62ch;
+        margin-top: 12px;
+      }
+      .options {
+        display: grid;
+        gap: 16px;
+        margin-top: 32px;
+      }
+      @media (min-width: 720px) {
+        .options {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      .opt {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 28px;
+      }
+      .opt__icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 16px;
+        display: grid;
+        place-items: center;
+        background: var(--vz-primary-soft);
+        color: var(--vz-primary);
+      }
+      .opt:nth-child(2) .opt__icon {
+        background: var(--vz-coral-soft);
+        color: var(--vz-coral-text);
+      }
+      .opt__icon svg {
+        width: 28px;
+        height: 28px;
+      }
+      .opt h2 {
+        font-size: 1.4rem;
+      }
+      .opt p,
+      .opt ul {
+        color: var(--vz-text-2);
+      }
+      .opt ul {
+        font-size: 0.95rem;
+        padding-left: 1.1em;
+      }
+      .opt .vz-btn {
+        margin-top: auto;
+        align-self: flex-start;
+      }
+      .note {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px 16px;
+        margin-top: 24px;
+        font-size: 0.9rem;
+        color: var(--vz-text-2);
+      }
+      .links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <a class="back" href="../../projetos/vizinho.html"><i data-lucide="arrow-left"></i> Página do projeto</a>
+      <div class="brand"><span aria-hidden="true"><i data-lucide="building-2"></i></span><h1>Protótipo do Vizinho</h1></div>
+      <p class="lead">
+        Duas interfaces do mesmo produto, no Residencial Jardim das Acácias, um condomínio fictício em Águas Claras. Registre uma encomenda no
+        painel da portaria e veja o aviso chegar no app do morador, no mesmo navegador.
+      </p>
+      <div class="options">
+        <section class="vz-card opt" aria-labelledby="o1">
+          <span class="opt__icon" aria-hidden="true"><i data-lucide="smartphone"></i></span>
+          <h2 id="o1">App do morador</h2>
+          <p>Celular. Você é a Mariana, do Bloco B, apto 304.</p>
+          <ul>
+            <li>Encomendas esperando na portaria, com código de retirada</li>
+            <li>Reservar o salão ou a churrasqueira sem conflito</li>
+            <li>Avisos importantes separados dos gerais</li>
+            <li>Liberar visitante</li>
+          </ul>
+          <a class="vz-btn vz-btn--primary" href="morador/index.html">Abrir app do morador</a>
+        </section>
+        <section class="vz-card opt" aria-labelledby="o2">
+          <span class="opt__icon" aria-hidden="true"><i data-lucide="layout-dashboard"></i></span>
+          <h2 id="o2">Painel da portaria</h2>
+          <p>Computador (funciona no celular também). Você é o José, porteiro do turno da noite.</p>
+          <ul>
+            <li>Registrar encomenda com busca de bloco e apartamento</li>
+            <li>Ver há quanto tempo cada encomenda está parada</li>
+            <li>Entregar conferindo o código</li>
+            <li>Visitantes liberados pelos moradores</li>
+          </ul>
+          <a class="vz-btn vz-btn--primary" href="portaria/index.html">Abrir painel da portaria</a>
+        </section>
+      </div>
+      <p class="note">
+        Dados fictícios. A data do protótipo é sexta, 16 de outubro de 2026, 18:40.
+        <button type="button" class="vz-btn vz-btn--ghost vz-btn--sm" id="reiniciar">Apagar o que eu mudei</button>
+      </p>
+      <div class="links">
+        <a class="vz-btn vz-btn--secondary vz-btn--sm" href="https://github.com/gabrielAbreu-it/projetos/tree/main/vizinho/docs"><i data-lucide="book-open"></i> Documentação</a>
+      </div>
+    </main>
+    <script src="https://unpkg.com/lucide@0.453.0/dist/umd/lucide.min.js"></script>
+    <script>
+      if (window.lucide) window.lucide.createIcons({ attrs: { 'aria-hidden': 'true' } });
+      document.getElementById('reiniciar').addEventListener('click', function () {
+        try {
+          localStorage.removeItem('vizinho-prototipo-v1');
+        } catch (e) {
+          /* nada a apagar */
+        }
+        this.textContent = 'Pronto, protótipo zerado';
+      });
+    </script>
+  </body>
+</html>

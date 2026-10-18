@@ -36,6 +36,42 @@ Agendamento para salão, barbearia e estética: o cliente marca sozinho e o dono
 
 [Estudo de caso](https://gabriel-abreu-portfolio.vercel.app/agendai/) · [Protótipo](https://gabriel-abreu-portfolio.vercel.app/agendai/prototipo/) · [Design system](https://gabriel-abreu-portfolio.vercel.app/agendai/design-system/) · [Documentação](agendai/docs/)
 
+### [Pila](pila/)
+
+[![Telas do Pila](assets/img/capa-pila.png)](https://gabriel-abreu-portfolio.vercel.app/projetos/pila.html)
+
+App de finanças para MEI e autônomos que separa o dinheiro do negócio do pessoal, mostra quanto sobrou no mês e lembra do DAS.
+
+| Tipo | Papel | Métodos |
+|---|---|---|
+| App iOS e Android | UX/UI, projeto individual | Benchmark, proto-persona, jornada, fluxos, avaliação heurística e protótipo |
+
+[Página do projeto](https://gabriel-abreu-portfolio.vercel.app/projetos/pila.html) · [Protótipo](https://gabriel-abreu-portfolio.vercel.app/pila/prototipo/) · [Documentação](pila/docs/)
+
+### [Lembra](lembra/)
+
+[![Telas do Lembra](assets/img/capa-lembra.png)](https://gabriel-abreu-portfolio.vercel.app/projetos/lembra.html)
+
+App para pessoas idosas tomarem os remédios na hora certa, com letra grande e botões enormes, e um familiar acompanhando as doses de longe.
+
+| Tipo | Papel | Métodos |
+|---|---|---|
+| App iOS e Android, com visão do cuidador | UX/UI, projeto individual | Benchmark, proto-persona, jornada, fluxos, avaliação heurística e protótipo de alta fidelidade |
+
+[Página do projeto](https://gabriel-abreu-portfolio.vercel.app/projetos/lembra.html) · [Protótipo](https://gabriel-abreu-portfolio.vercel.app/lembra/prototipo/) · [Documentação](lembra/docs/)
+
+### [Vizinho](vizinho/)
+
+[![Telas do Vizinho](assets/img/capa-vizinho.png)](https://gabriel-abreu-portfolio.vercel.app/projetos/vizinho.html)
+
+App do morador e painel da portaria para condomínios: aviso de encomenda com código de retirada, reserva do salão sem conflito e avisos importantes em destaque.
+
+| Tipo | Papel | Métodos |
+|---|---|---|
+| App mobile + painel web | UX/UI, projeto individual | Benchmark, proto-persona, jornada, fluxos, avaliação heurística, protótipo navegável |
+
+[Página do projeto](https://gabriel-abreu-portfolio.vercel.app/projetos/vizinho.html) · [Protótipo](https://gabriel-abreu-portfolio.vercel.app/vizinho/prototipo/) · [Documentação](vizinho/docs/)
+
 ## Como eu trabalho
 
 1. **Pesquisa.** Benchmark de produtos reais, proto-persona assumida como hipótese e jornada com as dores.
@@ -72,7 +108,10 @@ As fontes vêm do Google Fonts e os ícones do Lucide (versão 0.453.0), os dois
 │   ├── prototipo/      protótipo navegável
 │   ├── design-system/  tokens e componentes
 │   └── docs/           pesquisa, fluxos, wireframes e prints
-└── agendai/            projeto 2 (mesma estrutura)
+├── agendai/            projeto 2 (mesma estrutura)
+├── pila/               projeto 3: protótipo e documentação
+├── lembra/             projeto 4: protótipo e documentação
+└── vizinho/            projeto 5: protótipo (morador e portaria) e documentação
 ```
 
 | Tema escuro | Celular |

@@ -1,0 +1,560 @@
+/* Vizinho — tokens e componentes compartilhados pelo app do morador e pelo painel da portaria */
+
+:root {
+  --vz-font: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Cores (contraste conferido em docs/04-decisoes-de-ui.md) */
+  --vz-bg: #f6f6fb;
+  --vz-surface: #ffffff;
+  --vz-surface-2: #efeff7;
+  --vz-border: #dcddea;
+  --vz-border-strong: #8b8da8;
+  --vz-text: #1a1b3a;
+  --vz-text-2: #555874;
+
+  --vz-primary: #4338ca;
+  --vz-primary-hover: #3730a3;
+  --vz-primary-soft: #ecebff;
+  --vz-primary-on-soft: #3730a3;
+  --vz-ink: #1e1b4b;
+  --vz-ink-muted: #c7c9ff;
+
+  --vz-coral: #ff7a59;
+  --vz-coral-soft: #ffe9e2;
+  --vz-coral-text: #b13a1e;
+
+  --vz-success: #127a4b;
+  --vz-success-soft: #e3f5ec;
+  --vz-success-on-soft: #0f6b41;
+  --vz-warning-soft: #fff1d6;
+  --vz-warning-on-soft: #8a4b00;
+  --vz-danger: #b42318;
+  --vz-danger-soft: #fde8e6;
+
+  --vz-focus: #4338ca;
+
+  /* Tipografia */
+  --vz-fs-xs: 0.75rem;
+  --vz-fs-sm: 0.875rem;
+  --vz-fs-md: 1rem;
+  --vz-fs-lg: 1.125rem;
+  --vz-fs-xl: 1.375rem;
+  --vz-fs-2xl: 1.75rem;
+  --vz-fs-3xl: 2.25rem;
+
+  /* Espaço, raio, sombra */
+  --vz-space-1: 4px;
+  --vz-space-2: 8px;
+  --vz-space-3: 12px;
+  --vz-space-4: 16px;
+  --vz-space-5: 20px;
+  --vz-space-6: 24px;
+  --vz-space-8: 32px;
+  --vz-radius-sm: 8px;
+  --vz-radius-md: 12px;
+  --vz-radius-lg: 18px;
+  --vz-radius-pill: 999px;
+  --vz-shadow-1: 0 1px 2px rgba(26, 27, 58, 0.06), 0 1px 3px rgba(26, 27, 58, 0.08);
+  --vz-shadow-2: 0 6px 20px rgba(26, 27, 58, 0.1);
+  --vz-shadow-3: 0 24px 60px rgba(30, 27, 75, 0.25);
+}
+
+body {
+  font-family: var(--vz-font);
+  color: var(--vz-text);
+  background: var(--vz-bg);
+}
+
+:focus-visible {
+  outline: 3px solid var(--vz-focus);
+  outline-offset: 2px;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.2;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+h1:focus,
+h2:focus {
+  outline: none;
+}
+
+.muted {
+  color: var(--vz-text-2);
+}
+
+.small {
+  font-size: var(--vz-fs-sm);
+}
+
+/* ---------- Botões ---------- */
+.vz-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 0 20px;
+  border-radius: var(--vz-radius-md);
+  border: 1.5px solid transparent;
+  font-weight: 700;
+  font-size: var(--vz-fs-md);
+  text-decoration: none;
+  line-height: 1.2;
+  text-align: center;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.vz-btn--primary {
+  background: var(--vz-primary);
+  color: #fff;
+}
+
+.vz-btn--primary:hover {
+  background: var(--vz-primary-hover);
+}
+
+.vz-btn--secondary {
+  background: var(--vz-surface);
+  border-color: var(--vz-border-strong);
+  color: var(--vz-primary-on-soft);
+}
+
+.vz-btn--secondary:hover {
+  background: var(--vz-primary-soft);
+}
+
+.vz-btn--ghost {
+  background: transparent;
+  color: var(--vz-primary);
+}
+
+.vz-btn--ghost:hover {
+  background: var(--vz-primary-soft);
+}
+
+.vz-btn--danger {
+  background: var(--vz-surface);
+  border-color: var(--vz-danger);
+  color: var(--vz-danger);
+}
+
+.vz-btn--danger:hover {
+  background: var(--vz-danger-soft);
+}
+
+.vz-btn--sm {
+  min-height: 44px;
+  padding: 0 14px;
+  font-size: var(--vz-fs-sm);
+}
+
+.vz-btn--block {
+  width: 100%;
+}
+
+.vz-btn[disabled],
+.vz-btn[aria-disabled="true"] {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.vz-icon-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 0;
+  background: transparent;
+  color: var(--vz-text);
+  text-decoration: none;
+}
+
+.vz-icon-btn:hover {
+  background: var(--vz-surface-2);
+}
+
+.vz-icon-btn svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* ---------- Cartão ---------- */
+.vz-card {
+  background: var(--vz-surface);
+  border: 1px solid var(--vz-border);
+  border-radius: var(--vz-radius-lg);
+  box-shadow: var(--vz-shadow-1);
+}
+
+/* ---------- Selos ---------- */
+.vz-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 10px;
+  border-radius: var(--vz-radius-pill);
+  font-size: var(--vz-fs-xs);
+  font-weight: 700;
+  line-height: 1.6;
+  white-space: nowrap;
+}
+
+.vz-badge svg {
+  width: 13px;
+  height: 13px;
+}
+
+.vz-badge--primary {
+  background: var(--vz-primary-soft);
+  color: var(--vz-primary-on-soft);
+}
+
+.vz-badge--coral {
+  background: var(--vz-coral-soft);
+  color: var(--vz-coral-text);
+}
+
+.vz-badge--success {
+  background: var(--vz-success-soft);
+  color: var(--vz-success-on-soft);
+}
+
+.vz-badge--warning {
+  background: var(--vz-warning-soft);
+  color: var(--vz-warning-on-soft);
+}
+
+.vz-badge--danger {
+  background: var(--vz-danger-soft);
+  color: var(--vz-danger);
+}
+
+.vz-badge--neutral {
+  background: var(--vz-surface-2);
+  color: var(--vz-text-2);
+}
+
+/* ---------- Campos ---------- */
+.vz-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.vz-label {
+  font-weight: 700;
+  font-size: var(--vz-fs-sm);
+}
+
+.vz-hint {
+  font-size: var(--vz-fs-sm);
+  color: var(--vz-text-2);
+}
+
+.vz-input,
+.vz-select,
+.vz-textarea {
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 14px;
+  border-radius: var(--vz-radius-md);
+  border: 1.5px solid var(--vz-border-strong);
+  background: var(--vz-surface);
+  font-size: var(--vz-fs-md);
+}
+
+.vz-textarea {
+  min-height: 88px;
+  resize: vertical;
+}
+
+.vz-input:focus-visible,
+.vz-select:focus-visible,
+.vz-textarea:focus-visible {
+  outline: 3px solid var(--vz-focus);
+  outline-offset: 0;
+  border-color: var(--vz-primary);
+}
+
+.vz-input[aria-invalid="true"],
+.vz-select[aria-invalid="true"],
+.vz-textarea[aria-invalid="true"] {
+  border-color: var(--vz-danger);
+}
+
+.vz-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  color: var(--vz-danger);
+  font-size: var(--vz-fs-sm);
+  font-weight: 600;
+}
+
+.vz-error svg {
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+}
+
+.vz-error:empty {
+  display: none;
+}
+
+/* Grupo de opções (radio com cara de botão) */
+.vz-seg {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+
+.vz-seg legend {
+  padding: 0;
+  margin-bottom: 6px;
+}
+
+.vz-seg label {
+  position: relative;
+}
+
+.vz-seg input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  margin: 0;
+}
+
+.vz-seg label > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 16px;
+  border-radius: var(--vz-radius-pill);
+  border: 1.5px solid var(--vz-border-strong);
+  background: var(--vz-surface);
+  font-weight: 600;
+  font-size: var(--vz-fs-sm);
+  cursor: pointer;
+}
+
+.vz-seg label > span svg {
+  width: 16px;
+  height: 16px;
+}
+
+.vz-seg input:checked + span {
+  background: var(--vz-primary);
+  border-color: var(--vz-primary);
+  color: #fff;
+}
+
+.vz-seg input:focus-visible + span {
+  outline: 3px solid var(--vz-focus);
+  outline-offset: 2px;
+}
+
+.vz-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-height: 44px;
+  padding: 10px 0;
+  cursor: pointer;
+}
+
+.vz-check input {
+  width: 22px;
+  height: 22px;
+  margin: 1px 0 0;
+  accent-color: var(--vz-primary);
+  flex: none;
+}
+
+/* ---------- Aviso em linha ---------- */
+.vz-alert {
+  display: flex;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: var(--vz-radius-md);
+  font-size: var(--vz-fs-sm);
+}
+
+.vz-alert > svg {
+  width: 20px;
+  height: 20px;
+  margin-top: 1px;
+}
+
+.vz-alert strong {
+  display: block;
+  font-size: var(--vz-fs-md);
+}
+
+.vz-alert--danger {
+  background: var(--vz-danger-soft);
+  color: var(--vz-danger);
+  border: 1.5px solid var(--vz-danger);
+}
+
+.vz-alert--danger p {
+  color: var(--vz-text);
+}
+
+.vz-alert--info {
+  background: var(--vz-primary-soft);
+  color: var(--vz-primary-on-soft);
+}
+
+.vz-alert--success {
+  background: var(--vz-success-soft);
+  color: var(--vz-success-on-soft);
+}
+
+.vz-alert--warning {
+  background: var(--vz-warning-soft);
+  color: var(--vz-warning-on-soft);
+}
+
+/* ---------- Toast ---------- */
+.toasts {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 88px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+  z-index: 50;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: var(--vz-radius-md);
+  background: var(--vz-ink);
+  color: #fff;
+  font-size: var(--vz-fs-sm);
+  font-weight: 600;
+  box-shadow: var(--vz-shadow-2);
+  pointer-events: auto;
+  animation: toast-in 0.2s ease-out;
+}
+
+.toast svg {
+  width: 18px;
+  height: 18px;
+  color: #9ee6c0;
+}
+
+.toast button {
+  margin-left: auto;
+  min-height: 36px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: var(--vz-radius-sm);
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  font-weight: 700;
+}
+
+@keyframes toast-in {
+  from {
+    transform: translateY(8px);
+    opacity: 0;
+  }
+}
+
+/* ---------- Modal ---------- */
+.vz-modal {
+  width: min(460px, calc(100vw - 32px));
+  max-height: calc(100vh - 48px);
+  border: 0;
+  padding: 0;
+  border-radius: var(--vz-radius-lg);
+  box-shadow: var(--vz-shadow-3);
+  color: var(--vz-text);
+  background: var(--vz-surface);
+}
+
+.vz-modal::backdrop {
+  background: rgba(30, 27, 75, 0.45);
+}
+
+.vz-modal__body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.vz-modal__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.vz-modal__head h2 {
+  font-size: var(--vz-fs-xl);
+}
+
+.vz-modal__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+/* Foto ilustrada da encomenda (placeholder do protótipo) */
+.vz-photo {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--vz-radius-md);
+  background:
+    repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0 10px, transparent 10px 20px),
+    linear-gradient(160deg, #ffd9cc, #c9c6ff);
+  color: var(--vz-ink);
+  overflow: hidden;
+}
+
+.vz-photo svg {
+  width: 38%;
+  height: auto;
+  stroke-width: 1.4;
+}
+
+.vz-photo--sm {
+  width: 56px;
+  height: 56px;
+  aspect-ratio: auto;
+  flex: none;
+}
+
+.vz-photo--sm svg {
+  width: 28px;
+  height: 28px;
+  stroke-width: 1.8;
+}
+
+.vz-code {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.12em;
+  font-weight: 800;
+}

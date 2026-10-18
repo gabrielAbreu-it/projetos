@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#1e1b4b" />
+    <title>Vizinho · Painel da portaria</title>
+    <meta name="description" content="Protótipo do painel da portaria do Vizinho: registrar encomendas, entregar com código e acompanhar visitantes. Dados fictícios." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../../../assets/css/base.css" />
+    <link rel="stylesheet" href="../shared/tokens.css" />
+    <link rel="stylesheet" href="app.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#view">Pular para o conteúdo</a>
+    <div class="shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <span class="brand__logo" aria-hidden="true"><i data-lucide="building-2"></i></span>
+          <div>
+            <strong>Jardim das Acácias</strong>
+            <span>Vizinho · portaria</span>
+          </div>
+        </div>
+        <nav class="sidenav" id="sidenav" aria-label="Menu da portaria"></nav>
+        <div class="sidebar__foot">
+          <p class="shift"><i data-lucide="user-round"></i> Turno da noite · José</p>
+          <a href="../morador/index.html"><i data-lucide="smartphone"></i> Ver app do morador</a>
+          <a href="../../../projetos/vizinho.html"><i data-lucide="file-text"></i> Página do projeto</a>
+          <a href="https://github.com/gabrielAbreu-it/projetos/tree/main/vizinho/docs"><i data-lucide="book-open"></i> Documentação</a>
+        </div>
+      </aside>
+      <main class="main" id="view" tabindex="-1"></main>
+    </div>
+    <div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+    <dialog class="vz-modal" id="modal" aria-labelledby="m-title"></dialog>
+
+    <script src="https://unpkg.com/lucide@0.453.0/dist/umd/lucide.min.js"></script>
+    <script src="../shared/data.js"></script>
+    <script src="../shared/core.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
