@@ -1,0 +1,14 @@
+{
+  "name": "Dossiê Pix",
+  "short_name": "Dossiê Pix",
+  "description": "Junte as provas de cada venda por Pix e gere um dossiê para contestar devoluções pelo MED.",
+  "lang": "pt-BR",
+  "start_url": "./index.html#painel",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f4f5f3",
+  "theme_color": "#1e2427",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

@@ -1,0 +1,61 @@
+/* Dossiê Pix · tokens de design
+   Grafite + verde-esmeralda, fundo cinza claro. Contraste conferido (WCAG AA) em docs/04-decisoes-de-ui.md */
+:root {
+  /* Superfícies */
+  --dp-bg: #f4f5f3;
+  --dp-surface: #ffffff;
+  --dp-surface-2: #eef1f0;
+  --dp-line: #d5dad8;
+  --dp-line-strong: #7c8784; /* borda de campo: 3,71:1 sobre branco */
+
+  /* Texto */
+  --dp-ink: #1e2427; /* grafite: 15,71:1 sobre branco */
+  --dp-text-2: #4f5a5e; /* 7,10:1 sobre branco */
+
+  /* Grafite (menu lateral, capa) */
+  --dp-graphite: #1e2427;
+  --dp-graphite-2: #2b3337;
+  --dp-on-graphite: #e9eeec; /* 13,39:1 */
+  --dp-on-graphite-2: #a9b6b2; /* 7,50:1 */
+  --dp-mint: #5fd4a8; /* destaque no grafite: 8,58:1 */
+
+  /* Esmeralda (ação principal, prova forte) */
+  --dp-emerald: #0b7a5c; /* branco sobre ela: 5,31:1 */
+  --dp-emerald-hover: #075e47; /* 7,77:1 */
+  --dp-emerald-text: #08664d; /* 6,96:1 sobre branco; 6,00:1 sobre o tom suave */
+  --dp-emerald-soft: #e1f2ec;
+
+  /* Âmbar (atenção, prova média, selo exemplo) */
+  --dp-amber-text: #6b5a00; /* 6,09:1 sobre #fff1d6 */
+  --dp-amber-soft: #fff1d6;
+  --dp-amber: #e0a526;
+
+  /* Urgente (prazo perto) */
+  --dp-urgent-text: #9a3412; /* 6,38:1 sobre #ffedd5 */
+  --dp-urgent-soft: #ffedd5;
+
+  /* Erro, prova fraca, contestação perdida */
+  --dp-danger: #b42318; /* 6,57:1 sobre branco */
+  --dp-danger-soft: #fdecea; /* erro sobre ele: 5,75:1 */
+
+  /* Tipografia */
+  --dp-font: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --dp-font-serif: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --dp-font-mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+
+  /* Espaço, raio, sombra */
+  --dp-s1: 4px;
+  --dp-s2: 8px;
+  --dp-s3: 12px;
+  --dp-s4: 16px;
+  --dp-s5: 24px;
+  --dp-s6: 32px;
+  --dp-s7: 48px;
+  --dp-r1: 6px;
+  --dp-r2: 10px;
+  --dp-r3: 16px;
+  --dp-shadow: 0 1px 2px rgba(30, 36, 39, 0.06), 0 4px 16px rgba(30, 36, 39, 0.06);
+  --dp-shadow-lg: 0 12px 40px rgba(30, 36, 39, 0.18);
+  --dp-focus: 0 0 0 3px #ffffff, 0 0 0 5px var(--dp-emerald);
+  --dp-touch: 44px;
+}

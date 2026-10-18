@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dossiê Pix · Gabriel Abreu</title>
+    <meta name="description" content="App web para lojistas que vendem por Pix juntarem as provas de cada venda e gerarem um dossiê para contestar pedidos de devolução pelo MED." />
+    <meta name="theme-color" content="#f4f1ea" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)" />
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('portfolio-tema');
+          if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+        } catch (e) {
+          /* sem armazenamento: segue o sistema */
+        }
+      })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../assets/css/base.css" />
+    <link rel="stylesheet" href="../assets/css/aurora.css" />
+  </head>
+  <body class="aurora">
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+    <header class="a-wrap a-nav">
+      <div class="a-nav__bar glass">
+        <a class="a-logo" href="../index.html"><span class="a-logo__mark" aria-hidden="true">GA</span>Gabriel Abreu</a>
+        <nav class="a-links" aria-label="Principal"><a href="../index.html">Início</a><a href="../projetos/index.html" aria-current="page">Projetos</a><a href="../index.html#processo">Processo</a><a href="../index.html#sobre">Sobre</a></nav>
+        <button type="button" class="a-icon-btn" id="tema" aria-label="Tema escuro" aria-pressed="false"><i data-lucide="moon" class="i-moon" aria-hidden="true"></i><i data-lucide="sun" class="i-sun" aria-hidden="true"></i></button>
+        <a class="a-btn a-btn--ink a-btn--sm a-cta" href="../index.html#contato">Fale comigo</a>
+        <button type="button" class="a-icon-btn a-menu-btn" id="menu-btn" aria-label="Menu" aria-expanded="false" aria-controls="menu-mobile"><i data-lucide="menu" aria-hidden="true"></i></button>
+      </div>
+      <nav class="a-mobile-menu glass" id="menu-mobile" aria-label="Principal no celular" hidden><a href="../index.html">Início</a><a href="../projetos/index.html" aria-current="page">Projetos</a><a href="../index.html#processo">Processo</a><a href="../index.html#sobre">Sobre</a><a href="../index.html#contato">Fale comigo</a></nav>
+    </header>
+    <main id="conteudo">
+      <div class="a-wrap">
+        <div class="a-project-hero">
+          <a class="a-back" href="index.html"><i data-lucide="arrow-left" aria-hidden="true"></i>Projetos</a>
+          <span class="a-eyebrow">App web · Finanças · 2026</span>
+          <h1>Dossiê Pix</h1>
+          <p class="a-lead">Um app para quem vende por Pix guardar as provas de cada venda na hora certa e, se o pagador pedir devolução, sair com um dossiê organizado em vez de prints soltos.</p>
+          <div class="a-hero__actions">
+            <a class="a-btn a-btn--ink" href="../dossie-pix/prototipo/index.html">Abrir o app <i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
+            <a class="a-btn a-btn--glass" href="https://github.com/gabrielAbreu-it/projetos/tree/main/dossie-pix/docs">Documentação do processo</a>
+          </div>
+          <dl class="a-meta glass"><div><dt>Papel</dt><dd>UX/UI Designer, individual</dd></div><div><dt>Plataforma</dt><dd>App web instalável (celular e computador)</dd></div><div><dt>Métodos</dt><dd>Benchmark, proto-persona, jornada, fluxos, avaliação heurística e app funcional</dd></div><div><dt>Ano</dt><dd>2026</dd></div></dl>
+          <figure class="a-cover glass"><img src="../assets/img/capa-dossie-pix.png" width="1600" height="900" alt="Telas do Dossiê Pix." /></figure>
+        </div>
+        <div class="a-story">
+          <nav class="a-toc" aria-label="Seções do projeto"><p>Neste projeto</p><ol><li><a href="#contexto">Contexto</a></li><li><a href="#processo">Processo</a></li><li><a href="#solucao">Solução</a></li><li><a href="#handoff">Handoff</a></li><li><a href="#resultado">Resultado</a></li><li><a href="#aprendizados">Aprendizados</a></li><li><a href="#entregas">Entregas</a></li></ol></nav>
+          <div>
+          <section class="a-chapter" id="contexto" aria-labelledby="t-contexto">
+            <h2 id="t-contexto">Contexto</h2>
+            <p>Loja de Instagram, revenda pelo WhatsApp, loja online pequena: muita gente recebe quase tudo por Pix. O dinheiro cai na hora, mas o pagador pode pedir a devolução pelo <strong>MED</strong>, o Mecanismo Especial de Devolução do Pix, dizendo que caiu em golpe. Às vezes a venda foi legítima e o produto foi entregue, e mesmo assim o lojista precisa provar isso rápido.</p>
+            <p>O Dossiê Pix é um projeto conceitual que fiz sozinho e que funciona de verdade no navegador. Ele não afirma prazos nem regras do MED: o prazo é um campo que o lojista configura e confere com a instituição dele. O app organiza as provas; <em>não é aconselhamento jurídico e não garante o resultado da contestação</em>. Os dados de demonstração são fictícios.</p>
+            <blockquote class="a-quote glass">A venda foi real, mas as provas estão espalhadas entre banco, WhatsApp, Instagram e transportadora, e o lojista só descobre o que falta quando já está correndo contra o prazo.<small>O problema, em uma frase</small></blockquote>
+          </section>
+          <section class="a-chapter" id="processo" aria-labelledby="t-processo">
+            <h2 id="t-processo">Processo</h2>
+            <p>Comecei por um benchmark de quatro referências: a gestão de disputas de cartão da <strong>Stripe</strong>, as contestações de cartão do <strong>Mercado Pago</strong>, o <strong>app do banco do lojista</strong> (o canal oficial do aviso) e a solução improvisada de <strong>pastas no Google Drive e conversas no WhatsApp</strong>. As ferramentas de cartão organizam bem a evidência, mas não cobrem Pix recebido direto na conta. Não encontrei um produto popular focado em defender vendas contra o MED, o que trato como hipótese.</p>
+<div class="a-cards"><div class="glass"><h4>Evidência com motivo</h4><p>Ferramentas de disputa de cartão separam evidência por tipo. No Dossiê Pix, cada item do checklist diz por que importa e a venda ganha um selo de força: fraca, média ou forte.</p></div><div class="glass"><h4>Prazo visível, não inventado</h4><p>Painéis de disputa deixam o prazo em destaque. Aqui a contagem regressiva aparece no painel e na venda, sempre com o selo "prazo configurado", porque o prazo vem do lojista.</p></div><div class="glass"><h4>Guardar na hora da venda</h4><p>A pasta improvisada falha porque ninguém organiza nada antes do problema. A confirmação de venda registrada já leva para "Anexar provas agora".</p></div></div>
+            <p>Montei uma proto-persona, a Camila, dona de loja de acessórios que vende pelo Instagram, <strong>marcada como hipótese</strong> porque não veio de entrevistas. A jornada mostrou dois momentos críticos: logo depois da venda, quando a prova é fácil de guardar e ninguém pensa nisso, e o dia do aviso do banco, com ansiedade alta e pouco tempo. Desenhei os fluxos de registrar a venda e anexar provas e o da contestação até o dossiê e o resultado, com todos os estados: vazio, erro, arquivo grande, prazo perto, ganha e perdida.</p>
+            <p>Avaliei a primeira versão do app com as 10 heurísticas de Nielsen e encontrei <strong>11 problemas</strong>, dos quais <strong>corrigi 9</strong>. O mais grave era o prazo da contestação parecer regra oficial do MED; ele virou campo configurável, com valor de exemplo e aviso para conferir com a instituição. Outro importante: a força da prova mostrava só "Prova fraca", sem dizer o que fazer. Lembrete fora do app e juntar PDFs no dossiê ficaram para a versão com login.</p>
+<figure class="a-figure glass"><img src="../dossie-pix/docs/prints/antes-depois-forca-da-prova.png" width="812" height="1204" loading="lazy" alt="Comparação do cartão de força da prova: antes, só o selo Prova fraca e a barra; depois, a contagem de itens, a lista do que falta, o motivo de cada prova e botões para anexar." /><figcaption>Antes, o cartão dizia que a prova era fraca, mas não o que fazer. Depois, cada item explica por que importa e tem o botão certo ao lado.</figcaption></figure>
+          </section>
+          <section class="a-chapter" id="solucao" aria-labelledby="t-solucao">
+            <h2 id="t-solucao">Solução</h2>
+            <p>Cada venda vira uma pasta de provas: comprovante do Pix, nota, rastreio, comprovante de entrega, prints de conversa e foto do produto, com upload real de imagem ou PDF e compactação automática de fotos grandes. O checklist mostra a força da prova e o que falta. Quando o banco avisa, o lojista abre a contestação com a data, o motivo alegado e o prazo que a instituição informou, e acompanha a contagem regressiva no painel. O dossiê sai pronto para salvar em PDF: capa com os dados da loja, resumo, linha do tempo, checklist, miniaturas, declaração do lojista e anexos. Depois, ele marca o resultado e o histórico fica guardado.</p>
+<div class="a-screens"><figure class="glass"><img src="../dossie-pix/docs/prints/mobile-01-painel.png" width="390" height="844" loading="lazy" alt="Painel do Dossiê Pix com vendas protegidas, contestações abertas com contagem regressiva e valor em risco" /><figcaption>Painel: o que precisa de atenção</figcaption></figure><figure class="glass"><img src="../dossie-pix/docs/prints/mobile-04-forca-da-prova.png" width="390" height="844" loading="lazy" alt="Cartão de força da prova com a lista do que falta e botões para anexar cada prova" /><figcaption>Força da prova com o que falta</figcaption></figure><figure class="glass"><img src="../dossie-pix/docs/prints/mobile-05-abrir-contestacao.png" width="390" height="844" loading="lazy" alt="Formulário de contestação com prazo em dias, data calculada e aviso para conferir com a instituição" /><figcaption>Prazo configurável, não inventado</figcaption></figure><figure class="glass"><img src="../dossie-pix/docs/prints/mobile-06-dossie.png" width="390" height="844" loading="lazy" alt="Capa do dossiê com dados da loja, valor, cliente, ID do Pix e sumário" /><figcaption>Dossiê pronto para PDF</figcaption></figure><figure class="glass"><img src="../dossie-pix/docs/prints/mobile-02-registrar-erro.png" width="390" height="844" loading="lazy" alt="Formulário de registro de venda com erros marcados nos campos e resumo com links" /><figcaption>Registro com erro visível</figcaption></figure><figure class="glass"><img src="../dossie-pix/docs/prints/mobile-07-busca-vazia.png" width="390" height="844" loading="lazy" alt="Lista de vendas com busca sem resultado e botão para limpar busca e filtros" /><figcaption>Busca sem resultado</figcaption></figure></div>
+          </section>
+          <section class="a-chapter" id="handoff" aria-labelledby="t-handoff">
+            <h2 id="t-handoff">Handoff</h2>
+            <p>Para o produto sair do papel, o desenvolvimento precisa de mais do que telas bonitas. Entreguei:</p>
+            <ul><li>O app <strong>funciona de verdade</strong> no navegador, com os dados salvos no próprio aparelho, e pode ser instalado no celular como app.</li><li>A <strong>estrutura do banco está pronta para a versão com login</strong>: tabelas, índices e regras de acesso por loja no Supabase, com passo a passo para colocar no ar.</li><li>Cores, tipografia e espaços em <strong>tokens</strong>, com o contraste de cada par anotado; selo "prazo configurado" obrigatório em toda data limite.</li><li>Regras de força da prova, validação de cada campo e limites de arquivo escritos, com mensagens prontas para cada caso.</li></ul>
+          </section>
+          <section class="a-chapter" id="resultado" aria-labelledby="t-resultado">
+            <h2 id="t-resultado">Resultado</h2>
+<dl class="a-stats"><div class="glass"><dd>9</dd><dt>telas no app</dt></div><div class="glass"><dd>11</dd><dt>problemas achados na heurística</dt></div><div class="glass"><dd>9</dd><dt>corrigidos</dt></div><div class="glass"><dd>4</dd><dt>referências no benchmark</dt></div></dl>
+            <p>O próximo passo é testar com 5 lojistas que vendem por Pix, com tarefas como registrar uma venda, guardar as provas, abrir uma contestação com o prazo informado pelo banco e gerar o dossiê. Eu mediria a taxa de sucesso, o tempo para registrar uma venda, se a pessoa entende que o prazo é dela para conferir e se ela consegue explicar o que deixa uma prova forte.</p>
+
+          </section>
+          <section class="a-chapter" id="aprendizados" aria-labelledby="t-aprendizados">
+            <h2 id="t-aprendizados">Aprendizados</h2>
+            <ul><li><strong>Em finanças, o produto não pode prometer o que não controla.</strong> O app organiza a defesa; quem decide é a instituição. Isso aparece no painel, na contestação e no próprio dossiê.</li><li><strong>Prazo configurável é decisão de design.</strong> Tirar a regra de dentro do app evitou passar uma informação que pode mudar ou variar entre bancos.</li><li><strong>O melhor momento para guardar prova é logo depois da venda.</strong> A tela de confirmação virou o ponto mais importante do fluxo.</li></ul>
+          </section>
+          <section class="a-chapter" id="entregas" aria-labelledby="t-entregas">
+            <h2 id="t-entregas">Entregas</h2>
+<ul class="a-deliverables"><li><a class="glass" href="../dossie-pix/prototipo/index.html"><i data-lucide="smartphone" aria-hidden="true"></i><div>App funcionando<span>Versão de demonstração: os dados ficam salvos no seu aparelho</span></div><i class="go" data-lucide="arrow-up-right" aria-hidden="true"></i></a></li><li><a class="glass" href="https://github.com/gabrielAbreu-it/projetos/tree/main/dossie-pix/docs"><i data-lucide="folder-open" aria-hidden="true"></i><div>Documentação<span>Pesquisa, fluxos, decisões de UI, heurística e roteiro de teste</span></div><i class="go" data-lucide="arrow-up-right" aria-hidden="true"></i></a></li><li><a class="glass" href="https://github.com/gabrielAbreu-it/projetos/tree/main/dossie-pix/supabase"><i data-lucide="database" aria-hidden="true"></i><div>Estrutura do banco<span>Tabelas e regras de acesso para a versão com login</span></div><i class="go" data-lucide="arrow-up-right" aria-hidden="true"></i></a></li></ul>
+          </section>
+            <a class="a-next glass" href="roxx-energy.html">
+              <div><span>Próximo projeto</span><strong>Roxx Energy</strong><p style="color:var(--a-muted);margin-top:6px">App para quem tem carro elétrico achar um carregador livre, funcionando e compatível, reservar a vaga e pagar a recarga no mesmo lugar.</p></div>
+              <img src="../assets/img/capa-roxx-energy.png" width="1600" height="900" alt="" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer class="a-footer">
+      <div class="a-wrap">
+        <span>© 2026 Gabriel Abreu · UX/UI Designer · Brasília</span>
+        <span>Projetos conceituais, com dados fictícios nos protótipos. <a href="../classico.html">Versão clássica do portfólio</a></span>
+      </div>
+    </footer>
+    <script src="https://unpkg.com/lucide@0.453.0/dist/umd/lucide.min.js"></script>
+    <script src="../assets/js/aurora.js"></script>
+  </body>
+</html>

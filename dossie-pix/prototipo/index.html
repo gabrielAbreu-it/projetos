@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#1e2427" />
+    <title>Dossiê Pix</title>
+    <meta name="description" content="Dossiê Pix: junte as provas de cada venda por Pix e gere um dossiê organizado para contestar devoluções pelo MED. Versão de demonstração com dados fictícios." />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="icon" href="icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="icon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../assets/css/base.css" />
+    <link rel="stylesheet" href="tokens.css" />
+    <link rel="stylesheet" href="app.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#view">Pular para o conteúdo</a>
+
+    <div class="shell">
+      <aside class="side" aria-label="Menu e informações do app">
+        <a class="brand" href="#painel" aria-label="Dossiê Pix, ir para o painel">
+          <img src="icon.svg" alt="" width="36" height="36" />
+          <span>Dossiê Pix</span>
+        </a>
+        <nav class="side__nav" aria-label="Navegação principal" id="side-nav"></nav>
+
+        <div class="side__about">
+          <h2>Sobre esta versão</h2>
+          <p>Versão de demonstração: os dados ficam salvos só neste aparelho.</p>
+          <p class="side__muted">Os dados que vêm prontos são fictícios. O app organiza provas; não é aconselhamento jurídico.</p>
+          <details class="side__jump">
+            <summary>Ir direto para a tela</summary>
+            <ol id="side-links"></ol>
+          </details>
+          <div class="side__links">
+            <a href="../../projetos/dossie-pix.html"><i data-lucide="file-text" aria-hidden="true"></i> Página do projeto</a>
+            <a href="https://github.com/gabrielAbreu-it/projetos/tree/main/dossie-pix/docs"><i data-lucide="book-open" aria-hidden="true"></i> Documentação</a>
+            <button type="button" data-action="recomecar"><i data-lucide="rotate-ccw" aria-hidden="true"></i> Recomeçar demonstração</button>
+          </div>
+        </div>
+      </aside>
+
+      <div class="main">
+        <header class="topbar">
+          <a class="brand brand--top" href="#painel" aria-label="Dossiê Pix, ir para o painel">
+            <img src="icon.svg" alt="" width="32" height="32" />
+            <span>Dossiê Pix</span>
+          </a>
+          <a class="btn btn--primary btn--sm" href="#nova-venda"><i data-lucide="plus" aria-hidden="true"></i> Venda</a>
+        </header>
+
+        <main class="view" id="view" tabindex="-1"></main>
+
+        <footer class="foot">
+          <p><strong>Versão de demonstração: os dados ficam salvos só neste aparelho.</strong> O Dossiê Pix organiza as provas da venda; não é aconselhamento jurídico e não garante o resultado da contestação. Prazos e regras do MED dependem do Banco Central e da sua instituição.</p>
+        </footer>
+      </div>
+
+      <nav class="bnav" aria-label="Navegação principal" id="bottom-nav"></nav>
+    </div>
+
+    <div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+    <dialog class="modal" id="modal" aria-labelledby="modal-title"></dialog>
+
+    <script src="https://unpkg.com/lucide@0.453.0/dist/umd/lucide.min.js"></script>
+    <script src="data.js"></script>
+    <script src="store.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
