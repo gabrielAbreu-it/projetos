@@ -1,0 +1,15 @@
+{
+  "name": "Mentor OS",
+  "short_name": "Mentor OS",
+  "description": "Check-in de estudo, ranking da turma e painel do mentor de concurso.",
+  "lang": "pt-BR",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f6ee",
+  "theme_color": "#12301f",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}

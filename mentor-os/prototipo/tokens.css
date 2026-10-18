@@ -1,0 +1,66 @@
+/* Mentor OS · tokens de design
+   Contraste conferido (WCAG 2.1):
+   --ink sobre --paper ........ 15,0:1  (texto)
+   --muted sobre --surface .... 6,9:1   (texto secundário)
+   branco sobre --primary ..... 8,2:1   (botão principal)
+   --forest-900 sobre --lime .. 8,2:1   (destaques e selos)
+   --lime sobre --forest-950 .. 11,5:1  (barra lateral)
+   --danger sobre --danger-bg . 5,8:1
+   --warn sobre --warn-bg ..... 6,6:1
+   --line-strong sobre branco . 3,5:1   (bordas de campos, componente de UI)
+*/
+:root {
+  --forest-950: #12301f;
+  --forest-900: #174a2c;
+  --primary: #1d5a35;
+  --primary-hover: #174a2c;
+  --primary-soft: #e6f0dc;
+  --forest-300: #8fbf73;
+  --lime: #d4f36b;
+  --lime-soft: #eef9c8;
+
+  --paper: #f5f6ee;
+  --surface: #ffffff;
+  --surface-2: #fafbf5;
+  --line: #dde2d2;
+  --line-strong: #7f8c82;
+  --ink: #14231a;
+  --muted: #4f5d53;
+
+  --danger: #b42318;
+  --danger-bg: #fdecea;
+  --warn: #7a4b00;
+  --warn-bg: #fff1d0;
+  --ok: #1d5a35;
+  --ok-bg: #e6f0dc;
+
+  --font-ui: "Lexend", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Fraunces", Georgia, serif;
+
+  --fs-xs: 0.8125rem;
+  --fs-sm: 0.9rem;
+  --fs-md: 1rem;
+  --fs-lg: 1.2rem;
+  --fs-xl: 1.6rem;
+  --fs-2xl: 2.1rem;
+
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-7: 48px;
+
+  --r-sm: 8px;
+  --r-md: 14px;
+  --r-lg: 20px;
+  --r-pill: 999px;
+
+  --shadow-1: 0 1px 2px rgba(18, 48, 31, 0.06), 0 2px 8px rgba(18, 48, 31, 0.05);
+  --shadow-2: 0 12px 32px rgba(18, 48, 31, 0.16);
+  --focus: 0 0 0 3px var(--surface), 0 0 0 6px #2f6fde;
+
+  --tap: 44px;
+  --side-w: 272px;
+}

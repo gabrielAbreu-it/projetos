@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mentor OS · Gabriel Abreu</title>
+    <meta name="description" content="App para mentor de concurso público acompanhar a turma: check-in de estudo por questões, ranking justo, simulado semanal e alerta de quem sumiu." />
+    <meta name="theme-color" content="#f4f1ea" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)" />
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('portfolio-tema');
+          if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+        } catch (e) {
+          /* sem armazenamento: segue o sistema */
+        }
+      })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../assets/css/base.css" />
+    <link rel="stylesheet" href="../assets/css/aurora.css" />
+  </head>
+  <body class="aurora">
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+    <header class="a-wrap a-nav">
+      <div class="a-nav__bar glass">
+        <a class="a-logo" href="../index.html"><span class="a-logo__mark" aria-hidden="true">GA</span>Gabriel Abreu</a>
+        <nav class="a-links" aria-label="Principal"><a href="../index.html">Início</a><a href="../projetos/index.html" aria-current="page">Projetos</a><a href="../index.html#processo">Processo</a><a href="../index.html#sobre">Sobre</a></nav>
+        <button type="button" class="a-icon-btn" id="tema" aria-label="Tema escuro" aria-pressed="false"><i data-lucide="moon" class="i-moon" aria-hidden="true"></i><i data-lucide="sun" class="i-sun" aria-hidden="true"></i></button>
+        <a class="a-btn a-btn--ink a-btn--sm a-cta" href="../index.html#contato">Fale comigo</a>
+        <button type="button" class="a-icon-btn a-menu-btn" id="menu-btn" aria-label="Menu" aria-expanded="false" aria-controls="menu-mobile"><i data-lucide="menu" aria-hidden="true"></i></button>
+      </div>
+      <nav class="a-mobile-menu glass" id="menu-mobile" aria-label="Principal no celular" hidden><a href="../index.html">Início</a><a href="../projetos/index.html" aria-current="page">Projetos</a><a href="../index.html#processo">Processo</a><a href="../index.html#sobre">Sobre</a><a href="../index.html#contato">Fale comigo</a></nav>
+    </header>
+    <main id="conteudo">
+      <div class="a-wrap">
+        <div class="a-project-hero">
+          <a class="a-back" href="index.html"><i data-lucide="arrow-left" aria-hidden="true"></i>Projetos</a>
+          <span class="a-eyebrow">App web · Educação · 2026</span>
+          <h1>Mentor OS</h1>
+          <p class="a-lead">Um app com duas visões: o aluno registra o estudo pelo número de questões e mantém a sequência; o mentor descobre em um minuto quem precisa dele hoje e manda mensagem pelo WhatsApp.</p>
+          <div class="a-hero__actions">
+            <a class="a-btn a-btn--ink" href="../mentor-os/prototipo/index.html">Abrir o app <i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
+            <a class="a-btn a-btn--glass" href="https://github.com/gabrielAbreu-it/projetos/tree/main/mentor-os/docs">Documentação do processo</a>
+          </div>
+          <dl class="a-meta glass"><div><dt>Papel</dt><dd>UX/UI Designer, individual</dd></div><div><dt>Plataforma</dt><dd>App web instalável (aluno e mentor)</dd></div><div><dt>Métodos</dt><dd>Benchmark, proto-persona, jornada, fluxos, avaliação heurística, app funcional e modelo de negócio</dd></div><div><dt>Ano</dt><dd>2026</dd></div></dl>
+          <figure class="a-cover glass"><img src="../assets/img/capa-mentor-os.png" width="1600" height="900" alt="Telas do Mentor OS." /></figure>
+        </div>
+        <div class="a-story">
+          <nav class="a-toc" aria-label="Seções do projeto"><p>Neste projeto</p><ol><li><a href="#contexto">Contexto</a></li><li><a href="#processo">Processo</a></li><li><a href="#solucao">Solução</a></li><li><a href="#handoff">Handoff</a></li><li><a href="#resultado">Resultado</a></li><li><a href="#aprendizados">Aprendizados</a></li><li><a href="#entregas">Entregas</a></li></ol></nav>
+          <div>
+          <section class="a-chapter" id="contexto" aria-labelledby="t-contexto">
+            <h2 id="t-contexto">Contexto</h2>
+            <p>Mentores independentes de concurso vendem acompanhamento: montam o plano da semana, cobram constância e ajustam a rota. Só que esse acompanhamento costuma viver numa planilha que o aluno preenche quando lembra e num grupo de WhatsApp onde tudo se perde. O aluno que para de estudar simplesmente some, e o mentor só percebe semanas depois.</p>
+            <p>O <strong>Mentor OS</strong> é um projeto conceitual que fiz sozinho, mas pensado para funcionar de verdade: o app roda no navegador, salva os dados no aparelho e já tem o banco desenhado para a versão com login. O aluno usa de graça e o mentor paga a mensalidade. Todos os nomes, números e questões são fictícios.</p>
+            <blockquote class="a-quote glass">O mentor acompanha a turma por planilha e grupo de WhatsApp e só descobre que um aluno sumiu quando ele já desistiu.<small>O problema, em uma frase</small></blockquote>
+          </section>
+          <section class="a-chapter" id="processo" aria-labelledby="t-processo">
+            <h2 id="t-processo">Processo</h2>
+            <p>Comecei por um benchmark de cinco referências conhecidas: o <strong>GymRats</strong>, de desafios de check-in em grupo; o <strong>Qconcursos</strong> e o <strong>Tec Concursos</strong>, bancos de questões focados no aluno; as <strong>planilhas e páginas de Notion</strong> que mentores montam; e os <strong>grupos de WhatsApp</strong>, onde a conversa acontece. Cada um resolve uma parte, mas nenhum mostra ao mentor quem precisa dele hoje.</p>
+<div class="a-cards"><div class="glass"><h4>Constância vira jogo</h4><p>Desafios em grupo mostram que aparecer todo dia mantém as pessoas. Trouxe a sequência de dias e pontos por dia estudado, mas trocando a foto pelo número de questões como prova de estudo.</p></div><div class="glass"><h4>O aluno estuda sozinho</h4><p>Bancos de questões medem o desempenho de cada aluno, mas o mentor não vê a turma junta. O Mentor OS não compete com eles: registra o resultado de onde o aluno estudou e junta tudo no painel.</p></div><div class="glass"><h4>O WhatsApp fica</h4><p>Ninguém vai trocar o canal com o aluno. O app decide com quem falar, com alertas de "sumiu há 3 dias" e "abaixo da meta", e abre o WhatsApp com a mensagem pronta.</p></div></div>
+            <p>Montei duas proto-personas, o mentor que paga e a aluna que usa, <strong>marcadas como hipótese</strong> porque não vieram de entrevistas. A jornada de uma semana mostrou o momento crítico: o terceiro dia sem estudar, quando a desistência começa e o mentor ainda não sabe. A partir daí desenhei os fluxos de check-in e de alerta, as regras de pontuação e todos os estados: vazio, erro, confirmação e aluno não encontrado.</p>
+            <p>Avaliei a primeira versão funcional com as 10 heurísticas de Nielsen e encontrei <strong>8 problemas</strong>, dos quais <strong>corrigi 6</strong>. O mais grave era o cronômetro esquecido: a aluna ligava, ia ver o ranking e não havia sinal de que ele continuava contando. Agora uma faixa fixa mostra a matéria e o tempo em qualquer tela. Editar uma sessão já registrada e as boas-vindas do primeiro acesso ficaram para a próxima versão.</p>
+<figure class="a-figure glass"><img src="../mentor-os/docs/prints/antes-depois-cronometro.png" width="900" height="954" loading="lazy" alt="Comparação da tela de ranking no celular: antes, nenhum sinal do cronômetro ligado; depois, faixa lima no topo com a matéria, o tempo correndo e o botão Abrir." /><figcaption>Antes, o cronômetro corria escondido. Depois, uma faixa no topo mostra o tempo em qualquer tela.</figcaption></figure>
+          </section>
+          <section class="a-chapter" id="solucao" aria-labelledby="t-solucao">
+            <h2 id="t-solucao">Solução</h2>
+            <p>Na visão do aluno, a tela Hoje tem o cronômetro com iniciar, pausar e finalizar; no fim, a pessoa informa questões feitas e acertos. O ranking da semana premia acertos e constância, não horas, mostra a regra e divide a turma em três faixas, com a própria evolução e quantos pontos faltam para subir, para não desanimar quem está atrás. O simulado relâmpago corrige na hora e manda os erros para um caderno com revisão em 1, 7 e 21 dias. Na visão do mentor, o painel abre com os alertas, a lista de alunos e o detalhe de cada um com o gráfico da semana e o botão de WhatsApp. O plano semanal é montado em uma tela e o relatório da semana sai pronto, em uma versão para a turma e outra só para o mentor.</p>
+<div class="a-screens"><figure class="glass"><img src="../mentor-os/docs/prints/mobile-07-painel-turma.png" width="390" height="844" loading="lazy" alt="Painel do mentor no celular com indicadores da turma e o alerta de alunos que sumiram há 3 dias ou mais" /><figcaption>Painel do mentor com alertas</figcaption></figure><figure class="glass"><img src="../mentor-os/docs/prints/mobile-08-detalhe-aluno.png" width="390" height="844" loading="lazy" alt="Detalhe de um aluno que sumiu há 5 dias, com indicadores da semana e situação em destaque" /><figcaption>Detalhe do aluno</figcaption></figure><figure class="glass"><img src="../mentor-os/docs/prints/mobile-01-cronometro.png" width="390" height="844" loading="lazy" alt="Tela Hoje da aluna com o cronômetro ligado em 42 minutos, matéria Português e botões de pausar e finalizar" /><figcaption>Check-in com cronômetro</figcaption></figure><figure class="glass"><img src="../mentor-os/docs/prints/mobile-04-ranking.png" width="390" height="844" loading="lazy" alt="Ranking da semana mostrando a faixa Ritmo forte, os pontos e a evolução da aluna nas últimas 4 semanas" /><figcaption>Ranking por faixa e evolução</figcaption></figure><figure class="glass"><img src="../mentor-os/docs/prints/mobile-05-simulado-resultado.png" width="390" height="844" loading="lazy" alt="Resultado do simulado relâmpago com 9 de 10 acertos, pontos ganhos e correção de cada questão" /><figcaption>Simulado corrigido na hora</figcaption></figure><figure class="glass"><img src="../mentor-os/docs/prints/mobile-06-caderno-erros.png" width="390" height="844" loading="lazy" alt="Caderno de erros com a fila de revisar hoje e botões para marcar revisão feita ou revisar amanhã" /><figcaption>Caderno de erros</figcaption></figure></div>
+          </section>
+          <section class="a-chapter" id="handoff" aria-labelledby="t-handoff">
+            <h2 id="t-handoff">Handoff</h2>
+            <p>Para o produto sair do papel, o desenvolvimento precisa de mais do que telas bonitas. Entreguei:</p>
+            <ul><li>O app <strong>funciona de verdade</strong> no navegador e pode ser instalado no celular. Os dados ficam salvos no aparelho, com dados de demonstração e botão para recomeçar.</li><li>O <strong>banco já está pronto</strong> para a versão com login: tabelas, regras de acesso por aluno, mentor e escola, e uma função de ranking que não expõe os dados dos colegas.</li><li>Regras de negócio escritas e iguais no app e no banco: pontos do ranking, faixas, "sumiu" e "abaixo da meta".</li><li>Cores e tipografia em <strong>tokens</strong>, com o contraste de cada par anotado, e estados de cada tela documentados em fluxos.</li></ul>
+          </section>
+          <section class="a-chapter" id="resultado" aria-labelledby="t-resultado">
+            <h2 id="t-resultado">Resultado</h2>
+<dl class="a-stats"><div class="glass"><dd>9</dd><dt>telas no app</dt></div><div class="glass"><dd>8</dd><dt>problemas achados na heurística</dt></div><div class="glass"><dd>6</dd><dt>corrigidos</dt></div><div class="glass"><dd>5</dd><dt>produtos no benchmark</dt></div></dl>
+            <p>O próximo passo é testar com 5 pessoas: 2 mentores e 3 alunos. Os alunos fariam um check-in, descobririam o que fazer para subir de faixa e revisariam os erros do dia; os mentores encontrariam quem precisa deles e montariam o plano da semana. Eu mediria a taxa de sucesso, o tempo do check-in, o tempo para achar quem sumiu e como quem está no fim do ranking se sente. Em paralelo, validaria a venda em duas semanas com um piloto pago para os primeiros mentores.</p>
+
+          </section>
+          <section class="a-chapter" id="aprendizados" aria-labelledby="t-aprendizados">
+            <h2 id="t-aprendizados">Aprendizados</h2>
+            <ul><li><strong>A prova certa muda o comportamento.</strong> Pedir o número de questões, e não horas ou foto, alinha o registro com o que faz passar na prova.</li><li><strong>Ranking precisa cuidar de quem está atrás.</strong> Faixa, evolução própria e "faltam X pontos" transformam a comparação em próximo passo.</li><li><strong>Não brigar com o canal que já existe.</strong> O app decide com quem falar e entrega o texto; a conversa continua no WhatsApp.</li></ul>
+          </section>
+          <section class="a-chapter" id="entregas" aria-labelledby="t-entregas">
+            <h2 id="t-entregas">Entregas</h2>
+<ul class="a-deliverables"><li><a class="glass" href="../mentor-os/prototipo/index.html"><i data-lucide="smartphone" aria-hidden="true"></i><div>App funcionando<span>Versão de demonstração: os dados ficam salvos no seu aparelho</span></div><i class="go" data-lucide="arrow-up-right" aria-hidden="true"></i></a></li><li><a class="glass" href="https://github.com/gabrielAbreu-it/projetos/tree/main/mentor-os/docs"><i data-lucide="folder-open" aria-hidden="true"></i><div>Documentação<span>Pesquisa, fluxos, decisões de UI, heurística e roteiro de teste</span></div><i class="go" data-lucide="arrow-up-right" aria-hidden="true"></i></a></li><li><a class="glass" href="https://github.com/gabrielAbreu-it/projetos/tree/main/mentor-os/supabase"><i data-lucide="database" aria-hidden="true"></i><div>Estrutura do banco<span>Tabelas e regras de acesso para a versão com login</span></div><i class="go" data-lucide="arrow-up-right" aria-hidden="true"></i></a></li></ul>
+          </section>
+            <a class="a-next glass" href="roxx-energy.html">
+              <div><span>Próximo projeto</span><strong>Roxx Energy</strong><p style="color:var(--a-muted);margin-top:6px">App para quem tem carro elétrico achar um carregador livre, funcionando e compatível, reservar a vaga e pagar a recarga no mesmo lugar.</p></div>
+              <img src="../assets/img/capa-roxx-energy.png" width="1600" height="900" alt="" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer class="a-footer">
+      <div class="a-wrap">
+        <span>© 2026 Gabriel Abreu · UX/UI Designer · Brasília</span>
+        <span>Projetos conceituais, com dados fictícios nos protótipos. <a href="../classico.html">Versão clássica do portfólio</a></span>
+      </div>
+    </footer>
+    <script src="https://unpkg.com/lucide@0.453.0/dist/umd/lucide.min.js"></script>
+    <script src="../assets/js/aurora.js"></script>
+  </body>
+</html>

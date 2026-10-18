@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#12301f" />
+    <title>Mentor OS · Acompanhamento de alunos de concurso</title>
+    <meta name="description" content="Mentor OS: check-in de estudo, ranking por acertos e constância, simulado semanal e painel da turma para mentores de concurso. Versão de demonstração com dados fictícios." />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="icon" href="icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="icon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Lexend:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../../assets/css/base.css" />
+    <link rel="stylesheet" href="tokens.css" />
+    <link rel="stylesheet" href="app.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#view">Pular para o conteúdo</a>
+
+    <div class="shell">
+      <aside class="side" id="side" aria-label="Menu do Mentor OS">
+        <div class="side__top">
+          <a class="brand" href="#" data-act="home"><span class="brand__mark" aria-hidden="true"><i data-lucide="sprout"></i></span> Mentor OS</a>
+          <button class="icon-btn side__close" type="button" data-act="fechar-menu" aria-label="Fechar menu"><i data-lucide="x" aria-hidden="true"></i></button>
+        </div>
+        <div class="role" data-slot="papel"></div>
+        <nav class="side__nav" aria-label="Telas"><ul id="nav-side"></ul></nav>
+
+        <section class="about" aria-labelledby="about-t">
+          <h2 id="about-t" class="about__t">Sobre esta demonstração</h2>
+          <p class="about__p">Versão de demonstração: os dados ficam salvos só neste aparelho.</p>
+          <label class="about__label" for="aluno-demo">Ver como o aluno</label>
+          <select id="aluno-demo" class="field__input field__input--sm"></select>
+          <button class="btn btn--ghost btn--sm btn--block" type="button" data-act="recomecar"><i data-lucide="rotate-ccw" aria-hidden="true"></i> Recomeçar demonstração</button>
+          <details class="about__screens">
+            <summary>Ir direto para a tela</summary>
+            <ol id="side-links">
+              <li><a href="#aluno/hoje">Aluno · Hoje e check-in</a></li>
+              <li><a href="#aluno/ranking">Aluno · Ranking da semana</a></li>
+              <li><a href="#aluno/simulado">Aluno · Simulado relâmpago</a></li>
+              <li><a href="#aluno/erros">Aluno · Caderno de erros</a></li>
+              <li><a href="#mentor/turma">Mentor · Painel da turma</a></li>
+              <li><a href="#mentor/aluno/a4">Mentor · Detalhe do aluno</a></li>
+              <li><a href="#mentor/plano">Mentor · Plano da semana</a></li>
+              <li><a href="#mentor/simulado">Mentor · Resultados do simulado</a></li>
+              <li><a href="#mentor/relatorio">Mentor · Relatório semanal</a></li>
+            </ol>
+          </details>
+          <div class="about__links">
+            <a href="../../projetos/mentor-os.html"><i data-lucide="file-text" aria-hidden="true"></i> Página do projeto</a>
+            <a href="https://github.com/gabrielAbreu-it/projetos/tree/main/mentor-os/docs"><i data-lucide="book-open" aria-hidden="true"></i> Documentação</a>
+          </div>
+        </section>
+      </aside>
+      <div class="backdrop" data-act="fechar-menu" hidden></div>
+
+      <div class="main">
+        <header class="topbar">
+          <button class="icon-btn" type="button" data-act="abrir-menu" aria-label="Abrir menu" aria-controls="side" aria-expanded="false"><i data-lucide="menu" aria-hidden="true"></i></button>
+          <a class="brand brand--top" href="#" data-act="home"><span class="brand__mark" aria-hidden="true"><i data-lucide="sprout"></i></span> Mentor OS</a>
+          <div class="role role--top" data-slot="papel"></div>
+        </header>
+        <div class="crono-banner" id="crono-banner" hidden></div>
+        <main class="view" id="view" tabindex="-1"></main>
+        <p class="demo-foot">Versão de demonstração: os dados ficam salvos só neste aparelho. Nomes, números e questões são fictícios.</p>
+      </div>
+
+      <nav class="tabbar" aria-label="Telas"><ul id="nav-tab"></ul></nav>
+    </div>
+
+    <div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+    <dialog class="modal" id="modal" aria-labelledby="modal-t"></dialog>
+
+    <script src="https://unpkg.com/lucide@0.453.0/dist/umd/lucide.min.js"></script>
+    <script src="data.js"></script>
+    <script src="store.js"></script>
+    <script src="regras.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
