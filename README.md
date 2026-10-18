@@ -2,11 +2,13 @@
 
 **UX/UI Designer · Brasília**
 
-Desenho produtos digitais do problema ao protótipo. Aqui estão dois projetos completos, cada um com pesquisa, fluxos, wireframes, interface, design system, avaliação heurística e um protótipo de alta fidelidade que dá para testar.
+## [gabriel-abreu-portfolio.vercel.app](https://gabriel-abreu-portfolio.vercel.app)
 
-**Ver o portfólio:** https://gabrielabreu-it.github.io/projetos/
+[Abrir o portfólio](https://gabriel-abreu-portfolio.vercel.app) · [Ver todos os projetos](https://gabriel-abreu-portfolio.vercel.app/projetos/)
 
-![Vitrine do portfólio no tema claro](assets/img/prints/vitrine-desktop-claro.png)
+Desenho produtos digitais do problema ao protótipo. Cada projeto tem pesquisa, fluxos, wireframes, interface, avaliação heurística e um protótipo de alta fidelidade que dá para testar.
+
+[![Abrir o portfólio](assets/img/prints/vitrine-desktop-claro.png)](https://gabriel-abreu-portfolio.vercel.app)
 
 ## Projetos
 
@@ -20,7 +22,7 @@ App para quem tem carro elétrico achar um carregador livre, funcionando e compa
 |---|---|---|
 | App iOS e Android | UX/UI, projeto individual | Benchmark, proto-persona, jornada, fluxos, wireframes, avaliação heurística |
 
-[Estudo de caso](https://gabrielabreu-it.github.io/projetos/roxx-energy/) · [Protótipo](https://gabrielabreu-it.github.io/projetos/roxx-energy/prototipo/) · [Design system](https://gabrielabreu-it.github.io/projetos/roxx-energy/design-system/) · [Documentação](roxx-energy/docs/)
+[Estudo de caso](https://gabriel-abreu-portfolio.vercel.app/roxx-energy/) · [Protótipo](https://gabriel-abreu-portfolio.vercel.app/roxx-energy/prototipo/) · [Design system](https://gabriel-abreu-portfolio.vercel.app/roxx-energy/design-system/) · [Documentação](roxx-energy/docs/)
 
 ### [Agendaí](agendai/)
 
@@ -32,7 +34,7 @@ Agendamento para salão, barbearia e estética: o cliente marca sozinho e o dono
 |---|---|---|
 | App do cliente e painel do dono | UX/UI, projeto individual | Benchmark, duas proto-personas, jornada, fluxos, wireframes, avaliação heurística |
 
-[Estudo de caso](https://gabrielabreu-it.github.io/projetos/agendai/) · [Protótipo](https://gabrielabreu-it.github.io/projetos/agendai/prototipo/) · [Design system](https://gabrielabreu-it.github.io/projetos/agendai/design-system/) · [Documentação](agendai/docs/)
+[Estudo de caso](https://gabriel-abreu-portfolio.vercel.app/agendai/) · [Protótipo](https://gabriel-abreu-portfolio.vercel.app/agendai/prototipo/) · [Design system](https://gabriel-abreu-portfolio.vercel.app/agendai/design-system/) · [Documentação](agendai/docs/)
 
 ## Como eu trabalho
 
