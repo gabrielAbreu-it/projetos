@@ -139,8 +139,11 @@ async function buscar({ uf, q, dias, limite }, fetchImpl) {
   const timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
   try {
     // pede mais itens quando filtra por UF, porque o filtro é feito aqui
-    const r = await f(montarUrl({ q, dias, limite: uf ? Math.min(100, limite * 3) : limite }), { signal: ctrl.signal, headers: { accept: 'application/json' } });
-    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const r = await f(montarUrl({ q, dias, limite: uf ? Math.min(100, limite * 3) : limite }), { signal: ctrl.signal, headers: { accept: 'application/json', 'user-agent': 'AprovaHub/1.0 (+https://gabriel-abreu-portfolio.vercel.app)' } });
+    if (!r.ok) {
+      const corpo = await r.text().catch(() => '');
+      throw new Error('HTTP ' + r.status + ' ' + corpo.slice(0, 200));
+    }
     const j = await r.json();
     let itens = normalizar(j && Array.isArray(j.gazettes) ? j.gazettes : []);
     if (uf) itens = itens.filter((i) => i.uf === uf);
@@ -168,9 +171,10 @@ async function handler(req, res) {
     res.statusCode = 200;
     res.end(JSON.stringify(dados));
   } catch (e) {
+    console.error('editais: falha na fonte', e && (e.name + ': ' + e.message));
     res.setHeader('Cache-Control', 's-maxage=60');
     res.statusCode = 200;
-    res.end(JSON.stringify({ erro: true, mensagem: 'Não foi possível consultar o Querido Diário agora.', atualizado_em: new Date().toISOString(), itens: [] }));
+    res.end(JSON.stringify({ erro: true, mensagem: 'Não foi possível consultar o Querido Diário agora.', detalhe: String((e && (e.name === 'AbortError' ? 'tempo esgotado' : e.message)) || '').slice(0, 240), atualizado_em: new Date().toISOString(), itens: [] }));
   }
 }
 
