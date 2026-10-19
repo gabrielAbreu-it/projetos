@@ -2,6 +2,15 @@
 
 > **Nota:** o Aprova Hub nasceu da ideia do [Mentor OS](../../projetos/mentor-os.html), uma ferramenta para o mentor de concurso acompanhar a turma. Os documentos 01 a 08 abaixo descrevem essa primeira versão (hoje o "Modo mentor"). O app evoluiu para o concurseiro: radar de editais, o que mais cai, estudo com cronômetro, caderno de erros com foto, grupos com quiz relâmpago e plano Premium.
 
+## Editais ao vivo
+
+O Radar e a página [Editais resumidos](../editais/index.html) leem a função [`/api/editais`](../../api/README.md), que busca publicações de concursos nos diários oficiais municipais pelo Querido Diário (Open Knowledge Brasil) e devolve cada uma resumida, com o link para o documento oficial.
+
+- Quando a consulta funciona, aparece "Ao vivo · atualizado há X min · fonte: Querido Diário".
+- No computador local ou se a fonte falhar, aparecem dados de exemplo com o selo "dados de exemplo" e os links ficam desativados.
+- Por enquanto, só os diários municipais cobertos pelo Querido Diário. Diário Oficial da União e diários estaduais são o próximo passo.
+- O resumo é automático. Confira sempre o documento original.
+
 Projeto conceitual de 2026, feito por mim do início ao fim: pesquisa, fluxos, interface, app funcional e modelo de negócio.
 
 | Documento | O que tem |

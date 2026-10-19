@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0f2621" />
+  <title>Editais de concurso do dia, resumidos · Aprova Hub</title>
+  <meta name="description" content="Publicações de concursos públicos nos diários oficiais, resumidas e com o link oficial. Resumo automático: confira sempre o documento original." />
+  <meta property="og:title" content="Editais de concurso do dia, resumidos · Aprova Hub" />
+  <meta property="og:description" content="Publicações de concursos nos diários oficiais, resumidas e com o link oficial." />
+  <link rel="icon" href="../prototipo/icon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/css/base.css" />
+  <link rel="stylesheet" href="../prototipo/tokens.css" />
+  <link rel="stylesheet" href="../prototipo/editais-ui.css" />
+  <style>
+    body { font-family: var(--font); background: var(--bg); color: var(--ink); line-height: 1.5; }
+    :focus-visible { outline: none; box-shadow: var(--focus); border-radius: 8px; }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    .skip-link { position: absolute; left: 12px; top: -60px; background: #fff; padding: 10px 16px; border-radius: 8px; font-weight: 700; z-index: 10; }
+    .skip-link:focus { top: 12px; }
+    svg.lucide { width: 20px; height: 20px; flex: none; }
+    .topo { background: var(--dark); color: #fff; }
+    .topo__in { max-width: 1080px; margin: 0 auto; padding: 0 24px; min-height: 64px; display: flex; align-items: center; gap: 12px; }
+    .marca { display: inline-flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; font-weight: 800; font-size: 1.15rem; min-height: 44px; }
+    .marca span { width: 32px; height: 32px; border-radius: 9px; background: var(--primary); display: grid; place-items: center; }
+    .marca svg { width: 18px; height: 18px; stroke-width: 3; }
+    .topo a.app { margin-left: auto; background: var(--mint); color: var(--dark); border-radius: 12px; min-height: 44px; padding: 0 16px; display: inline-flex; align-items: center; gap: 8px; font-weight: 800; text-decoration: none; }
+    .topo :focus-visible { box-shadow: 0 0 0 3px var(--mint); }
+    .hero { background: var(--dark); color: #fff; padding: 28px 0 40px; }
+    .hero__in, .conteudo { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+    .hero h1 { font-size: clamp(1.8rem, 4.5vw, 2.6rem); font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; }
+    .hero p { color: var(--on-dark-muted); max-width: 640px; margin-top: 10px; }
+    .conteudo { margin-top: -20px; padding-bottom: 48px; }
+    .conteudo .ed { background: var(--bg); border-radius: 20px; }
+    .ed-lista { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
+    .rodape { max-width: 1080px; margin: 0 auto; padding: 0 24px 40px; font-size: var(--fs-sm); color: var(--muted); display: flex; gap: 16px; flex-wrap: wrap; }
+    .rodape a { display: inline-flex; min-height: 44px; align-items: center; }
+    @media (max-width: 640px) { .topo__in, .hero__in, .conteudo, .rodape { padding-left: 16px; padding-right: 16px; } .ed-lista { grid-template-columns: 1fr; } .topo a.app span { display: none; } }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#lista">Pular para os editais</a>
+  <header class="topo"><div class="topo__in">
+    <a class="marca" href="../prototipo/index.html#radar"><span aria-hidden="true"><i data-lucide="check"></i></span>Aprova Hub</a>
+    <a class="app" href="../prototipo/index.html#radar"><i data-lucide="smartphone" aria-hidden="true"></i><span>Abrir o app</span><span class="sr-only">Aprova Hub</span></a>
+  </div></header>
+  <section class="hero"><div class="hero__in">
+    <h1>Editais de concurso do dia, resumidos</h1>
+    <p>Publicações de concursos nos diários oficiais, com um resumo curto e o link para o documento oficial. Resumo automático: confira sempre o original.</p>
+  </div></section>
+  <main class="conteudo" id="lista" tabindex="-1"></main>
+  <footer class="rodape"><span>Aprova Hub · projeto conceitual de Gabriel Abreu, 2026. Dados ao vivo: Querido Diário (Open Knowledge Brasil), diários oficiais municipais.</span>
+    <a href="../prototipo/index.html#radar">Voltar para o app</a><a href="../../projetos/aprova-hub.html">Página do projeto</a></footer>
+  <script src="https://unpkg.com/lucide@0.453.0/dist/umd/lucide.min.js"></script>
+  <script src="../prototipo/editais-dados.js"></script>
+  <script src="../prototipo/editais-ui.js"></script>
+  <script>
+    window.EditaisUI.montar(document.getElementById('lista'));
+    if (window.lucide) window.lucide.createIcons();
+  </script>
+</body>
+</html>

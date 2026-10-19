@@ -1,0 +1,45 @@
+/* Aprova Hub · lista de editais (app e página pública) */
+.ed { display: grid; gap: 14px; }
+.ed-carregando { display: flex; gap: 8px; align-items: center; color: var(--muted); font-weight: 600; }
+.ao-vivo { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: var(--fs-xs); font-weight: 700; color: var(--green-ink); }
+.ao-vivo__dot { width: 9px; height: 9px; border-radius: 50%; background: #1fa463; box-shadow: 0 0 0 4px rgba(31, 164, 99, 0.18); }
+.ao-vivo--demo { color: var(--muted); font-weight: 600; }
+.badge-demo { background: #e4e9e6; color: var(--muted); border-radius: 999px; padding: 3px 10px; font-weight: 800; }
+.ed-erro { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; background: var(--warn-bg); color: var(--warn); border-radius: 12px; padding: 10px 12px; font-size: var(--fs-sm); font-weight: 600; }
+.ed-erro svg { width: 18px; height: 18px; }
+.ed-filtros { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 8px; }
+.ed-filtros select, .ed-busca input { width: 100%; min-height: 44px; border: 1px solid var(--line-strong); border-radius: 12px; background: var(--surface); color: var(--ink); padding: 8px 10px; font: inherit; font-size: var(--fs-sm); font-weight: 600; }
+.ed-busca { position: relative; }
+.ed-busca svg { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; color: var(--muted); }
+.ed-busca input { padding-left: 36px; }
+.ed-cont { font-size: var(--fs-xs); color: var(--muted); font-weight: 700; }
+.ed-lista { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.ed-card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px; display: grid; gap: 8px; box-shadow: var(--shadow-1); min-width: 0; }
+.ed-card:focus { outline: none; box-shadow: var(--focus); }
+.ed-card__top { display: flex; justify-content: space-between; gap: 8px; align-items: center; flex-wrap: wrap; }
+.ed-card__data { font-size: var(--fs-xs); color: var(--muted); font-weight: 700; }
+.ed-card__t { font-size: 1.05rem; font-weight: 800; line-height: 1.3; }
+.ed-card__r { font-size: var(--fs-sm); color: #2b3b35; }
+.ed-card__x { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; font-size: var(--fs-xs); }
+.ed-card__x li { background: var(--surface-2); border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; }
+.ed-card__acts { display: flex; gap: 8px; flex-wrap: wrap; }
+.btn-ed { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 8px 12px; border-radius: 10px; border: 1px solid var(--line-strong); color: var(--primary); font-weight: 800; font-size: var(--fs-sm); text-decoration: none; background: var(--surface); }
+.btn-ed:hover { background: var(--primary-soft); }
+.btn-ed svg { width: 16px; height: 16px; }
+.btn-ed--off { color: var(--muted); border-style: dashed; flex-wrap: wrap; cursor: not-allowed; }
+.btn-ed--off small { width: 100%; font-weight: 600; font-size: 0.7rem; padding-left: 22px; margin-top: -4px; }
+.tp { border-radius: 6px; padding: 2px 8px; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.03em; text-transform: uppercase; }
+.tp--edital-de-abertura { background: var(--yellow); color: var(--dark); }
+.tp--retificacao { background: var(--warn-bg); color: var(--warn); }
+.tp--resultado { background: var(--blue); color: var(--blue-ink); }
+.tp--homologacao { background: var(--green); color: var(--green-ink); }
+.tp--processo-seletivo { background: #ece4f7; color: #4a2f7a; }
+.ed-vazio { text-align: center; display: grid; gap: 6px; justify-items: center; padding: 24px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; }
+.ed-vazio svg { width: 32px; height: 32px; color: var(--muted); }
+.ed-link { background: none; border: 0; color: var(--primary); font-weight: 800; text-decoration: underline; min-height: 44px; cursor: pointer; font: inherit; font-weight: 800; }
+.ed-mais { min-height: 48px; border-radius: 12px; border: 1px solid var(--line-strong); background: var(--surface); font: inherit; font-weight: 800; color: var(--ink); cursor: pointer; }
+.ed-mais:hover { background: var(--surface-2); }
+.ed-nota { display: flex; gap: 8px; align-items: flex-start; font-size: var(--fs-xs); color: var(--muted); }
+.ed-nota svg { width: 16px; height: 16px; margin-top: 1px; }
+@media (max-width: 520px) { .ed-filtros { grid-template-columns: 1fr 1fr; } .ed-busca { grid-column: 1 / -1; } }
+.btn-ed--off:hover { background: var(--surface); }

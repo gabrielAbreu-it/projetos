@@ -38,16 +38,51 @@
   const campo = (id, rot, attrs = '', val = '') => `<div class="field"><label class="field__label" for="${id}">${rot}</label><input class="field__input" id="${id}" value="${esc(val)}" aria-describedby="${id}-e" ${attrs} /><p class="field__erro" id="${id}-e" hidden></p></div>`;
   const icons = () => window.lucide && window.lucide.createIcons();
 
-  const ui = { finalizando: false, revAberta: null, rank: 'horas', quiz: null, alunoAberto: null };
+  const ui = { editais: null, carregandoEditais: false, finalizando: false, revAberta: null, rank: 'horas', quiz: null, alunoAberto: null };
 
   /* =========================== RADAR =========================== */
+  const CAT_RE = { policia: /guarda|pol[ií]cia|seguran[çc]a|tr[âa]nsito/i, bancos: /banc|financ|tribut|fazend|fiscal/i, tribunais: /tribunal|judici|procurador|jur[íi]dic/i };
+  function carregarEditais() {
+    if (ui.editais || ui.carregandoEditais || !window.Editais) return;
+    ui.carregandoEditais = true;
+    window.Editais.carregar().then((d) => { ui.editais = d; ui.carregandoEditais = false; if (location.hash === '#radar') render(); });
+  }
+  const primeiraFrase = (t, max = 120) => { const f = String(t).split(/(?<=[.;])\s/)[0]; return f.length > max ? f.slice(0, max).replace(/\s+\S*$/, '') + '…' : f; };
+
   function telaRadar() {
+    carregarEditais();
     const f = S.estado().radarFiltro;
+    const d = ui.editais;
+    const vivo = d && d.modo === 'vivo';
+    const chips = `<div class="chips" role="group" aria-label="Filtrar por área">${D.CATEGORIAS.map(([k, t]) => `<button class="chip" type="button" data-filtro="${k}" aria-pressed="${f === k}">${t}</button>`).join('')}</div>`;
+    const topo = `<header class="head"><div class="head__brand"><span class="logo" aria-hidden="true">${icon('check')}</span><h1>Aprova Hub</h1></div>
+        <button class="icon-btn" type="button" data-act="alertas" aria-label="Alertas de edital">${icon('bell')}</button></header>`;
+    const tg = `<div class="card tg"><p>Receba cada edital novo no canal do Telegram</p><button class="btn btn--sm" type="button" data-act="telegram">Entrar</button></div>`;
+    const todos = `<a class="btn btn--ghost btn--block" href="#editais">${icon('newspaper')} Ver todos os editais</a>`;
+    if (vivo) {
+      const itens = d.itens.filter((i) => f === 'todos' || CAT_RE[f].test(i.resumo + ' ' + i.orgao));
+      const dest = itens.find((i) => i.tipo === 'edital de abertura') || itens[0];
+      const resto = itens.filter((i) => i !== dest).slice(0, 5);
+      const stat = (v, rot) => (v ? `<div><dt>${rot}</dt><dd>${esc(v)}</dd></div>` : '');
+      return `${topo}${chips}
+        <p class="ao-vivo" role="status"><span class="ao-vivo__dot" aria-hidden="true"></span>Ao vivo · atualizado ${window.Editais.haQuanto(d.atualizado_em)} · fonte: Querido Diário</p>
+        ${dest ? `<article class="card card--dark edital" aria-labelledby="ed-t">
+          <p class="edital__meta"><span class="tag tag--novo">${esc(dest.tipo.toUpperCase())}</span><span class="xs muted">${dest.uf ? esc(dest.uf) + ' · ' : ''}${window.Editais.quandoData(dest.data)}</span></p>
+          <h2 id="ed-t">${esc(dest.orgao)}</h2>
+          <p class="small muted">${esc(primeiraFrase(dest.resumo, 160))}</p>
+          ${[dest.vagas, dest.salario, dest.inscricoes_ate].some(Boolean) ? `<dl class="stats3">${stat(dest.vagas && dest.vagas.toLocaleString('pt-BR'), 'vagas')}${stat(dest.salario, 'até')}${stat(dest.inscricoes_ate && window.Editais.fmtData(dest.inscricoes_ate).slice(0, 5), 'inscrições até')}</dl>` : ''}
+          <div class="row">${dest.links && dest.links.diario ? `<a class="btn btn--ghost-dark" href="${esc(dest.links.diario)}" target="_blank" rel="noopener">Diário Oficial</a>` : ''}<a class="btn btn--mint" href="#editais">Ver resumido ${icon('arrow-right')}</a></div>
+          <p class="xs muted">Resumo automático. Confira sempre o documento original.</p>
+        </article>` : `<div class="card vazio">${icon('radar')}<p><strong>Nada novo nesta área nos últimos dias.</strong></p><button class="link-btn" type="button" data-filtro="todos">Ver todas as áreas</button></div>`}
+        ${tg}
+        <h2 class="sec-t">Últimas do Radar</h2>
+        ${resto.length ? `<ul class="noticias">${resto.map((n) => `<li><p class="edital__meta"><span class="tp ${window.EditaisUI.classeTipo(n.tipo)}">${esc(n.tipo)}</span><span class="xs muted">${n.uf ? esc(n.uf) + ' · ' : ''}${window.Editais.quandoData(n.data)}</span></p><p>${esc(n.orgao)}: ${esc(primeiraFrase(n.resumo))}</p></li>`).join('')}</ul>` : ''}
+        ${todos}`;
+    }
     const dest = D.DESTAQUES[f === 'todos' ? 'bancos' : f];
     const lista = D.RADAR.filter((n) => f === 'todos' || n.cat === f);
-    return `<header class="head"><div class="head__brand"><span class="logo" aria-hidden="true">${icon('check')}</span><h1>Aprova Hub</h1></div>
-        <button class="icon-btn" type="button" data-act="alertas" aria-label="Alertas de edital">${icon('bell')}</button></header>
-      <div class="chips" role="group" aria-label="Filtrar por área">${D.CATEGORIAS.map(([k, t]) => `<button class="chip" type="button" data-filtro="${k}" aria-pressed="${f === k}">${t}</button>`).join('')}</div>
+    return `${topo}${chips}
+      <p class="ao-vivo ao-vivo--demo" role="status"><span class="badge-demo">dados de exemplo</span>${d && d.motivo === 'erro' ? 'Os diários não responderam agora.' : 'Na versão publicada, o Radar mostra os diários oficiais ao vivo.'}</p>
       <article class="card card--dark edital" aria-labelledby="ed-t">
         <p class="edital__meta"><span class="tag tag--novo">${dest.tipo}</span><span class="xs muted">${dest.quando}</span></p>
         <h2 id="ed-t">${dest.orgao} — ${dest.cargo}</h2>
@@ -55,11 +90,18 @@
         <dl class="stats3"><div><dt>vagas</dt><dd>${dest.vagas}</dd></div><div><dt>inicial</dt><dd>${dest.salario}</dd></div><div><dt>nível</dt><dd>${dest.nivel}</dd></div></dl>
         <button class="btn btn--mint btn--block" type="button" data-act="ver-analise" data-banca="${dest.analise.banca}" data-materia="${dest.analise.materia}">Ver análise de incidência ${icon('arrow-right')}</button>
       </article>
-      <div class="card tg"><p>Receba cada edital novo no canal do Telegram</p><button class="btn btn--sm" type="button" data-act="telegram">Entrar</button></div>
+      ${tg}
       <h2 class="sec-t">Últimas do Radar</h2>
-      ${lista.length ? `<ul class="noticias">${lista.map((n) => `<li><p class="edital__meta"><span class="tag tag--${n.tipo.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')}">${n.tipo}</span><span class="xs muted">${n.quando}</span></p><p>${esc(n.texto)}</p></li>`).join('')}</ul>`
+      ${lista.length ? `<ul class="noticias">${lista.map((n) => `<li><p class="edital__meta"><span class="tag tag--${n.tipo.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')}">${n.tipo}</span><span class="xs muted">${n.quando}</span></p><p>${esc(n.texto)}</p></li>`).join('')}</ul>`
         : `<div class="card vazio">${icon('radar')}<p><strong>Nada novo nesta área hoje.</strong></p><button class="link-btn" type="button" data-filtro="todos">Ver todas as áreas</button></div>`}
+      ${todos}
       <p class="xs muted">Órgãos e bancas fictícios, só para demonstração.</p>`;
+  }
+
+  function telaEditais() {
+    return `<header class="head"><a class="icon-btn back" href="#radar" aria-label="Voltar para o Radar">${icon('arrow-left')}</a><h1 style="flex:1">Editais</h1><a class="link-btn" href="../editais/index.html">Abrir página</a></header>
+      <p class="small muted">Publicações de concursos nos diários oficiais, resumidas e com o link oficial.</p>
+      <div id="ed-root"></div>`;
   }
 
   /* =========================== ANÁLISES =========================== */
@@ -262,9 +304,9 @@
 
   /* =========================== ROTAS =========================== */
   const TABS = [['radar', 'Radar', 'radar'], ['analises', 'Análises', 'bar-chart-3'], ['estudo', 'Estudo', 'timer'], ['grupos', 'Grupos', 'users'], ['perfil', 'Perfil', 'user']];
-  const TELAS = { radar: telaRadar, analises: telaAnalises, estudo: telaEstudo, grupos: telaGrupos, quiz: telaQuiz, perfil: telaPerfil, mentor: telaMentor };
-  const TITULOS = { radar: 'Radar', analises: 'Análises', estudo: 'Estudo', grupos: 'Grupos', quiz: 'Quiz relâmpago', perfil: 'Perfil', mentor: 'Modo mentor' };
-  const ABA = { quiz: 'grupos', mentor: 'perfil' };
+  const TELAS = { radar: telaRadar, editais: telaEditais, analises: telaAnalises, estudo: telaEstudo, grupos: telaGrupos, quiz: telaQuiz, perfil: telaPerfil, mentor: telaMentor };
+  const TITULOS = { radar: 'Radar', editais: 'Editais', analises: 'Análises', estudo: 'Estudo', grupos: 'Grupos', quiz: 'Quiz relâmpago', perfil: 'Perfil', mentor: 'Modo mentor' };
+  const ABA = { quiz: 'grupos', mentor: 'perfil', editais: 'radar' };
   let ultima = null;
 
   function render() {
@@ -278,6 +320,7 @@
     const c = S.cronometro(), pill = $('#crono-pill');
     if (c && r !== 'estudo') { pill.hidden = false; pill.innerHTML = `<span>${icon(c.inicioMs ? 'timer' : 'pause')}${c.inicioMs ? 'Estudando' : 'Pausado'} · <strong id="crono-mini">${crono(S.tempoMs())}</strong></span><a href="#estudo">Abrir</a>`; }
     else { pill.hidden = true; pill.innerHTML = ''; }
+    if (r === 'editais' && window.EditaisUI) window.EditaisUI.montar($('#ed-root'));
     document.title = `${TITULOS[r]} · Aprova Hub`;
     icons();
     if (mudou) { window.scrollTo(0, 0); if (ultima !== null) { const h = view.querySelector('h1, h2'); if (h) { h.setAttribute('tabindex', '-1'); h.focus({ preventScroll: true }); } } }
