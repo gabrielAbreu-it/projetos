@@ -32,7 +32,7 @@ function resFake() {
   await handler({ url: '/api/editais?dias=99&limite=500', headers: { host: 'site.exemplo', origin: 'https://site.exemplo' } }, res);
   const j = JSON.parse(res.body);
   assert.strictEqual(res.statusCode, 200);
-  assert.ok(/s-maxage=900/.test(res.headers['cache-control']));
+  assert.ok(/s-maxage=1800/.test(res.headers['cache-control']));
   assert.strictEqual(res.headers['access-control-allow-origin'], 'https://site.exemplo');
   assert.ok(pedido.includes('size=60') && pedido.includes('sort_by=descending_date'), 'limites aplicados: ' + pedido);
   assert.strictEqual(j.itens.length, 4, 'duplicado removido');

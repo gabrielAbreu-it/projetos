@@ -5,9 +5,9 @@
    Os resumos são automáticos: confira sempre o documento original. */
 
 // a API já foi servida nos dois endereços; tenta um e depois o outro
-const APIS = ['https://queridodiario.ok.org.br/api/gazettes', 'https://api.queridodiario.ok.org.br/gazettes'];
+const APIS = ['https://queridodiario.ok.org.br/api/gazettes'];
 const API = APIS[0];
-const TIMEOUT_MS = 12000; // por endereço; a busca no texto dos diários pode demorar
+const TIMEOUT_MS = 25000; // a busca no texto dos diários pode demorar
 
 const BANCAS = ['Cebraspe', 'Cespe', 'FGV', 'Fundação Getulio Vargas', 'Vunesp', 'FCC', 'Fundação Carlos Chagas', 'Cesgranrio', 'IBFC', 'Quadrix', 'Instituto AOCP', 'AOCP', 'Consulplan', 'Idecan', 'Ibade', 'Fundatec', 'Fundep', 'Objetiva', 'Instituto Access', 'Avança SP', 'Legalle', 'Iades', 'Fepese', 'Selecon', 'Fafipa', 'Igecs', 'Fundação La Salle', 'Instituto Mais', 'Ibam', 'Amauc', 'Unesc'];
 
@@ -185,7 +185,7 @@ async function handler(req, res) {
 
   try {
     const dados = await buscar({ uf, q, dias, limite }, module.exports._fetch);
-    res.setHeader('Cache-Control', 's-maxage=900, stale-while-revalidate=3600');
+    res.setHeader('Cache-Control', 's-maxage=1800, stale-while-revalidate=86400');
     res.statusCode = 200;
     res.end(JSON.stringify(dados));
   } catch (e) {
