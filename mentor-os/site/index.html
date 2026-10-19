@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#12301f" />
+  <title>Mentor OS · Saiba quem da sua turma precisa de você hoje</title>
+  <meta name="description" content="Mentor OS: check-in de estudo por questões, ranking justo, simulado semanal e alerta de quem sumiu, para mentores de concurso. Página de vendas de demonstração." />
+  <link rel="icon" href="../prototipo/icon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Lexend:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/css/base.css" />
+  <link rel="stylesheet" href="../prototipo/tokens.css" />
+  <link rel="stylesheet" href="site.css" />
+  <link rel="stylesheet" href="vendas.css" />
+</head>
+<body data-pagina="vendas">
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+  <div id="topo"></div>
+  <main id="conteudo">
+    <section class="hero sec--dark">
+      <div class="wrap hero__grid">
+        <div class="hero__txt">
+          <p class="eyebrow">Para mentores de concurso público</p>
+          <h1 class="h1">Saiba em 1 minuto quem da sua turma precisa de você hoje.</h1>
+          <p class="lead">O aluno registra o estudo pelo número de questões e mantém a sequência. Você recebe o alerta de quem sumiu, manda mensagem no WhatsApp com um toque e fecha a semana com o relatório pronto.</p>
+          <div class="hero__acts">
+            <a class="btn btn--lime btn--lg" href="cadastro.html"><i data-lucide="play" aria-hidden="true"></i> <span>Começar teste grátis de <span data-dias>7</span> dias</span></a>
+            <a class="btn btn--ghost-dark btn--lg" href="../prototipo/index.html#mentor/turma">Ver o app funcionando</a>
+          </div>
+          <p class="hero__nota">Sem cartão para testar. O aluno usa de graça.</p>
+        </div>
+        <div class="hero__img" aria-hidden="true">
+          <img class="hero__desk" src="../docs/prints/desktop-01-painel-turma.png" alt="" width="1440" height="900" />
+          <img class="hero__cel" src="../docs/prints/mobile-01-cronometro.png" alt="" width="390" height="844" />
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" aria-labelledby="prob-t">
+      <div class="wrap">
+        <p class="eyebrow">O problema</p>
+        <h2 class="h2" id="prob-t">Planilha e grupo de WhatsApp não avisam quem desistiu.</h2>
+        <div class="grid3 dores">
+          <div class="card"><i data-lucide="user-x" aria-hidden="true"></i><h3 class="h3">O aluno some calado</h3><p class="muted">Você só descobre quando ele pede para cancelar a mentoria.</p></div>
+          <div class="card"><i data-lucide="sheet" aria-hidden="true"></i><h3 class="h3">A planilha fica vazia</h3><p class="muted">Cada um preenche quando lembra, e consolidar toma horas da sua semana.</p></div>
+          <div class="card"><i data-lucide="trending-down" aria-hidden="true"></i><h3 class="h3">Ranking de horas desanima</h3><p class="muted">Quem fica no fim da lista tende a largar, em vez de reagir.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec sec--alt" id="como" aria-labelledby="como-t">
+      <div class="wrap">
+        <p class="eyebrow">Como funciona</p>
+        <h2 class="h2" id="como-t">Três passos, e a turma anda sozinha.</h2>
+        <ol class="passos">
+          <li class="passo"><span class="passo__n">1</span><div><h3 class="h3">Monte o plano da semana</h3><p class="muted">Metas de questões e horas por matéria, com um recado para a turma. Leva 2 minutos.</p></div></li>
+          <li class="passo"><span class="passo__n">2</span><div><h3 class="h3">Os alunos fazem check-in</h3><p class="muted">Cronômetro, número de questões e acertos. Sequência de dias, ranking por faixa e simulado de 10 questões por semana.</p></div></li>
+          <li class="passo"><span class="passo__n">3</span><div><h3 class="h3">Você age onde importa</h3><p class="muted">Alertas de "sumiu há 3 dias" e "abaixo da meta", mensagem pronta no WhatsApp e relatório da semana para copiar.</p></div></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="sec" aria-labelledby="telas-t">
+      <div class="wrap">
+        <p class="eyebrow">Por dentro do app</p>
+        <h2 class="h2" id="telas-t">Uma tela para você, outra para o aluno.</h2>
+        <div class="telas">
+          <figure><img src="../docs/prints/mobile-07-painel-turma.png" alt="Painel da turma no celular com alertas de quem sumiu" width="390" height="844" loading="lazy" /><figcaption>Painel com alertas</figcaption></figure>
+          <figure><img src="../docs/prints/mobile-08-detalhe-aluno.png" alt="Detalhe de um aluno com botão para mandar mensagem" width="390" height="844" loading="lazy" /><figcaption>Detalhe do aluno e WhatsApp</figcaption></figure>
+          <figure><img src="../docs/prints/mobile-04-ranking.png" alt="Ranking por faixa com a evolução da aluna" width="390" height="844" loading="lazy" /><figcaption>Ranking justo, por faixa</figcaption></figure>
+          <figure><img src="../docs/prints/mobile-06-caderno-erros.png" alt="Caderno de erros com a fila de revisão do dia" width="390" height="844" loading="lazy" /><figcaption>Caderno de erros</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec sec--alt" id="planos" aria-labelledby="planos-t">
+      <div class="wrap">
+        <p class="eyebrow">Planos</p>
+        <h2 class="h2" id="planos-t">Comece grátis por <span data-dias>7</span> dias. Depois, escolha o tamanho da sua turma.</h2>
+        <p class="muted small">Preços de lançamento em teste. Cancele quando quiser, sem multa.</p>
+        <div class="planos" id="planos-lista"></div>
+        <div class="fundador card">
+          <i data-lucide="sprout" aria-hidden="true"></i>
+          <div><h3 class="h3">Seja um cliente fundador</h3><p class="muted">O Mentor OS está começando, então ainda não temos depoimentos para mostrar. Os primeiros mentores ajudam a decidir o que vem a seguir e mantêm o preço de lançamento enquanto forem clientes.</p></div>
+          <a class="btn btn--primary" href="cadastro.html">Quero ser fundador</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="faq" aria-labelledby="faq-t">
+      <div class="wrap faq-wrap">
+        <div><p class="eyebrow">Perguntas frequentes</p><h2 class="h2" id="faq-t">Antes de começar</h2><p class="muted">Não achou sua dúvida? Veja a <a href="ajuda.html">central de ajuda</a>.</p></div>
+        <div class="faq">
+          <details><summary>O aluno paga alguma coisa?</summary><p>Não. Quem assina é o mentor. O aluno entra pelo convite e usa de graça.</p></details>
+          <details><summary>Preciso de cartão para o teste grátis?</summary><p>Não. Você cria a conta, testa com a sua turma por <span data-dias>7</span> dias e só escolhe a forma de pagamento se quiser continuar.</p></details>
+          <details><summary>Como pago depois do teste?</summary><p>Por Pix, boleto ou cartão. A cobrança se repete todo mês e o recibo chega por e-mail.</p></details>
+          <details><summary>O que acontece se o pagamento atrasar?</summary><p>Você recebe avisos antes e depois do vencimento. Depois de alguns dias, o acesso do painel fica pausado até o pagamento, e nada da turma é apagado.</p></details>
+          <details><summary>Posso cancelar quando quiser?</summary><p>Sim, sem multa. O acesso continua até o fim do período já pago.</p></details>
+          <details><summary>O app substitui o grupo de WhatsApp?</summary><p>Não. Ele mostra com quem você precisa falar e abre o WhatsApp com a mensagem pronta. A conversa continua onde já acontece.</p></details>
+          <details><summary>Os dados dos meus alunos ficam seguros?</summary><p>Cada aluno vê só os próprios dados, e o caderno de erros é só dele. Você vê o desempenho da sua turma. Detalhes na <a href="legal.html#privacidade">política de privacidade</a>.</p></details>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec sec--dark cta-final">
+      <div class="wrap center">
+        <h2 class="h2">Sua turma inteira em uma tela.</h2>
+        <p class="lead" style="margin:0 auto 20px">Teste com seus alunos de verdade por <span data-dias>7</span> dias.</p>
+        <a class="btn btn--lime btn--lg" href="cadastro.html">Começar teste grátis</a>
+      </div>
+    </section>
+  </main>
+  <div id="rodape"></div>
+
+  <script src="https://unpkg.com/lucide@0.453.0/dist/umd/lucide.min.js"></script>
+  <script src="negocio.js"></script>
+  <script src="comum.js"></script>
+  <script>
+    (function () {
+      const N = window.Negocio, cfg = N.config();
+      N.carregarRef();
+      document.querySelectorAll('[data-dias]').forEach((el) => { el.textContent = cfg.diasTeste; });
+      const destaque = 'turma';
+      const itens = {
+        solo: ['1 turma, até 30 alunos', 'Check-in, ranking e simulado', 'Alertas e WhatsApp com um toque', 'Relatório da semana'],
+        turma: ['Várias turmas, até 150 alunos', 'Tudo do plano Solo', 'Relatório por turma', 'Ajuda para importar sua planilha'],
+        escola: ['Vários mentores, até 600 alunos', 'Painel da escola', 'Suporte prioritário', 'Treinamento da equipe']
+      };
+      document.getElementById('planos-lista').innerHTML = Object.keys(N.PLANOS).map((k) => {
+        const p = N.PLANOS[k];
+        return `<article class="plano card ${k === destaque ? 'plano--destaque' : ''}" aria-labelledby="pl-${k}">
+          ${k === destaque ? '<span class="chip plano__selo">Recomendado</span>' : ''}
+          <h3 class="h3" id="pl-${k}">${p.nome}</h3>
+          <p class="plano__preco"><strong>${N.brl0(cfg.precos[k])}</strong><span>/mês</span></p>
+          <p class="muted small">ou ${N.brl0(cfg.precos[k] * 10)} por ano (2 meses grátis)</p>
+          <ul class="plano__itens">${itens[k].map((i) => `<li><i data-lucide="check" aria-hidden="true"></i>${i}</li>`).join('')}</ul>
+          <a class="btn ${k === destaque ? 'btn--primary' : 'btn--ghost'} btn--block" href="cadastro.html?plano=${k}">Começar teste grátis</a>
+        </article>`;
+      }).join('');
+      N.icones();
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#12301f" />
+  <title>Criar conta · Mentor OS</title>
+  <meta name="description" content="Cadastro, escolha de plano e pagamento simulado do Mentor OS. Demonstração: nenhum pagamento é feito." />
+  <link rel="icon" href="../prototipo/icon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Lexend:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/css/base.css" />
+  <link rel="stylesheet" href="../prototipo/tokens.css" />
+  <link rel="stylesheet" href="site.css" />
+  <link rel="stylesheet" href="cadastro.css" />
+</head>
+<body data-pagina="cadastro">
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+  <div id="topo"></div>
+  <main id="conteudo" class="cad wrap" tabindex="-1">
+    <div class="cad__main" id="etapa"></div>
+    <aside class="cad__side" id="resumo" aria-label="Resumo"></aside>
+  </main>
+  <div class="wrap estados">
+    <p class="small muted">Estados de demonstração:
+      <a href="#teste-acabou">Teste grátis acabou</a> ·
+      <a href="#bloqueado">Pagamento atrasado, acesso pausado</a> ·
+      <button class="link-btn" type="button" id="recomecar">Recomeçar cadastro</button></p>
+  </div>
+  <div id="rodape"></div>
+  <script src="https://unpkg.com/lucide@0.453.0/dist/umd/lucide.min.js"></script>
+  <script src="negocio.js"></script>
+  <script src="comum.js"></script>
+  <script src="cadastro.js"></script>
+</body>
+</html>
