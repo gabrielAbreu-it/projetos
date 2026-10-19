@@ -7,7 +7,7 @@
 // a API já foi servida nos dois endereços; tenta um e depois o outro
 const APIS = ['https://queridodiario.ok.org.br/api/gazettes', 'https://api.queridodiario.ok.org.br/gazettes'];
 const API = APIS[0];
-const TIMEOUT_MS = 8000;
+const TIMEOUT_MS = 12000; // por endereço; a busca no texto dos diários pode demorar
 
 const BANCAS = ['Cebraspe', 'Cespe', 'FGV', 'Fundação Getulio Vargas', 'Vunesp', 'FCC', 'Fundação Carlos Chagas', 'Cesgranrio', 'IBFC', 'Quadrix', 'Instituto AOCP', 'AOCP', 'Consulplan', 'Idecan', 'Ibade', 'Fundatec', 'Fundep', 'Objetiva', 'Instituto Access', 'Avança SP', 'Legalle', 'Iades', 'Fepese', 'Selecon', 'Fafipa', 'Igecs', 'Fundação La Salle', 'Instituto Mais', 'Ibam', 'Amauc', 'Unesc'];
 
@@ -137,22 +137,27 @@ function montarUrl({ q, dias, limite }, base) {
 
 async function buscar({ uf, q, dias, limite }, fetchImpl) {
   const f = fetchImpl || fetch;
-  const ctrl = new AbortController();
-  const timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
+  let timer;
   try {
     // pede mais itens quando filtra por UF, porque o filtro é feito aqui
     let r, ultimoErro;
+    const erros = [];
     for (const base of APIS) {
+      const ctrl = new AbortController();
+      clearTimeout(timer);
+      timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
       try {
         r = await f(montarUrl({ q, dias, limite: uf ? Math.min(100, limite * 3) : limite }, base), { signal: ctrl.signal, headers: { accept: 'application/json', 'user-agent': 'AprovaHub/1.0 (+https://gabriel-abreu-portfolio.vercel.app)' } });
         if (r.ok) break;
-        ultimoErro = new Error(base + ' HTTP ' + r.status);
+        erros.push(base + ' HTTP ' + r.status);
+        ultimoErro = new Error(erros.join(' | '));
       } catch (e) {
-        ultimoErro = new Error(base + ' ' + e.message + (e.cause ? ' (' + (e.cause.code || e.cause.message) + ')' : ''));
+        erros.push(base + ' ' + (e.name === 'AbortError' ? 'tempo esgotado' : e.message) + (e.cause ? ' (' + (e.cause.code || e.cause.message) + ')' : ''));
+        ultimoErro = new Error(erros.join(' | '));
         r = null;
       }
     }
-    if (!r) throw ultimoErro;
+    if (!r || !r.ok) throw ultimoErro;
     if (!r.ok) {
       const corpo = await r.text().catch(() => '');
       throw new Error('HTTP ' + r.status + ' ' + corpo.slice(0, 200));
