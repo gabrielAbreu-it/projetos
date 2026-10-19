@@ -4,7 +4,9 @@
    (Open Knowledge Brasil) e devolve itens resumidos com os links oficiais.
    Os resumos são automáticos: confira sempre o documento original. */
 
-const API = 'https://api.queridodiario.ok.org.br/gazettes';
+// a API já foi servida nos dois endereços; tenta um e depois o outro
+const APIS = ['https://queridodiario.ok.org.br/api/gazettes', 'https://api.queridodiario.ok.org.br/gazettes'];
+const API = APIS[0];
 const TIMEOUT_MS = 8000;
 
 const BANCAS = ['Cebraspe', 'Cespe', 'FGV', 'Fundação Getulio Vargas', 'Vunesp', 'FCC', 'Fundação Carlos Chagas', 'Cesgranrio', 'IBFC', 'Quadrix', 'Instituto AOCP', 'AOCP', 'Consulplan', 'Idecan', 'Ibade', 'Fundatec', 'Fundep', 'Objetiva', 'Instituto Access', 'Avança SP', 'Legalle', 'Iades', 'Fepese', 'Selecon', 'Fafipa', 'Igecs', 'Fundação La Salle', 'Instituto Mais', 'Ibam', 'Amauc', 'Unesc'];
@@ -120,7 +122,7 @@ function normalizar(gazettes) {
 
 function inteiro(v, padrao, min, max) { const n = parseInt(v, 10); return Number.isFinite(n) ? Math.min(max, Math.max(min, n)) : padrao; }
 
-function montarUrl({ q, dias, limite }) {
+function montarUrl({ q, dias, limite }, base) {
   const desde = new Date(Date.now() - dias * 86400000).toISOString().slice(0, 10);
   const p = new URLSearchParams({
     querystring: q ? `"concurso público" ${q}` : '"concurso público" edital',
@@ -130,7 +132,7 @@ function montarUrl({ q, dias, limite }) {
     number_of_excerpts: '1',
     sort_by: 'descending_date'
   });
-  return `${API}?${p.toString()}`;
+  return `${base || API}?${p.toString()}`;
 }
 
 async function buscar({ uf, q, dias, limite }, fetchImpl) {
@@ -139,7 +141,18 @@ async function buscar({ uf, q, dias, limite }, fetchImpl) {
   const timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
   try {
     // pede mais itens quando filtra por UF, porque o filtro é feito aqui
-    const r = await f(montarUrl({ q, dias, limite: uf ? Math.min(100, limite * 3) : limite }), { signal: ctrl.signal, headers: { accept: 'application/json', 'user-agent': 'AprovaHub/1.0 (+https://gabriel-abreu-portfolio.vercel.app)' } });
+    let r, ultimoErro;
+    for (const base of APIS) {
+      try {
+        r = await f(montarUrl({ q, dias, limite: uf ? Math.min(100, limite * 3) : limite }, base), { signal: ctrl.signal, headers: { accept: 'application/json', 'user-agent': 'AprovaHub/1.0 (+https://gabriel-abreu-portfolio.vercel.app)' } });
+        if (r.ok) break;
+        ultimoErro = new Error(base + ' HTTP ' + r.status);
+      } catch (e) {
+        ultimoErro = new Error(base + ' ' + e.message + (e.cause ? ' (' + (e.cause.code || e.cause.message) + ')' : ''));
+        r = null;
+      }
+    }
+    if (!r) throw ultimoErro;
     if (!r.ok) {
       const corpo = await r.text().catch(() => '');
       throw new Error('HTTP ' + r.status + ' ' + corpo.slice(0, 200));
