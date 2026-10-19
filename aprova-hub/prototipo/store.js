@@ -42,7 +42,7 @@
 
     /* Cronômetro */
     cronometro: () => E().cronometro,
-    iniciar(materia, assunto) { E().cronometro = { materia, assunto, acumuladoMs: 0, inicioMs: Date.now() }; salvar(); },
+    iniciar(materia, assunto, topico) { E().cronometro = { materia, assunto, topico: topico || null, acumuladoMs: 0, inicioMs: Date.now() }; salvar(); },
     pausar() { const c = E().cronometro; if (c && c.inicioMs) { c.acumuladoMs += Date.now() - c.inicioMs; c.inicioMs = null; salvar(); } },
     continuar() { const c = E().cronometro; if (c && !c.inicioMs) { c.inicioMs = Date.now(); salvar(); } },
     tempoMs() { const c = E().cronometro; return c ? c.acumuladoMs + (c.inicioMs ? Date.now() - c.inicioMs : 0) : 0; },
@@ -95,6 +95,20 @@
     /* Filtros e escolhas */
     set(campo, valor) { E()[campo] = valor; salvar(); },
     setAnalise(parcial) { Object.assign(E().analise, parcial); salvar(); },
+
+    /* Alertas personalizados */
+    alertas: () => E().alertas || null,
+    salvarAlertas(a) { E().alertas = a; salvar(); },
+
+    /* Concursos seguidos, avisos e progresso no edital */
+    seguindo: () => E().seguindo || (E().seguindo = ['banco-exemplo-escriturario', 'policia-civil-exemplo-agente']),
+    alternarSeguir(slug) { const l = this.seguindo(); const i = l.indexOf(slug); if (i >= 0) l.splice(i, 1); else l.push(slug); salvar(); return i < 0; },
+    avisosVistosEm: () => E().avisosVistosEm || '0000-00-00',
+    marcarAvisosVistos() { E().avisosVistosEm = hoje(); salvar(); },
+    progresso: () => E().progresso || (E().progresso = { 'port|Interpretação de texto': 3, 'port|Crase': 2, 'port|Concordância': 1, 'const|Direitos fundamentais': 2, 'const|Organização do Estado': 1, 'rl|Proposições e conectivos': 1, 'banc|Sistema Financeiro Nacional': 1 }),
+    marcarTopico(chave, nivel) { const p = this.progresso(); if (nivel) p[chave] = nivel; else delete p[chave]; salvar(); },
+    planoEstudo: (slug) => (E().planosEstudo || {})[slug] || null,
+    salvarPlanoEstudo(slug, plano) { E().planosEstudo = E().planosEstudo || {}; E().planosEstudo[slug] = plano; salvar(); },
 
     /* Modo mentor */
     mentor: () => E().mentor,

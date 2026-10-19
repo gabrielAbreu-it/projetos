@@ -8,6 +8,8 @@ App web instalável para quem estuda para concurso público: radar de editais, a
 
 Editais ao vivo: [Editais resumidos](editais/index.html), página pública com as publicações de concursos nos diários oficiais municipais (fonte: Querido Diário), resumidas e com o link oficial. Veja a [função /api/editais](../api/README.md).
 
+Concursos: [páginas públicas](concursos/index.html) com resumo, linha do tempo e conteúdo programático (geradas por `tools/gerar-concursos.js`). No app: alertas "Para você", linha do tempo com avisos e agenda, edital verticalizado e plano de estudo.
+
 Demonstração do piloto automático: [Página de vendas](site/index.html) · [Afiliados](site/afiliados.html) · [Ajuda](site/ajuda.html) · [Painel do dono](admin/index.html) · [Como funciona](docs/08-piloto-automatico.md)
 
 ![Telas do Aprova Hub](../assets/img/capa-aprova-hub.png)

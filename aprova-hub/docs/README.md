@@ -11,6 +11,13 @@ O Radar e a página [Editais resumidos](../editais/index.html) leem a função [
 - Por enquanto, só os diários municipais cobertos pelo Querido Diário. Diário Oficial da União e diários estaduais são o próximo passo.
 - O resumo é automático. Confira sempre o documento original.
 
+## Alertas, concursos e plano de estudo
+
+- **Meus alertas:** áreas, escolaridade, estados, cargos e salário mínimo. O filtro "Para você" do Radar e da página de editais usa essas escolhas e conta o que é novo desde a última visita. Avisos por Telegram e WhatsApp aparecem como "em breve".
+- **Linha do tempo do concurso:** de "Previsto" a "Resultado", com a etapa atual em destaque, botão "Seguir", avisos no app, contagem até a prova e arquivo de agenda (.ics) para a data da prova.
+- **Edital verticalizado e plano:** cada tópico pode ser marcado como Estudei, Revisei ou Dominei. O plano distribui os tópicos que faltam até a prova, começando pelos que mais caem, liga o cronômetro no tópico e pode ser recalculado se você ficar para trás.
+- **Páginas públicas dos concursos:** [uma página por concurso](../concursos/index.html), geradas por `tools/gerar-concursos.js` (rode `node aprova-hub/tools/gerar-concursos.js` na raiz do repositório), com resumo, linha do tempo, conteúdo programático e dados estruturados para buscadores. Os seis concursos são fictícios e as páginas ficam com `noindex` até existirem dados reais.
+
 Projeto conceitual de 2026, feito por mim do início ao fim: pesquisa, fluxos, interface, app funcional e modelo de negócio.
 
 | Documento | O que tem |

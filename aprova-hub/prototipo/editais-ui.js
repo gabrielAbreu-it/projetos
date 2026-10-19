@@ -24,20 +24,28 @@
     </li>`;
   }
 
-  function montar(root) {
-    const st = { uf: '', tipo: '', q: '', mostrar: POR_PAGINA, dados: null };
+  const AL = () => window.AHAlertas;
+  const adapt = (i) => ({ id: 'e-' + i.id, texto: `${i.orgao} ${i.resumo} ${i.municipio || ''}`, uf: i.uf, salario: i.salario });
+
+  function montar(root, opts = {}) {
+    const linkAlertas = opts.linkAlertas || '#alertas';
+    const st = { uf: '', tipo: '', q: '', pv: false, mostrar: POR_PAGINA, dados: null };
     root.innerHTML = `<div class="ed" aria-busy="true"><p class="ed-carregando">${icon('loader')} Carregando editais…</p></div>`;
     if (window.lucide) window.lucide.createIcons();
 
     function filtrados() {
       const q = st.q.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
-      return st.dados.itens.filter((i) => (!st.uf || i.uf === st.uf) && (!st.tipo || i.tipo === st.tipo) && (!q || (i.orgao + ' ' + i.resumo + ' ' + (i.municipio || '')).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').includes(q)));
+      const p = AL() && AL().prefs();
+      return st.dados.itens.filter((i) => (!st.pv || (p && AL().combina(adapt(i), p))) && (!st.uf || i.uf === st.uf) && (!st.tipo || i.tipo === st.tipo) && (!q || (i.orgao + ' ' + i.resumo + ' ' + (i.municipio || '')).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').includes(q)));
     }
 
     function desenhar(focoId) {
       const d = st.dados, demo = d.modo !== 'vivo';
       const ufs = [...new Set(d.itens.map((i) => i.uf).filter(Boolean))].sort();
       const lista = filtrados();
+      const prefs = AL() && AL().prefs();
+      const nNovos = prefs ? AL().novos(d.itens.map(adapt), prefs).length : 0;
+      if (st.pv && prefs) setTimeout(() => AL().marcarVistos(lista.map(adapt)), 0);
       const vis = lista.slice(0, st.mostrar);
       root.innerHTML = `<div class="ed">
         ${estadoLive(d)}
@@ -47,6 +55,8 @@
           <div><label class="sr-only" for="ed-uf">Estado</label><select id="ed-uf"><option value="">Todos os estados</option>${ufs.map((u) => `<option ${st.uf === u ? 'selected' : ''}>${u}</option>`).join('')}</select></div>
           <div><label class="sr-only" for="ed-tipo">Tipo de publicação</label><select id="ed-tipo"><option value="">Todos os tipos</option>${TIPOS.map((t) => `<option value="${t}" ${st.tipo === t ? 'selected' : ''}>${t[0].toUpperCase() + t.slice(1)}</option>`).join('')}</select></div>
         </div>
+        ${AL() ? `<div class="ed-pv-linha"><button type="button" class="ed-pv" data-ed="pv" aria-pressed="${st.pv}">${icon('sparkles')} Para você${nNovos ? `<span class="ed-pv__n">${nNovos} ${nNovos === 1 ? 'novo' : 'novos'}</span>` : ''}</button>${st.pv ? `<a class="ed-link" href="${linkAlertas}">${prefs ? 'Editar alertas' : 'Configurar alertas'}</a>` : ''}</div>` : ''}
+        ${st.pv && !prefs ? `<div class="ed-vazio">${icon('bell')}<p><strong>Você ainda não configurou seus alertas.</strong></p><a class="ed-link" href="${linkAlertas}">Configurar alertas no app</a></div>` : ''}
         <p class="ed-cont" aria-live="polite">${lista.length} ${lista.length === 1 ? 'publicação' : 'publicações'}</p>
         ${vis.length ? `<ul class="ed-lista">${vis.map((i) => cartao(i, demo)).join('')}</ul>` : `<div class="ed-vazio">${icon('search-x')}<p><strong>Nenhum edital com esses filtros.</strong></p><button type="button" class="ed-link" data-ed="limpar">Limpar filtros</button></div>`}
         ${lista.length > vis.length ? `<button type="button" class="ed-mais" data-ed="mais">Carregar mais (${lista.length - vis.length})</button>` : ''}
@@ -64,7 +74,8 @@
     root.addEventListener('click', async (e) => {
       const b = e.target.closest('[data-ed]'); if (!b) return;
       if (b.dataset.ed === 'mais') { const antes = st.mostrar; st.mostrar += POR_PAGINA; desenhar(); const card = root.querySelectorAll('.ed-card')[antes]; if (card) { card.setAttribute('tabindex', '-1'); card.focus(); } }
-      if (b.dataset.ed === 'limpar') { st.uf = ''; st.tipo = ''; st.q = ''; desenhar('ed-q'); }
+      if (b.dataset.ed === 'limpar') { st.uf = ''; st.tipo = ''; st.q = ''; st.pv = false; desenhar('ed-q'); }
+      if (b.dataset.ed === 'pv') { st.pv = !st.pv; st.mostrar = POR_PAGINA; desenhar(); const x = root.querySelector('[data-ed=pv]'); if (x) x.focus(); }
       if (b.dataset.ed === 'tentar') { st.dados = await E.carregar(true); desenhar(); }
     });
 

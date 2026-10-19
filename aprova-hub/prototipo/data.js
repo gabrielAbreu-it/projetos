@@ -7,7 +7,13 @@
     { id: 'rl', nome: 'Raciocínio Lógico' },
     { id: 'adm', nome: 'Direito Administrativo' },
     { id: 'banc', nome: 'Conhecimentos Bancários' },
-    { id: 'info', nome: 'Informática' }
+    { id: 'info', nome: 'Informática' },
+    { id: 'penal', nome: 'Direito Penal' },
+    { id: 'trib', nome: 'Direito Tributário' },
+    { id: 'contab', nome: 'Contabilidade' },
+    { id: 'sus', nome: 'Legislação do SUS' },
+    { id: 'enf', nome: 'Conhecimentos de Enfermagem' },
+    { id: 'pedag', nome: 'Conhecimentos Pedagógicos' }
   ];
 
   /* ---------- Radar de editais (fictício) ---------- */

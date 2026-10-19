@@ -32,7 +32,7 @@
     $$('[aria-invalid]', form).forEach((i) => i.removeAttribute('aria-invalid'));
     const ks = Object.keys(er);
     ks.forEach((id) => { const i = $('#' + id, form), p = $('#' + id + '-e', form); if (i) i.setAttribute('aria-invalid', 'true'); if (p) { p.hidden = false; p.textContent = er[id]; } });
-    if (ks.length) { $('#' + ks[0], form).focus(); return false; }
+    if (ks.length) { const el = $('#' + ks[0], form); if (el) el.focus(); return false; }
     return true;
   }
   const campo = (id, rot, attrs = '', val = '') => `<div class="field"><label class="field__label" for="${id}">${rot}</label><input class="field__input" id="${id}" value="${esc(val)}" aria-describedby="${id}-e" ${attrs} /><p class="field__erro" id="${id}-e" hidden></p></div>`;
@@ -54,10 +54,12 @@
     const f = S.estado().radarFiltro;
     const d = ui.editais;
     const vivo = d && d.modo === 'vivo';
-    const chips = `<div class="chips" role="group" aria-label="Filtrar por área">${D.CATEGORIAS.map(([k, t]) => `<button class="chip" type="button" data-filtro="${k}" aria-pressed="${f === k}">${t}</button>`).join('')}</div>`;
+    const nPv = S.alertas() ? paraVoce().novos.length : 0, nAv = avisosNovos();
+    const chips = `<div class="chips chips--scroll" role="group" aria-label="Filtrar">${[['paravoce', 'Para você'], ...D.CATEGORIAS].map(([k, t]) => `<button class="chip ${k === 'paravoce' ? 'chip--pv' : ''}" type="button" data-filtro="${k}" aria-pressed="${f === k}">${k === 'paravoce' ? icon('sparkles') : ''}${t}${k === 'paravoce' && nPv ? `<span class="chip__n" aria-label="${nPv} novos">${nPv}</span>` : ''}</button>`).join('')}</div>`;
     const topo = `<header class="head"><div class="head__brand"><span class="logo" aria-hidden="true">${icon('check')}</span><h1>Aprova Hub</h1></div>
-        <button class="icon-btn" type="button" data-act="alertas" aria-label="Alertas de edital">${icon('bell')}</button></header>`;
-    const tg = `<div class="card tg"><p>Receba cada edital novo no canal do Telegram</p><button class="btn btn--sm" type="button" data-act="telegram">Entrar</button></div>`;
+        <a class="icon-btn bell" href="#avisos" aria-label="Avisos${nAv ? `, ${nAv} novos` : ''}">${icon('bell')}${nAv ? `<span class="bell__n" aria-hidden="true">${nAv}</span>` : ''}</a></header>`;
+    if (f === 'paravoce') return telaParaVoce(topo, chips);
+    const tg = `<div class="card tg"><p>Receba cada edital novo no canal do Telegram</p><button class="btn btn--sm" type="button" data-act="telegram">Entrar</button></div>` + blocoSeguindo() + (S.alertas() ? '' : `<a class="card linha-link" href="#alertas"><span><b>Monte seus alertas</b><br><span class="xs muted">Áreas, estados e cargos que importam para você</span></span>${icon('chevron-right')}</a>`);
     const todos = `<a class="btn btn--ghost btn--block" href="#editais">${icon('newspaper')} Ver todos os editais</a>`;
     if (vivo) {
       const itens = d.itens.filter((i) => f === 'todos' || CAT_RE[f].test(i.resumo + ' ' + i.orgao));
@@ -258,6 +260,8 @@
         <p class="small muted">Cada amigo que assinar rende 1 mês de Premium grátis para você (regra em teste).</p>
         <div class="ref"><label class="sr-only" for="ref-link">Seu link de indicação</label><input class="field__input" id="ref-link" readonly value="${link}" /><button class="btn btn--primary btn--sm" type="button" data-act="copiar-ref">Copiar</button></div>
         <p class="small"><strong>${ind.indicados}</strong> amigos indicados · <strong>${ind.mesesGanhos}</strong> mês grátis</p></section>
+      <a class="card linha-link" href="#alertas"><span><b>Meus alertas</b><br><span class="xs muted">${S.alertas() ? 'Configurados · filtro "Para você" no Radar' : 'Escolha áreas, estados e cargos'}</span></span>${icon('chevron-right')}</a>
+      <a class="card linha-link" href="#concursos"><span><b>Concursos que sigo</b><br><span class="xs muted">${S.seguindo().length} ${S.seguindo().length === 1 ? 'concurso' : 'concursos'} · linha do tempo e plano de estudo</span></span>${icon('chevron-right')}</a>
       <a class="card linha-link" href="#mentor"><span><b>Modo mentor</b><br><span class="xs muted">Acompanhe seus alunos · grátis até ${D.MENTOR.limiteGratis}</span></span>${icon('chevron-right')}</a>
       <div class="perfil-acoes"><button class="link-btn" type="button" data-act="exportar">Exportar meus dados</button><button class="link-btn" type="button" data-act="excluir" style="color:var(--danger)">Excluir minha conta</button></div>
       <section class="card sobre-demo" aria-labelledby="sd-t"><h2 class="card__t" id="sd-t">Sobre esta demonstração</h2>
@@ -302,19 +306,236 @@
       <div class="modal__acts"><button class="btn btn--ghost btn--sm" type="button" data-act="fechar">Agora não</button><a class="btn btn--primary btn--sm" href="../site/cadastro.html?plano=mentor">Ver planos de mentor</a></div></div>`);
   }
 
+  /* =========================== CONCURSOS, ALERTAS E PLANO =========================== */
+  const C = window.AH_CONCURSOS;
+  const A = window.AHAlertas;
+  const UFS = ['AC', 'AL', 'AM', 'AP', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MG', 'MS', 'MT', 'PA', 'PB', 'PE', 'PI', 'PR', 'RJ', 'RN', 'RO', 'RR', 'RS', 'SC', 'SE', 'SP', 'TO'];
+  const NIVEIS = [['', 'Qualquer'], ['fundamental', 'Fundamental'], ['medio', 'Médio'], ['superior', 'Superior']];
+  const ESTADOS_T = [[1, 'Estudei'], [2, 'Revisei'], [3, 'Dominei']];
+  const concurso = (slug) => C.CONCURSOS.find((c) => c.slug === slug) || null;
+  const fmtD = (iso) => { if (!iso) return ''; const [y, m, d] = iso.split('-'); return `${d}/${m}/${y}`; };
+  const diasAte = (iso) => S.diasEntre(S.hoje(), iso);
+  const nomeEtapa = (id) => (C.ETAPAS.find((e) => e[0] === id) || [, id])[1];
+  const brl0 = (v) => 'R$ ' + v.toLocaleString('pt-BR');
+  const itemConcurso = (c) => ({ id: 'c-' + c.slug, texto: `${c.titulo} ${c.cargos.map((x) => x.nome).join(' ')} ${c.orgao}`, uf: c.uf, salario: C.maiorSalario(c), escolaridade: c.escolaridade, area: c.area });
+  const itemEdital = (i) => ({ id: 'e-' + i.id, texto: `${i.orgao} ${i.resumo} ${i.municipio || ''}`, uf: i.uf, salario: i.salario });
+  const editaisAtuais = () => (ui.editais ? ui.editais.itens : []);
+
+  function paraVoce() {
+    const p = S.alertas();
+    const concs = C.CONCURSOS.filter((c) => A.combina(itemConcurso(c), p));
+    const eds = editaisAtuais().filter((i) => A.combina(itemEdital(i), p));
+    const novos = A.novos([...concs.map(itemConcurso), ...eds.map(itemEdital)], p);
+    return { p, concs, eds, novos };
+  }
+
+  function avisos() {
+    const h = S.hoje(), lista = [];
+    S.seguindo().forEach((slug) => {
+      const c = concurso(slug); if (!c) return;
+      C.ETAPAS.forEach(([id, nome]) => {
+        const v = c.etapas[id]; const d = Array.isArray(v) ? v[0] : v;
+        if (d && d <= h && S.diasEntre(d, h) <= 45 && !(c.previsao || []).includes(id)) lista.push({ data: d, slug, texto: `${c.titulo} avançou para ${nome}.`, icone: 'flag' });
+      });
+      const dp = diasAte(C.dataProva(c));
+      if (dp >= 0 && dp <= 120) lista.push({ data: h, slug, texto: `Faltam ${dp} dias para a prova de ${c.titulo}.`, icone: 'calendar-clock', fixo: true });
+    });
+    return lista.sort((a, b) => (a.data < b.data ? 1 : -1));
+  }
+  const avisosNovos = () => avisos().filter((a) => !a.fixo && a.data > S.avisosVistosEm()).length;
+
+  function linhaConcurso(c) {
+    const et = C.etapaAtual(c, S.hoje()), dp = diasAte(C.dataProva(c));
+    return `<li><a class="conc" href="#concurso/${c.slug}"><span><b>${esc(c.titulo)}</b><span class="xs muted">${esc(nomeEtapa(et))}${dp >= 0 ? ` · prova em ${dp} dias` : ''}</span></span>${icon('chevron-right')}</a></li>`;
+  }
+
+  function blocoSeguindo() {
+    const l = S.seguindo().map(concurso).filter(Boolean);
+    return `<section class="card" aria-labelledby="sg-t"><div class="card__head"><h2 class="card__t" id="sg-t">Concursos que você segue</h2><a class="link-btn" href="#concursos">Ver todos</a></div>
+      ${l.length ? `<ul class="concs">${l.map(linhaConcurso).join('')}</ul>` : '<p class="small muted">Siga um concurso para acompanhar cada etapa.</p>'}</section>`;
+  }
+
+  function telaParaVoce(topo, chips) {
+    const { p, concs, eds, novos } = paraVoce();
+    if (!p) return `${topo}${chips}<section class="card card--dark" aria-labelledby="pv-t"><h2 class="card__t" id="pv-t">Monte seus alertas</h2><p class="small muted">Escolha áreas, escolaridade, estados e cargos. O Radar passa a mostrar só o que combina com você.</p><a class="btn btn--mint btn--block" href="#alertas">Configurar alertas</a></section>`;
+    const idsNovos = new Set(novos.map((n) => n.id));
+    setTimeout(() => A.marcarVistos([...concs.map(itemConcurso), ...eds.map(itemEdital)]), 0);
+    return `${topo}${chips}
+      <p class="ao-vivo ${ui.editais && ui.editais.modo === 'vivo' ? '' : 'ao-vivo--demo'}"><span class="badge-demo">${novos.length} ${novos.length === 1 ? 'novo' : 'novos'} desde a última visita</span><a class="link-btn" href="#alertas">Editar alertas</a></p>
+      <h2 class="sec-t">Concursos para você</h2>
+      ${concs.length ? `<ul class="concs card">${concs.map((c) => linhaConcurso(c).replace('<b>', idsNovos.has('c-' + c.slug) ? '<b><span class="novo">novo</span> ' : '<b>')).join('')}</ul>` : '<p class="card small muted">Nenhum concurso acompanhado combina com seus alertas ainda.</p>'}
+      <h2 class="sec-t">Editais para você</h2>
+      ${eds.length ? `<ul class="noticias">${eds.slice(0, 8).map((n) => `<li><p class="edital__meta">${idsNovos.has('e-' + n.id) ? '<span class="novo">novo</span>' : ''}<span class="tp ${window.EditaisUI.classeTipo(n.tipo)}">${esc(n.tipo)}</span><span class="xs muted">${n.uf ? esc(n.uf) + ' · ' : ''}${window.Editais.quandoData(n.data)}</span></p><p>${esc(n.orgao)}: ${esc(primeiraFrase(n.resumo))}</p></li>`).join('')}</ul>` : '<p class="card small muted">Nenhum edital recente combina com seus alertas. Avisamos quando aparecer.</p>'}
+      <a class="btn btn--ghost btn--block" href="#editais">${icon('newspaper')} Ver todos os editais</a>
+      ${ui.editais && ui.editais.modo !== 'vivo' ? '<p class="xs muted">Editais e concursos de exemplo, só para demonstração.</p>' : ''}`;
+  }
+
+  /* ---------- Meus alertas ---------- */
+  function telaAlertas() {
+    if (!ui.alertas) ui.alertas = JSON.parse(JSON.stringify(S.alertas() || { areas: [], escolaridade: '', ufs: [], palavras: [], salarioMin: null }));
+    const a = ui.alertas;
+    return `<header class="head"><a class="icon-btn back" href="#perfil" aria-label="Voltar para o perfil">${icon('arrow-left')}</a><h1 style="flex:1">Meus alertas</h1></header>
+      <p class="small muted">O filtro "Para você" do Radar e dos editais usa estas escolhas. Tudo fica salvo neste aparelho.</p>
+      <form class="form" id="f-alertas" novalidate>
+        <fieldset class="card fs"><legend class="card__t">Áreas</legend>
+          <div class="chips chips--wrap">${A.AREAS.map(([k, t]) => `<button class="chip" type="button" data-al-area="${k}" aria-pressed="${a.areas.includes(k)}">${t}</button>`).join('')}</div>
+          <p class="field__erro" id="al-area-e" hidden></p></fieldset>
+        <fieldset class="card fs"><legend class="card__t">Até qual escolaridade</legend>
+          <div class="chips chips--wrap">${NIVEIS.map(([k, t]) => `<button class="chip" type="button" data-al-nivel="${k}" aria-pressed="${a.escolaridade === k}">${t}</button>`).join('')}</div></fieldset>
+        <fieldset class="card fs"><legend class="card__t">Estados</legend>
+          <p class="xs muted">${a.ufs.length ? a.ufs.join(', ') : 'Todos os estados'} · concursos nacionais sempre aparecem.</p>
+          <div class="ufs">${UFS.map((u) => `<button class="uf" type="button" data-al-uf="${u}" aria-pressed="${a.ufs.includes(u)}">${u}</button>`).join('')}</div></fieldset>
+        <fieldset class="card fs"><legend class="card__t">Cargos e palavras-chave</legend>
+          <div class="ref"><label class="sr-only" for="al-palavra">Nova palavra-chave</label><input class="field__input" id="al-palavra" placeholder="Ex.: escriturário, agente" aria-describedby="al-palavra-e" /><button class="btn btn--primary btn--sm" type="button" data-act="al-add">Adicionar</button></div>
+          <p class="field__erro" id="al-palavra-e" hidden></p>
+          ${a.palavras.length ? `<ul class="tags-x">${a.palavras.map((w, i) => `<li>${esc(w)}<button type="button" data-al-rem="${i}" aria-label="Remover ${esc(w)}">${icon('x')}</button></li>`).join('')}</ul>` : ''}</fieldset>
+        <div class="card fs">${campo('al-sal', 'Salário mínimo (opcional)', 'inputmode="numeric" placeholder="Ex.: 4000"', a.salarioMin || '')}</div>
+        <fieldset class="card fs"><legend class="card__t">Onde avisar</legend>
+          <p class="canal"><span>${icon('bell')} No app (Radar e Avisos)</span><span class="badge badge--green">ativo</span></p>
+          <p class="canal canal--off"><span>${icon('send')} Telegram</span><span class="badge badge--muted">em breve</span></p>
+          <p class="canal canal--off"><span>${icon('message-circle')} WhatsApp</span><span class="badge badge--muted">em breve</span></p></fieldset>
+        <button class="btn btn--primary btn--block" type="submit">Salvar alertas</button>
+      </form>`;
+  }
+
+  /* ---------- Avisos ---------- */
+  function telaAvisos() {
+    const l = avisos(), vistoEm = S.avisosVistosEm();
+    const { p, novos } = paraVoce();
+    setTimeout(() => S.marcarAvisosVistos(), 0);
+    return `<header class="head"><a class="icon-btn back" href="#radar" aria-label="Voltar para o Radar">${icon('arrow-left')}</a><h1 style="flex:1">Avisos</h1></header>
+      ${p && novos.length ? `<a class="card linha-link" href="#radar" data-act="ir-paravoce"><span><b>${novos.length} ${novos.length === 1 ? 'publicação nova combina' : 'publicações novas combinam'} com seus alertas</b><br><span class="xs muted">Ver em "Para você"</span></span>${icon('chevron-right')}</a>` : ''}
+      ${l.length ? `<ul class="avisos">${l.map((a) => `<li class="${!a.fixo && a.data > vistoEm ? 'is-novo' : ''}"><span class="aviso-ico">${icon(a.icone)}</span><a href="#concurso/${a.slug}"><b>${esc(a.texto)}</b><span class="xs muted">${a.fixo ? 'contagem' : fmtD(a.data)}</span></a></li>`).join('')}</ul>`
+        : `<div class="card vazio">${icon('bell-off')}<p><strong>Nenhum aviso ainda.</strong></p><a class="link-btn" href="#concursos">Seguir um concurso</a></div>`}`;
+  }
+
+  /* ---------- Concursos ---------- */
+  function telaConcursos() {
+    return `<header class="head"><a class="icon-btn back" href="#radar" aria-label="Voltar para o Radar">${icon('arrow-left')}</a><h1 style="flex:1">Concursos</h1><span class="badge badge--muted">exemplo</span></header>
+      <p class="small muted">Acompanhe cada etapa, do concurso previsto ao resultado.</p>
+      <ul class="concs card">${C.CONCURSOS.map((c) => `<li class="conc-row">${linhaConcurso(c).replace(/^<li>|<\/li>$/g, '')}<button class="btn btn--sm ${S.seguindo().includes(c.slug) ? 'btn--primary' : 'btn--ghost'}" type="button" data-seguir="${c.slug}" aria-pressed="${S.seguindo().includes(c.slug)}">${S.seguindo().includes(c.slug) ? 'Seguindo' : 'Seguir'}</button></li>`).join('')}</ul>
+      <a class="link-btn" href="../concursos/index.html">Ver páginas públicas dos concursos</a>
+      <p class="xs muted">Concursos fictícios de demonstração.</p>`;
+  }
+
+  function telaConcurso(slug) {
+    const c = concurso(slug);
+    if (!c) return `<header class="head"><a class="icon-btn back" href="#concursos" aria-label="Voltar">${icon('arrow-left')}</a><h1 style="flex:1">Concurso</h1></header><div class="card vazio">${icon('search-x')}<p><strong>Concurso não encontrado.</strong></p><a class="link-btn" href="#concursos">Ver concursos</a></div>`;
+    const h = S.hoje(), atual = C.etapaAtual(c, h), idxAtual = C.ETAPAS.findIndex((e) => e[0] === atual), dp = diasAte(C.dataProva(c)), seg = S.seguindo().includes(slug);
+    return `<header class="head"><a class="icon-btn back" href="#concursos" aria-label="Voltar para concursos">${icon('arrow-left')}</a><span class="badge badge--muted">concurso fictício</span></header>
+      <section class="card card--dark edital" aria-labelledby="cc-t"><p class="edital__meta"><span class="tag tag--novo">${esc(nomeEtapa(atual).toUpperCase())}</span><span class="xs muted">${esc(c.abrangencia)}${c.uf !== 'BR' ? ' · ' + c.uf : ''}</span></p>
+        <h1 id="cc-t" class="cc-t">${esc(c.titulo)}</h1><p class="small muted">${esc(c.banca)} · nível ${esc(c.escolaridade.toLowerCase())}</p>
+        <dl class="stats3"><div><dt>vagas</dt><dd>${C.totalVagas(c).toLocaleString('pt-BR')}</dd></div><div><dt>até</dt><dd>${brl0(C.maiorSalario(c))}</dd></div><div><dt>prova${(c.previsao || []).includes('prova') ? ' (prev.)' : ''}</dt><dd>${fmtD(C.dataProva(c)).slice(0, 5)}</dd></div></dl>
+        <p class="contagem-prova">${dp > 0 ? `Faltam <strong>${dp} dias</strong> para a prova` : dp === 0 ? '<strong>A prova é hoje</strong>' : `Prova realizada em ${fmtD(C.dataProva(c))}`}</p>
+        <div class="row"><button class="btn ${seg ? 'btn--ghost-dark' : 'btn--mint'}" type="button" data-seguir="${slug}" aria-pressed="${seg}">${icon(seg ? 'check' : 'plus')} ${seg ? 'Seguindo' : 'Seguir concurso'}</button>${dp >= 0 ? `<button class="btn btn--ghost-dark" type="button" data-ics="${slug}">${icon('calendar-plus')} Adicionar à agenda</button>` : ''}</div></section>
+      <a class="card linha-link" href="#verticalizado/${slug}"><span><b>Edital verticalizado e plano de estudo</b><br><span class="xs muted">${progressoConcurso(c)}% do conteúdo estudado</span></span>${icon('chevron-right')}</a>
+      <section class="card" aria-labelledby="lt-t"><h2 class="card__t" id="lt-t">Linha do tempo</h2>
+        <ol class="timeline">${C.ETAPAS.map(([id, nome], i) => { const v = c.etapas[id]; const prev = (c.previsao || []).includes(id); const st = i < idxAtual ? 'feito' : i === idxAtual ? 'atual' : 'futuro'; return `<li class="tl tl--${st}" ${st === 'atual' ? 'aria-current="step"' : ''}><span class="tl__dot" aria-hidden="true">${st === 'feito' ? icon('check') : ''}</span><span><b>${nome}</b><span class="xs muted">${Array.isArray(v) ? `${fmtD(v[0])} a ${fmtD(v[1])}` : fmtD(v)}${prev ? ' · previsão' : ''}${st === 'atual' ? ' · etapa atual' : ''}</span></span></li>`; }).join('')}</ol></section>
+      <section class="card" aria-labelledby="cg-t"><h2 class="card__t" id="cg-t">Cargos</h2><ul class="concs">${c.cargos.map((x) => `<li class="cargo"><b>${esc(x.nome)}</b><span class="xs muted">${x.vagas} vagas · ${brl0(x.salario)} · nível ${x.escolaridade.toLowerCase()}</span></li>`).join('')}</ul></section>
+      <a class="link-btn" href="../concursos/${slug}.html">Abrir a página pública deste concurso</a>`;
+  }
+
+  function baixarIcs(slug) {
+    const c = concurso(slug), d = C.dataProva(c).replace(/-/g, '');
+    const fim = S.addDias(C.dataProva(c), 1).replace(/-/g, '');
+    const agora = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+    const ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Aprova Hub//Demonstracao//PT-BR', 'CALSCALE:GREGORIAN', 'BEGIN:VEVENT', `UID:prova-${slug}@aprova-hub.exemplo`, `DTSTAMP:${agora}`, `DTSTART;VALUE=DATE:${d}`, `DTEND;VALUE=DATE:${fim}`,
+      `SUMMARY:Prova - ${c.titulo}`, `DESCRIPTION:Concurso fictício de demonstração do Aprova Hub. Confira a data no edital oficial.`, 'BEGIN:VALARM', 'TRIGGER:-P1D', 'ACTION:DISPLAY', 'DESCRIPTION:Prova amanhã', 'END:VALARM', 'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
+    const u = URL.createObjectURL(new Blob([ics], { type: 'text/calendar;charset=utf-8' }));
+    const a = document.createElement('a'); a.href = u; a.download = `prova-${slug}.ics`; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000);
+    toast('Arquivo da agenda baixado. Abra para adicionar a prova ao seu calendário.');
+  }
+
+  /* ---------- Edital verticalizado ---------- */
+  const chave = (mid, t) => `${mid}|${t}`;
+  function peso(mid, topico) {
+    const d = D.INCIDENCIA['a-' + mid]; if (!d) return 8;
+    const t = d.temas.find(([n]) => n === topico); return t ? t[1] : 6;
+  }
+  function pctMateria(m) { const p = S.progresso(); return Math.round((m.topicos.reduce((t, x) => t + (p[chave(m.id, x)] || 0), 0) / (m.topicos.length * 3)) * 100); }
+  function progressoConcurso(c) { const p = S.progresso(); const tot = c.materias.reduce((t, m) => t + m.topicos.length * 3, 0); const f = c.materias.reduce((t, m) => t + m.topicos.reduce((s, x) => s + (p[chave(m.id, x)] || 0), 0), 0); return Math.round((f / tot) * 100); }
+
+  function telaVerticalizado(slug) {
+    const c = concurso(slug); if (!c) return telaConcurso(slug);
+    const p = S.progresso(), pc = progressoConcurso(c);
+    return `<header class="head"><a class="icon-btn back" href="#concurso/${slug}" aria-label="Voltar para o concurso">${icon('arrow-left')}</a><h1 style="flex:1">Edital verticalizado</h1></header>
+      <section class="card" aria-labelledby="vg-t"><div class="card__head"><h2 class="card__t" id="vg-t">${esc(c.titulo)}</h2></div>
+        <span class="bar" role="progressbar" aria-label="Progresso no conteúdo" aria-valuenow="${pc}" aria-valuemin="0" aria-valuemax="100"><span style="width:${pc}%"></span></span>
+        <p class="small"><strong>${pc}%</strong> do conteúdo · Estudei vale 1/3, Revisei 2/3 e Dominei conta inteiro.</p>
+        <a class="btn btn--primary btn--block" href="#plano/${slug}">${icon('calendar-range')} ${S.planoEstudo(slug) ? 'Ver meu plano de estudo' : 'Gerar plano de estudo'}</a></section>
+      ${c.materias.map((m, i) => `<details class="card mat" ${i === 0 || ui.matAberta === m.id ? 'open' : ''} data-mat="${m.id}"><summary><span><b>${esc(m.nome)}</b><span class="xs muted">${m.topicos.length} tópicos · ${pctMateria(m)}%</span></span><span class="bar bar--mini" aria-hidden="true"><span style="width:${pctMateria(m)}%"></span></span></summary>
+        <ul class="topicos">${m.topicos.map((t) => { const k = chave(m.id, t), n = p[k] || 0; return `<li><span class="topico__n">${esc(t)}${D.INCIDENCIA['a-' + m.id] && D.INCIDENCIA['a-' + m.id].temas.some(([x]) => x === t) ? `<span class="xs muted"> · cai ${peso(m.id, t)}%</span>` : ''}</span>
+          <span class="estados" role="group" aria-label="Situação de ${esc(t)}">${ESTADOS_T.map(([v, rot]) => `<button type="button" class="est est--${v}" data-topico="${esc(k)}" data-nivel="${v}" aria-pressed="${n === v}">${rot}</button>`).join('')}</span></li>`; }).join('')}</ul></details>`).join('')}
+      <p class="xs muted">Conteúdo programático resumido de um concurso fictício. "Cai X%" vem da aba Análises (dados de exemplo).</p>`;
+  }
+
+  /* ---------- Plano de estudo ---------- */
+  function segundaDe(iso) { const [y, m, d] = iso.split('-').map(Number); const dt = new Date(y, m - 1, d); return S.addDias(iso, -((dt.getDay() + 6) % 7)); }
+
+  function gerarPlano(c, horasSemana, prova) {
+    const p = S.progresso();
+    const pend = [];
+    c.materias.forEach((m) => m.topicos.forEach((t) => { const k = chave(m.id, t); if ((p[k] || 0) < 3) pend.push({ chave: k, peso: peso(m.id, t), horas: Math.max(1, Math.round((1 + peso(m.id, t) / 8) * 2) / 2) }); }));
+    pend.sort((a, b) => b.peso - a.peso);
+    const ini = segundaDe(S.hoje()), ultima = segundaDe(prova);
+    const nSemanas = Math.max(1, Math.floor(S.diasEntre(ini, ultima) / 7)); // a semana da prova fica para revisão geral
+    const semanas = Array.from({ length: nSemanas }, (_, i) => ({ inicio: S.addDias(ini, i * 7), itens: [] }));
+    let w = 0, usado = 0, sobra = 0;
+    pend.forEach((t) => {
+      while (w < nSemanas - 1 && usado + t.horas > horasSemana) { w++; usado = 0; }
+      if (usado + t.horas > horasSemana) sobra++;
+      semanas[w].itens.push({ chave: t.chave, horas: t.horas }); usado += t.horas;
+    });
+    return { horasSemana, prova, criadoEm: S.hoje(), semanas, naoCabe: sobra };
+  }
+
+  function telaPlano(slug) {
+    const c = concurso(slug); if (!c) return telaConcurso(slug);
+    const pl = S.planoEstudo(slug);
+    if (!pl || ui.editandoPlano) {
+      const provaPadrao = diasAte(C.dataProva(c)) > 14 ? C.dataProva(c) : S.addDias(S.hoje(), 90);
+      return `<header class="head"><a class="icon-btn back" href="#verticalizado/${slug}" aria-label="Voltar para o edital">${icon('arrow-left')}</a><h1 style="flex:1">Plano de estudo</h1></header>
+        <form class="card form" id="f-gerar" data-slug="${slug}" novalidate><h2 class="card__t">${esc(c.titulo)}</h2>
+          <p class="small muted">O app distribui os tópicos que faltam até a prova, começando pelos que mais caem. A semana da prova fica para revisão geral.</p>
+          <div class="grid2">${campo('g-horas', 'Horas por semana', 'inputmode="numeric"', pl ? pl.horasSemana : 12)}${campo('g-prova', 'Data da prova', 'type="date"', pl ? pl.prova : provaPadrao)}</div>
+          <div class="row">${pl ? '<button class="btn btn--ghost" type="button" data-act="cancelar-plano">Cancelar</button>' : ''}<button class="btn btn--primary" type="submit">${icon('sparkles')} Gerar plano</button></div></form>`;
+    }
+    const p = S.progresso(), h = S.hoje();
+    const idx = pl.semanas.findIndex((s) => h >= s.inicio && h < S.addDias(s.inicio, 7));
+    const atual = idx >= 0 ? pl.semanas[idx] : null;
+    const atrasados = pl.semanas.slice(0, Math.max(0, idx < 0 ? pl.semanas.length : idx)).filter((s) => s.inicio < h).flatMap((s) => s.itens).filter((t) => !p[t.chave]);
+    const feitos = pl.semanas.flatMap((s) => s.itens).filter((t) => p[t.chave]).length, total = pl.semanas.flatMap((s) => s.itens).length;
+    const tarefa = (t) => { const [mid, top] = t.chave.split('|'); const n = p[t.chave] || 0; return `<li class="tarefa ${n ? 'is-feita' : ''}"><span><b>${esc(top)}</b><span class="xs muted">${esc(C.NOMES[mid] || mat(mid))} · ${String(t.horas).replace('.', ',')} h${n ? ' · ' + ESTADOS_T[n - 1][1].toLowerCase() : ''}</span></span>
+      <span class="row">${n ? '' : `<button class="btn btn--ghost btn--sm" type="button" data-marcar="${esc(t.chave)}" aria-label="Marcar ${esc(top)} como estudado">${icon('check')}</button>`}<button class="btn btn--primary btn--sm" type="button" data-estudar="${esc(t.chave)}">${icon('play')} Estudar</button></span></li>`; };
+    return `<header class="head"><a class="icon-btn back" href="#verticalizado/${slug}" aria-label="Voltar para o edital">${icon('arrow-left')}</a><h1 style="flex:1">Plano de estudo</h1><button class="link-btn" type="button" data-act="editar-plano-estudo">Ajustar</button></header>
+      <section class="card card--dark" aria-labelledby="pe-t"><h2 class="card__t" id="pe-t">${esc(c.titulo)}</h2>
+        <p class="small muted">${pl.horasSemana} h por semana · prova em ${fmtD(pl.prova)} · ${pl.semanas.length} semanas de estudo + revisão final</p>
+        <span class="bar" role="progressbar" aria-label="Progresso do plano" aria-valuenow="${total ? Math.round((feitos / total) * 100) : 0}" aria-valuemin="0" aria-valuemax="100"><span style="width:${total ? (feitos / total) * 100 : 0}%"></span></span>
+        <p class="xs muted">${feitos} de ${total} tópicos estudados</p></section>
+      ${pl.naoCabe ? `<p class="aviso-plano">${icon('alert-triangle')}<span>${pl.naoCabe} tópicos não couberam nas horas escolhidas e ficaram na última semana. Aumente as horas por semana.</span></p>` : ''}
+      ${atrasados.length ? `<div class="aviso-plano" role="alert">${icon('clock-alert')}<span>Você está <strong>${atrasados.length} ${atrasados.length === 1 ? 'tópico' : 'tópicos'} atrás</strong> do plano.</span><button class="btn btn--primary btn--sm" type="button" data-recalcular="${slug}">Recalcular plano</button></div>` : ''}
+      <section class="card" aria-labelledby="sa-t"><div class="card__head"><h2 class="card__t" id="sa-t">Semana atual</h2>${atual ? `<span class="xs muted">${fmtD(atual.inicio).slice(0, 5)} a ${fmtD(S.addDias(atual.inicio, 6)).slice(0, 5)}</span>` : ''}</div>
+        ${atual ? (atual.itens.length ? `<ul class="tarefas">${atual.itens.map(tarefa).join('')}</ul>` : '<p class="small muted">Semana livre para revisões.</p>') : '<p class="small muted">Semana de revisão geral antes da prova. Use o caderno de erros.</p>'}</section>
+      <section class="card" aria-labelledby="pr-t"><h2 class="card__t" id="pr-t">Próximas semanas</h2>
+        <ul class="semanas">${pl.semanas.slice(idx + 1, idx + 7).map((s, i) => `<li><b>Semana ${idx + i + 2}</b><span class="xs muted">${fmtD(s.inicio).slice(0, 5)} · ${s.itens.length} tópicos · ${s.itens.reduce((t, x) => t + x.horas, 0).toString().replace('.', ',')} h</span></li>`).join('') || '<li class="small muted">Depois desta, vem a revisão final.</li>'}</ul></section>`;
+  }
+
   /* =========================== ROTAS =========================== */
   const TABS = [['radar', 'Radar', 'radar'], ['analises', 'Análises', 'bar-chart-3'], ['estudo', 'Estudo', 'timer'], ['grupos', 'Grupos', 'users'], ['perfil', 'Perfil', 'user']];
-  const TELAS = { radar: telaRadar, editais: telaEditais, analises: telaAnalises, estudo: telaEstudo, grupos: telaGrupos, quiz: telaQuiz, perfil: telaPerfil, mentor: telaMentor };
-  const TITULOS = { radar: 'Radar', editais: 'Editais', analises: 'Análises', estudo: 'Estudo', grupos: 'Grupos', quiz: 'Quiz relâmpago', perfil: 'Perfil', mentor: 'Modo mentor' };
-  const ABA = { quiz: 'grupos', mentor: 'perfil', editais: 'radar' };
+  const TELAS = { alertas: telaAlertas, avisos: telaAvisos, concursos: telaConcursos, concurso: telaConcurso, verticalizado: telaVerticalizado, plano: telaPlano, radar: telaRadar, editais: telaEditais, analises: telaAnalises, estudo: telaEstudo, grupos: telaGrupos, quiz: telaQuiz, perfil: telaPerfil, mentor: telaMentor };
+  const TITULOS = { alertas: 'Meus alertas', avisos: 'Avisos', concursos: 'Concursos', concurso: 'Concurso', verticalizado: 'Edital verticalizado', plano: 'Plano de estudo', radar: 'Radar', editais: 'Editais', analises: 'Análises', estudo: 'Estudo', grupos: 'Grupos', quiz: 'Quiz relâmpago', perfil: 'Perfil', mentor: 'Modo mentor' };
+  const ABA = { quiz: 'grupos', mentor: 'perfil', editais: 'radar', alertas: 'perfil', avisos: 'radar', concursos: 'radar', concurso: 'radar', verticalizado: 'estudo', plano: 'estudo' };
   let ultima = null;
 
   function render() {
-    let r = location.hash.slice(1);
+    const hash = location.hash.slice(1);
+    const [r, param] = hash.split('/');
     if (!TELAS[r]) { location.replace('#radar'); return; }
-    const mudou = r !== ultima;
+    const mudou = hash !== ultima;
+    if (mudou && r !== 'alertas') ui.alertas = null;
+    if (mudou && r !== 'plano') ui.editandoPlano = false;
     if (mudou) { if (r !== 'estudo') { ui.finalizando = false; } if (r !== 'quiz') ui.quiz = null; }
-    view.innerHTML = TELAS[r]();
+    view.innerHTML = TELAS[r](param);
     const ativa = ABA[r] || r;
     $('#tabs').innerHTML = TABS.map(([h, t, i]) => `<li><a class="tab" href="#${h}" ${h === ativa ? 'aria-current="page"' : ''}>${icon(i)}<span>${t}</span></a></li>`).join('');
     const c = S.cronometro(), pill = $('#crono-pill');
@@ -324,7 +545,7 @@
     document.title = `${TITULOS[r]} · Aprova Hub`;
     icons();
     if (mudou) { window.scrollTo(0, 0); if (ultima !== null) { const h = view.querySelector('h1, h2'); if (h) { h.setAttribute('tabindex', '-1'); h.focus({ preventScroll: true }); } } }
-    ultima = r;
+    ultima = hash;
   }
 
   setInterval(() => {
@@ -335,8 +556,29 @@
     const q = $('#contagem'); if (q) q.textContent = contagem();
   }, 1000);
 
+  function lerAlertasForm() { const i = $('#al-sal'); if (i && ui.alertas) { const v = i.value.replace(/\D/g, ''); ui.alertas.salarioMin = v ? Number(v) : null; } }
+  function refazer(foco) { lerAlertasForm(); const y = window.scrollY; render(); window.scrollTo(0, y); if (foco) { const el = $(foco); if (el) el.focus({ preventScroll: true }); } }
+
   document.addEventListener('click', async (ev) => {
     const t = ev.target;
+    const al = t.closest('[data-al-area],[data-al-nivel],[data-al-uf],[data-al-rem]');
+    if (al && ui.alertas) {
+      const a = ui.alertas, ds = al.dataset;
+      if (ds.alArea != null) { const i = a.areas.indexOf(ds.alArea); if (i >= 0) a.areas.splice(i, 1); else a.areas.push(ds.alArea); refazer(`[data-al-area="${ds.alArea}"]`); }
+      else if (ds.alNivel != null) { a.escolaridade = ds.alNivel; refazer(`[data-al-nivel="${ds.alNivel}"]`); }
+      else if (ds.alUf != null) { const i = a.ufs.indexOf(ds.alUf); if (i >= 0) a.ufs.splice(i, 1); else a.ufs.push(ds.alUf); a.ufs.sort(); refazer(`[data-al-uf="${ds.alUf}"]`); }
+      else { a.palavras.splice(Number(ds.alRem), 1); refazer('#al-palavra'); }
+      return;
+    }
+    const sg = t.closest('[data-seguir]'); if (sg) { const on = S.alternarSeguir(sg.dataset.seguir); refazer(`[data-seguir="${sg.dataset.seguir}"]`); toast(on ? 'Você está seguindo este concurso. Avisamos a cada etapa.' : 'Você deixou de seguir este concurso.'); return; }
+    const ic = t.closest('[data-ics]'); if (ic) { baixarIcs(ic.dataset.ics); return; }
+    const tp = t.closest('[data-topico]');
+    if (tp) { const k = tp.dataset.topico, n = Number(tp.dataset.nivel); S.marcarTopico(k, S.progresso()[k] === n ? 0 : n); ui.matAberta = k.split('|')[0]; refazer(`[data-topico="${CSS.escape(k)}"][data-nivel="${n}"]`); return; }
+    const mk = t.closest('[data-marcar]'); if (mk) { S.marcarTopico(mk.dataset.marcar, 1); refazer(); toast('Tópico marcado como estudado.'); return; }
+    const es = t.closest('[data-estudar]');
+    if (es) { const [mid, top] = es.dataset.estudar.split('|'); S.iniciar(D.MATERIAS.some((m) => m.id === mid) ? mid : 'port', top, es.dataset.estudar); location.hash = 'estudo'; toast(`Cronômetro ligado: ${top}.`); return; }
+    const rc = t.closest('[data-recalcular]');
+    if (rc) { const c = concurso(rc.dataset.recalcular), pl = S.planoEstudo(c.slug); S.salvarPlanoEstudo(c.slug, gerarPlano(c, pl.horasSemana, pl.prova)); refazer('#sa-t'); toast('Plano recalculado a partir desta semana.'); return; }
     const f = t.closest('[data-filtro]'); if (f) { S.set('radarFiltro', f.dataset.filtro); render(); $(`[data-filtro=${f.dataset.filtro}]`).focus(); return; }
     const rv = t.closest('[data-rev]'); if (rv) { const e = Number(rv.dataset.rev); ui.revAberta = ui.revAberta === e ? null : e; render(); $(`[data-rev="${e}"]`).focus(); return; }
     const rk = t.closest('[data-rank]'); if (rk) { ui.rank = rk.dataset.rank; render(); $(`[data-rank=${ui.rank}]`).focus(); return; }
@@ -350,7 +592,15 @@
     }
     const b = t.closest('[data-act]'); if (!b) return;
     switch (b.dataset.act) {
-      case 'alertas': toast('Na versão real, você escolhe cargos e bancas e recebe aviso de edital novo.'); break;
+      case 'al-add': {
+        lerAlertasForm(); const i = $('#al-palavra'), w = i.value.trim();
+        if (w.length < 3) { erros($('#f-alertas'), { 'al-palavra': 'Digite pelo menos 3 letras.' }); break; }
+        if (!ui.alertas.palavras.some((x) => x.toLowerCase() === w.toLowerCase())) ui.alertas.palavras.push(w);
+        refazer('#al-palavra'); break;
+      }
+      case 'ir-paravoce': ev.preventDefault(); S.set('radarFiltro', 'paravoce'); location.hash = 'radar'; break;
+      case 'editar-plano-estudo': ui.editandoPlano = true; render(); $('#g-horas').focus(); break;
+      case 'cancelar-plano': ui.editandoPlano = false; render(); break;
       case 'telegram': toast('Demonstração: o link do canal do Telegram entra aqui.'); break;
       case 'ver-analise': S.setAnalise({ banca: b.dataset.banca, materia: b.dataset.materia, cargo: 'todos' }); location.hash = 'analises'; break;
       case 'prova': toast('Na versão real, este botão leva à prova no site oficial da banca.'); break;
@@ -410,7 +660,8 @@
     }
   });
 
-  document.addEventListener('toggle', (e) => { if (e.target.dataset && e.target.dataset.aluno) ui.alunoAberto = e.target.open ? e.target.dataset.aluno : null; }, true);
+  document.addEventListener('toggle', (e) => { if (e.target.dataset && e.target.dataset.aluno) ui.alunoAberto = e.target.open ? e.target.dataset.aluno : null; if (e.target.dataset && e.target.dataset.mat && e.target.open) ui.matAberta = e.target.dataset.mat; }, true);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Enter' && e.target.id === 'al-palavra') { e.preventDefault(); $('[data-act=al-add]').click(); } });
 
   document.addEventListener('change', async (ev) => {
     const el = ev.target;
@@ -426,6 +677,18 @@
     const f = ev.target; ev.preventDefault();
     const v = (id) => ($('#' + id, f) || {}).value?.trim() ?? '';
     const n = (id) => (/^\d+$/.test(v(id)) ? Number(v(id)) : NaN);
+    if (f.id === 'f-alertas') {
+      lerAlertasForm(); const a = ui.alertas;
+      if (!a.areas.length && !a.palavras.length) { erros(f, { 'al-area': 'Escolha pelo menos uma área ou adicione um cargo.' }); $('[data-al-area]').focus(); return; }
+      S.salvarAlertas(JSON.parse(JSON.stringify(a))); ui.alertas = null; S.set('radarFiltro', 'paravoce'); location.hash = 'radar'; toast('Alertas salvos. Veja o que combina com você.'); return;
+    }
+    if (f.id === 'f-gerar') {
+      const er = {}; const h = n('g-horas'), pv = v('g-prova');
+      if (!(h >= 2 && h <= 80)) er['g-horas'] = 'De 2 a 80 horas.';
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(pv)) er['g-prova'] = 'Escolha a data da prova.'; else if (S.diasEntre(S.hoje(), pv) < 14) er['g-prova'] = 'A prova precisa estar a pelo menos 2 semanas.';
+      if (!erros(f, er)) return;
+      const c = concurso(f.dataset.slug); S.salvarPlanoEstudo(c.slug, gerarPlano(c, h, pv)); ui.editandoPlano = false; render(); toast('Plano gerado. Comece pela semana atual.'); return;
+    }
     if (f.id === 'f-iniciar') { S.iniciar($('#i-mat').value, v('i-ass')); render(); $('[data-act=pausar]').focus(); toast(`Cronômetro ligado: ${mat($('#i-mat') ? $('#i-mat').value : S.cronometro().materia)}.`); }
     else if (f.id === 'f-sessao') {
       const er = {}; const min = n('f-min'), q = n('f-q'), a = n('f-a');
@@ -433,8 +696,10 @@
       if (!(q >= 1)) er['f-q'] = 'Pelo menos 1.';
       if (Number.isNaN(a)) er['f-a'] = 'Informe (pode ser 0).'; else if (a > q) er['f-a'] = 'Não pode passar das questões.';
       if (!erros(f, er)) return;
-      const c = S.cronometro(); S.registrarSessao({ materia: c.materia, assunto: c.assunto, minutos: min, questoes: q, acertos: a }); S.descartar(); ui.finalizando = false; render();
-      toast(`Sessão salva: ${q} questões, ${Math.round((a / q) * 100)}% de acertos.`);
+      const c = S.cronometro(); S.registrarSessao({ materia: c.materia, assunto: c.assunto, minutos: min, questoes: q, acertos: a });
+      if (c.topico && !(S.progresso()[c.topico] >= 1)) S.marcarTopico(c.topico, 1);
+      S.descartar(); ui.finalizando = false; render();
+      toast(`Sessão salva: ${q} questões, ${Math.round((a / q) * 100)}% de acertos.${c.topico ? ' Tópico marcado como estudado no plano.' : ''}`);
     } else if (f.id === 'f-erro') {
       const er = {}; if (v('e-ass').length < 3) er['e-ass'] = 'Escreva o assunto. Ex.: Habeas data'; if (v('e-anot').length < 10) er['e-anot'] = 'Anote o erro e a regra certa (10 letras ou mais).';
       if (!erros(f, er)) return;

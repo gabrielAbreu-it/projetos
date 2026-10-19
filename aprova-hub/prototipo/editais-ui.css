@@ -43,3 +43,8 @@
 .ed-nota svg { width: 16px; height: 16px; margin-top: 1px; }
 @media (max-width: 520px) { .ed-filtros { grid-template-columns: 1fr 1fr; } .ed-busca { grid-column: 1 / -1; } }
 .btn-ed--off:hover { background: var(--surface); }
+.ed-pv-linha { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.ed-pv { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 6px 14px; border-radius: 999px; border: 1px solid var(--primary); background: var(--surface); color: var(--primary); font: inherit; font-weight: 800; font-size: var(--fs-sm); cursor: pointer; }
+.ed-pv svg { width: 16px; height: 16px; }
+.ed-pv[aria-pressed="true"] { background: var(--primary); color: #fff; }
+.ed-pv__n { background: var(--mint); color: var(--dark); border-radius: 999px; padding: 1px 8px; font-size: .7rem; }

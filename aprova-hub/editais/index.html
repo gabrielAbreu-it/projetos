@@ -52,12 +52,13 @@
   </div></section>
   <main class="conteudo" id="lista" tabindex="-1"></main>
   <footer class="rodape"><span>Aprova Hub · projeto conceitual de Gabriel Abreu, 2026. Dados ao vivo: Querido Diário (Open Knowledge Brasil), diários oficiais municipais.</span>
-    <a href="../prototipo/index.html#radar">Voltar para o app</a><a href="../../projetos/aprova-hub.html">Página do projeto</a></footer>
+    <a href="../prototipo/index.html#radar">Voltar para o app</a><a href="../concursos/index.html">Páginas dos concursos</a><a href="../../projetos/aprova-hub.html">Página do projeto</a></footer>
   <script src="https://unpkg.com/lucide@0.453.0/dist/umd/lucide.min.js"></script>
+  <script src="../prototipo/alertas.js"></script>
   <script src="../prototipo/editais-dados.js"></script>
   <script src="../prototipo/editais-ui.js"></script>
   <script>
-    window.EditaisUI.montar(document.getElementById('lista'));
+    window.EditaisUI.montar(document.getElementById('lista'), { linkAlertas: '../prototipo/index.html#alertas' });
     if (window.lucide) window.lucide.createIcons();
   </script>
 </body>
