@@ -15,11 +15,13 @@ O Dossiê Pix é para quem vende por Pix (loja online, Instagram, WhatsApp) e re
 5. [Avaliação heurística](05-avaliacao-heuristica.md): 11 problemas, 9 corrigidos
 6. [Próximos passos](06-proximos-passos.md): roteiro de teste com 5 lojistas, métricas e aprendizados
 7. [Modelo de negócio](07-modelo-de-negocio.md) (hipóteses a validar)
+8. [Piloto automático](08-piloto-automatico.md): como o produto se venderia, cobraria e pagaria o lucro sozinho (demonstração; produção ainda não iniciada)
 
 ## Links
 
 - [Página do projeto](https://gabriel-abreu-portfolio.vercel.app/projetos/dossie-pix.html)
 - [App de demonstração](https://gabriel-abreu-portfolio.vercel.app/dossie-pix/prototipo/)
+- Demonstração do negócio: [página de vendas](../site/index.html), [programa de afiliados](../site/afiliados.html), [central de ajuda](../site/ajuda.html) e [painel do dono](../admin/index.html)
 - [Estrutura do banco (Supabase)](../supabase/schema.sql) e [como colocar no ar](../COMO-COLOCAR-NO-AR.md)
 
 ## Telas (390 x 844)
@@ -31,3 +33,13 @@ O Dossiê Pix é para quem vende por Pix (loja online, Instagram, WhatsApp) e re
 | Abrir contestação | Dossiê | Busca sem resultado | Histórico |
 |---|---|---|---|
 | <img src="prints/mobile-05-abrir-contestacao.png" alt="Formulário de contestação com prazo configurável" width="180"> | <img src="prints/mobile-06-dossie.png" alt="Capa do dossiê pronta para PDF" width="180"> | <img src="prints/mobile-07-busca-vazia.png" alt="Estado vazio da busca de vendas" width="180"> | <img src="prints/mobile-08-historico.png" alt="Histórico de contestações ganhas e perdidas" width="180"> |
+
+## Piloto automático (demonstração, 1440 x 900 e 390 x 844)
+
+| Página de vendas | Afiliados |
+|---|---|
+| <img src="prints/site-desktop.png" alt="Primeira dobra da página de vendas" width="380"> | <img src="prints/afiliados-desktop.png" alt="Painel do afiliado com link e comissões" width="380"> |
+
+| Painel do dono | Painel do dono no celular |
+|---|---|
+| <img src="prints/admin-desktop.png" alt="Painel do dono com saldo, lucro e indicadores" width="380"> | <img src="prints/admin-mobile.png" alt="Painel do dono no celular com o botão Retirar meu lucro" width="180"> |

@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#1e2427" />
+    <title>Central de ajuda · Dossiê Pix</title>
+    <meta name="description" content="Central de ajuda do Dossiê Pix (demonstração): perguntas sobre provas, contestação, dossiê, planos e dados." />
+    <link rel="icon" href="../prototipo/icon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../../assets/css/base.css" />
+    <link rel="stylesheet" href="../prototipo/tokens.css" />
+    <link rel="stylesheet" href="site.css" />
+  </head>
+  <body data-pagina="ajuda">
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+    <header id="topo"></header>
+    <main id="conteudo" class="page">
+      <div class="wrap">
+        <div class="page-head">
+          <h1>Central de ajuda</h1>
+          <p>Respostas rápidas sobre o Dossiê Pix. Se não encontrar, escreva para o suporte.</p>
+        </div>
+        <div class="search">
+          <label for="busca" class="sr-only">Buscar na ajuda</label>
+          <i data-lucide="search"></i>
+          <input id="busca" type="search" placeholder="Ex.: prazo, PDF, cancelar, arquivo grande" autocomplete="off" />
+        </div>
+        <p class="field__dica" id="contagem" aria-live="polite"></p>
+        <div id="lista"></div>
+        <div class="notice" id="vazio" hidden><i data-lucide="search-x"></i><p><strong>Nenhuma resposta para essa busca.</strong> Tente outra palavra ou escreva para <span class="mono">suporte@dossiepix.exemplo</span> (endereço de demonstração).</p></div>
+
+        <section class="legal" id="termos" aria-labelledby="h-termos">
+          <h2 id="h-termos">Termos de uso (rascunho)</h2>
+          <p>Rascunho para a demonstração, ainda sem revisão jurídica. Pontos que a versão final precisa cobrir:</p>
+          <ul>
+            <li>O Dossiê Pix organiza informações e arquivos fornecidos pelo lojista. Não é aconselhamento jurídico e não garante o resultado de contestações.</li>
+            <li>O lojista é responsável pela veracidade das provas e da declaração que assina.</li>
+            <li>Teste grátis, cobrança mensal ou anual, cancelamento sem multa e o que acontece com os dados depois do cancelamento.</li>
+            <li>Regras do programa de afiliados: como a comissão é calculada, quando é paga e quando pode ser suspensa.</li>
+          </ul>
+        </section>
+        <section class="legal" id="privacidade" aria-labelledby="h-priv">
+          <h2 id="h-priv">Privacidade (rascunho)</h2>
+          <p>Rascunho para a demonstração, ainda sem revisão jurídica. A versão final precisa seguir a LGPD e dizer, em linguagem simples:</p>
+          <ul>
+            <li>Quais dados são guardados: dados da loja e, das vendas, nome, telefone e CPF/CNPJ dos clientes, além dos arquivos de prova.</li>
+            <li>Para que servem: montar o dossiê da própria loja. Nada é vendido ou compartilhado para publicidade.</li>
+            <li>Por quanto tempo ficam guardados e como pedir a exclusão.</li>
+            <li>Nesta demonstração, tudo fica só no navegador de quem usa.</li>
+          </ul>
+        </section>
+      </div>
+    </main>
+    <footer class="foot" id="rodape"></footer>
+
+    <script src="https://unpkg.com/lucide@0.453.0/dist/umd/lucide.min.js"></script>
+    <script src="piloto.js"></script>
+    <script src="site.js"></script>
+    <script>
+      (function () {
+        "use strict";
+        var P = window.Piloto, a = P.estado.ajustes;
+        var ITENS = [
+          ["Primeiros passos", "Como registro uma venda?", "Toque em Nova venda, preencha valor, data, cliente, produto, canal e como o produto chegou ao cliente. O ID do Pix é opcional, mas deixa o dossiê mais forte."],
+          ["Primeiros passos", "Onde encontro o ID da transação Pix (E2E)?", "No comprovante do Pix, procure por \"ID da transação\", \"Identificador\" ou \"E2E\". Costuma ter 32 letras e números e começar com E. Copie e cole no campo da venda."],
+          ["Primeiros passos", "Posso instalar no celular?", "Sim. No Android, use \"Instalar app\" ou \"Adicionar à tela inicial\" no Chrome. No iPhone, use Compartilhar e \"Adicionar à Tela de Início\" no Safari."],
+          ["Provas", "Quais provas deixam a venda mais forte?", "Comprovante do Pix, ID da transação, nota ou recibo, rastreio, comprovante de entrega, prints da conversa e foto do produto. O checklist da venda mostra o que falta e por que cada item importa."],
+          ["Provas", "O que significa prova fraca, média ou forte?", "É uma régua do próprio app, baseada em quantos itens importantes estão anexados. Prova forte exige pelo menos o comprovante do Pix e o comprovante de entrega. Não é uma avaliação do banco."],
+          ["Provas", "Meu arquivo é grande demais. E agora?", "Fotos grandes são compactadas automaticamente. Se mesmo assim passar do limite, envie um print só da parte importante. PDFs têm limite de 1 MB nesta versão."],
+          ["Contestação", "Qual é o prazo para responder ao pedido de devolução?", "Depende das regras vigentes do Banco Central e da sua instituição. No app, você coloca o prazo que o seu banco informou; o valor que vem preenchido é só um exemplo."],
+          ["Contestação", "O Dossiê Pix envia a contestação para o banco?", "Não. Você gera o dossiê em PDF e envia pelo canal da sua instituição (app, e-mail ou atendimento)."],
+          ["Contestação", "O dossiê garante que eu ganho?", "Não. Ele organiza as provas de forma clara. Quem analisa e decide é a instituição. O app também não é aconselhamento jurídico."],
+          ["Contestação", "Como salvo o dossiê em PDF?", "Abra a venda, toque em Gerar dossiê e depois em Baixar PDF. Na janela de impressão, escolha \"Salvar como PDF\" como destino."],
+          ["Planos e pagamento", "Como funciona o teste grátis?", "Você usa tudo por " + a.diasTeste + " dias. A primeira cobrança só acontece depois. Se cancelar antes, nada é cobrado."],
+          ["Planos e pagamento", "O que acontece se o pagamento atrasar?", "O acesso fica pausado até o pagamento, mas suas vendas e provas continuam guardadas. Quando o pagamento é confirmado, o acesso volta sozinho."],
+          ["Planos e pagamento", "Como cancelo a assinatura?", "Em Ajustes, na versão com login. Antes, baixe uma cópia dos seus dados se quiser guardar."],
+          ["Seus dados", "Onde ficam os meus dados?", "Nesta demonstração, só no navegador do seu aparelho. Na versão com login, num banco de dados com acesso restrito à sua loja."],
+          ["Seus dados", "Troquei de celular. Perdi tudo?", "Na demonstração, sim, a menos que você tenha baixado uma cópia em Ajustes e restaurado no aparelho novo. Na versão com login, é só entrar com o seu e-mail."]
+        ];
+        function norm(s) { return s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase(); }
+        var lista = document.getElementById("lista");
+        function render() {
+          var t = norm(document.getElementById("busca").value.trim());
+          var vis = ITENS.filter(function (i) { return !t || norm(i[1] + " " + i[2] + " " + i[0]).indexOf(t) >= 0; });
+          var cats = [];
+          vis.forEach(function (i) { if (cats.indexOf(i[0]) < 0) cats.push(i[0]); });
+          lista.innerHTML = cats.map(function (c) {
+            return '<h2 class="cat-title">' + c + '</h2><div class="faq">' + vis.filter(function (i) { return i[0] === c; }).map(function (i) {
+              return "<details" + (t ? " open" : "") + "><summary>" + P.esc(i[1]) + '<i data-lucide="chevron-down"></i></summary><p>' + P.esc(i[2]) + "</p></details>";
+            }).join("") + "</div>";
+          }).join("");
+          document.getElementById("vazio").hidden = vis.length > 0;
+          document.getElementById("contagem").textContent = t ? vis.length + (vis.length === 1 ? " resposta encontrada" : " respostas encontradas") : ITENS.length + " perguntas";
+          P.icones();
+        }
+        document.getElementById("busca").addEventListener("input", render);
+        render();
+      })();
+    </script>
+  </body>
+</html>

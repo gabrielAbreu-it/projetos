@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#1e2427" />
+    <title>Teste grátis · Dossiê Pix</title>
+    <meta name="description" content="Cadastro e checkout simulados do Dossiê Pix. Demonstração: nenhum pagamento é feito." />
+    <link rel="icon" href="../prototipo/icon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../../assets/css/base.css" />
+    <link rel="stylesheet" href="../prototipo/tokens.css" />
+    <link rel="stylesheet" href="site.css" />
+  </head>
+  <body data-pagina="cadastro">
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+    <header id="topo"></header>
+    <main id="conteudo" class="page" tabindex="-1"><div class="wrap" id="tela"></div></main>
+    <footer class="foot" id="rodape"></footer>
+    <div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+
+    <script src="https://unpkg.com/lucide@0.453.0/dist/umd/lucide.min.js"></script>
+    <script src="piloto.js"></script>
+    <script src="site.js"></script>
+    <script>
+      (function () {
+        "use strict";
+        var P = window.Piloto, esc = P.esc, brl = P.brl;
+        var tela = document.getElementById("tela");
+        var passo = 1;
+        var rascunho = { nome: "", email: "", loja: "", plano: "", metodo: "pix" };
+        var m = location.search.match(/plano=(essencial|profissional|loja)/);
+        rascunho.plano = m ? m[1] : "profissional";
+
+        function aviso() {
+          return '<div class="notice notice--amber"><i data-lucide="info"></i><p><strong>Demonstração: nenhum pagamento é feito.</strong> Não digite dados reais. Na versão real, a cobrança é feita por um provedor de pagamento e os dados do cartão são digitados na página segura dele, nunca aqui.</p></div>';
+        }
+        function nomePlano(id) {
+          return P.PLANOS.filter(function (p) { return p.id === id; })[0].nome;
+        }
+        function dataFimTeste() {
+          var d = new Date();
+          d.setDate(d.getDate() + Number(P.estado.ajustes.diasTeste));
+          return d.toLocaleDateString("pt-BR");
+        }
+        function barra(n) {
+          var nomes = ["Sua conta", "Plano", "Forma de pagamento"];
+          return '<ol class="steps-bar" aria-label="Etapas do cadastro">' + nomes.map(function (t, i) {
+            return "<li" + (i + 1 === n ? ' aria-current="step"' : i + 1 < n ? ' class="feito"' : "") + ">" + t + "</li>";
+          }).join("") + "</ol>";
+        }
+        function resumo() {
+          var a = P.estado.ajustes, p = rascunho.plano;
+          return (
+            '<aside class="card resumo" aria-labelledby="h-resumo"><h2 id="h-resumo" style="font-size:1.25rem">Resumo</h2><dl>' +
+            "<dt>Plano</dt><dd>" + nomePlano(p) + "</dd>" +
+            "<dt>Teste grátis</dt><dd>" + a.diasTeste + " dias</dd>" +
+            "<dt>Hoje</dt><dd>" + brl(0) + "</dd>" +
+            '<dt class="total">Depois do teste</dt><dd class="total">' + brl(a.precos[p]) + "/mês</dd>" +
+            "</dl><p class=\"field__dica\">Primeira cobrança em " + dataFimTeste() + ". Cancele antes e nada é cobrado.</p>" +
+            (P.estado.ref ? '<p class="field__dica" style="margin-top:8px"><i data-lucide="user-check"></i> Indicado por <strong>' + esc(P.estado.ref) + "</strong></p>" : "") +
+            "</aside>"
+          );
+        }
+        function campo(id, rotulo, tipo, valor, attrs, dica) {
+          return '<div class="field" data-field="' + id + '"><label for="' + id + '">' + rotulo + "</label>" + (dica ? '<p class="field__dica" id="' + id + '-dica">' + dica + "</p>" : "") +
+            '<input id="' + id + '" name="' + id + '" type="' + tipo + '" value="' + esc(valor) + '" ' + (attrs || "") + ' aria-describedby="' + id + "-erro" + (dica ? " " + id + "-dica" : "") + '"><p class="field__erro" id="' + id + '-erro"></p></div>';
+        }
+        function erros(form, e) {
+          form.querySelectorAll(".field--erro").forEach(function (f) { f.classList.remove("field--erro"); });
+          form.querySelectorAll("[aria-invalid]").forEach(function (f) { f.removeAttribute("aria-invalid"); });
+          form.querySelectorAll(".field__erro").forEach(function (f) { f.textContent = ""; });
+          var primeiro = null;
+          Object.keys(e).forEach(function (k) {
+            var c = form.querySelector('[data-field="' + k + '"]');
+            if (c) c.classList.add("field--erro");
+            var el = document.getElementById(k);
+            if (el) { el.setAttribute("aria-invalid", "true"); primeiro = primeiro || el; }
+            document.getElementById(k + "-erro").textContent = e[k];
+          });
+          if (primeiro) primeiro.focus();
+          return !primeiro;
+        }
+
+        function passo1() {
+          return (
+            '<div class="page-head"><h1>Comece seu teste grátis</h1><p>' + P.estado.ajustes.diasTeste + " dias para usar tudo. Leva um minuto.</p></div>" + barra(1) +
+            '<div class="split"><form class="card" id="f1" novalidate>' +
+            campo("nome", "Seu nome", "text", rascunho.nome, 'autocomplete="name"') +
+            campo("email", "E-mail", "email", rascunho.email, 'autocomplete="email" inputmode="email"', "O link de acesso chega por e-mail. Na demonstração, nada é enviado.") +
+            campo("loja", "Nome da loja", "text", rascunho.loja, 'autocomplete="organization"') +
+            '<div class="field" data-field="aceite"><label class="choice"><input type="checkbox" id="aceite" aria-describedby="aceite-erro"><span class="choice__txt choice__txt--bloco">Li e aceito os <a href="ajuda.html#termos">termos de uso</a> e a <a href="ajuda.html#privacidade">política de privacidade</a>.</span></label><p class="field__erro" id="aceite-erro"></p></div>' +
+            '<button class="btn btn--primary btn--full btn--lg" type="submit">Continuar<i data-lucide="arrow-right"></i></button></form>' +
+            resumo() + "</div>" + aviso()
+          );
+        }
+        function passo2() {
+          var a = P.estado.ajustes;
+          return (
+            '<div class="page-head"><h1>Escolha o plano</h1><p>Você pode trocar de plano depois, a qualquer momento.</p></div>' + barra(2) +
+            '<div class="split"><form class="card" id="f2" novalidate><fieldset class="choices"><legend>Plano</legend>' +
+            P.PLANOS.map(function (p) {
+              return '<label class="choice"><input type="radio" name="plano" value="' + p.id + '"' + (rascunho.plano === p.id ? " checked" : "") + '><span class="choice__txt"><strong>' + p.nome + "</strong><span>" + p.itens.join(" · ") + '</span></span><span class="choice__preco">' + brl(a.precos[p.id]) + "/mês</span></label>";
+            }).join("") + "</fieldset>" +
+            '<div class="cta-row"><button type="button" class="btn btn--ghost" data-voltar>Voltar</button><button class="btn btn--primary btn--lg" type="submit" style="flex:1">Continuar<i data-lucide="arrow-right"></i></button></div></form>' +
+            resumo() + "</div>" + aviso()
+          );
+        }
+        function caixaPagamento(metodo) {
+          if (metodo === "pix") {
+            return '<div class="pay-box">' + qr() + '<div style="flex:1;min-width:200px"><p><strong>Pix simulado.</strong> Na versão real, o provedor gera o QR Code e confirma o pagamento sozinho.</p><p class="linha">DEMONSTRACAO-PIX-SEM-VALOR-0000</p></div></div>';
+          }
+          if (metodo === "boleto") {
+            return '<div class="pay-box"><i data-lucide="barcode" style="width:48px;height:48px"></i><div style="flex:1;min-width:200px"><p><strong>Boleto simulado.</strong> Na versão real, o boleto chega por e-mail alguns dias antes do vencimento.</p><p class="linha">00000.00000 00000.000000 00000.000000 0 DEMONSTRACAO</p></div></div>';
+          }
+          return '<div class="pay-box"><div class="fake-card" aria-hidden="true"><span>Cartão fictício de teste</span><span class="mono">0000 0000 0000 0000</span><span>DEMONSTRAÇÃO · 00/00</span></div><p style="flex:1;min-width:200px"><strong>Cartão simulado.</strong> Aqui não há campos de cartão de propósito: na versão real, você digita os dados na página segura do provedor de pagamento.</p></div>';
+        }
+        function qr() {
+          var r = 7, s = '<svg width="132" height="132" viewBox="0 0 21 21" role="img" aria-label="QR Code fictício de demonstração"><rect width="21" height="21" fill="#fff"/>';
+          for (var y = 0; y < 21; y++) for (var x = 0; x < 21; x++) {
+            r = (r * 31 + 11) % 97;
+            var canto = (x < 7 && y < 7) || (x > 13 && y < 7) || (x < 7 && y > 13);
+            if (canto) {
+              var cx = x > 13 ? x - 14 : x, cy = y > 13 ? y - 14 : y;
+              if (cx === 0 || cx === 6 || cy === 0 || cy === 6 || (cx > 1 && cx < 5 && cy > 1 && cy < 5)) s += '<rect x="' + x + '" y="' + y + '" width="1" height="1" fill="#1e2427"/>';
+            } else if (r % 2) s += '<rect x="' + x + '" y="' + y + '" width="1" height="1" fill="#1e2427"/>';
+          }
+          return s + "</svg>";
+        }
+        function formPagamento(titulo, texto, botao, id) {
+          return (
+            '<form class="card" id="' + id + '" novalidate><h2 style="font-size:1.25rem;margin-bottom:12px">' + titulo + "</h2>" + (texto ? '<p class="field__dica" style="margin-bottom:16px">' + texto + "</p>" : "") +
+            '<fieldset class="choices choices--row"><legend>Como prefere pagar?</legend>' +
+            [["pix", "Pix", "qr-code"], ["boleto", "Boleto", "barcode"], ["cartao", "Cartão", "credit-card"]].map(function (o) {
+              return '<label class="choice"><input type="radio" name="metodo" value="' + o[0] + '"' + (rascunho.metodo === o[0] ? " checked" : "") + '><span class="choice__txt"><strong><i data-lucide="' + o[2] + '"></i> ' + o[1] + "</strong></span></label>";
+            }).join("") + "</fieldset>" +
+            '<div id="caixa">' + caixaPagamento(rascunho.metodo) + "</div>" +
+            '<div class="cta-row">' + (id === "f3" ? '<button type="button" class="btn btn--ghost" data-voltar>Voltar</button>' : "") +
+            '<button class="btn btn--primary btn--lg" type="submit" style="flex:1" id="btn-pagar"><i data-lucide="lock"></i>' + botao + "</button></div></form>"
+          );
+        }
+        function passo3() {
+          return (
+            '<div class="page-head"><h1>Forma de pagamento</h1><p>Hoje você não paga nada. A primeira cobrança é em ' + dataFimTeste() + ".</p></div>" + barra(3) +
+            '<div class="split">' + formPagamento("Escolha como pagar depois do teste", "", "Simular confirmação e liberar acesso", "f3") + resumo() + "</div>" + aviso()
+          );
+        }
+        function telaLiberado() {
+          var c = P.estado.conta;
+          return (
+            '<section class="card estado"><span class="estado__icon"><i data-lucide="check"></i></span><h1>Acesso liberado</h1>' +
+            "<p>" + (c ? "Olá, " + esc(c.nome.split(" ")[0]) + ". A conta da <strong>" + esc(c.loja) + "</strong> está " + (c.status === "teste" ? "em teste grátis até " + esc(c.fimTeste) : "ativa no plano " + nomePlano(c.plano)) + "." : "Sua conta está pronta.") + "</p>" +
+            "<p>Na versão real, este passo acontece sozinho: o provedor confirma o pagamento, o acesso é liberado e um e-mail de boas-vindas é enviado.</p>" +
+            '<div class="cta-row"><a class="btn btn--primary btn--lg" href="../prototipo/index.html#painel"><i data-lucide="arrow-right"></i>Abrir o Dossiê Pix</a><a class="btn btn--secondary btn--lg" href="ajuda.html">Ver a central de ajuda</a></div>' +
+            linksDemo() + "</section>"
+          );
+        }
+        function telaRecuperar(tipo) {
+          var acabou = tipo === "teste-acabou";
+          var plano = (P.estado.conta && P.estado.conta.plano) || rascunho.plano;
+          rascunho.plano = plano;
+          return (
+            '<section class="estado card" style="margin-bottom:24px"><span class="estado__icon ' + (acabou ? "estado__icon--warn" : "estado__icon--bad") + '"><i data-lucide="' + (acabou ? "hourglass" : "lock") + '"></i></span>' +
+            "<h1>" + (acabou ? "Seu teste grátis acabou" : "Pagamento atrasado: acesso bloqueado") + "</h1>" +
+            "<p>" + (acabou
+              ? "Os " + P.estado.ajustes.diasTeste + " dias grátis terminaram. Escolha como pagar para continuar usando o plano " + nomePlano(plano) + " por " + brl(P.estado.ajustes.precos[plano]) + "/mês."
+              : "Não recebemos o pagamento do plano " + nomePlano(plano) + ". O acesso ao app fica pausado até o pagamento, mas <strong>suas vendas e provas continuam guardadas</strong>.") + "</p></section>" +
+            '<div style="max-width:620px;margin:0 auto">' + formPagamento(acabou ? "Continuar com o Dossiê Pix" : "Regularizar e voltar a usar", "", "Simular pagamento confirmado", "fr") + aviso() + linksDemo() + "</div>"
+          );
+        }
+        function linksDemo() {
+          return '<p class="demo-links"><strong>Ver outros estados:</strong><a href="cadastro.html#teste-acabou">Teste grátis acabou</a><a href="cadastro.html#bloqueado">Pagamento atrasado</a><a href="cadastro.html">Começar de novo</a></p>';
+        }
+
+        function confirmar(btn, depois) {
+          btn.disabled = true;
+          btn.innerHTML = '<i data-lucide="loader-circle"></i>Confirmando pagamento simulado…';
+          P.icones();
+          setTimeout(depois, 900);
+        }
+
+        function render() {
+          var h = location.hash.replace("#", "");
+          var html;
+          if (h === "liberado") html = telaLiberado();
+          else if (h === "teste-acabou" || h === "bloqueado") html = telaRecuperar(h);
+          else html = passo === 1 ? passo1() : passo === 2 ? passo2() : passo3();
+          tela.innerHTML = html;
+          document.title = (h === "liberado" ? "Acesso liberado" : h === "teste-acabou" ? "Teste grátis acabou" : h === "bloqueado" ? "Acesso bloqueado" : "Teste grátis") + " · Dossiê Pix";
+          P.icones();
+          montar();
+          var h1 = tela.querySelector("h1");
+          if (render.foi && h1) { h1.setAttribute("tabindex", "-1"); h1.focus(); }
+          render.foi = true;
+          window.scrollTo(0, 0);
+        }
+
+        function montar() {
+          var f1 = document.getElementById("f1");
+          if (f1) f1.addEventListener("submit", function (e) {
+            e.preventDefault();
+            rascunho.nome = f1.nome.value.trim();
+            rascunho.email = f1.email.value.trim();
+            rascunho.loja = f1.loja.value.trim();
+            var er = {};
+            if (rascunho.nome.length < 2) er.nome = "Digite seu nome.";
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(rascunho.email)) er.email = "Digite um e-mail válido. Ex.: voce@sualoja.com";
+            if (rascunho.loja.length < 2) er.loja = "Digite o nome da loja.";
+            if (!document.getElementById("aceite").checked) er.aceite = "Para continuar, aceite os termos de uso.";
+            if (erros(f1, er)) { passo = 2; render(); }
+          });
+          var f2 = document.getElementById("f2");
+          if (f2) {
+            f2.addEventListener("change", function () { rascunho.plano = f2.plano.value; var r = document.querySelector(".resumo"); r.outerHTML = resumo(); P.icones(); });
+            f2.addEventListener("submit", function (e) { e.preventDefault(); rascunho.plano = f2.plano.value; passo = 3; render(); });
+          }
+          document.querySelectorAll("[data-voltar]").forEach(function (b) {
+            b.addEventListener("click", function () { passo--; render(); });
+          });
+          ["f3", "fr"].forEach(function (id) {
+            var f = document.getElementById(id);
+            if (!f) return;
+            f.addEventListener("change", function (e) {
+              if (e.target.name === "metodo") { rascunho.metodo = e.target.value; document.getElementById("caixa").innerHTML = caixaPagamento(rascunho.metodo); P.icones(); }
+            });
+            f.addEventListener("submit", function (e) {
+              e.preventDefault();
+              confirmar(document.getElementById("btn-pagar"), function () {
+                if (id === "f3") {
+                  P.estado.conta = { nome: rascunho.nome, email: rascunho.email, loja: rascunho.loja, plano: rascunho.plano, metodo: rascunho.metodo, status: "teste", fimTeste: dataFimTeste(), criadaEm: new Date().toISOString(), origem: P.estado.ref ? "afiliado" : "direto", ref: P.estado.ref };
+                } else {
+                  P.estado.conta = Object.assign(P.estado.conta || { nome: "Lojista de demonstração", loja: "Loja de demonstração", plano: rascunho.plano }, { status: "ativa", metodo: rascunho.metodo });
+                }
+                P.salvar();
+                location.hash = "liberado";
+              });
+            });
+          });
+        }
+
+        window.addEventListener("hashchange", render);
+        render();
+      })();
+    </script>
+  </body>
+</html>

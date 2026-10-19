@@ -6,6 +6,8 @@ App web instalável para lojistas que vendem por Pix (loja online, Instagram, Wh
 
 [Página do projeto](https://gabriel-abreu-portfolio.vercel.app/projetos/dossie-pix.html) · [App de demonstração](https://gabriel-abreu-portfolio.vercel.app/dossie-pix/prototipo/) · [Documentação](docs/) · [Estrutura do banco](supabase/schema.sql) · [Como colocar no ar](COMO-COLOCAR-NO-AR.md)
 
+**Piloto automático (demonstração, dados fictícios):** [Página de vendas](site/index.html) · [Cadastro e checkout simulado](site/cadastro.html) · [Programa de afiliados](site/afiliados.html) · [Central de ajuda](site/ajuda.html) · [Painel do dono](admin/index.html) · [Como funciona](docs/08-piloto-automatico.md)
+
 ![Telas do Dossiê Pix](../assets/img/capa-dossie-pix.png)
 
 - **Problema:** quando chega um pedido de devolução pelo MED, o lojista tem pouco tempo para provar que a venda foi real, e as provas estão espalhadas entre o app do banco, o WhatsApp, o Instagram e a transportadora.

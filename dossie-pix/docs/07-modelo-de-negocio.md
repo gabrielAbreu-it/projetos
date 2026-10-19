@@ -33,7 +33,7 @@ Supondo uma mistura de 40% Essencial, 45% Profissional e 15% Loja, o ticket méd
 
 ## Canais de venda
 
-1. **Contadores:** programa de indicação com comissão recorrente (hipótese: 20% enquanto o cliente pagar). O contador já fala com o lojista sobre dinheiro.
+1. **Contadores:** programa de afiliados com comissão recorrente (hipótese: 30% enquanto o cliente pagar, configurável no painel do dono). O contador já fala com o lojista sobre dinheiro.
 2. **Agências de e-commerce e social media:** oferecem o Dossiê Pix como parte do pacote para os clientes delas.
 3. **Conteúdo educativo:** posts e vídeos curtos sobre como guardar provas de venda por Pix, sempre sem prometer resultado e indicando conferir as regras com o banco.
 4. **Comunidades de lojistas** em grupos de WhatsApp, Telegram e eventos de empreendedorismo.
@@ -47,3 +47,5 @@ Supondo uma mistura de 40% Essencial, 45% Profissional e 15% Loja, o ticket méd
 **Sinais de que vale continuar:** pelo menos 10 de 20 lojistas dizem que já passaram por isso; 3 aceitam pagar a pré-venda; 2 contadores topam indicar.
 
 **Sinais de alerta:** lojistas acham que é raro demais para pagar todo mês (testar então só o dossiê avulso) ou não registram as vendas sem lembrete (priorizar importação do extrato).
+
+Veja também o [doc 08](08-piloto-automatico.md): a demonstração da página de vendas, do cadastro, dos afiliados e do painel do dono.

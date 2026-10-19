@@ -24,6 +24,10 @@
 - Cobrança dos planos (ver `docs/07-modelo-de-negocio.md`).
 - Revisão de LGPD: o app guarda nome, telefone e CPF/CNPJ de clientes dos lojistas. Antes de abrir para clientes pagantes, é preciso termo de uso, política de privacidade e definir por quanto tempo os dados ficam guardados.
 
+## Cobrança, afiliados e painel do dono
+
+A página de vendas (`site/`), o cadastro com checkout, o programa de afiliados e o painel do dono (`admin/`) são **só demonstração**: não cobram nada e não transferem dinheiro. O caminho para virar produção (provedor de pagamento, webhooks, e-mails, termos) está em `docs/08-piloto-automatico.md`, e essa fase ainda não começou.
+
 ## Avisos importantes
 
 - O Dossiê Pix organiza as provas que o lojista reúne. Não é aconselhamento jurídico e não garante que a contestação será aceita.

@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#1e2427" />
+    <title>Programa de afiliados · Dossiê Pix</title>
+    <meta name="description" content="Programa de afiliados do Dossiê Pix (demonstração): link próprio, comissão recorrente e painel com cliques, cadastros e pagamentos. Dados fictícios." />
+    <link rel="icon" href="../prototipo/icon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../../assets/css/base.css" />
+    <link rel="stylesheet" href="../prototipo/tokens.css" />
+    <link rel="stylesheet" href="site.css" />
+  </head>
+  <body data-pagina="afiliados">
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+    <header id="topo"></header>
+    <main id="conteudo" tabindex="-1">
+      <div id="area"></div>
+    </main>
+    <footer class="foot" id="rodape"></footer>
+    <div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+
+    <script src="https://unpkg.com/lucide@0.453.0/dist/umd/lucide.min.js"></script>
+    <script src="piloto.js"></script>
+    <script src="site.js"></script>
+    <script>
+      (function () {
+        "use strict";
+        var P = window.Piloto, esc = P.esc, brl = P.brl;
+        var area = document.getElementById("area");
+
+        function pct() { return P.estado.ajustes.comissaoPct; }
+
+        function apresentacao() {
+          var a = P.estado.ajustes;
+          return (
+            '<section class="hero"><div class="wrap" style="grid-template-columns:minmax(0,1fr)"><div style="max-width:760px">' +
+            '<p class="kicker"><i data-lucide="users"></i>Programa de afiliados</p>' +
+            "<h1>Indique o Dossiê Pix e receba " + pct() + "% todo mês enquanto o cliente assinar.</h1>" +
+            '<p class="sub">Para contadores, agências de e-commerce e criadores de conteúdo que falam com lojistas. Você divulga com o seu link; o resto é automático.</p>' +
+            '<div class="cta-row"><a class="btn btn--primary btn--lg" href="#cadastro-afiliado">Quero ser afiliado</a><button type="button" class="btn btn--secondary btn--lg" data-exemplo>Ver painel de exemplo</button></div>' +
+            "</div></div></section>" +
+            '<section class="sec sec--white" aria-labelledby="h-como"><div class="wrap"><div class="sec-head"><h2 id="h-como">Como funciona</h2></div><div class="grid-3">' +
+            '<article class="step"><div class="step__txt"><span class="step__n">1</span><h3>Pegue o seu link</h3><p>Depois do cadastro você recebe um link com o seu código. Quem clicar e assinar fica ligado a você.</p></div></article>' +
+            '<article class="step"><div class="step__txt"><span class="step__n">2</span><h3>Indique para lojistas</h3><p>Use o link no seu site, nas redes ou na conversa com clientes. O lojista tem ' + a.diasTeste + " dias grátis para testar.</p></div></article>" +
+            '<article class="step"><div class="step__txt"><span class="step__n">3</span><h3>Receba todo mês</h3><p>A cada mensalidade paga, ' + pct() + "% é separado para você automaticamente e pago no mês seguinte.</p></div></article>" +
+            "</div>" +
+            '<div class="notice"><i data-lucide="info"></i><p><strong>Comissão recorrente de ' + pct() + "%</strong> sobre as mensalidades pagas pelos clientes que você indicou, enquanto eles continuarem assinando. A porcentagem e as regras são uma hipótese em teste e podem mudar antes da versão real.</p></div>" +
+            "</div></section>" +
+            '<section class="sec" aria-labelledby="h-sim"><div class="wrap"><div class="sec-head"><h2 id="h-sim">Simule</h2><p>Uma conta simples com os preços atuais.</p></div>' +
+            '<form class="card" id="sim" style="max-width:820px" onsubmit="return false"><div class="sim">' +
+            '<div class="field"><label for="sim-n">Clientes que assinam pelo seu link</label><input id="sim-n" type="number" min="0" max="500" value="10" inputmode="numeric"></div>' +
+            '<div class="field"><label for="sim-p">Plano mais comum</label><select id="sim-p">' + P.PLANOS.map(function (p) { return '<option value="' + p.id + '"' + (p.destaque ? " selected" : "") + ">" + p.nome + " · " + brl(a.precos[p.id]) + "</option>"; }).join("") + "</select></div>" +
+            '<div class="field"><label for="sim-c">Comissão</label><input id="sim-c" type="text" value="' + pct() + '%" readonly></div>' +
+            '</div><div class="sim__out" aria-live="polite" id="sim-out"></div>' +
+            '<p class="field__dica" style="margin-top:12px">Simulação, não é promessa de ganho: o valor depende de quantos lojistas você indica e de quanto tempo eles continuam assinando.</p></form></div></section>' +
+            '<section class="sec sec--white" id="cadastro-afiliado" aria-labelledby="h-cad"><div class="wrap"><div class="sec-head"><h2 id="h-cad">Cadastro de afiliado</h2><p>Demonstração: não digite dados reais.</p></div>' +
+            '<form class="card" id="f-af" novalidate style="max-width:620px">' +
+            '<div class="field" data-field="af-nome"><label for="af-nome">Nome ou empresa</label><input id="af-nome" autocomplete="name" aria-describedby="af-nome-erro"><p class="field__erro" id="af-nome-erro"></p></div>' +
+            '<div class="field" data-field="af-email"><label for="af-email">E-mail</label><input id="af-email" type="email" inputmode="email" autocomplete="email" aria-describedby="af-email-erro"><p class="field__erro" id="af-email-erro"></p></div>' +
+            '<div class="field" data-field="af-perfil"><label for="af-perfil">Como você fala com lojistas?</label><select id="af-perfil" aria-describedby="af-perfil-erro"><option value="">Escolha</option><option>Sou contador</option><option>Tenho agência de e-commerce ou social media</option><option>Crio conteúdo para lojistas</option><option>Sou lojista e quero indicar</option><option>Outro</option></select><p class="field__erro" id="af-perfil-erro"></p></div>' +
+            '<p class="field__dica" style="margin-bottom:16px">Na versão real, você informa a chave Pix para receber as comissões depois, dentro do painel, com confirmação por e-mail.</p>' +
+            '<button class="btn btn--primary btn--lg btn--full" type="submit">Criar meu link de afiliado</button></form></div></section>'
+          );
+        }
+
+        function painel() {
+          var af = P.estado.afiliado, d = P.painelAfiliado();
+          var link = "https://dossiepix.exemplo/?ref=" + af.codigo;
+          return (
+            '<section class="page"><div class="wrap">' +
+            '<div class="page-head" style="max-width:none"><p class="kicker"><i data-lucide="users"></i>Painel do afiliado · dados fictícios</p><h1>Olá, ' + esc(af.nome.split(" ")[0]) + "</h1><p>Comissão de " + pct() + "% sobre cada mensalidade paga pelos clientes que vieram do seu link.</p></div>" +
+            '<div class="card"><h2 style="font-size:1.2rem;margin-bottom:12px">Seu link</h2><div class="linkbox"><label for="meu-link" class="sr-only">Seu link de afiliado</label><input id="meu-link" value="' + link + '" readonly><button type="button" class="btn btn--primary" data-copiar><i data-lucide="copy"></i>Copiar link</button></div>' +
+            '<p class="field__dica" style="margin-top:8px">Código: <strong class="mono">' + esc(af.codigo) + '</strong>. Para testar aqui, abra <a href="index.html?ref=' + esc(af.codigo) + '">a página de vendas com o seu código</a>: o cadastro mostra "Indicado por ' + esc(af.codigo) + '".</p></div>' +
+            '<div class="stats">' +
+            stat("Cliques no link", d.cliques) + stat("Cadastros", d.cadastros) + stat("Assinantes ativos", d.assinantes) + stat("Comissão do mês", brl(d.comissaoMes)) + stat("A receber", brl(d.aReceber)) +
+            "</div>" +
+            '<div class="split" style="grid-template-columns:minmax(0,1.3fr) minmax(0,1fr)">' +
+            '<section class="card"><h2 style="font-size:1.2rem;margin-bottom:12px">Clientes que vieram de você</h2><div class="table-wrap"><table class="tab"><thead><tr><th>Loja</th><th>Plano</th><th class="num">Sua parte/mês</th></tr></thead><tbody>' +
+            d.clientes.map(function (c) { return "<tr><td>" + esc(c.loja) + "</td><td>" + nome(c.plano) + '</td><td class="num">' + brl(P.preco(c.plano) * pct() / 100) + "</td></tr>"; }).join("") +
+            "</tbody></table></div></section>" +
+            '<section class="card"><h2 style="font-size:1.2rem;margin-bottom:12px">Histórico de pagamentos</h2><div class="table-wrap"><table class="tab"><thead><tr><th>Mês</th><th class="num">Valor</th><th>Situação</th></tr></thead><tbody>' +
+            '<tr><td>Este mês</td><td class="num">' + brl(d.aReceber) + '</td><td><span class="pill pill--amber">A receber</span></td></tr>' +
+            d.historico.map(function (h) { return "<tr><td>" + h.mes + '</td><td class="num">' + brl(h.valor) + '</td><td><span class="pill">' + h.status + "</span></td></tr>"; }).join("") +
+            '</tbody></table></div><p class="field__dica" style="margin-top:12px">Na versão real, o provedor de pagamento separa a sua parte de cada cobrança e transfere automaticamente.</p></section></div>' +
+            '<p class="demo-links"><button type="button" class="btn btn--ghost" data-sair><i data-lucide="log-out"></i>Sair do painel de demonstração</button></p>' +
+            "</div></section>"
+          );
+        }
+        function stat(t, v) { return '<div class="stat"><p>' + t + "</p><strong>" + v + "</strong></div>"; }
+        function nome(id) { return P.PLANOS.filter(function (p) { return p.id === id; })[0].nome; }
+
+        function simular() {
+          var n = Math.max(0, Math.min(500, parseInt(document.getElementById("sim-n").value, 10) || 0));
+          var pl = document.getElementById("sim-p").value;
+          var v = n * P.preco(pl) * pct() / 100;
+          document.getElementById("sim-out").innerHTML = "Com " + n + " cliente" + (n === 1 ? "" : "s") + " no plano " + nome(pl) + ", a comissão seria de <strong>" + brl(v) + "</strong> por mês enquanto continuarem assinando.";
+        }
+
+        function render(foco) {
+          area.innerHTML = P.estado.afiliado ? painel() : apresentacao();
+          P.icones();
+          if (!P.estado.afiliado) {
+            simular();
+            document.getElementById("sim").addEventListener("input", simular);
+            var f = document.getElementById("f-af");
+            f.addEventListener("submit", function (e) {
+              e.preventDefault();
+              var v = { "af-nome": f["af-nome"].value.trim(), "af-email": f["af-email"].value.trim(), "af-perfil": f["af-perfil"].value }, er = {};
+              if (v["af-nome"].length < 2) er["af-nome"] = "Digite seu nome ou o da empresa.";
+              if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v["af-email"])) er["af-email"] = "Digite um e-mail válido.";
+              if (!v["af-perfil"]) er["af-perfil"] = "Escolha uma opção.";
+              f.querySelectorAll(".field").forEach(function (c) { c.classList.remove("field--erro"); });
+              f.querySelectorAll(".field__erro").forEach(function (c) { c.textContent = ""; });
+              f.querySelectorAll("[aria-invalid]").forEach(function (c) { c.removeAttribute("aria-invalid"); });
+              var ks = Object.keys(er);
+              ks.forEach(function (k) { document.querySelector('[data-field="' + k + '"]').classList.add("field--erro"); document.getElementById(k).setAttribute("aria-invalid", "true"); document.getElementById(k + "-erro").textContent = er[k]; });
+              if (ks.length) { document.getElementById(ks[0]).focus(); return; }
+              var codigo = (v["af-nome"].normalize("NFD").replace(/[^A-Za-z]/g, "").slice(0, 8).toUpperCase() || "PARCEIRO") + P.estado.ajustes.comissaoPct;
+              P.estado.afiliado = { nome: v["af-nome"], email: v["af-email"], perfil: v["af-perfil"], codigo: codigo };
+              P.salvar();
+              render(true);
+              Site.toast("Cadastro feito. Seu link já está pronto.");
+            });
+          } else {
+            document.querySelector("[data-copiar]").addEventListener("click", function () {
+              var inp = document.getElementById("meu-link");
+              Site.copiar(inp.value).then(function (ok) {
+                if (ok) Site.toast("Link copiado.");
+                else { inp.select(); Site.toast("Selecionei o link: use Copiar do seu aparelho."); }
+              });
+            });
+            document.querySelector("[data-sair]").addEventListener("click", function () {
+              P.estado.afiliado = null; P.salvar(); render(true);
+            });
+          }
+          var ex = document.querySelector("[data-exemplo]");
+          if (ex) ex.addEventListener("click", function () {
+            P.estado.afiliado = { nome: "Camila Contabilidade", email: "camila@exemplo.com", perfil: "Sou contador", codigo: "CAMILA30" };
+            P.salvar(); render(true);
+          });
+          if (foco) { window.scrollTo(0, 0); var h = area.querySelector("h1"); h.setAttribute("tabindex", "-1"); h.focus({ preventScroll: true }); }
+        }
+        render(false);
+      })();
+    </script>
+  </body>
+</html>

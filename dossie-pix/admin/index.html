@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#1e2427" />
+    <title>Painel do dono · Dossiê Pix</title>
+    <meta name="description" content="Painel do dono do Dossiê Pix (demonstração com dados fictícios): receita, assinantes, afiliados e retirada do lucro." />
+    <meta name="robots" content="noindex" />
+    <link rel="icon" href="../prototipo/icon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../../assets/css/base.css" />
+    <link rel="stylesheet" href="../prototipo/tokens.css" />
+    <link rel="stylesheet" href="admin.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#view">Pular para o conteúdo</a>
+    <div class="shell">
+      <aside class="side" aria-label="Menu do painel do dono">
+        <a class="brand" href="#visao"><img src="../prototipo/icon.svg" alt="" width="34" height="34" /><span>Dossiê Pix<small>Painel do dono</small></span></a>
+        <nav class="side__nav" id="nav-lateral" aria-label="Seções do painel"></nav>
+        <div class="side__foot">
+          <p>Demonstração com dados fictícios. Nenhum dinheiro é movimentado.</p>
+          <a href="../site/index.html"><i data-lucide="store"></i>Página de vendas</a>
+          <a href="../site/afiliados.html"><i data-lucide="users"></i>Programa de afiliados</a>
+          <a href="../prototipo/index.html#painel"><i data-lucide="app-window"></i>App do lojista</a>
+        </div>
+      </aside>
+      <div class="main">
+        <div class="demo-tag" role="note"><i data-lucide="flask-conical"></i>Demonstração com dados fictícios</div>
+        <header class="topbar">
+          <a class="brand" href="#visao"><img src="../prototipo/icon.svg" alt="" width="30" height="30" /><span>Painel do dono</span></a>
+          <a class="topbar__link" href="../site/index.html">Site</a>
+        </header>
+        <nav class="tabs-m" id="nav-topo" aria-label="Seções do painel"></nav>
+        <main class="view" id="view" tabindex="-1"></main>
+      </div>
+    </div>
+    <div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+    <dialog class="modal" id="modal" aria-labelledby="modal-title"></dialog>
+    <div class="tip" id="tip" role="tooltip" hidden></div>
+
+    <script src="https://unpkg.com/lucide@0.453.0/dist/umd/lucide.min.js"></script>
+    <script src="../site/piloto.js"></script>
+    <script src="admin.js"></script>
+  </body>
+</html>
