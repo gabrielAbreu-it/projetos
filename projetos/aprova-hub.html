@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Aprova Hub · Gabriel Abreu</title>
+    <meta name="description" content="App para quem estuda para concurso: radar de editais, o que mais cai por banca, estudo com cronômetro, caderno de erros e grupos. Grátis, com plano Premium." />
+    <meta name="theme-color" content="#f4f1ea" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)" />
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('portfolio-tema');
+          if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+        } catch (e) {
+          /* sem armazenamento: segue o sistema */
+        }
+      })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../assets/css/base.css" />
+    <link rel="stylesheet" href="../assets/css/aurora.css" />
+  </head>
+  <body class="aurora">
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+    <header class="a-wrap a-nav">
+      <div class="a-nav__bar glass">
+        <a class="a-logo" href="../index.html"><span class="a-logo__mark" aria-hidden="true">GA</span>Gabriel Abreu</a>
+        <nav class="a-links" aria-label="Principal"><a href="../index.html">Início</a><a href="../projetos/index.html" aria-current="page">Projetos</a><a href="../index.html#processo">Processo</a><a href="../index.html#sobre">Sobre</a></nav>
+        <button type="button" class="a-icon-btn" id="tema" aria-label="Tema escuro" aria-pressed="false"><i data-lucide="moon" class="i-moon" aria-hidden="true"></i><i data-lucide="sun" class="i-sun" aria-hidden="true"></i></button>
+        <a class="a-btn a-btn--ink a-btn--sm a-cta" href="../index.html#contato">Fale comigo</a>
+        <button type="button" class="a-icon-btn a-menu-btn" id="menu-btn" aria-label="Menu" aria-expanded="false" aria-controls="menu-mobile"><i data-lucide="menu" aria-hidden="true"></i></button>
+      </div>
+      <nav class="a-mobile-menu glass" id="menu-mobile" aria-label="Principal no celular" hidden><a href="../index.html">Início</a><a href="../projetos/index.html" aria-current="page">Projetos</a><a href="../index.html#processo">Processo</a><a href="../index.html#sobre">Sobre</a><a href="../index.html#contato">Fale comigo</a></nav>
+    </header>
+    <main id="conteudo">
+      <div class="a-wrap">
+        <div class="a-project-hero">
+          <a class="a-back" href="index.html"><i data-lucide="arrow-left" aria-hidden="true"></i>Projetos</a>
+          <span class="a-eyebrow">App mobile · Educação · 2026</span>
+          <h1>Aprova Hub</h1>
+          <p class="a-lead">Um app que junta o que o concurseiro hoje espalha em grupos, planilhas e cadernos: edital novo, o que mais cai, tempo de estudo, questões erradas e a turma estudando junto.</p>
+          <div class="a-hero__actions">
+            <a class="a-btn a-btn--ink" href="../aprova-hub/prototipo/index.html">Abrir o app <i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
+            <a class="a-btn a-btn--glass" href="https://github.com/gabrielAbreu-it/projetos/tree/main/aprova-hub/docs">Documentação do processo</a>
+          </div>
+          <dl class="a-meta glass"><div><dt>Papel</dt><dd>UX/UI Designer, individual</dd></div><div><dt>Plataforma</dt><dd>App web instalável (mobile primeiro)</dd></div><div><dt>Métodos</dt><dd>Benchmark, proto-persona, fluxos, avaliação heurística, app funcional e modelo de negócio</dd></div><div><dt>Ano</dt><dd>2026</dd></div></dl>
+          <figure class="a-cover glass"><img src="../assets/img/capa-aprova-hub.png" width="1600" height="900" alt="Telas do Aprova Hub." /></figure>
+        </div>
+        <div class="a-story">
+          <nav class="a-toc" aria-label="Seções do projeto"><p>Neste projeto</p><ol><li><a href="#contexto">Contexto</a></li><li><a href="#processo">Processo</a></li><li><a href="#solucao">Solução</a></li><li><a href="#handoff">Handoff</a></li><li><a href="#resultado">Resultado</a></li><li><a href="#negocio">Modelo de negócio</a></li><li><a href="#aprendizados">Aprendizados</a></li><li><a href="#entregas">Entregas</a></li></ol></nav>
+          <div>
+          <section class="a-chapter" id="contexto" aria-labelledby="t-contexto">
+            <h2 id="t-contexto">Contexto</h2>
+            <p>O Aprova Hub nasceu de um projeto anterior meu, o <strong>Mentor OS</strong>, uma ferramenta para o mentor de concurso acompanhar a turma. Desenhando o lado do aluno, percebi que o concurseiro sem mentor tem as mesmas dores: não sabe quando sai edital, não sabe o que mais cai e estuda sozinho. Ampliei o produto para ele e mantive o acompanhamento de alunos como <strong>Modo mentor</strong>.</p>
+            <p>O app é grátis para o aluno e tem um plano Premium. É um projeto conceitual, mas funciona de verdade no navegador, com dados salvos no aparelho. Todos os órgãos, bancas, pessoas e números são fictícios, e as questões do quiz são de demonstração.</p>
+            <blockquote class="a-quote glass">O concurseiro acompanha edital em grupo de mensagens, estatística de prova em planilha e erro em caderno de papel, e estuda sozinho sem saber se está no ritmo.<small>O problema, em uma frase</small></blockquote>
+          </section>
+          <section class="a-chapter" id="processo" aria-labelledby="t-processo">
+            <h2 id="t-processo">Processo</h2>
+            <p>Parti do benchmark que fiz para o Mentor OS: o <strong>GymRats</strong>, de desafios de check-in em grupo; o <strong>Qconcursos</strong> e o <strong>Tec Concursos</strong>, bancos de questões focados no aluno; as <strong>planilhas e páginas de Notion</strong> de mentoria; e os <strong>grupos de WhatsApp</strong>. O que faltava ficou claro: informação de edital, estatística de prova e estudo em grupo vivem em lugares diferentes.</p>
+<div class="a-cards"><div class="glass"><h4>Constância vira jogo</h4><p>Desafios em grupo mostram que aparecer todo dia mantém as pessoas. Trouxe sequência de dias, desafio da turma e ranking, que mostra também a sua evolução para não desanimar quem está atrás.</p></div><div class="glass"><h4>Estudar o que mais cai</h4><p>Bancos de questões têm muita estatística, mas ela fica escondida. A aba Análises mostra em barras simples o que mais cai por banca e matéria, e a análise por cargo é o gancho do Premium.</p></div><div class="glass"><h4>O canal já existe</h4><p>Edital novo circula em grupos e canais. Em vez de competir, o Radar leva para o canal do Telegram, e convite de grupo e mensagem do mentor saem prontos para o WhatsApp.</p></div></div>
+            <p>Mantive as proto-personas do Mentor OS, <strong>marcadas como hipótese</strong>, e acrescentei a do concurseiro que estuda sozinho. A partir de uma referência de seis telas, organizei o app em cinco abas: Radar, Análises, Estudo, Grupos e Perfil, com o Modo mentor dentro do Perfil. Reaproveitei os fluxos que já tinha desenhado, como check-in com cronômetro e caderno de erros com revisão em 1, 7 e 21 dias, e desenhei os novos: foto da questão errada, quiz com o artigo citado e botão para reportar erro, e assinatura.</p>
+            <p>Na primeira versão (Mentor OS), avaliei o protótipo com as 10 heurísticas de Nielsen e encontrei <strong>8 problemas</strong>, dos quais <strong>corrigi 6</strong>. As correções vieram para o Aprova Hub: o aviso de cronômetro ligado em qualquer tela, o tempo que pode ser corrigido ao encerrar e o botão de desfazer na revisão de erros. O mais grave era justamente o cronômetro esquecido, que distorcia o tempo de estudo.</p>
+<figure class="a-figure glass"><img src="../aprova-hub/docs/prints/antes-depois-cronometro.png" width="900" height="954" loading="lazy" alt="Comparação na primeira versão do app: antes, nenhum sinal do cronômetro ligado fora da tela de estudo; depois, uma faixa no topo com a matéria, o tempo correndo e o botão Abrir." /><figcaption>Na primeira versão, o cronômetro corria escondido. A correção virou a pílula "Estudando" que aparece em todas as abas do Aprova Hub.</figcaption></figure>
+          </section>
+          <section class="a-chapter" id="solucao" aria-labelledby="t-solucao">
+            <h2 id="t-solucao">Solução</h2>
+            <p>O <strong>Radar</strong> abre com o edital mais recente da área escolhida e as últimas notícias, com atalho para a análise do que mais cai. <strong>Análises</strong> mostra, por banca e matéria, os assuntos com mais incidência e as questões catalogadas. <strong>Estudo</strong> tem cronômetro, números do dia, caderno de erros com foto da questão e a fila de revisões. <strong>Grupos</strong> traz o desafio da turma, o ranking com a sua evolução, o quiz relâmpago de domingo e o convite pelo WhatsApp. No <strong>Perfil</strong> ficam o Premium, o indique e ganhe, o Modo mentor e a exportação ou exclusão dos dados.</p>
+<div class="a-screens"><figure class="glass"><img src="../aprova-hub/docs/prints/app-01-radar.png" width="390" height="844" loading="lazy" alt="Radar com filtros por área, card do novo edital do Banco Exemplo para Escriturário, chamada para o canal do Telegram e últimas notícias" /><figcaption>Radar de editais</figcaption></figure><figure class="glass"><img src="../aprova-hub/docs/prints/app-02-analises.png" width="390" height="844" loading="lazy" alt="Análises com seleção de banca, matéria e cargo, barras do que mais cai em Direito Constitucional e nota sobre o assunto em alta" /><figcaption>O que mais cai</figcaption></figure><figure class="glass"><img src="../aprova-hub/docs/prints/app-03-estudo.png" width="390" height="844" loading="lazy" alt="Tela de estudo com cronômetro em 42 minutos, números do dia, caderno de erros com botão para fotografar a questão e revisões de 1, 7 e 21 dias" /><figcaption>Estudo e caderno de erros</figcaption></figure><figure class="glass"><img src="../aprova-hub/docs/prints/app-04-grupos.png" width="390" height="844" loading="lazy" alt="Grupos com o desafio da turma, ranking da semana com Você em destaque e a sua evolução" /><figcaption>Grupos e ranking</figcaption></figure><figure class="glass"><img src="../aprova-hub/docs/prints/app-05-perfil.png" width="390" height="844" loading="lazy" alt="Perfil com o card do Aprova Premium, benefícios, botão de assinar com Pix Automático e indique e ganhe" /><figcaption>Perfil e Premium</figcaption></figure><figure class="glass"><img src="../aprova-hub/docs/prints/app-06-mentor.png" width="390" height="844" loading="lazy" alt="Modo mentor com alunos ativos, acerto médio, questões da semana, alunos em risco e botões para mandar mensagem" /><figcaption>Modo mentor</figcaption></figure></div>
+          </section>
+          <section class="a-chapter" id="handoff" aria-labelledby="t-handoff">
+            <h2 id="t-handoff">Handoff</h2>
+            <p>Para o produto sair do papel, o desenvolvimento precisa de mais do que telas bonitas. Entreguei:</p>
+            <ul><li>O app <strong>funciona de verdade</strong> no navegador e pode ser instalado no celular. Os dados ficam salvos no aparelho, com exportação em arquivo e opção de excluir a conta.</li><li>O <strong>banco já está desenhado</strong> para a versão com login, a partir do Mentor OS, com regras de acesso por aluno e mentor.</li><li>Regras escritas e iguais em todo o produto: revisão em 1, 7 e 21 dias, ranking com evolução própria, limite de 15 alunos grátis no Modo mentor.</li><li>Cores e tipografia em <strong>tokens</strong>, com o contraste de cada par anotado.</li></ul>
+          </section>
+          <section class="a-chapter" id="resultado" aria-labelledby="t-resultado">
+            <h2 id="t-resultado">Resultado</h2>
+<dl class="a-stats"><div class="glass"><dd>7</dd><dt>telas no app</dt></div><div class="glass"><dd>8</dd><dt>problemas achados na heurística</dt></div><div class="glass"><dd>6</dd><dt>corrigidos</dt></div><div class="glass"><dd>5</dd><dt>produtos no benchmark</dt></div></dl>
+            <p>O próximo passo é testar com 5 concurseiros e 2 mentores. Eu pediria para encontrar o edital mais recente da área, descobrir o que mais cai na matéria, registrar uma sessão de estudo, fotografar uma questão errada e entrar no quiz do grupo. Mediria a taxa de sucesso, o tempo de cada tarefa e se a pessoa entende o que o Premium oferece a mais.</p>
+
+          </section>
+          <section class="a-chapter" id="negocio" aria-labelledby="t-negocio">
+            <h2 id="t-negocio">Modelo de negócio</h2>
+            <p>O aluno usa de graça e pode assinar o <strong>Aprova Premium</strong>, com cobrança recorrente por Pix Automático ou cartão por meio de um provedor de pagamento. O acesso é liberado sozinho quando o pagamento cai e pausado se atrasar, sem apagar nada. Na demonstração, nada é cobrado.</p>
+            <p>Cada pagamento chega descontado da taxa do provedor e das comissões, e o saldo aparece no painel do dono, de onde ele retira o lucro para a conta cadastrada. Os preços e taxas são hipóteses a validar.</p>
+<div class="a-cards"><div class="glass"><h4>Aprova Premium · R$ 29,90/mês</h4><p>Para o aluno: análise por cargo e histórico completo, caderno de erros sem limite, quizzes e grupos ilimitados e alertas de edital.</p></div><div class="glass"><h4>Mentor Pro · R$ 97/mês</h4><p>Para o mentor que passa de 15 alunos: várias turmas, alertas de quem sumiu, plano da semana e mensagem pelo WhatsApp.</p></div><div class="glass"><h4>Escola ou cursinho · R$ 790/mês</h4><p>Ticket alto: vários mentores, painel da escola e suporte prioritário.</p></div></div>            <p>Para crescer sem vender pessoalmente, o desenho inclui indique e ganhe (um mês de Premium por amigo que assinar), canal de editais no Telegram, convite de grupo pelo WhatsApp e o Modo mentor grátis até 15 alunos, que traz turmas inteiras. Tudo é hipótese a validar, e a fase de produção ainda não começou.</p>
+
+          </section>
+          <section class="a-chapter" id="aprendizados" aria-labelledby="t-aprendizados">
+            <h2 id="t-aprendizados">Aprendizados</h2>
+            <ul><li><strong>Ampliar o público mudou o produto.</strong> O que era ferramenta do mentor virou app do aluno, e o mentor passou a ser um modo dentro dele.</li><li><strong>Dado de exemplo precisa parecer exemplo.</strong> Órgãos e bancas fictícios e o selo "dados de exemplo" evitam que um número inventado vire verdade.</li><li><strong>Crescimento precisa estar na tela.</strong> Telegram, convite pelo WhatsApp e indique e ganhe são partes do desenho, não um extra de marketing.</li></ul>
+          </section>
+          <section class="a-chapter" id="entregas" aria-labelledby="t-entregas">
+            <h2 id="t-entregas">Entregas</h2>
+<ul class="a-deliverables"><li><a class="glass" href="../aprova-hub/prototipo/index.html"><i data-lucide="smartphone" aria-hidden="true"></i><div>App funcionando<span>Versão de demonstração: os dados ficam salvos no seu aparelho</span></div><i class="go" data-lucide="arrow-up-right" aria-hidden="true"></i></a></li><li><a class="glass" href="https://github.com/gabrielAbreu-it/projetos/tree/main/aprova-hub/docs"><i data-lucide="folder-open" aria-hidden="true"></i><div>Documentação<span>Pesquisa, fluxos, decisões de UI, heurística e roteiro de teste</span></div><i class="go" data-lucide="arrow-up-right" aria-hidden="true"></i></a></li><li><a class="glass" href="https://github.com/gabrielAbreu-it/projetos/tree/main/aprova-hub/supabase"><i data-lucide="database" aria-hidden="true"></i><div>Estrutura do banco<span>Tabelas e regras de acesso para a versão com login</span></div><i class="go" data-lucide="arrow-up-right" aria-hidden="true"></i></a></li><li><a class="glass" href="../aprova-hub/site/index.html"><i data-lucide="store" aria-hidden="true"></i><div>Página de vendas<span>Planos, teste grátis e perguntas frequentes</span></div><i class="go" data-lucide="arrow-up-right" aria-hidden="true"></i></a></li><li><a class="glass" href="../aprova-hub/admin/index.html"><i data-lucide="layout-dashboard" aria-hidden="true"></i><div>Painel do dono<span>Receita, assinantes, afiliados e retirada do lucro</span></div><i class="go" data-lucide="arrow-up-right" aria-hidden="true"></i></a></li></ul>
+          </section>
+            <a class="a-next glass" href="roxx-energy.html">
+              <div><span>Próximo projeto</span><strong>Roxx Energy</strong><p style="color:var(--a-muted);margin-top:6px">App para quem tem carro elétrico achar um carregador livre, funcionando e compatível, reservar a vaga e pagar a recarga no mesmo lugar.</p></div>
+              <img src="../assets/img/capa-roxx-energy.png" width="1600" height="900" alt="" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer class="a-footer">
+      <div class="a-wrap">
+        <span>© 2026 Gabriel Abreu · UX/UI Designer · Brasília</span>
+        <span>Projetos conceituais, com dados fictícios nos protótipos. <a href="../classico.html">Versão clássica do portfólio</a></span>
+      </div>
+    </footer>
+    <script src="https://unpkg.com/lucide@0.453.0/dist/umd/lucide.min.js"></script>
+    <script src="../assets/js/aurora.js"></script>
+  </body>
+</html>

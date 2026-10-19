@@ -1,0 +1,15 @@
+{
+  "name": "Aprova Hub",
+  "short_name": "Aprova Hub",
+  "description": "Radar de editais, análise do que mais cai, estudo com cronômetro, caderno de erros e grupos para concurseiros.",
+  "lang": "pt-BR",
+  "start_url": "./index.html#radar",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f1f4f2",
+  "theme_color": "#0f2621",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}

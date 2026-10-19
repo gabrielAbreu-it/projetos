@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#12301f" />
+  <link rel="icon" href="../prototipo/icon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Lexend:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/css/base.css" />
+  <link rel="stylesheet" href="../prototipo/tokens.css" />
+  <link rel="stylesheet" href="site.css" />
+  <title>Central de ajuda · Aprova Hub</title>
+  <meta name="description" content="Perguntas frequentes sobre o Aprova Hub: turma, check-in, ranking, simulado, pagamentos e afiliados." />
+  <style>
+    .ajuda-hero { padding: 48px 0 36px; }
+    .busca { position: relative; max-width: 640px; margin-top: 18px; }
+    .busca svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); }
+    .busca input { padding-left: 46px; min-height: 52px; font-size: 1.05rem; }
+    .cats { display: flex; gap: 8px; flex-wrap: wrap; margin: 24px 0 8px; }
+    .cat { min-height: 44px; padding: 8px 16px; border-radius: 999px; border: 1px solid var(--line-strong); background: var(--surface); font-weight: 500; font-size: var(--fs-sm); cursor: pointer; }
+    .cat[aria-pressed="true"] { background: var(--forest-950); color: #fff; border-color: var(--forest-950); }
+    .perguntas { display: grid; gap: 10px; padding-bottom: 24px; }
+    .perguntas details { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 0 18px; }
+    .perguntas summary { cursor: pointer; font-weight: 600; min-height: 56px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 8px 0; }
+    .perguntas summary .chip { margin-left: auto; }
+    .perguntas details > div { padding: 0 0 16px; color: var(--muted); display: grid; gap: 8px; }
+    mark { background: var(--lime); color: var(--forest-950); border-radius: 3px; }
+    .vazio { text-align: center; padding: 32px 16px; display: grid; gap: 8px; justify-items: center; }
+    .suporte { display: grid; grid-template-columns: 1fr 1.2fr; gap: 24px; align-items: start; padding: 32px 0 56px; }
+    @media (max-width: 760px) { .suporte { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body data-pagina="ajuda">
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+  <div id="topo"></div>
+  <main id="conteudo">
+    <section class="sec--dark ajuda-hero"><div class="wrap">
+      <p class="eyebrow">Central de ajuda</p>
+      <h1 class="h1">Como podemos ajudar?</h1>
+      <div class="busca"><label class="sr-only" for="q">Buscar na ajuda</label><i data-lucide="search" aria-hidden="true"></i>
+        <input class="field__input" id="q" type="search" placeholder="Ex.: aluno sumiu, boleto, ranking" autocomplete="off" /></div>
+    </div></section>
+    <div class="wrap">
+      <div class="cats" role="group" aria-label="Filtrar por assunto" id="cats"></div>
+      <p class="small muted" id="cont" aria-live="polite"></p>
+      <div class="perguntas" id="lista"></div>
+      <section class="suporte" aria-labelledby="sp-t">
+        <div><h2 class="h2" id="sp-t">Não achou?</h2><p class="muted">Escreva para o suporte. Na versão real, a resposta chega por e-mail em até 1 dia útil.</p></div>
+        <form class="card form" id="f-sup" novalidate>
+          <div class="field"><label class="field__label" for="s-email">Seu e-mail</label><input class="field__input" id="s-email" type="email" autocomplete="email" aria-describedby="s-email-e" /><p class="field__erro" id="s-email-e" hidden></p></div>
+          <div class="field"><label class="field__label" for="s-msg">Sua dúvida</label><textarea class="field__input" id="s-msg" rows="4" aria-describedby="s-msg-e"></textarea><p class="field__erro" id="s-msg-e" hidden></p></div>
+          <button class="btn btn--primary" type="submit">Enviar (simulado)</button>
+        </form>
+      </section>
+    </div>
+  </main>
+  <div id="rodape"></div>
+  <script src="https://unpkg.com/lucide@0.453.0/dist/umd/lucide.min.js"></script>
+  <script src="negocio.js"></script>
+  <script src="comum.js"></script>
+  <script src="ajuda.js"></script>
+</body>
+</html>

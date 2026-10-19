@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#12301f" />
+  <title>Painel do dono · Aprova Hub</title>
+  <meta name="description" content="Painel do dono do Aprova Hub: receita, assinantes, afiliados e retirada do lucro. Demonstração com dados fictícios." />
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="../prototipo/icon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Lexend:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/css/base.css" />
+  <link rel="stylesheet" href="../prototipo/tokens.css" />
+  <link rel="stylesheet" href="../site/site.css" />
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+  <a class="skip-link" href="#view">Pular para o conteúdo</a>
+  <div class="adm">
+    <aside class="adm__side" aria-label="Menu do painel do dono">
+      <a class="brand" href="#visao"><span class="brand__mark" aria-hidden="true"><i data-lucide="sprout"></i></span>Aprova Hub</a>
+      <p class="adm__papel">Painel do dono</p>
+      <nav aria-label="Seções"><ul id="nav" class="adm__nav"></ul></nav>
+      <div class="adm__links">
+        <a href="../site/index.html"><i data-lucide="store" aria-hidden="true"></i> Página de vendas</a>
+        <a href="../site/afiliados.html"><i data-lucide="users" aria-hidden="true"></i> Afiliados</a>
+        <a href="../prototipo/index.html"><i data-lucide="app-window" aria-hidden="true"></i> App dos clientes</a>
+        <a href="https://github.com/gabrielAbreu-it/projetos/tree/main/aprova-hub/docs"><i data-lucide="book-open" aria-hidden="true"></i> Documentação</a>
+      </div>
+    </aside>
+    <div class="adm__main">
+      <header class="adm__top"><a class="brand" href="#visao"><span class="brand__mark" aria-hidden="true"><i data-lucide="sprout"></i></span>Aprova Hub</a><span class="adm__papel">Painel do dono</span><span class="adm__demo">Demonstração com dados fictícios</span></header>
+      <main class="adm__view" id="view" tabindex="-1"></main>
+    </div>
+    <nav class="adm__tabs" aria-label="Seções"><ul id="tabs"></ul></nav>
+  </div>
+  <p class="demo-selo" role="note"><i data-lucide="info" aria-hidden="true"></i> Demonstração com dados fictícios</p>
+  <dialog class="modal" id="modal" aria-labelledby="modal-t"></dialog>
+  <script src="https://unpkg.com/lucide@0.453.0/dist/umd/lucide.min.js"></script>
+  <script src="../site/negocio.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>

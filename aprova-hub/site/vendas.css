@@ -1,0 +1,49 @@
+.hero { padding: 64px 0 72px; overflow: hidden; }
+.hero__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 40px; align-items: center; }
+.hero__txt { display: grid; gap: 18px; }
+.hero__acts { display: flex; gap: 12px; flex-wrap: wrap; }
+.hero__nota { font-size: var(--fs-sm); color: #cbd8c2; }
+.hero__img { position: relative; min-height: 380px; }
+.hero__desk { width: 100%; border-radius: 12px; box-shadow: 0 24px 60px rgba(0,0,0,.35); border: 1px solid rgba(255,255,255,.15); }
+.hero__cel { position: absolute; right: -8px; bottom: -40px; width: 30%; border-radius: 22px; border: 6px solid #0b1f14; box-shadow: 0 24px 60px rgba(0,0,0,.45); }
+.dores .card { display: grid; gap: 8px; }
+.dores svg { width: 28px; height: 28px; color: var(--primary); }
+.passos { list-style: none; margin: 24px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.passo { display: flex; gap: 14px; align-items: flex-start; }
+.passo__n { width: 44px; height: 44px; border-radius: 50%; background: var(--lime); color: var(--forest-950); font-family: var(--font-display); font-weight: 700; font-size: 1.3rem; display: grid; place-items: center; flex: none; }
+.passo .h3 { margin-bottom: 4px; }
+.telas { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 24px; }
+.telas figure { margin: 0; display: grid; gap: 10px; }
+.telas img { border-radius: 18px; border: 1px solid var(--line); box-shadow: var(--shadow-1); }
+.telas figcaption { font-size: var(--fs-sm); font-weight: 500; text-align: center; }
+.planos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 24px 0; align-items: stretch; }
+.plano { display: flex; flex-direction: column; gap: 10px; position: relative; }
+.plano--destaque { border: 2px solid var(--primary); }
+.plano__selo { position: absolute; top: -12px; left: 20px; background: var(--lime); color: var(--forest-950); }
+.plano__preco strong { font-family: var(--font-display); font-size: 2.4rem; }
+.plano__preco span { color: var(--muted); margin-left: 4px; }
+.plano__itens { list-style: none; margin: 4px 0 8px; padding: 0; display: grid; gap: 8px; flex: 1; font-size: var(--fs-sm); }
+.plano__itens li { display: flex; gap: 8px; align-items: flex-start; }
+.plano__itens svg { color: var(--primary); width: 18px; height: 18px; margin-top: 2px; }
+.fundador { display: grid; grid-template-columns: auto 1fr auto; gap: 16px; align-items: center; background: var(--lime-soft); border-color: #c7e27a; }
+.fundador > svg { width: 32px; height: 32px; color: var(--primary); }
+.faq-wrap { display: grid; grid-template-columns: 1fr 1.6fr; gap: 40px; }
+.faq { display: grid; gap: 10px; }
+.faq details { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 0 18px; }
+.faq summary { cursor: pointer; font-weight: 600; min-height: 56px; display: flex; align-items: center; }
+.faq details p { padding: 0 0 16px; color: var(--muted); }
+.cta-final .h2 { color: #fff; }
+@media (max-width: 1024px) {
+  .hero__grid { grid-template-columns: 1fr; }
+  .hero__img { min-height: 0; margin-bottom: 30px; }
+  .telas { grid-template-columns: repeat(2, 1fr); }
+  .planos { grid-template-columns: 1fr; max-width: 520px; }
+  .faq-wrap { grid-template-columns: 1fr; gap: 16px; }
+}
+@media (max-width: 760px) {
+  .passos { grid-template-columns: 1fr; }
+  .fundador { grid-template-columns: 1fr; }
+  .hero { padding: 40px 0 48px; }
+  .hero__cel { right: 0; bottom: -24px; }
+  .hero__acts .btn { width: 100%; }
+}

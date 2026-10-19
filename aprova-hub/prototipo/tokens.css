@@ -1,0 +1,43 @@
+/* Aprova Hub · tokens de design
+   Contraste conferido (WCAG 2.1):
+   --ink sobre --bg ............ 14,4:1   --muted sobre branco ...... 6,3:1
+   branco sobre --primary ...... 7,4:1    --ink sobre --mint ........ 8,8:1
+   --mint sobre --dark ......... 8,8:1    --on-dark-muted s/ --dark . 8,2:1
+   --streak-ink s/ --streak .... 6,1:1    --blue-ink s/ --blue ...... 7,5:1
+   --green-ink s/ --green ...... 6,9:1    --quiz-ink s/ --quiz ...... 9,6:1
+   --line-strong sobre branco .. 3,1:1 (borda de campo, componente de UI) */
+:root {
+  --dark: #0f2621;
+  --dark-2: #173a32;
+  --primary: #12614a;
+  --primary-hover: #0d4d3a;
+  --primary-soft: #dcf2e4;
+  --mint: #4fd98a;
+  --mint-hover: #6ce39f;
+  --bg: #f1f4f2;
+  --surface: #ffffff;
+  --surface-2: #f7f9f8;
+  --line: #e1e7e3;
+  --line-strong: #8a9690;
+  --ink: #0f2621;
+  --muted: #55635c;
+  --on-dark-muted: #a9bfb6;
+
+  --streak: #fdf0c4; --streak-ink: #7a5200;
+  --blue: #e1ebfb; --blue-ink: #234a7a;
+  --green: #dcf2e4; --green-ink: #165b3c;
+  --yellow: #f6d55c;
+  --quiz: #fdf3d6; --quiz-ink: #5c3510; --quiz-btn: #6b3a12;
+  --tg: #e7eefb; --tg-ink: #1d3d73; --tg-btn: #1f4fa8;
+  --danger: #b42318; --danger-bg: #fdecea;
+  --warn: #7a4b00; --warn-bg: #fff1d0;
+
+  --font: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --fs-xs: 0.78rem; --fs-sm: 0.875rem; --fs-md: 1rem; --fs-lg: 1.15rem; --fs-xl: 1.5rem;
+  --r-sm: 10px; --r-md: 14px; --r-lg: 18px; --r-pill: 999px;
+  --shadow-1: 0 1px 2px rgba(15, 38, 33, 0.06), 0 2px 8px rgba(15, 38, 33, 0.05);
+  --shadow-2: 0 16px 40px rgba(15, 38, 33, 0.18);
+  --focus: 0 0 0 3px #ffffff, 0 0 0 6px #2f6fde;
+  --tap: 44px;
+  --app-w: 440px;
+}
