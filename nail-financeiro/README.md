@@ -16,12 +16,13 @@ Fica fora do portfólio: não aparece na vitrine nem na lista de projetos.
 
 ## Como colocar no ar
 
-1. Crie um projeto novo no [Supabase](https://supabase.com) (não reaproveite o do Segundo Cérebro).
-2. Em `supabase/schema.sql`, troque `EMAIL_DELA@exemplo.com` pelo e-mail dela e rode o arquivo inteiro no **SQL Editor**.
-3. Em **Authentication → Users → Add user**, crie o usuário com o e-mail dela e uma senha (mínimo 8 caracteres), marcando *Auto Confirm User*. Como o e-mail bate com o do passo 2, ela vira a dona do painel. Qualquer outra conta entra e não vê nada.
-4. Em **Authentication → Sign In / Providers**, desligue *Allow new users to sign up*, para ninguém mais criar conta.
-5. Em **Settings → API**, copie a *Project URL* e a chave *anon public* para `config.js` (`SB_URL` e `SB_KEY`) e, se quiser, coloque o nome dela em `NOME`.
-6. Publique. Como a pasta está no repositório do portfólio, ela já sai junto no deploy em `/nail-financeiro/`. No celular, dá para usar **Adicionar à tela de início**.
+1. Em `supabase/schema.sql`, troque `EMAIL_DELA@exemplo.com` pelo e-mail dela e rode o arquivo no **SQL Editor** do Supabase. Tudo fica no esquema `nail`, separado do que já existir no projeto.
+2. Em **Settings → API → Exposed schemas**, acrescente `nail` (ou rode as duas linhas comentadas no fim do arquivo, mantendo os esquemas que já estavam).
+3. Em `config.js`, coloque a *Project URL*, a chave *anon public* e `SB_SCHEMA = 'nail'`.
+4. Publique a pasta (no Vercel, como projeto próprio, sem framework).
+5. Ela abre o link, toca em **Primeiro acesso? Criar senha**, usa o e-mail do passo 1 e confirma pelo e-mail que chega. Qualquer outro e-mail entra e não vê nada.
+
+No celular, dá para usar **Adicionar à tela de início**.
 
 A chave *anon* pode ficar no código: quem protege os dados são as regras do banco, que só deixam a dona ler e escrever.
 
@@ -37,7 +38,7 @@ python3 -m http.server 8080
 ```
 nail-financeiro/
 ├── index.html         página única
-├── config.js          URL e chave do Supabase, nome dela
+├── config.js          URL, chave e esquema do Supabase, nome dela
 ├── app.js             login, valores em R$, janela de edição
 ├── financas.js        tudo de finanças: projeção, lançamentos, fixos, mês a mês, pizza e dicas
 ├── app.css            estilos

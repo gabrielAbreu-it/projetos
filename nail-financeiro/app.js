@@ -1,4 +1,4 @@
-const sb = SB_URL && SB_KEY ? supabase.createClient(SB_URL, SB_KEY) : null;
+const sb = SB_URL && SB_KEY ? supabase.createClient(SB_URL, SB_KEY, {db:{schema:SB_SCHEMA||'public'}}) : null;
 
 const DIAS = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
 const MESES = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
@@ -84,7 +84,7 @@ async function init(){
   }
   const {data:{session}} = await sb.auth.getSession();
   if(!session) return renderLogin();
-  const dono = await q(sb.from('dono').select('user_id'));
+  const dono = await q(sb.from('dona').select('email'));
   if(!Array.isArray(dono) || !dono.length){
     $('#app').innerHTML = `<div class="login"><div class="card">${LOGO}<h2>Acesso negado</h2><p class="mut">Este painel é privado.</p><br><button class="btn g" onclick="sair()">Sair</button></div></div>`;
     return;
@@ -98,7 +98,25 @@ function renderLogin(msg=''){
       <input name="email" type="email" placeholder="E-mail" required autocomplete="email">
       <input name="senha" type="password" placeholder="Senha" required minlength="8" autocomplete="current-password">
       <button class="btn">Entrar</button>
-    </form><p class="sm warn" id="lmsg" style="margin-top:10px">${esc(msg)}</p></div></div>`;
+    </form><p class="sm warn" id="lmsg" style="margin-top:10px">${esc(msg)}</p>
+    <button class="btn link" style="margin-top:6px" onclick="renderCadastro()">Primeiro acesso? Criar senha</button></div></div>`;
+}
+function renderCadastro(){
+  $('#app').innerHTML = `<div class="login"><div class="card">${LOGO}
+    <h2>Primeiro acesso</h2><p class="mut sm">Use o e-mail cadastrado como dona do painel e escolha uma senha.</p>
+    <form class="f" onsubmit="cadastrar(event)">
+      <input name="email" type="email" placeholder="E-mail" required autocomplete="email">
+      <input name="senha" type="password" placeholder="Senha (mínimo 8 caracteres)" required minlength="8" autocomplete="new-password">
+      <button class="btn">Criar senha</button>
+    </form><p class="sm warn" id="lmsg" style="margin-top:10px"></p>
+    <button class="btn link" style="margin-top:6px" onclick="renderLogin()">Já tenho senha</button></div></div>`;
+}
+async function cadastrar(e){
+  const o = formData(e);
+  const {data, error} = await sb.auth.signUp({email:o.email, password:o.senha, options:{emailRedirectTo: location.origin + location.pathname}});
+  if(error) return $('#lmsg').textContent = /não permitido|not allowed|Database error/i.test(error.message) ? 'Este e-mail não tem acesso a este painel.' : /registered|already/i.test(error.message) ? 'Este e-mail já tem senha. Volte e entre.' : 'Não deu certo: '+error.message;
+  if(data.session) return init();
+  renderLogin('Pronto! Confirme pelo link que chegou no seu e-mail e depois entre aqui.');
 }
 async function entrar(e){
   const o = formData(e);

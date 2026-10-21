@@ -1,45 +1,31 @@
--- Financeiro · banco do painel (rodar uma vez no SQL Editor de um projeto Supabase novo)
+-- Financeiro · banco do painel (rodar uma vez no SQL Editor do Supabase)
+-- Tudo fica no esquema "nail", separado de qualquer outra coisa que já exista no projeto.
 -- Antes de rodar: troque EMAIL_DELA@exemplo.com pelo e-mail que ela vai usar para entrar.
 
+create schema if not exists nail;
+grant usage on schema nail to anon, authenticated;
+
 -- ========== ACESSO: só a dona entra ==========
-create table if not exists public.dono (
-  id boolean primary key default true check (id),   -- no máximo uma linha
-  user_id uuid not null references auth.users(id) on delete cascade,
+create table if not exists nail.dona (
+  email text primary key check (email = lower(email)),
   criado_em timestamptz default now()
 );
-alter table public.dono enable row level security;
-drop policy if exists dono_le on public.dono;
-create policy dono_le on public.dono for select to authenticated using (user_id = auth.uid());
-
-create or replace function public.is_dono() returns boolean
-language sql stable security definer set search_path = public as $$
-  select exists (select 1 from public.dono where user_id = auth.uid());
+create or replace function nail.is_dona() returns boolean
+language sql stable security definer set search_path = '' as $$
+  select exists (select 1 from nail.dona d where d.email = lower(auth.email()));
 $$;
-
--- o primeiro cadastro com o e-mail dela vira a dona; qualquer outro cadastro não vê nada
-create or replace function public.reivindicar_dono() returns trigger
-language plpgsql security definer set search_path = public as $$
-begin
-  if lower(new.email) = lower('EMAIL_DELA@exemplo.com') and not exists (select 1 from public.dono) then
-    insert into public.dono(user_id) values (new.id);
-  end if;
-  return new;
-end $$;
-drop trigger if exists on_auth_user_created_dono on auth.users;
-create trigger on_auth_user_created_dono after insert on auth.users
-  for each row execute function public.reivindicar_dono();
 
 -- ========== FINANÇAS ==========
 -- saldos: "disponivel" (conta do dia a dia) e "reserva" (guardado)
-create table if not exists public.fin_contas (
+create table if not exists nail.fin_contas (
   id uuid primary key default gen_random_uuid(),
   nome text not null,
-  tipo text not null check (tipo in ('disponivel','reserva')),
+  tipo text not null unique check (tipo in ('disponivel','reserva')),
   saldo numeric not null default 0,
   atualizado_em timestamptz default now()
 );
 -- o que já aconteceu (atualiza o saldo pelo gatilho abaixo)
-create table if not exists public.fin_lancamentos (
+create table if not exists nail.fin_lancamentos (
   id uuid primary key default gen_random_uuid(),
   data date not null default current_date,
   descricao text not null,
@@ -49,7 +35,7 @@ create table if not exists public.fin_lancamentos (
   criado_em timestamptz default now()
 );
 -- fixos que se repetem todo mês (entram na projeção)
-create table if not exists public.fin_recorrentes (
+create table if not exists nail.fin_recorrentes (
   id uuid primary key default gen_random_uuid(),
   descricao text not null,
   categoria text,
@@ -62,7 +48,7 @@ create table if not exists public.fin_recorrentes (
   criado_em timestamptz default now()
 );
 -- itens só de um mês e correções de um fixo num mês ("| fixo:<id> | valor|pular")
-create table if not exists public.fin_ajustes (
+create table if not exists nail.fin_ajustes (
   id uuid primary key default gen_random_uuid(),
   mes date not null,
   descricao text not null,
@@ -72,41 +58,52 @@ create table if not exists public.fin_ajustes (
 );
 
 -- lançamento novo aplica no saldo; lançamento excluído desfaz
-create or replace function public.fin_aplicar_lancamento() returns trigger
-language plpgsql security definer set search_path = public as $$
+create or replace function nail.aplicar_lancamento() returns trigger
+language plpgsql security definer set search_path = '' as $$
 declare
   r record; sinal int;
 begin
   if tg_op = 'INSERT' then r := new; sinal := 1; else r := old; sinal := -1; end if;
   if r.tipo = 'entrada' then
-    update fin_contas set saldo = saldo + sinal*r.valor, atualizado_em = now() where tipo='disponivel';
+    update nail.fin_contas set saldo = saldo + sinal*r.valor, atualizado_em = now() where tipo='disponivel';
   elsif r.tipo = 'saida' then
-    update fin_contas set saldo = saldo - sinal*r.valor, atualizado_em = now() where tipo='disponivel';
+    update nail.fin_contas set saldo = saldo - sinal*r.valor, atualizado_em = now() where tipo='disponivel';
   elsif r.tipo = 'aporte' then
-    update fin_contas set saldo = saldo - sinal*r.valor, atualizado_em = now() where tipo='disponivel';
-    update fin_contas set saldo = saldo + sinal*r.valor, atualizado_em = now() where tipo='reserva';
+    update nail.fin_contas set saldo = saldo - sinal*r.valor, atualizado_em = now() where tipo='disponivel';
+    update nail.fin_contas set saldo = saldo + sinal*r.valor, atualizado_em = now() where tipo='reserva';
   elsif r.tipo = 'resgate' then
-    update fin_contas set saldo = saldo + sinal*r.valor, atualizado_em = now() where tipo='disponivel';
-    update fin_contas set saldo = saldo - sinal*r.valor, atualizado_em = now() where tipo='reserva';
+    update nail.fin_contas set saldo = saldo + sinal*r.valor, atualizado_em = now() where tipo='disponivel';
+    update nail.fin_contas set saldo = saldo - sinal*r.valor, atualizado_em = now() where tipo='reserva';
   end if;
   return null;
 end $$;
-drop trigger if exists fin_lancamento_saldo on public.fin_lancamentos;
-create trigger fin_lancamento_saldo after insert or delete on public.fin_lancamentos
-  for each row execute function public.fin_aplicar_lancamento();
+drop trigger if exists fin_lancamento_saldo on nail.fin_lancamentos;
+create trigger fin_lancamento_saldo after insert or delete on nail.fin_lancamentos
+  for each row execute function nail.aplicar_lancamento();
 
--- só a dona lê e escreve
+-- só a dona lê e escreve; visitantes sem login não veem nada
+alter table nail.dona enable row level security;
+drop policy if exists dona_le on nail.dona;
+create policy dona_le on nail.dona for select to authenticated using (email = lower(auth.email()));
+grant select on nail.dona to authenticated;
 do $$
 declare t text;
 begin
   foreach t in array array['fin_contas','fin_lancamentos','fin_recorrentes','fin_ajustes'] loop
-    execute format('alter table public.%I enable row level security', t);
-    execute format('drop policy if exists dono_tudo on public.%I', t);
-    execute format('create policy dono_tudo on public.%I for all to authenticated using (public.is_dono()) with check (public.is_dono())', t);
+    execute format('alter table nail.%I enable row level security', t);
+    execute format('drop policy if exists dona_tudo on nail.%I', t);
+    execute format('create policy dona_tudo on nail.%I for all to authenticated using (nail.is_dona()) with check (nail.is_dona())', t);
+    execute format('grant select, insert, update, delete on nail.%I to authenticated', t);
   end loop;
 end $$;
+revoke execute on function nail.is_dona() from public, anon;
+grant execute on function nail.is_dona() to authenticated;
 
--- as duas contas começam zeradas; ela ajusta pelo botão "corrigir" no painel
-insert into public.fin_contas(nome, tipo)
-select * from (values ('Conta do dia a dia','disponivel'), ('Reserva','reserva')) v(nome, tipo)
-where not exists (select 1 from public.fin_contas);
+-- dona e contas iniciais (zeradas; ela ajusta pelo botão "corrigir")
+insert into nail.dona(email) values (lower('EMAIL_DELA@exemplo.com')) on conflict do nothing;
+insert into nail.fin_contas(nome, tipo) values ('Conta do dia a dia','disponivel'), ('Reserva','reserva') on conflict (tipo) do nothing;
+
+-- libera o esquema "nail" na API (mantém os esquemas que já estavam liberados;
+-- confira em Settings → API → Exposed schemas e acrescente "nail" se preferir pelo painel)
+-- alter role authenticator set pgrst.db_schemas = 'public, graphql_public, nail';
+-- notify pgrst, 'reload config';
