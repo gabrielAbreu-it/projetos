@@ -93,11 +93,14 @@ python scripts/faculdade_sync.py</code></pre>
 
 async function vFac(){
   if(FAC.aberto) return vFacItem(FAC.aberto);
-  const [itens, sync] = await Promise.all([
+  const [itens, sync, geral] = await Promise.all([
     q(sb.from('faculdade_itens').select('id,tipo,disciplina,titulo,descricao,prazo,peso,nota,status,prioridade,lido,url,secao,ordem,concluido_portal').order('prioridade',{ascending:true,nullsFirst:false}).order('prazo',{ascending:true,nullsFirst:false}).limit(3000)),
-    q(sb.from('faculdade_sync').select('*').order('executado_em',{ascending:false}).limit(1))
+    q(sb.from('faculdade_sync').select('*').order('executado_em',{ascending:false}).limit(1)),
+    q(sb.from('faculdade_chat').select('id,papel,conteudo,criado_em').is('item_id',null).order('criado_em',{ascending:false}).limit(80))
   ]);
   if(TAB!=='faculdade' || FAC.aberto) return;
+  const geralMsg = $('#fac-g-msg')?.value || '';
+  const lado = facChatGeral(Array.isArray(geral)?geral.slice().reverse():[], geralMsg);
   const TODOS = Array.isArray(itens)?itens:[], ult = sync?.[0];
   const T = TODOS.filter(i=>FAC_TAREFA.includes(i.tipo));
   const agora = Date.now(), sete = agora+7*864e5;
@@ -114,8 +117,8 @@ async function vFac(){
 
   const abas = `<div class="subtabs" style="margin-bottom:14px">${[['tarefas','Atividades e prazos'],['conteudo','Tudo da faculdade']].map(([k,l])=>`<button class="${FAC.visao===k?'on':''}" onclick="FAC.visao='${k}';facSalva();refresh()">${l}</button>`).join('')}</div>`;
   const selDisc = `<select onchange="FAC.disc=this.value;facSalva();refresh()" aria-label="Disciplina"><option value="todas">Todas as disciplinas</option>${discs.map(d=>`<option ${FAC.disc===d?'selected':''}>${esc(d)}</option>`).join('')}</select>`;
-  if(FAC.visao==='conteudo'){ $('#view').innerHTML = `<h2>Faculdade · UniCEUB</h2>${abas}${facConteudo(TODOS, selDisc, ult)}`; return; }
-  $('#view').innerHTML = `<h2>Faculdade · UniCEUB</h2>${abas}
+  if(FAC.visao==='conteudo'){ $('#view').innerHTML = `<h2>Faculdade · UniCEUB</h2>${abas}<div class="dash"><div class="s8">${facConteudo(TODOS, selDisc, ult)}</div>${lado}</div>`; facRolarChat(); return; }
+  $('#view').innerHTML = `<h2>Faculdade · UniCEUB</h2>${abas}<div class="dash"><div class="s8">
   <div class="grid g4 m2 fac-kpis">
     <div class="card kpi"><span>Próximos 7 dias</span><b class="big">${prox7.length}</b></div>
     <div class="card kpi"><span>Atrasados</span><b class="big ${atras.length?'bad':''}">${atras.length}</b></div>
@@ -127,7 +130,36 @@ async function vFac(){
     <div class="chips">${[['abertos','Em aberto'],...FAC_ST,['tudo','Tudo']].map(([k,l])=>`<button class="${FAC.status===k?'on':''}" onclick="FAC.status='${k}';facSalva();refresh()">${l}</button>`).join('')}</div>
     ${selDisc}
   </div>
-  <div class="card">${L.map(facLinha).join('') || `<p class="empty">${T.length?'Nada com esses filtros.':'Nenhum item ainda. Rode o sync (botão Sincronizar).'}</p>`}</div>`;
+  <div class="card">${L.map(facLinha).join('') || `<p class="empty">${T.length?'Nada com esses filtros.':'Nenhum item ainda. Rode o sync (botão Sincronizar).'}</p>`}</div></div>${lado}</div>`;
+  facRolarChat();
+}
+
+// Assistente geral da faculdade (conversa livre que enxerga todos os itens)
+const FAC_SUGESTOES = ['O que eu tenho para hoje e amanhã?','Monta meu plano de estudos da semana','O que está atrasado e por onde começo?','Tem algum aviso importante?'];
+function facChatGeral(C, rascunho){
+  return `<div class="s4 fac-lado"><div class="card fac-chat"><h3>Assistente da faculdade ${C.length?`<button class="btn link" onclick="facLimparGeral()">limpar</button>`:''}</h3>
+    <div class="fac-msgs" id="fac-g-msgs">${C.map(m=>`<div class="fac-m ${m.papel}"><div class="fac-md sm">${m.papel==='assistant'?facMd(m.conteudo):`<p class="pre">${esc(m.conteudo)}</p>`}</div><span class="xs mut mono">${fmtDH(m.criado_em)}</span></div>`).join('')
+      || `<p class="empty">Ele vê tudo que veio do portal: prazos, avisos, notas e materiais. Pergunte o que fazer primeiro, peça um plano de estudos ou tire dúvidas.</p>`}
+      ${FAC.geralOcupado?'<div class="fac-m assistant"><p class="sm mut">pensando…</p></div>':''}</div>
+    <div class="quick">${FAC_SUGESTOES.map(t=>`<button class="btn g s" ${FAC.geralOcupado?'disabled':''} onclick="facGeral(${esc(JSON.stringify(t))})">${esc(t)}</button>`).join('')}</div>
+    <form class="f" onsubmit="event.preventDefault();facGeral()">
+      <textarea id="fac-g-msg" rows="3" placeholder="Pergunte sobre a faculdade…" onkeydown="if(event.key==='Enter'&&(event.ctrlKey||event.metaKey))this.form.requestSubmit()">${esc(rascunho)}</textarea>
+      <button class="btn" ${FAC.geralOcupado?'disabled':''}>Enviar</button></form></div></div>`;
+}
+function facRolarChat(){ const b=$('#fac-g-msgs'); if(b) b.scrollTop=b.scrollHeight; }
+async function facGeral(texto){
+  const ta = $('#fac-g-msg'), msg = (texto ?? ta?.value ?? '').trim();
+  if(!msg || FAC.geralOcupado) return;
+  if(ta && texto==null) ta.value='';
+  FAC.geralOcupado = true; refresh();
+  try{
+    const {error} = await sb.functions.invoke('faculdade-tutor', {body:{acao:'geral', mensagem:msg}});
+    if(error){ let m=error.message; try{ const j=await error.context?.json?.(); if(j?.erro) m=j.erro; }catch(e){} toast('Assistente: '+m); const t=$('#fac-g-msg'); if(t && !t.value) t.value=msg; }
+  } finally { FAC.geralOcupado = false; refresh(); }
+}
+async function facLimparGeral(){
+  if(!confirm('Apagar a conversa com o assistente da faculdade?')) return;
+  if(await q(sb.from('faculdade_chat').delete().is('item_id',null))!==null) refresh();
 }
 
 function facLinha(i){

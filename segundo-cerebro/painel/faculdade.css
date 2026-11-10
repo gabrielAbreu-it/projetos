@@ -33,3 +33,5 @@
 .fac-m.user{align-self:flex-end;background:rgba(47,102,224,.12);border-color:rgba(47,102,224,.3)}
 .fac-m.assistant{align-self:flex-start;background:var(--card2)}
 .fac-m>span{display:block;margin-top:4px}
+@media(min-width:1100px){.s8{grid-column:span 8}}
+#fac-g-msgs{max-height:48vh}

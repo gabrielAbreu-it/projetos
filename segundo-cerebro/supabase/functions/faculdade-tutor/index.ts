@@ -121,6 +121,74 @@ async function chamarModelo(system: Anthropic.Beta.BetaTextBlockParam[], message
   return { texto, modelo: msg.model, uso: msg.usage };
 }
 
+const SYSTEM_GERAL = `${SYSTEM_TUTOR}
+
+Além disso, aqui você é o assistente geral da faculdade do Gabriel: você vê o painel inteiro (o que vence hoje, amanhã, na semana, o que está atrasado, avisos e notas) e ajuda a decidir o que fazer primeiro, como dividir o tempo, como estudar e como começar cada trabalho. Seja direto e prático: datas exatas, ordem sugerida, tempo estimado. Quando precisar do enunciado completo, dos materiais ou do resumo de um item, use a ferramenta abrir_item com o id da lista. Não invente prazo nem conteúdo que não esteja nos dados.`;
+
+const FERRAMENTAS_GERAL = [{
+  name: "abrir_item",
+  description: "Abre um item da faculdade pelo id e devolve o enunciado completo, o resumo da IA e o texto dos materiais anexos.",
+  input_schema: { type: "object", properties: { id: { type: "string", description: "id do item (uuid) da lista do painel" } }, required: ["id"], additionalProperties: false },
+  strict: true,
+}];
+
+async function contextoGeral(db: SupabaseClient): Promise<string> {
+  const agora = new Date();
+  const hoje = new Intl.DateTimeFormat("pt-BR", { timeZone: "America/Sao_Paulo", dateStyle: "full", timeStyle: "short" }).format(agora);
+  const { data: itens } = await db.from("faculdade_itens")
+    .select("id,tipo,disciplina,titulo,prazo,peso,nota,status,prioridade,concluido_portal,secao,data_ref,descricao")
+    .order("prazo", { ascending: true, nullsFirst: false }).limit(3000);
+  const I = itens ?? [];
+  const f = (d: string | null) => d ? new Date(d).toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo", weekday: "short", day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" }) : "sem prazo";
+  const tarefas = I.filter((i) => ["atividade", "outro"].includes(i.tipo) && i.status !== "entregue");
+  const linhasT = tarefas.map((i) => `- [${i.id}] ${i.disciplina ?? ""} · ${i.titulo} · prazo ${f(i.prazo)}${i.peso != null ? ` · peso ${i.peso}` : ""} · status ${i.status}${i.concluido_portal === true ? " · concluído no portal" : i.concluido_portal === false ? " · a fazer no portal" : ""}${i.prioridade ? ` · prioridade ${i.prioridade}` : ""}`);
+  const avisos = I.filter((i) => i.tipo === "aviso").sort((a, b) => String(b.data_ref ?? "").localeCompare(String(a.data_ref ?? ""))).slice(0, 20)
+    .map((i) => `- [${i.id}] ${i.disciplina ?? ""} · ${i.titulo}${i.data_ref ? ` (${f(i.data_ref)})` : ""}: ${String(i.descricao ?? "").slice(0, 200)}`);
+  const notas = I.filter((i) => i.tipo === "nota").map((i) => `- ${i.disciplina ?? ""} · ${i.titulo}: ${i.nota}`);
+  const entregues = I.filter((i) => i.tipo === "atividade" && i.status === "entregue").length;
+  const disciplinas = [...new Set(I.map((i) => i.disciplina).filter(Boolean))];
+  return [`Agora: ${hoje} (Brasília).`, `Disciplinas: ${disciplinas.join(", ") || "nenhuma sincronizada ainda"}.`,
+    `\n## Tarefas em aberto (${tarefas.length}; ${entregues} já entregues)`, linhasT.join("\n") || "(nenhuma)",
+    `\n## Avisos recentes`, avisos.join("\n") || "(nenhum)", `\n## Notas`, notas.join("\n") || "(nenhuma)"].join("\n");
+}
+
+async function abrirItem(db: SupabaseClient, id: string): Promise<string> {
+  const { data: it } = await db.from("faculdade_itens").select("*").eq("id", id).maybeSingle();
+  if (!it) return "Item não encontrado.";
+  return contextoItem(it as Item).slice(0, 60_000);
+}
+
+async function assistenteGeral(db: SupabaseClient, historico: Anthropic.Beta.BetaMessageParam[]) {
+  const client = new Anthropic({ apiKey: Deno.env.get("ANTHROPIC_API_KEY") });
+  const system: Anthropic.Beta.BetaTextBlockParam[] = [
+    { type: "text", text: SYSTEM_GERAL },
+    { type: "text", text: await contextoGeral(db), cache_control: { type: "ephemeral" } },
+  ];
+  const messages = [...historico];
+  for (let volta = 0; volta < 8; volta++) {
+    const msg = await client.beta.messages.stream({
+      model: MODELO, max_tokens: 32000, output_config: { effort: ESFORCO },
+      betas: ["server-side-fallback-2026-07-01"], fallbacks: "default",
+      system, messages, tools: FERRAMENTAS_GERAL as unknown as Anthropic.Beta.BetaToolUnion[],
+    }).finalMessage();
+    if (msg.stop_reason === "refusal") throw new Error("O modelo recusou responder essa mensagem. Reformule a pergunta.");
+    if (msg.stop_reason !== "tool_use") {
+      const texto = msg.content.filter((b) => b.type === "text").map((b) => (b as { text: string }).text).join("\n").trim();
+      if (!texto) throw new Error(`Resposta vazia do modelo (stop_reason: ${msg.stop_reason}).`);
+      return { texto, modelo: msg.model };
+    }
+    messages.push({ role: "assistant", content: msg.content as Anthropic.Beta.BetaContentBlockParam[] });
+    const resultados: Anthropic.Beta.BetaToolResultBlockParam[] = [];
+    for (const b of msg.content) {
+      if (b.type !== "tool_use") continue;
+      const id = String((b.input as { id?: string })?.id ?? "");
+      resultados.push({ type: "tool_result", tool_use_id: b.id, content: b.name === "abrir_item" ? await abrirItem(db, id) : "Ferramenta desconhecida.", is_error: b.name !== "abrir_item" });
+    }
+    messages.push({ role: "user", content: resultados });
+  }
+  throw new Error("O assistente usou ferramentas demais nesta resposta. Tente perguntar de forma mais específica.");
+}
+
 async function autorizado(req: Request): Promise<boolean> {
   const token = (req.headers.get("Authorization") ?? "").replace(/^Bearer\s+/i, "");
   if (!token) return false;
@@ -144,9 +212,30 @@ Deno.serve(async (req) => {
   let corpo: { acao?: string; item_id?: string; mensagem?: string; rascunho?: string };
   try { corpo = await req.json(); } catch { return json({ erro: "JSON inválido." }, 400); }
   const acao = corpo.acao ?? "chat";
-  if (!corpo.item_id) return json({ erro: "item_id é obrigatório." }, 400);
-
   const db: SupabaseClient = createClient(SUPABASE_URL, SERVICE_KEY, { auth: { persistSession: false } });
+
+  if (acao === "geral") {  // assistente da faculdade inteira (conversa sem item, item_id nulo)
+    const pergunta = (corpo.mensagem ?? "").trim();
+    if (!pergunta) return json({ erro: "Mensagem vazia." }, 400);
+    try {
+      const { error: eIns } = await db.from("faculdade_chat").insert({ item_id: null, papel: "user", conteudo: pergunta });
+      if (eIns) throw eIns;
+      const { data: hist, error: eHist } = await db.from("faculdade_chat").select("papel,conteudo")
+        .is("item_id", null).order("criado_em", { ascending: false }).limit(60);
+      if (eHist) throw eHist;
+      const { texto, modelo } = await assistenteGeral(db, montarHistorico((hist ?? []).reverse()));
+      const { data: salvo, error: eResp } = await db.from("faculdade_chat").insert({ item_id: null, papel: "assistant", conteudo: texto }).select().single();
+      if (eResp) throw eResp;
+      return json({ resposta: texto, mensagem: salvo, modelo });
+    } catch (e) {
+      const status = e instanceof Anthropic.APIError ? (e.status ?? 502) : 500;
+      const msg = e instanceof Error ? e.message : (e as { message?: string })?.message ?? String(e);
+      console.error("faculdade-tutor geral", status, msg);
+      return json({ erro: msg }, status >= 400 && status < 600 ? status : 500);
+    }
+  }
+
+  if (!corpo.item_id) return json({ erro: "item_id é obrigatório." }, 400);
   const { data: item, error: eItem } = await db.from("faculdade_itens").select("*").eq("id", corpo.item_id).single();
   if (eItem || !item) return json({ erro: "Item não encontrado." }, 404);
 
