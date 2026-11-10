@@ -1,0 +1,6 @@
+/* ===== Agente de prospecção ===== */
+.ag-row{cursor:pointer;padding-left:8px;transition:background .15s}
+.ag-row:hover{background:rgba(255,255,255,.02)}
+.ag-mock{width:100%;height:560px;border:1px solid var(--line2);border-radius:8px;background:#fff}
+.ag-ul{margin:4px 0 0 16px;display:grid;gap:3px;font-size:13px}
+@media(max-width:699px){#view form.f[onsubmit^="agtBuscar"]{grid-template-columns:1fr!important}.ag-mock{height:420px}}

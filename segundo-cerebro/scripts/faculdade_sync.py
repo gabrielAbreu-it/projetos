@@ -170,6 +170,11 @@ class Supabase:
             raise RuntimeError(f"upsert {tabela}: {r.status_code} {r.text[:400]}")
         return r.json()
 
+    def patch(self, tabela: str, filtros: dict, valores: dict) -> None:
+        r = requests.patch(f"{self.url}/rest/v1/{tabela}", headers=self.h, params=filtros, json=valores, timeout=60)
+        if not r.ok:
+            raise RuntimeError(f"patch {tabela}: {r.status_code} {r.text[:400]}")
+
     def insert(self, tabela: str, linha: dict) -> None:
         r = requests.post(f"{self.url}/rest/v1/{tabela}", headers=self.h, json=linha, timeout=60)
         if not r.ok:
@@ -198,17 +203,55 @@ class Item:
     peso: float | None = None
     nota: float | None = None
     materiais: list[dict] = field(default_factory=list)
+    secao: str = ""
+    ordem: int | None = None
+    concluido_portal: bool | None = None
 
     def linha(self) -> dict:
         prazo = self.prazo.isoformat() if self.prazo else None
+        # atividade/aviso/nota: hash = disciplina+título+prazo (como combinado);
+        # material/aula/outro podem repetir título entre semanas, então entram seção e link
+        chave = self.titulo if self.tipo in ("atividade", "aviso", "nota") else f"{self.titulo}|{self.secao}|{self.url}"
         return {
             "tipo": self.tipo, "disciplina": self.disciplina, "titulo": self.titulo[:300],
             "descricao": self.descricao[:2000] or None, "enunciado": self.enunciado or None,
             "data_ref": self.data_ref.isoformat() if self.data_ref else None, "prazo": prazo,
             "peso": self.peso, "nota": self.nota, "url": self.url or None,
-            "materiais": self.materiais, "hash": calc_hash(self.disciplina, self.titulo, prazo),
+            "materiais": self.materiais, "hash": calc_hash(self.disciplina, chave, prazo),
+            "secao": self.secao or None, "ordem": self.ordem, "concluido_portal": self.concluido_portal,
             "atualizado_em": datetime.now(timezone.utc).isoformat(),
         }
+
+
+MOD_TIPO = {
+    **dict.fromkeys(["assign", "quiz", "workshop", "lesson", "h5pactivity", "choice", "feedback", "data", "glossary", "scorm", "lti"], "atividade"),
+    **dict.fromkeys(["resource", "url", "folder", "page", "book", "imscp"], "material"),
+    "label": "aula", "forum": "forum",
+}
+
+# Lê a estrutura de uma página de disciplina do Moodle: seções, módulos e marca de concluído.
+MAPA_CURSO_JS = r"""() => {
+  const out = []; let ordem = 0;
+  const secoes = document.querySelectorAll('li.section, li[data-for="section"], div[data-for="section"]');
+  secoes.forEach(sec => {
+    const nomeSec = (sec.querySelector('.sectionname, [data-for="section_title"], h3')?.innerText || '').trim();
+    const resumo = (sec.querySelector('.summary, .summarytext, [data-for="sectioninfo"]')?.innerText || '').trim();
+    if (resumo) out.push({k: 'secao', secao: nomeSec, titulo: nomeSec || 'Apresentação', texto: resumo, ordem: ordem++});
+    sec.querySelectorAll('li.activity, li[data-for="cmitem"]').forEach(a => {
+      const mod = ((a.className.match(/modtype_(\w+)/) || [])[1]) || '';
+      const link = a.querySelector('a[href*="/mod/"]') || a.querySelector('a[href]:not([href^="#"]):not([href^="javascript"])');
+      let nome = (a.querySelector('.instancename, .activityname, [data-activityname]')?.innerText || link?.innerText || '').split('\n')[0].trim();
+      const info = [...a.querySelectorAll('[data-region="completion-info"], .completion-info, .activity-completion, .automatic-completion-conditions, button[data-action="toggle-manual-completion"], img.icon')]
+        .map(e => (e.innerText || '') + ' ' + (e.getAttribute('alt') || '') + ' ' + (e.getAttribute('data-toggletype') || '') + ' ' + (e.getAttribute('title') || '')).join(' ');
+      let conc = null;
+      if (/n[ãa]o conclu[ií]d|to do|a fazer|manual:mark-done|marcar como feito|incomplete/i.test(info)) conc = false;
+      else if (/conclu[ií]d|done|feito|manual:undo|complete/i.test(info)) conc = true;
+      out.push({k: 'mod', mod, secao: nomeSec, titulo: nome, href: link ? link.href : null,
+                texto: link ? '' : (a.innerText || '').trim(), concluido: conc, ordem: ordem++});
+    });
+  });
+  return out;
+}"""
 
 
 class Varredor:
@@ -216,6 +259,7 @@ class Varredor:
         self.ctx, self.page, self.mapear = ctx, page, mapear
         self.falhas: list[str] = []
         self.n_debug = 0
+        self._baixados: dict[str, dict] = {}
 
     # --- depuração
     def debug(self, rotulo: str, page: Page | None = None) -> None:
@@ -342,28 +386,96 @@ class Varredor:
 
     # --- atividades de uma disciplina
     def atividades(self, nome: str, url: str) -> list[Item]:
+        """Copia tudo da disciplina: atividades, materiais, aulas (rótulos/seções), avisos e notas."""
         self.abre(url)
         if self.mapear:
             self.debug(f"disciplina-{nome}")
-        cands: dict[str, tuple[str, str]] = {}
-        for _ in range(20):
-            for txt, href in self.todos_links():
-                if not txt or len(txt) < 3:
-                    continue
-                if MOODLE_ATIV_RE.search(href) or (classifica(txt, href) in ("atividade", "aviso") and urlparse(href).netloc == urlparse(url).netloc):
-                    cands.setdefault(href, (txt, ""))
-            if not self.proxima_pagina():
-                break
+        estrutura: list[dict] = []
+        for fr in self.page.frames:
+            try:
+                estrutura += fr.evaluate(MAPA_CURSO_JS)
+            except Exception:
+                pass
 
         itens: list[Item] = []
-        for href, (txt, _) in cands.items():
-            try:
-                itens.extend(self.detalhe(nome, txt, href))
-            except Exception as e:
-                self.falhou(f"item-{slug(txt)}", e)
-        return itens
+        if estrutura:  # Moodle: segue a ordem do portal
+            for m in estrutura:
+                try:
+                    if m["k"] == "secao" or not m.get("href"):
+                        texto = limpa(m.get("texto"))
+                        if texto:
+                            titulo = m.get("titulo") or texto.split("\n")[0][:120]
+                            itens.append(Item(tipo="aula", disciplina=nome, titulo=titulo, enunciado=texto, descricao=texto[:400],
+                                              secao=m.get("secao") or "", ordem=m.get("ordem"), concluido_portal=m.get("concluido")))
+                        continue
+                    tipo = MOD_TIPO.get(m.get("mod") or "", None)
+                    itens.extend(self.detalhe(nome, m.get("titulo") or "", m["href"], tipo=tipo, secao=m.get("secao") or "",
+                                              ordem=m.get("ordem"), concluido=m.get("concluido")))
+                except Exception as e:
+                    self.falhou(f"item-{slug(m.get('titulo') or 'sem-nome')}", e)
+        else:  # portal sem a estrutura do Moodle: heurística por links
+            cands: dict[str, str] = {}
+            for _ in range(20):
+                for txt, href in self.todos_links():
+                    if not txt or len(txt) < 3:
+                        continue
+                    if MOODLE_ATIV_RE.search(href) or ANEXO_RE.search(href) or (classifica(txt, href) and urlparse(href).netloc == urlparse(url).netloc):
+                        cands.setdefault(href, txt)
+                if not self.proxima_pagina():
+                    break
+            for n, (href, txt) in enumerate(cands.items()):
+                try:
+                    itens.extend(self.detalhe(nome, txt, href, ordem=n))
+                except Exception as e:
+                    self.falhou(f"item-{slug(txt)}", e)
 
-    def detalhe(self, disciplina: str, titulo_link: str, href: str) -> list[Item]:
+        notas = self.boletim(nome, url)
+        por_titulo = {i.titulo.strip().lower(): i for i in itens if i.tipo == "atividade"}
+        for n in notas:  # nota também vai para a atividade com o mesmo nome
+            alvo = por_titulo.get(n.titulo.strip().lower())
+            if alvo and n.nota is not None:
+                alvo.nota = n.nota
+        return itens + notas
+
+    def boletim(self, disciplina: str, url_curso: str) -> list[Item]:
+        m = re.search(r"[?&]id=(\d+)", url_curso)
+        if not m:
+            return []
+        base = f"{urlparse(url_curso).scheme}://{urlparse(url_curso).netloc}"
+        try:
+            self.abre(f"{base}/grade/report/user/index.php?id={m[1]}")
+            linhas = []
+            for fr in self.page.frames:
+                try:
+                    linhas += fr.eval_on_selector_all(
+                        "table.user-grade tr, table.generaltable tr",
+                        "rows => rows.map(r => [...r.querySelectorAll('th,td')].map(c => c.innerText.trim()))")
+                except Exception:
+                    pass
+            itens = []
+            for n, cols in enumerate(linhas):
+                if len(cols) < 2 or not cols[0] or re.fullmatch(r"(?i)item de nota|grade item|nota|total.*", cols[0]):
+                    continue
+                valor = next((acha_numero("", c) for c in cols[1:] if re.fullmatch(r"\s*\d+(?:[.,]\d+)?\s*", c or "")), None)
+                if valor is None:
+                    continue
+                itens.append(Item(tipo="nota", disciplina=disciplina, titulo=cols[0][:200], nota=valor, secao="Notas", ordem=10_000 + n,
+                                  enunciado=" | ".join(cols), descricao=" | ".join(cols)[:400], url=self.page.url))
+            if self.mapear:
+                self.debug(f"boletim-{disciplina}")
+            return itens
+        except Exception as e:
+            self.falhou(f"boletim-{slug(disciplina)}", e)
+            return []
+
+    def detalhe(self, disciplina: str, titulo_link: str, href: str, tipo: str | None = None,
+                secao: str = "", ordem: int | None = None, concluido: bool | None = None) -> list[Item]:
+        extra = {"secao": secao, "ordem": ordem, "concluido_portal": concluido}
+        if tipo == "material" or ANEXO_RE.search(href):
+            arq = self.baixa_url(href, disciplina, titulo_link)
+            if arq:  # o link já era o arquivo (ex.: mod/resource que baixa direto)
+                return [Item(tipo="material", disciplina=disciplina, titulo=titulo_link or arq["nome"], url=href,
+                             enunciado=arq.get("texto", "")[:20000], descricao=(arq.get("texto") or "")[:400], materiais=[arq], **extra)]
         self.abre(href)
         corpo = self.texto_pagina()
         titulo = titulo_link
@@ -382,9 +494,12 @@ class Varredor:
 
         # fórum de avisos: cada tópico vira um aviso
         if re.search(r"/mod/forum/view\.php", href):
-            if not AVISO_TXT_RE.search(f"{titulo_link} {titulo}"):
-                return []
-            return self.avisos_forum(disciplina)
+            if AVISO_TXT_RE.search(f"{titulo_link} {titulo}"):
+                avisos = self.avisos_forum(disciplina)
+                for a in avisos:
+                    a.secao = secao or "Avisos"
+                return avisos
+            tipo = "outro"  # fórum de discussão: entra como item para eu ver/participar
 
         enunciado = ""
         for sel in ("#intro", ".activity-description", ".box.generalbox", "[data-region='activity-information'] ~ div", "div.no-overflow", "main"):
@@ -401,11 +516,14 @@ class Varredor:
                 break
         enunciado = enunciado or corpo[:8000]
 
-        tipo = classifica(titulo, href, corpo[:400]) or "atividade"
+        tipo = tipo or classifica(titulo, href, corpo[:400]) or "atividade"
+        if concluido is None and re.search(r"(?i)enviado para avalia[cç][aã]o|submitted for grading|tentativa finalizada|status de conclus[aã]o:\s*conclu", corpo):
+            concluido = True
+            extra["concluido_portal"] = True
         item = Item(tipo=tipo, disciplina=disciplina, titulo=titulo, url=href, enunciado=enunciado,
-                    descricao=enunciado[:400], prazo=acha_prazo(corpo),
+                    descricao=enunciado[:400], prazo=acha_prazo(corpo) if tipo != "material" else None,
                     peso=acha_numero(r"peso|valor|vale|pontua[cç][aã]o m[aá]xima", corpo),
-                    nota=acha_numero(r"\bnota\b(?! m[aá]xima)|nota obtida|sua nota", corpo))
+                    nota=acha_numero(r"\bnota\b(?! m[aá]xima)|nota obtida|sua nota", corpo), **extra)
         item.materiais = self.baixa_anexos(disciplina)
         if not item.enunciado.strip() or len(item.enunciado) < 80:
             texto_anexo = "\n\n".join(m["texto"] for m in item.materiais if m.get("texto"))
@@ -433,27 +551,36 @@ class Varredor:
                 self.falhou(f"aviso-{slug(txt)}", e)
         return itens
 
-    def baixa_anexos(self, disciplina: str) -> list[dict]:
+    def baixa_url(self, href: str, disciplina: str, txt: str = "") -> dict | None:
+        """Baixa um arquivo com a sessão logada. Devolve None se o link for uma página HTML."""
+        if href in self._baixados:
+            return self._baixados[href]
+        r = self.ctx.request.get(href, timeout=60_000)  # usa os cookies da sessão logada
+        if not r.ok:
+            return None
+        ctype = r.headers.get("content-type", "")
+        if "text/html" in ctype:
+            return None  # página intermediária, não é o arquivo
+        nome = self._nome_arquivo(r.headers.get("content-disposition", ""), href, txt, ctype)
         pasta = DOWNLOADS / slug(disciplina)
+        pasta.mkdir(parents=True, exist_ok=True)
+        destino = pasta / nome
+        destino.write_bytes(r.body())
+        log(f"    arquivo: {nome}")
+        arq = {"nome": txt or nome, "url": href, "arquivo": str(destino.relative_to(BASE)), "texto": extrai_texto_arquivo(destino)}
+        self._baixados[href] = arq
+        return arq
+
+    def baixa_anexos(self, disciplina: str) -> list[dict]:
         mats, vistos = [], set()
         for txt, href in self.todos_links():
             if not ANEXO_RE.search(href) or href in vistos:
                 continue
             vistos.add(href)
             try:
-                r = self.ctx.request.get(href, timeout=60_000)  # usa os cookies da sessão logada
-                if not r.ok:
-                    continue
-                ctype = r.headers.get("content-type", "")
-                if "text/html" in ctype:
-                    continue  # página intermediária, não é o arquivo
-                nome = self._nome_arquivo(r.headers.get("content-disposition", ""), href, txt, ctype)
-                pasta.mkdir(parents=True, exist_ok=True)
-                destino = pasta / nome
-                destino.write_bytes(r.body())
-                mats.append({"nome": txt or nome, "url": href, "arquivo": str(destino.relative_to(BASE)),
-                             "texto": extrai_texto_arquivo(destino)})
-                log(f"    anexo: {nome}")
+                arq = self.baixa_url(href, disciplina, txt)
+                if arq:
+                    mats.append(arq)
             except Exception as e:
                 self.falhou(f"anexo-{slug(txt or href)}", e)
         return mats
@@ -635,6 +762,7 @@ def main() -> int:
 
     assert sb is not None
     novos_ids: list[str] = []
+    resumir_ids: list[str] = []
     try:
         if linhas:
             existentes: set[str] = set()
@@ -644,16 +772,19 @@ def main() -> int:
             gravados = []
             for k in range(0, len(linhas), 50):
                 gravados += sb.upsert("faculdade_itens", linhas[k:k + 50], "hash")
-            novos_ids = [g["id"] for g in gravados if g["hash"] not in existentes]
+            novos = [g for g in gravados if g["hash"] not in existentes]
+            novos_ids = [g["id"] for g in novos]
+            resumir_ids = [g["id"] for g in novos if g["tipo"] == "atividade"]  # resumo só de atividade
+        sb.patch("faculdade_itens", {"tipo": "in.(material,aula)", "lido": "eq.false"}, {"lido": True})  # não poluir a aba Hoje
         todos = sb.get("faculdade_itens", {"select": "id,tipo,titulo,hash,prazo,peso,status,prioridade,disciplina"})
         mud = calcula_prioridades(todos)
         for k in range(0, len(mud), 100):
             sb.upsert("faculdade_itens", mud[k:k + 100], "id")
         todos = sb.get("faculdade_itens", {"select": "id,tipo,titulo,prazo,peso,status,disciplina"})
 
-        if novos_ids and not args.sem_resumo:
-            log(f"Pedindo resumo da IA para {len(novos_ids)} itens novos…")
-            for iid in novos_ids:
+        if resumir_ids and not args.sem_resumo:
+            log(f"Pedindo resumo da IA para {len(resumir_ids)} atividades novas…")
+            for iid in resumir_ids:
                 sb.resumir(iid)
 
         status = "erro" if erro_fatal else "ok"

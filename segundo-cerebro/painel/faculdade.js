@@ -3,11 +3,36 @@
    Usa: sb, q, esc, $, toast, fmtDH, refresh, modal, TAB. */
 const FAC_ST = [['pendente','Pendente'],['estudando','Estudando'],['em_producao','Em produção'],['revisao','Revisão'],['entregue','Entregue']];
 const FAC_STL = Object.fromEntries(FAC_ST);
-const FAC = {disc:'todas', status:'abertos', aberto:null, ocupado:false, rascunho:{}};
+const FAC = {disc:'todas', status:'abertos', visao:'tarefas', tipo:'tudo', aberto:null, ocupado:false, rascunho:{}};
 try{ Object.assign(FAC, JSON.parse(localStorage.getItem('sc_fac')||'{}'), {aberto:null, ocupado:false}); }catch(e){}
-const facSalva = () => { try{ localStorage.setItem('sc_fac', JSON.stringify({disc:FAC.disc, status:FAC.status})); }catch(e){} };
+const facSalva = () => { try{ localStorage.setItem('sc_fac', JSON.stringify({disc:FAC.disc, status:FAC.status, visao:FAC.visao, tipo:FAC.tipo})); }catch(e){} };
 
 const H72 = 72*36e5;
+const FAC_TAREFA = ['atividade','aviso','outro'];
+const FAC_TIPOS = [['tudo','Tudo'],['atividade','Atividades'],['material','Materiais'],['aula','Aulas'],['aviso','Avisos'],['nota','Notas'],['outro','Fóruns e outros'],['pendente_portal','Não concluído no portal']];
+const facPortalTag = i => i.concluido_portal===true ? '<span class="tag" style="color:var(--ok)">✓ portal</span>' : i.concluido_portal===false ? '<span class="tag">a fazer no portal</span>' : '';
+function facConteudo(TODOS, selDisc, ult){
+  let L = TODOS;
+  if(FAC.disc!=='todas') L = L.filter(i=>i.disciplina===FAC.disc);
+  if(FAC.tipo==='pendente_portal') L = L.filter(i=>i.concluido_portal===false);
+  else if(FAC.tipo!=='tudo') L = L.filter(i=>i.tipo===FAC.tipo);
+  const porDisc = {};
+  L.forEach(i=>{ const d=i.disciplina||'Sem disciplina', sc=i.secao||'Outros'; ((porDisc[d] ||= {})[sc] ||= []).push(i); });
+  const ordSec = itens => Math.min(...itens.map(i=>i.ordem??1e9));
+  const cont = t => TODOS.filter(i=>(FAC.disc==='todas'||i.disciplina===FAC.disc) && (t==='tudo'||(t==='pendente_portal'?i.concluido_portal===false:i.tipo===t))).length;
+  const corpo = Object.keys(porDisc).sort((a,b)=>a.localeCompare(b,'pt-BR')).map(d=>{
+    const secs = Object.entries(porDisc[d]).sort((a,b)=>ordSec(a[1])-ordSec(b[1]));
+    const feitos = secs.flatMap(x=>x[1]).filter(i=>i.concluido_portal===true).length, comMarca = secs.flatMap(x=>x[1]).filter(i=>i.concluido_portal!=null).length;
+    return `<div class="card" style="margin-bottom:14px"><h3>${esc(d)} ${comMarca?`<span class="mono xs mut">${feitos}/${comMarca} concluídos no portal</span>`:''}</h3>
+      ${secs.map(([sc,itens])=>`<div class="sec-t" style="margin-top:12px">${esc(sc)}</div>${itens.sort((a,b)=>(a.ordem??1e9)-(b.ordem??1e9)).map(i=>`
+        <div class="row fac-row" onclick="facAbrir('${i.id}')"><div class="grow"><span class="tag">${esc(i.tipo)}</span>${facPortalTag(i)}<b class="sm">${esc(i.titulo)}</b>
+          <div class="mut xs">${i.prazo?`prazo ${fmtDH(i.prazo)}`:''}${i.nota!=null?`${i.prazo?' · ':''}nota ${i.nota}`:''}${i.descricao&&i.tipo!=='nota'?`${i.prazo||i.nota!=null?' · ':''}${esc(String(i.descricao).slice(0,110))}${String(i.descricao).length>110?'…':''}`:''}</div></div>
+          ${FAC_TAREFA.includes(i.tipo)?`<span class="fac-st fac-st-${i.status}">${FAC_STL[i.status]||i.status}</span>`:''}</div>`).join('')}`).join('')}</div>`;
+  }).join('');
+  return `<div class="fac-filtros"><div class="chips">${FAC_TIPOS.map(([k,l])=>`<button class="${FAC.tipo===k?'on':''}" onclick="FAC.tipo='${k}';facSalva();refresh()">${l} <span class="mono xs mut">${cont(k)}</span></button>`).join('')}</div>${selDisc}</div>
+    ${corpo || `<div class="card"><p class="empty">${TODOS.length?'Nada com esses filtros.':'Nenhum item ainda. Rode o sync (botão Sincronizar na outra visão).'}</p></div>`}
+    <p class="xs mut">${ult?`Cópia do portal de ${fmtDH(ult.executado_em)}.`:''} Clique em qualquer item para ver o conteúdo completo, os arquivos e conversar com o tutor.</p>`;
+}
 function facPrazo(i){
   if(!i.prazo) return {cls:'', txt:'sem prazo'};
   const falta = new Date(i.prazo) - Date.now();
@@ -69,16 +94,17 @@ python scripts/faculdade_sync.py</code></pre>
 async function vFac(){
   if(FAC.aberto) return vFacItem(FAC.aberto);
   const [itens, sync] = await Promise.all([
-    q(sb.from('faculdade_itens').select('id,tipo,disciplina,titulo,descricao,prazo,peso,nota,status,prioridade,lido,url').order('prioridade',{ascending:true,nullsFirst:false}).order('prazo',{ascending:true,nullsFirst:false}).limit(500)),
+    q(sb.from('faculdade_itens').select('id,tipo,disciplina,titulo,descricao,prazo,peso,nota,status,prioridade,lido,url,secao,ordem,concluido_portal').order('prioridade',{ascending:true,nullsFirst:false}).order('prazo',{ascending:true,nullsFirst:false}).limit(3000)),
     q(sb.from('faculdade_sync').select('*').order('executado_em',{ascending:false}).limit(1))
   ]);
   if(TAB!=='faculdade' || FAC.aberto) return;
-  const T = Array.isArray(itens)?itens:[], ult = sync?.[0];
+  const TODOS = Array.isArray(itens)?itens:[], ult = sync?.[0];
+  const T = TODOS.filter(i=>FAC_TAREFA.includes(i.tipo));
   const agora = Date.now(), sete = agora+7*864e5;
   const abertos = T.filter(i=>i.status!=='entregue');
   const prox7 = abertos.filter(i=>i.prazo && +new Date(i.prazo)>=agora && +new Date(i.prazo)<=sete);
   const atras = abertos.filter(i=>i.prazo && +new Date(i.prazo)<agora && i.tipo!=='aviso');
-  const discs = [...new Set(T.map(i=>i.disciplina).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'pt-BR'));
+  const discs = [...new Set(TODOS.map(i=>i.disciplina).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'pt-BR'));
   if(FAC.disc!=='todas' && !discs.includes(FAC.disc)) FAC.disc='todas';
   let L = T;
   if(FAC.disc!=='todas') L = L.filter(i=>i.disciplina===FAC.disc);
@@ -86,7 +112,10 @@ async function vFac(){
   else if(FAC.status!=='tudo') L = L.filter(i=>i.status===FAC.status);
   window._facUlt = ult;
 
-  $('#view').innerHTML = `<h2>Faculdade · UniCEUB</h2>
+  const abas = `<div class="subtabs" style="margin-bottom:14px">${[['tarefas','Atividades e prazos'],['conteudo','Tudo da faculdade']].map(([k,l])=>`<button class="${FAC.visao===k?'on':''}" onclick="FAC.visao='${k}';facSalva();refresh()">${l}</button>`).join('')}</div>`;
+  const selDisc = `<select onchange="FAC.disc=this.value;facSalva();refresh()" aria-label="Disciplina"><option value="todas">Todas as disciplinas</option>${discs.map(d=>`<option ${FAC.disc===d?'selected':''}>${esc(d)}</option>`).join('')}</select>`;
+  if(FAC.visao==='conteudo'){ $('#view').innerHTML = `<h2>Faculdade · UniCEUB</h2>${abas}${facConteudo(TODOS, selDisc, ult)}`; return; }
+  $('#view').innerHTML = `<h2>Faculdade · UniCEUB</h2>${abas}
   <div class="grid g4 m2 fac-kpis">
     <div class="card kpi"><span>Próximos 7 dias</span><b class="big">${prox7.length}</b></div>
     <div class="card kpi"><span>Atrasados</span><b class="big ${atras.length?'bad':''}">${atras.length}</b></div>
@@ -96,7 +125,7 @@ async function vFac(){
   </div>
   <div class="fac-filtros">
     <div class="chips">${[['abertos','Em aberto'],...FAC_ST,['tudo','Tudo']].map(([k,l])=>`<button class="${FAC.status===k?'on':''}" onclick="FAC.status='${k}';facSalva();refresh()">${l}</button>`).join('')}</div>
-    <select onchange="FAC.disc=this.value;facSalva();refresh()" aria-label="Disciplina"><option value="todas">Todas as disciplinas</option>${discs.map(d=>`<option ${FAC.disc===d?'selected':''}>${esc(d)}</option>`).join('')}</select>
+    ${selDisc}
   </div>
   <div class="card">${L.map(facLinha).join('') || `<p class="empty">${T.length?'Nada com esses filtros.':'Nenhum item ainda. Rode o sync (botão Sincronizar).'}</p>`}</div>`;
 }
@@ -105,8 +134,8 @@ function facLinha(i){
   const p = facPrazo(i), prox = facProx(i.status);
   return `<div class="row fac-row ${p.cls?'fac-'+p.cls:''}" onclick="facAbrir('${i.id}')">
     <span class="fac-pri mono" title="Prioridade">${i.prioridade??'–'}</span>
-    <div class="grow"><span class="tag">${esc(i.tipo)}</span>${!i.lido?'<span class="tag" style="color:var(--acc2)">novo</span>':''}${p.cls==='atr'?'<span class="tag atrasada">atrasado</span>':p.cls==='urg'?'<span class="tag media">&lt; 72h</span>':''}<b class="sm">${esc(i.titulo)}</b>
-      <div class="mut xs">${esc(i.disciplina||'')} · <span class="${p.cls==='atr'?'bad':p.cls==='urg'?'warn':''}">${p.txt}</span>${i.peso!=null?` · peso ${i.peso}`:''}${i.nota!=null?` · nota ${i.nota}`:''}</div></div>
+    <div class="grow"><span class="tag">${esc(i.tipo)}</span>${!i.lido?'<span class="tag" style="color:var(--acc2)">novo</span>':''}${p.cls==='atr'?'<span class="tag atrasada">atrasado</span>':p.cls==='urg'?'<span class="tag media">&lt; 72h</span>':''}${facPortalTag(i)}<b class="sm">${esc(i.titulo)}</b>
+      <div class="mut xs">${esc(i.disciplina||'')}${i.secao?` · ${esc(i.secao)}`:''} · <span class="${p.cls==='atr'?'bad':p.cls==='urg'?'warn':''}">${p.txt}</span>${i.peso!=null?` · peso ${i.peso}`:''}${i.nota!=null?` · nota ${i.nota}`:''}</div></div>
     <div class="acts" style="min-width:auto;align-items:flex-end">
       <span class="fac-st fac-st-${i.status}">${FAC_STL[i.status]||i.status}</span>
       ${i.status!=='entregue'?`<button class="btn g s" onclick="facStatus('${i.id}','${prox}',event)" title="Avançar status">→ ${FAC_STL[prox]}</button>`:''}
