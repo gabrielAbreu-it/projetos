@@ -1,0 +1,7 @@
+.env
+.perfil-portal/
+downloads/
+debug/
+__pycache__/
+.venv/
+supabase/.temp/

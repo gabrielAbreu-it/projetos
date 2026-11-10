@@ -1,0 +1,35 @@
+/* ===== Faculdade ===== */
+.fac-kpis{margin-bottom:14px}
+.fac-kpis .kpi b.mid{font-size:14px}
+.fac-filtros{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-start;justify-content:space-between}
+.fac-filtros .chips{margin-bottom:12px}
+.fac-filtros select{width:auto;max-width:100%;min-width:220px;margin-bottom:12px}
+.fac-row{cursor:pointer;padding-left:8px;border-left:2px solid transparent;transition:background .15s}
+.fac-row:hover{background:rgba(255,255,255,.02)}
+.fac-row.fac-urg{border-left-color:var(--warn);background:rgba(217,164,65,.05)}
+.fac-row.fac-atr{border-left-color:var(--bad);background:rgba(226,86,107,.07)}
+.fac-row.fac-atr b.sm{color:var(--bad)}
+.fac-pri{width:28px;flex:none;text-align:center;font-size:12px;color:var(--mut)}
+.fac-row.fac-urg .fac-pri{color:var(--warn)}.fac-row.fac-atr .fac-pri{color:var(--bad)}
+.fac-st{font-family:var(--mono);font-size:10px;letter-spacing:.5px;text-transform:uppercase;padding:2px 7px;border-radius:5px;border:1px solid var(--line2);color:var(--mut);white-space:nowrap}
+.fac-st-estudando{color:var(--acc2);border-color:rgba(107,152,255,.4)}
+.fac-st-em_producao{color:var(--c-faculdade);border-color:rgba(161,132,245,.4)}
+.fac-st-revisao{color:var(--warn);border-color:rgba(217,164,65,.4)}
+.fac-st-entregue{color:var(--ok);border-color:rgba(43,183,132,.4)}
+.fac-steps{margin-bottom:14px}
+.fac-texto{max-height:420px;overflow:auto;line-height:1.55}
+.fac-md h4{font-size:13px;margin:10px 0 4px}
+.fac-md h4:first-child{margin-top:0}
+.fac-md p{margin:4px 0;line-height:1.55}
+.fac-md ul,.fac-md ol{margin:4px 0 6px 18px;display:grid;gap:3px}
+.fac-md ul.fac-ck{list-style:none;margin-left:0}
+.fac-md code{font-family:var(--mono);font-size:12px;background:var(--card2);padding:1px 5px;border-radius:4px}
+.fac-code{font-family:var(--mono);font-size:12px;background:#080c14;border:1px solid var(--line);border-radius:8px;padding:10px;overflow-x:auto;margin:6px 0;white-space:pre}
+.fac-code code{background:none;padding:0}
+@media(min-width:1100px){.fac-lado{position:sticky;top:76px;align-self:start}}
+.fac-chat{display:flex;flex-direction:column}
+.fac-msgs{display:flex;flex-direction:column;gap:10px;max-height:55vh;overflow-y:auto;padding-right:4px}
+.fac-m{padding:9px 11px;border-radius:10px;border:1px solid var(--line);max-width:94%}
+.fac-m.user{align-self:flex-end;background:rgba(47,102,224,.12);border-color:rgba(47,102,224,.3)}
+.fac-m.assistant{align-self:flex-start;background:var(--card2)}
+.fac-m>span{display:block;margin-top:4px}
