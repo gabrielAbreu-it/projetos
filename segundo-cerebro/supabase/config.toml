@@ -2,3 +2,6 @@ project_id = "nzydtjhcibzazcotyabp"
 
 [functions.faculdade-tutor]
 verify_jwt = true
+
+[functions.financas-ia]
+verify_jwt = true

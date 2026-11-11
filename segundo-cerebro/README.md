@@ -9,6 +9,10 @@ segundo-cerebro/
 ├── painel/faculdade.js, faculdade.css     # aba Faculdade (substitui o vFac do app.js)
 ├── painel/agente.js, agente.css           # aba Agente (prospecção)
 ├── painel/m.html                          # prévia interna do mockup
+├── painel/financas2.js, financas2.css     # aba Finanças nova (substitui o vFin)
+├── painel/motion.js, motion.css           # animações do painel inteiro
+├── painel/index.html                      # index do painel com todos os scripts
+├── supabase/functions/financas-ia/        # assistente de finanças (Edge Function)
 ├── scripts/faculdade_sync.py               # robô do portal (roda no meu computador)
 ├── supabase/functions/faculdade-tutor/     # tutor (Edge Function)
 └── supabase/functions/prospector/          # agente de prospecção (Edge Function)
@@ -100,3 +104,23 @@ Roda sozinho: `pg_cron` chama a função `vendedor` a cada 2 minutos; mensagens 
 Para ligar: secrets `ANTHROPIC_API_KEY` e `GOOGLE_PLACES_API_KEY` no Supabase, credenciais do WhatsApp/e-mail em Vendas > Ajustes e conexões, e o botão liga/desliga.
 
 Deploy: `supabase functions deploy vendedor --no-verify-jwt --project-ref nzydtjhcibzazcotyabp` (a função tem autenticação própria por rota).
+
+## 6. Finanças
+
+A aba foi refeita em sub-abas:
+
+- **Resumo**: quanto tenho agora, guardado, quanto posso gastar por dia, fim do mês previsto, lançar rápido, o que ainda vai acontecer no mês, últimos lançamentos e dicas.
+- **Lançamentos**: planilha editável (data, descrição, categoria, tipo, valor, observação). Edito direto na célula e salva ao sair do campo; o saldo é recalculado no banco (o gatilho `fin_aplicar_lancamento` agora trata inserir, editar e apagar). Filtro por mês, tipo, busca e exportar CSV.
+- **Planejar mês**: começa com / entra / sai / guardar / termina com, fixos do mês com valor só daquele mês ou "pular", itens só do mês (com repetir até) e o resultado somado.
+- **Fixos do mês**: tabela editável dos fixos (dia, início, fim, ativo, observação).
+- **Saldos**: coloco o valor que está no banco (não cria lançamento).
+- **Gráficos**: cada um numa aba: projeção de 12 meses, entradas × saídas (real e planejado), por categoria e gasto por dia. Passando o mouse aparece o valor; todos têm "ver em tabela".
+- **Assistente IA**: converso com a planilha ("gastei 45 no mercado", "planeje dezembro", "meu saldo é 1.250"). Ele lê tudo e altera com ferramentas (lançar, editar, apagar, corrigir saldo, criar/editar fixo, planejar, corrigir fixo num mês). Cada alteração aparece listada embaixo da resposta. Histórico em `fin_chat`.
+
+A função `financas-ia` usa o mesmo secret `ANTHROPIC_API_KEY`. Opcionais: `FIN_MODELO` (padrão `claude-opus-5-5`) e `FIN_ESFORCO` (padrão `medium`).
+
+```bash
+supabase functions deploy financas-ia --project-ref nzydtjhcibzazcotyabp
+```
+
+Motion: as telas entram em cascata quando troco de aba, os números contam até o valor, as linhas dos gráficos se desenham e as barras sobem. Atualização de dados não anima (não pisca). Quem usa "reduzir movimento" no sistema não vê animação.
