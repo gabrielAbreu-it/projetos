@@ -82,23 +82,21 @@ Copiar `painel/faculdade.js` e `painel/faculdade.css` para a pasta do painel e i
 
 Deploy do painel como sempre (`vercel --prod` na pasta do painel). A aba mostra a lista por prioridade, filtros por disciplina e status, destaque para prazo < 72h, atrasados em vermelho, contador dos próximos 7 dias e o botão Sincronizar (mostra o último sync e o comando). Clicando num item: enunciado, resumo da IA, checklist marcável, materiais, chat do tutor ao lado e a área de rascunho para revisar. O status muda com um clique (pendente → estudando → em produção → revisão → entregue); entregue também marca `concluido`, que o card da aba Hoje já usa.
 
-## 5. Agente de prospecção (aba Agente)
+## 5. Vendedor autônomo da STRATON (aba Vendas)
 
-Mesma lógica do Lead Gen que fiz para o Levi (Places API por nicho + cidade), agora dentro do painel e indo além:
+Clone do STRATON Leads (nichos com dor/gancho, regiões do DF, presença digital, fila e funil) transformado num vendedor que trabalha sozinho, sempre em nome da STRATON:
 
-1. **Buscar no Maps**: nicho + cidade → grava as lojas em `cb_leads` (sem duplicar, pelo `place_id`).
-2. **Analisar**: lê o site, acha Instagram/Facebook/WhatsApp/e-mail, pesquisa na web quem é o dono ou gerente (só informação pública) e lista problemas e oportunidades.
-3. **Mockup**: gera na hora uma página proposta para a loja. O link público abre em `gabriel-abreu-portfolio.vercel.app/proposta/?t=<token>` (o painel tem proteção da Vercel, então o lojista não conseguiria abrir por lá). O HTML gerado roda isolado, sem scripts.
-4. **Abordagem**: escreve WhatsApp, e-mail e roteiro de ligação pedindo uma conversa de 20 min, com o link do mockup, o portfólio e dois horários livres da minha agenda.
-5. **Eu aprovo**: nada sai sem aprovação (regra `mensagem_externa` do `cb_config`). "Aprovar e abrir WhatsApp/e-mail" registra a aprovação em `cb_aprovacoes`, marca o lead como abordado e abre a conversa pronta para eu enviar.
-6. **Reunião**: "Marcar reunião" põe o evento na agenda do painel e move o lead para Reunião.
+1. **Descobridor**: roda nichos × regiões no Google Maps (Places API) e, se configurado, lê o STRATON Leads (somente leitura).
+2. **Qualificador**: nota de 0 a 100 (sem site / só rede social / site fraco, WhatsApp celular, avaliações, nicho prioritário); descarta redes grandes e quem não tem canal de contato.
+3. **Analista**: pesquisa na web o negócio, o dono/gerente, o CNPJ (sócios pela BrasilAPI) e o que vender (site novo ou melhoria).
+4. **Designer**: cria na hora um site proposto com animações e formulário que funciona de verdade (grava em `vd_mockup_contatos`), publicado em `straton-propostas.vercel.app/?t=<token>` com a marca da STRATON.
+5. **Vendedor**: aborda pelo WhatsApp da STRATON (uazapi) ou e-mail, conversa, contorna objeções, ajusta o mockup a pedido e conduz até a decisão. Atendente mulher ou homem (Ana/Rafael) escolhida por nicho pelo que mais converte (amostragem de Thompson).
+6. **Agendador**: quando o cliente decide fechar, marca a reunião de fechamento com o Gabriel (dias úteis, manhã ou tarde, cada call num dia e horário diferentes) e gera o briefing completo.
 
-Secrets da função `prospector` (Supabase > Edge Functions > Secrets):
+Para quando: meta de 5 calls marcadas (ajustável). Ritmo: até 20 mensagens/hora em horário comercial (ajustável). Quem pede para parar nunca mais é contatado. Se perguntarem, ele diz que é o assistente virtual da STRATON.
 
-- `ANTHROPIC_API_KEY` (a mesma do tutor)
-- `GOOGLE_PLACES_API_KEY`: Google Cloud > APIs > ativar **Places API (New)** > criar chave restrita a essa API
-- opcionais: `PROSPECTOR_MODELO` (padrão `claude-opus-5-5`), `PROPOSTA_URL`, `PORTFOLIO_URL`
+Roda sozinho: `pg_cron` chama a função `vendedor` a cada 2 minutos; mensagens recebidas chegam pelo webhook (copiar a URL em Vendas > Ajustes e conexões e colar na uazapi).
 
-Deploy: `supabase functions deploy prospector --project-ref nzydtjhcibzazcotyabp`.
+Para ligar: secrets `ANTHROPIC_API_KEY` e `GOOGLE_PLACES_API_KEY` no Supabase, credenciais do WhatsApp/e-mail em Vendas > Ajustes e conexões, e o botão liga/desliga.
 
-Envio automático (sem eu clicar) não está ligado de propósito: disparo automático por WhatsApp sem API oficial costuma bloquear o número. Dá para ligar depois com a API oficial do WhatsApp Business ou um provedor de e-mail.
+Deploy: `supabase functions deploy vendedor --no-verify-jwt --project-ref nzydtjhcibzazcotyabp` (a função tem autenticação própria por rota).

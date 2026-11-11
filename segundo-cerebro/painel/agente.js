@@ -1,10 +1,10 @@
-/* ================= AGENTE DE PROSPECÇÃO =================
-   Carregar depois do app.js (e dos outros módulos). Acrescenta a aba "Agente" sem mexer nas outras.
-   Fluxo: busca no Maps → analisa site/redes/decisor → gera mockup → escreve abordagem → eu aprovo → envio.
-   Nenhuma mensagem sai sem aprovação (regra mensagem_externa do cb_config). */
+/* ================= VENDAS · vendedor autônomo da STRATON =================
+   Carregar depois do app.js. Acrescenta a aba "Vendas" sem mexer nas outras.
+   O vendedor roda sozinho no servidor (função vendedor + pg_cron a cada 2 min). Aqui eu acompanho:
+   ligado/pausado, meta de calls, conexões, funil, reuniões de fechamento com briefing, conversas e ajustes. */
 (function(){
-  const ICO = '<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/><path d="M11 8v6M8 11h6"/>';
-  if(!TABS.some(t=>t[0]==='agente')) TABS.splice(Math.max(0, TABS.findIndex(t=>t[0]==='straton')), 0, ['agente', ICO, 'Agente']);
+  const ICO = '<path d="M3 17l5-5 4 4 8-8"/><path d="M14 8h6v6"/>';
+  if(!TABS.some(t=>t[0]==='agente')) TABS.splice(Math.max(0, TABS.findIndex(t=>t[0]==='straton')), 0, ['agente', ICO, 'Vendas']);
   const irOrig = ir;
   ir = function(t){
     if(t!=='agente') return irOrig(t);
@@ -16,177 +16,215 @@
   };
   const refreshOrig = refresh;
   refresh = function(){ if(TAB==='agente'){ const y=window.scrollY; return Promise.resolve(vAgente()).then(()=>window.scrollTo(0,y)); } return refreshOrig(); };
-  // o menu já foi desenhado antes deste arquivo? redesenha o shell para a aba aparecer
   if(document.querySelector('nav') && !document.querySelector('nav button[data-t="agente"]')) renderShell();
+  // atualiza sozinho a cada 30 s enquanto a aba está aberta (sem atrapalhar quem está digitando)
+  setInterval(()=>{ if(TAB==='agente' && !document.hidden && !document.activeElement?.matches('input,textarea,select') && !$('#dlg')?.open) refresh(); }, 30000);
 })();
 
-const AGT_ST = [['novo','Novo'],['abordado','Abordado'],['respondeu','Respondeu'],['negociando','Negociando'],['reuniao','Reunião'],['fechado','Fechado'],['perdido','Perdido']];
-const AGT_STL = Object.fromEntries(AGT_ST);
-const AGT = {filtro:'abertos', aberto:null, ocupado:{}, fila:false, log:[]};
-const agtTel = t => String(t||'').replace(/\D/g,'');
-const agtEtapa = l => l.status!=='novo' ? AGT_STL[l.status] : l.mensagem ? 'Abordagem pronta' : l.mockup_html ? 'Mockup pronto' : l.analise ? 'Analisado' : 'Encontrado';
+const AGT_ETAPAS = [['descoberto','Encontrados'],['qualificado','Qualificados'],['analisado','Analisados'],['mockup_pronto','Mockup pronto'],['contatado','Contatados'],['conversando','Conversando'],['interessado','Interessados'],['decidiu_fechar','Decidiram fechar'],['reuniao_marcada','Reunião marcada'],['sem_resposta','Sem resposta'],['perdido','Perdidos'],['nao_contatar','Não contatar'],['descartado','Descartados']];
+const AGT_ETL = Object.fromEntries(AGT_ETAPAS);
+const AGT = {aberto:null, filtro:'ativos', ocupado:false, conf:false};
+const PROPOSTA = 'https://straton-propostas.vercel.app/';
+const agtBadge = (ok, t) => `<span class="tag" style="color:${ok?'var(--ok)':'var(--bad)'}">${ok?'●':'○'} ${t}</span>`;
 
-async function agtChamar(corpo, rotulo){
-  const {data, error} = await sb.functions.invoke('prospector', {body:corpo});
-  if(error){
-    let msg = error.message;
-    try{ const j = await error.context?.json?.(); if(j?.erro) msg = j.erro; }catch(e){}
-    toast((rotulo?rotulo+': ':'')+msg); return null;
-  }
+async function agtFn(corpo, rotulo){
+  const {data, error} = await sb.functions.invoke('vendedor', {body:corpo});
+  let erro = error ? error.message : data?.erro;
+  if(error){ try{ const j = await error.context?.json?.(); if(j?.erro) erro = j.erro; }catch(e){} }
+  if(erro){ toast((rotulo?rotulo+': ':'')+erro); return null; }
   return data;
 }
-async function agtBuscar(e){
-  e.preventDefault();
-  const f = e.target, termo = f.termo.value.trim(), localizacao = f.local.value.trim(), max = +f.max.value||20;
-  try{ localStorage.setItem('sc_ag_busca', JSON.stringify({termo, localizacao, max})); }catch(_){}
-  const b = f.querySelector('button'); b.disabled = true; b.textContent = 'Buscando no Maps…';
-  const r = await agtChamar({acao:'buscar', termo, localizacao, max}, 'Busca');
-  b.disabled = false; b.textContent = 'Buscar no Maps';
-  if(r){ toast(`${r.total} lojas encontradas · ${r.novos} novas`); refresh(); }
-}
-async function agtPasso(id, acao){
-  if(AGT.ocupado[id]) return;
-  AGT.ocupado[id] = acao; refresh();
-  const nomes = {analisar:'Análise', mockup:'Mockup', abordagem:'Abordagem'};
-  const r = await agtChamar({acao, lead_id:id}, nomes[acao]);
-  delete AGT.ocupado[id]; refresh();
-  return r;
-}
-async function agtRodarTudo(id){
-  for(const acao of ['analisar','mockup','abordagem']){
-    const l = (window._agLeads||[]).find(x=>x.id===id);
-    if(acao==='analisar' && l?.analise) continue;
-    if(acao==='mockup' && l?.mockup_html) continue;
-    const r = await agtPasso(id, acao); if(!r) return false;
-    await vAgente(true);
-  }
-  return true;
-}
-async function agtLote(){
-  if(AGT.fila) { AGT.fila=false; toast('Parando depois do lead atual…'); return; }
-  const n = +($('#ag-lote')?.value)||5;
-  const alvo = (window._agLeads||[]).filter(l=>l.status==='novo' && !l.mensagem).sort((a,b)=>(!!b.analise-!!a.analise)||(!a.site-!b.site)).slice(0,n);
-  if(!alvo.length){ toast('Nenhum lead novo sem abordagem.'); return; }
-  AGT.fila = true; refresh();
-  for(const l of alvo){ if(!AGT.fila) break; await agtRodarTudo(l.id); }
-  AGT.fila = false; refresh(); toast('Lote terminado. As abordagens estão esperando sua aprovação.');
-}
-async function agtStatus(id, status){
-  const o = {status, atualizado_em:new Date().toISOString()};
-  if(await q(sb.from('cb_leads').update(o).eq('id',id))!==null) refresh();
-}
-async function agtAprovar(id, canal){
-  const l = (window._agLeads||[]).find(x=>x.id===id); if(!l) return;
-  const m = {...(l.mensagem||{})};
-  const ta = $('#ag-msg-'+canal); if(ta) m[canal==='email'?'email_corpo':'whatsapp'] = ta.value;
-  const as = $('#ag-assunto'); if(as) m.email_assunto = as.value;
-  let url = '';
-  if(canal==='whatsapp'){ const tel = agtTel(l.telefone); if(!tel){ toast('Lead sem telefone.'); return; } url = `https://wa.me/${tel}?text=${encodeURIComponent(m.whatsapp||'')}`; }
-  else { if(!l.email){ toast('Lead sem e-mail. Copie a mensagem e use outro canal.'); return; } url = `mailto:${encodeURIComponent(l.email)}?subject=${encodeURIComponent(m.email_assunto||'')}&body=${encodeURIComponent(m.email_corpo||'')}`; }
-  const agora = new Date().toISOString();
-  await q(sb.from('cb_aprovacoes').update({status:'aprovado', resposta:'aprovado no painel ('+canal+')', decidido_em:agora}).eq('tipo','mensagem_externa').eq('status','pendente').contains('pedido',{lead_id:id}));
-  await q(sb.from('cb_leads').update({mensagem:m, status:'abordado', contatado_em:agora, proxima_acao:'aguardar resposta (retomar em 3 dias)', atualizado_em:agora}).eq('id',id));
-  window.open(url, '_blank', 'noopener');
-  toast('Aprovado. Envie na janela que abriu.'); refresh();
-}
-async function agtRejeitar(id){
-  await q(sb.from('cb_aprovacoes').update({status:'rejeitado', resposta:'rejeitado no painel', decidido_em:new Date().toISOString()}).eq('tipo','mensagem_externa').eq('status','pendente').contains('pedido',{lead_id:id}));
-  await q(sb.from('cb_leads').update({mensagem:null, proxima_acao:null}).eq('id',id)); refresh();
-}
-function agtCopiar(sel){ const t=$(sel); if(!t) return; navigator.clipboard?.writeText(t.value).then(()=>toast('Copiado'),()=>{ t.select(); document.execCommand('copy'); toast('Copiado'); }); }
-function agtReuniao(id){
-  const l = (window._agLeads||[]).find(x=>x.id===id); if(!l) return;
-  modal('Marcar reunião', `<label>Quando<input name="inicio" type="datetime-local" required></label><label>Duração (min)<input name="dur" type="number" value="30" min="10"></label><label>Observação<input name="obs" placeholder="ex.: chamada de vídeo, levar proposta"></label>`, async o=>{
-    const ini = new Date(o.inicio), fim = new Date(ini.getTime()+(+o.dur||30)*6e4);
-    if(await q(sb.from('agenda_eventos').insert({titulo:`Reunião · ${l.nome}`, inicio:ini.toISOString(), fim:fim.toISOString(), contexto:'pessoal', origem:'manual', notas:[o.obs, l.telefone, l.mensagem?.link_mockup].filter(Boolean).join(' · ')}))===null) return false;
-    await q(sb.from('cb_leads').update({status:'reuniao', reuniao_em:ini.toISOString(), proxima_acao:'reunião marcada', atualizado_em:new Date().toISOString()}).eq('id',id));
-    toast('Reunião na agenda'); refresh();
-  }, '', 'Marcar');
+
+async function vAgente(){
+  if(AGT.aberto) return agtLead(AGT.aberto);
+  const [st, leads, reunioes, evs] = await Promise.all([
+    agtFn({acao:'status'}),
+    q(sb.from('cb_leads').select('id,nome,nicho,regiao,etapa,score,persona,decisor,whatsapp,ultima_resposta_em,ultima_msg_em,atualizado_em,presenca,avaliacao,total_avaliacoes').in('origem',['maps','straton_leads']).order('atualizado_em',{ascending:false}).limit(400)),
+    q(sb.from('vd_reunioes').select('id,lead_id,inicio,status,briefing,cb_leads(nome,whatsapp,decisor,nicho)').order('inicio',{ascending:true}).limit(30)),
+    q(sb.from('cb_eventos').select('nivel,titulo,detalhe,criado_em').eq('cerebro','prospeccao').order('criado_em',{ascending:false}).limit(25)),
+  ]);
+  if(TAB!=='agente' || AGT.aberto) return;
+  const S = st || {config:{}, etapas:{}, conexoes:{}, personas:[]};
+  const c = S.config || {}, e = S.etapas || {}, cx = S.conexoes || {};
+  const L = Array.isArray(leads)?leads:[], R = Array.isArray(reunioes)?reunioes:[], E = Array.isArray(evs)?evs:[];
+  const futuras = R.filter(r=>r.status==='marcada' && new Date(r.inicio)>new Date());
+  const meta = c.meta_calls||5, pronto = cx.ia && (cx.whatsapp||cx.email) && (cx.maps||cx.straton_leads);
+  const ativos = ['contatado','conversando','interessado','decidiu_fechar','reuniao_marcada'];
+  let V = L;
+  if(AGT.filtro==='ativos') V = L.filter(l=>ativos.includes(l.etapa));
+  else if(AGT.filtro==='quentes') V = L.filter(l=>['interessado','decidiu_fechar','reuniao_marcada'].includes(l.etapa));
+  else if(AGT.filtro!=='todos') V = L.filter(l=>l.etapa===AGT.filtro);
+  const funil = ['descoberto','qualificado','mockup_pronto','contatado','conversando','interessado','decidiu_fechar','reuniao_marcada'];
+  const maxF = Math.max(1, ...funil.map(k=>e[k]||0));
+
+  $('#view').innerHTML = `<h2>Vendas · STRATON</h2>
+  <div class="card agt-topo">
+    <div class="agt-liga">
+      <button class="agt-switch ${c.ativo?'on':''}" onclick="agtLigar(${!c.ativo})" ${!pronto&&!c.ativo?'title="Faltam conexões"':''}><i></i></button>
+      <div><b class="mid">${c.ativo?'Vendedor trabalhando':'Vendedor pausado'}</b>
+      <div class="xs mut">${S.config?.ultimo_ciclo?`último ciclo ${fmtDH(S.config.ultimo_ciclo)}`:'ainda não rodou'} · ${S.enviadas_hoje??0} mensagens enviadas e ${S.recebidas_hoje??0} recebidas hoje</div></div>
+    </div>
+    <div class="agt-meta"><span class="xs mut">Calls de fechamento marcadas</span><b class="big">${futuras.length}<span class="mut">/${meta}</span></b>
+      <div class="prog"><i style="width:${Math.min(100,futuras.length/meta*100)}%"></i></div></div>
+    <div class="agt-cx">${agtBadge(cx.ia,'IA')}${agtBadge(cx.maps,'Google Maps')}${agtBadge(cx.straton_leads,'STRATON Leads')}${agtBadge(cx.whatsapp,'WhatsApp')}${agtBadge(cx.email,'E-mail')}
+      <div class="quick"><button class="btn g s" onclick="agtRodar()" ${AGT.ocupado?'disabled':''}>${AGT.ocupado?'rodando…':'Rodar ciclo agora'}</button><button class="btn g s" onclick="AGT.conf=!AGT.conf;refresh()">${AGT.conf?'Fechar ajustes':'Ajustes e conexões'}</button></div></div>
+  </div>
+  ${!pronto?`<div class="help" style="margin:10px 0">Para o vendedor trabalhar sozinho faltam: ${[!cx.ia&&'chave da IA (secret ANTHROPIC_API_KEY)',!(cx.maps||cx.straton_leads)&&'fonte de leads (GOOGLE_PLACES_API_KEY ou STRATON Leads)',!(cx.whatsapp||cx.email)&&'WhatsApp ou e-mail da STRATON'].filter(Boolean).join(' · ')}. Abra "Ajustes e conexões".</div>`:''}
+  ${AGT.conf?agtAjustes(S):''}
+  <div class="dash" style="margin-top:14px">
+    <div class="s8 stack">
+      <div class="card"><h3>Reuniões de fechamento <span class="mono xs mut">dias e horários diferentes · manhã ou tarde</span></h3>
+        ${R.length?R.map(r=>agtReuniao(r)).join(''):'<p class="empty">Nenhuma ainda. Quando um cliente decidir fechar, o vendedor marca aqui com o briefing completo.</p>'}</div>
+      <div class="card"><h3>Funil</h3>
+        ${funil.map(k=>`<div class="agt-f"><span class="xs">${AGT_ETL[k]}</span><div class="agt-fb"><i style="width:${(e[k]||0)/maxF*100}%"></i></div><b class="mono xs">${e[k]||0}</b></div>`).join('')}
+        <p class="xs mut" style="margin-top:8px">Descartados ${e.descartado||0} · sem resposta ${e.sem_resposta||0} · perdidos ${e.perdido||0} · não contatar ${e.nao_contatar||0}</p></div>
+      <div class="card"><h3>Leads</h3>
+        <div class="chips">${[['ativos','Em conversa'],['quentes','Quentes'],['mockup_pronto','Prontos p/ abordar'],['qualificado','Qualificados'],['descartado','Descartados'],['todos','Todos']].map(([k,t])=>`<button class="${AGT.filtro===k?'on':''}" onclick="AGT.filtro='${k}';refresh()">${t}</button>`).join('')}</div>
+        ${V.slice(0,120).map(agtLinha).join('') || '<p class="empty">Nada aqui ainda.</p>'}</div>
+    </div>
+    <div class="s4 stack">
+      <div class="card"><h3>Ao vivo</h3><div class="agt-feed">${E.map(ev=>`<div class="agt-ev ${ev.nivel}"><b class="sm">${esc(ev.titulo)}</b>${ev.detalhe?`<div class="xs mut">${esc(String(ev.detalhe).slice(0,160))}</div>`:''}<span class="xs mut mono">${fmtDH(ev.criado_em)}</span></div>`).join('')||'<p class="empty">Sem atividade ainda.</p>'}</div></div>
+      <div class="card"><h3>Atendente que mais converte</h3>${agtPersonas(S)}</div>
+      <div class="card"><h3>Próximos horários livres</h3>${(S.horarios_livres||[]).map(h=>`<div class="sm">${esc(h.texto)}</div>`).join('')||'<p class="empty">—</p>'}<p class="xs mut" style="margin-top:6px">O vendedor só oferece estes horários: dias úteis, manhã ou tarde, cada call num dia e horário diferentes.</p></div>
+    </div>
+  </div>`;
 }
 
-async function vAgente(silencioso){
-  const [leads, aprov] = await Promise.all([
-    q(sb.from('cb_leads').select('id,nome,nicho,telefone,endereco,site,maps_url,avaliacao,total_avaliacoes,email,redes,decisor,analise,status,proxima_acao,mensagem,mockup_token,contatado_em,reuniao_em,atualizado_em,criado_em,mockup_html').eq('origem','maps').order('criado_em',{ascending:false}).limit(500)),
-    q(sb.from('cb_aprovacoes').select('id,pedido,status').eq('tipo','mensagem_externa').eq('status','pendente'))
+function agtLinha(l){
+  return `<div class="row ag-row" onclick="AGT.aberto='${l.id}';refresh()"><div class="grow">
+    <span class="tag">${esc(AGT_ETL[l.etapa]||l.etapa)}</span>${l.ultima_resposta_em&&(!l.ultima_msg_em||l.ultima_resposta_em>l.ultima_msg_em)?'<span class="tag media">respondeu</span>':''}<b class="sm">${esc(l.nome)}</b>
+    <div class="mut xs">${esc(l.nicho||'')}${l.regiao?` · ${esc(l.regiao)}`:''}${l.score!=null?` · score ${l.score}`:''}${l.persona?` · ${esc(l.persona)}`:''}${l.decisor?` · ${esc(l.decisor)}`:''}${l.avaliacao?` · ★ ${l.avaliacao} (${l.total_avaliacoes||0})`:''}</div></div>
+    <span class="xs mut mono">${fmtDH(l.atualizado_em)}</span></div>`;
+}
+
+function agtReuniao(r){
+  const b = r.briefing || {}, l = r.cb_leads || {}, futura = new Date(r.inicio) > new Date();
+  const lista = x => Array.isArray(x)&&x.length ? `<ul class="ag-ul">${x.map(i=>`<li>${esc(i)}</li>`).join('')}</ul>` : '';
+  return `<div class="agt-reu ${futura?'':'passada'}">
+    <div class="row" style="border:0;padding:0"><div class="grow"><b>${esc(l.nome||'Lead')}</b> <span class="tag ${b.temperatura==='quente'?'atrasada':''}">${esc(b.temperatura||'')}</span>
+      <div class="sm">${fmtDH(r.inicio)} · com <b>${esc(b.quem||l.decisor||'—')}</b>${b.cargo?` (${esc(b.cargo)})`:''}</div>
+      <div class="xs mut">${esc(b.como_contatar||b.contato_reuniao||l.whatsapp||'')}</div></div>
+      <div class="acts" style="min-width:auto">${futura?`<button class="btn g s" onclick="agtReuStatus('${r.id}','cancelada')">cancelar</button>`:`<button class="btn s" onclick="agtReuStatus('${r.id}','fechou')">fechou</button><button class="btn g s" onclick="agtReuStatus('${r.id}','nao_fechou')">não fechou</button>`}</div></div>
+    ${r.briefing?`<details ${futura?'open':''}><summary>briefing para o fechamento</summary><div class="sm agt-brief">
+      ${b.abertura?`<p><b>Abertura:</b> ${esc(b.abertura)}</p>`:''}
+      ${b.o_que_quer?.length?`<b class="xs mut">O QUE QUER</b>${lista(b.o_que_quer)}`:''}
+      ${b.feedback_mockup?`<p><b>Mockup:</b> ${esc(b.feedback_mockup)}</p>`:''}
+      ${b.dores?.length?`<b class="xs mut">DORES</b>${lista(b.dores)}`:''}
+      ${b.objecoes?.length?`<b class="xs mut">OBJEÇÕES</b>${lista(b.objecoes)}`:''}
+      ${b.escopo_sugerido?.length?`<b class="xs mut">ESCOPO</b>${lista(b.escopo_sugerido)}`:''}
+      ${b.ticket_sugerido?`<p><b>Ticket:</b> ${esc(b.ticket_sugerido)}</p>`:''}
+      ${b.roteiro?.length?`<b class="xs mut">ROTEIRO</b>${lista(b.roteiro)}`:''}
+      ${b.cuidados?.length?`<b class="xs mut">CUIDADOS</b>${lista(b.cuidados)}`:''}
+      <button class="btn link" onclick="AGT.aberto='${r.lead_id}';refresh()">ver conversa e mockup →</button></div></details>`:'<p class="xs mut">gerando briefing…</p>'}
+  </div>`;
+}
+
+function agtPersonas(S){
+  const P = (S.config?.personas)||[], st = S.personas||[];
+  const tot = id => st.filter(s=>s.persona===id).reduce((a,s)=>({ab:a.ab+s.abordados, re:a.re+s.responderam, in:a.in+s.interessados, ru:a.ru+s.reunioes}), {ab:0,re:0,in:0,ru:0});
+  return `<table><tr><th>Atendente</th><th>Abord.</th><th>Resp.</th><th>Inter.</th><th>Calls</th></tr>${P.map(p=>{ const t=tot(p.id); return `<tr><td>${esc(p.nome)} <span class="xs mut">${p.genero==='f'?'(mulher)':'(homem)'}</span></td><td>${t.ab}</td><td>${t.ab?Math.round(t.re/t.ab*100)+'%':'—'}</td><td>${t.in}</td><td>${t.ru}</td></tr>`; }).join('')}</table>
+  <p class="xs mut" style="margin-top:6px">A escolha é por nicho e se ajusta sozinha: quem tem mais resposta e interesse recebe mais leads, sem parar de testar o outro.</p>`;
+}
+
+function agtAjustes(S){
+  const c = S.config||{};
+  return `<div class="card" style="margin-top:14px"><h3>Ajustes do vendedor</h3>
+  <form class="f" onsubmit="agtSalvarConfig(event)">
+    <div class="f2"><label>Meta de calls de fechamento<input name="meta_calls" type="number" min="1" max="30" value="${c.meta_calls||5}"></label>
+      <label>Máximo de mensagens por hora<input name="max_por_hora" type="number" min="1" max="200" value="${c.max_por_hora||20}"></label></div>
+    <label>Nichos (um por linha; os 3 primeiros têm prioridade)<textarea name="nichos" rows="4">${esc((c.nichos||[]).join('\n'))}</textarea></label>
+    <label>Regiões (uma por linha)<textarea name="regioes" rows="4">${esc((c.regioes||[]).join('\n'))}</textarea></label>
+    <div class="f2"><label>Atendente mulher<input name="p_f" value="${esc((c.personas||[]).find(p=>p.genero==='f')?.nome||'Ana')}"></label>
+      <label>Atendente homem<input name="p_m" value="${esc((c.personas||[]).find(p=>p.genero==='m')?.nome||'Rafael')}"></label></div>
+    <div class="f2"><label>Quem fecha<input name="fechamento_com" value="${esc(c.empresa?.fechamento_com||'Gabriel')}"></label>
+      <label>Site/Instagram da STRATON (opcional)<input name="site" value="${esc(c.empresa?.site||'')}"></label></div>
+    <label>O que a STRATON oferece (o vendedor usa isso)<textarea name="oferta" rows="3">${esc(c.oferta||'')}</textarea></label>
+    <label>Tabela de preços (opcional, uma por linha: pacote | faixa de preço | o que inclui)<textarea name="precos" rows="3" placeholder="Site essencial | R$ 1.500 a 2.500 | 5 seções, WhatsApp, Google">${esc((c.precos||[]).map(p=>[p.pacote,p.faixa,p.inclui].join(' | ')).join('\n'))}</textarea></label>
+    <button class="btn">Salvar ajustes</button>
+  </form></div>
+  <div class="card" style="margin-top:14px"><h3>Conexões da STRATON</h3>
+  <p class="xs mut">Os campos são só de escrita: ficam guardados no servidor e não voltam para o navegador. Deixe em branco o que não quiser mudar.</p>
+  <form class="f" onsubmit="agtSalvarCred(event)">
+    <b class="sm">WhatsApp (uazapi)</b>
+    <div class="f2"><label>URL da instância<input name="uazapi_url" placeholder="https://suainstancia.uazapi.com"></label><label>Token da instância<input name="uazapi_token" type="password" autocomplete="off"></label></div>
+    <label>Webhook para colar na uazapi (mensagens recebidas)<input readonly value="${esc(S.webhook_whatsapp||'')}" onclick="this.select()"></label>
+    <b class="sm" style="margin-top:6px">E-mail da STRATON</b>
+    <div class="f2"><label>Webhook de envio (n8n)<input name="email_webhook_url" placeholder="https://n8n…/webhook/…"></label><label>Remetente<input name="email_remetente" placeholder="contato@…"></label></div>
+    <b class="sm" style="margin-top:6px">STRATON Leads (somente leitura)</b>
+    <div class="f2"><label>URL do Supabase<input name="sl_url" placeholder="https://….supabase.co"></label><label>Chave pública (anon)<input name="sl_anon" autocomplete="off"></label></div>
+    <div class="f2"><label>E-mail de acesso<input name="sl_email" autocomplete="off"></label><label>Senha<input name="sl_senha" type="password" autocomplete="new-password"></label></div>
+    <button class="btn">Salvar conexões</button>
+  </form>
+  <form class="f" onsubmit="agtTestar(event)" style="margin-top:12px"><b class="sm">Testar WhatsApp</b><div class="f2"><input name="numero" placeholder="seu celular com DDD"><button class="btn g">Enviar teste</button></div></form>
+  </div>`;
+}
+
+async function agtLigar(on){
+  if(on && !confirm('Ligar o vendedor? Ele vai buscar, abordar e conversar com lojas pelo WhatsApp/e-mail da STRATON sozinho, em horário comercial, até marcar as calls da meta.')) return;
+  if(await agtFn({acao:'configurar', config:{ativo:on}}, 'Vendedor')) { toast(on?'Vendedor ligado':'Vendedor pausado'); refresh(); }
+}
+async function agtRodar(){ AGT.ocupado=true; refresh(); const r = await agtFn({acao:'rodar_agora'}, 'Ciclo'); AGT.ocupado=false; if(r) toast(r.feito?.length ? r.feito.join(' · ') : (r.erro || 'ciclo rodou')); refresh(); }
+async function agtSalvarConfig(e){
+  e.preventDefault(); const f = e.target, linhas = s => s.split('\n').map(x=>x.trim()).filter(Boolean);
+  const config = {
+    meta_calls:+f.meta_calls.value||5, max_por_hora:+f.max_por_hora.value||20, nichos:linhas(f.nichos.value), regioes:linhas(f.regioes.value),
+    personas:[{id:'ana',nome:f.p_f.value.trim()||'Ana',genero:'f'},{id:'rafael',nome:f.p_m.value.trim()||'Rafael',genero:'m'}],
+    empresa:{nome:'STRATON', fechamento_com:f.fechamento_com.value.trim()||'Gabriel', site:f.site.value.trim()}, oferta:f.oferta.value.trim(),
+    precos:linhas(f.precos.value).map(l=>{ const [pacote,faixa,inclui]=l.split('|').map(x=>x.trim()); return {pacote,faixa,inclui}; }),
+  };
+  if(await agtFn({acao:'configurar', config}, 'Ajustes')) { toast('Ajustes salvos'); refresh(); }
+}
+async function agtSalvarCred(e){
+  e.preventDefault(); const f = e.target, v = n => f[n].value.trim();
+  const credenciais = {uazapi_url:v('uazapi_url'), uazapi_token:v('uazapi_token'), email_webhook_url:v('email_webhook_url'), email_remetente:v('email_remetente')};
+  if(v('sl_url') && v('sl_anon') && v('sl_email') && v('sl_senha')) credenciais.straton_leads = {url:v('sl_url').replace(/\/$/,''), anon_key:v('sl_anon'), email:v('sl_email'), senha:v('sl_senha')};
+  const r = await agtFn({acao:'credenciais', credenciais}, 'Conexões');
+  if(r){ f.reset(); toast(r.salvos?.length ? 'Salvo: '+r.salvos.join(', ') : 'Nada para salvar'); refresh(); }
+}
+async function agtTestar(e){ e.preventDefault(); if(await agtFn({acao:'testar_whatsapp', numero:e.target.numero.value}, 'Teste')) toast('Mensagem de teste enviada'); }
+async function agtReuStatus(id, status){ if(await q(sb.from('vd_reunioes').update({status}).eq('id',id))!==null){ toast('Reunião: '+status.replace('_',' ')); refresh(); } }
+async function agtPasso(id, passo, rotulo){ AGT.ocupado=true; refresh(); const r = await agtFn({acao:'lead', lead_id:id, passo}, rotulo); AGT.ocupado=false; if(r) toast(rotulo+' ok'); refresh(); }
+
+async function agtLead(id){
+  const [ls, msgs, contatos] = await Promise.all([
+    q(sb.from('cb_leads').select('*').eq('id',id).maybeSingle()),
+    q(sb.from('vd_mensagens').select('*').eq('lead_id',id).order('criado_em',{ascending:true})),
+    q(sb.from('vd_mockup_contatos').select('*').eq('lead_id',id).order('criado_em',{ascending:false})),
   ]);
-  if(TAB!=='agente') return;
-  const L = Array.isArray(leads)?leads:[]; window._agLeads = L;
-  const pend = new Set((Array.isArray(aprov)?aprov:[]).map(a=>a.pedido?.lead_id));
-  if(AGT.aberto) return agtDetalhe(L.find(l=>l.id===AGT.aberto), pend);
-  let V = L;
-  if(AGT.filtro==='abertos') V = L.filter(l=>!['fechado','perdido'].includes(l.status));
-  else if(AGT.filtro==='aprovar') V = L.filter(l=>pend.has(l.id));
-  else if(AGT.filtro!=='todos') V = L.filter(l=>l.status===AGT.filtro);
-  let busca = {termo:'', localizacao:'Brasília, DF', max:20}; try{ Object.assign(busca, JSON.parse(localStorage.getItem('sc_ag_busca')||'{}')); }catch(e){}
-  const c = s => L.filter(s).length;
-  $('#view').innerHTML = `<h2>Agente · Prospecção</h2>
-  <div class="grid g4 m2" style="margin-bottom:14px">
-    <div class="card kpi"><span>Leads</span><b class="big">${L.length}</b></div>
-    <div class="card kpi"><span>Para aprovar</span><b class="big ${pend.size?'warn':''}">${pend.size}</b></div>
-    <div class="card kpi"><span>Abordados</span><b class="big">${c(l=>l.status!=='novo')}</b></div>
-    <div class="card kpi"><span>Reuniões</span><b class="big ${c(l=>l.status==='reuniao')?'ok':''}">${c(l=>l.status==='reuniao'||l.reuniao_em)}</b></div>
-  </div>
-  <div class="dash" style="margin-bottom:14px">
-    <div class="card s7"><h3>Buscar lojas no Maps</h3>
-      <form class="f" onsubmit="agtBuscar(event)" style="grid-template-columns:2fr 2fr 1fr auto;align-items:end">
-        <label>Nicho<input name="termo" required placeholder="ex.: barbearia, pet shop, clínica odontológica" value="${esc(busca.termo)}"></label>
-        <label>Cidade / bairro<input name="local" required value="${esc(busca.localizacao)}"></label>
-        <label>Qtd.<input name="max" type="number" min="1" max="60" value="${+busca.max||20}"></label>
-        <button class="btn">Buscar no Maps</button>
-      </form></div>
-    <div class="card s5"><h3>Rodar o agente</h3>
-      <p class="sm mut">Para cada lead novo: lê o site e as redes, procura o dono/gerente, gera o mockup e escreve a abordagem. Tudo fica esperando sua aprovação.</p>
-      <div style="display:flex;gap:8px;margin-top:10px;align-items:center"><input id="ag-lote" type="number" min="1" max="20" value="5" style="width:80px" aria-label="Quantidade">
-        <button class="btn ${AGT.fila?'d':''}" onclick="agtLote()">${AGT.fila?'Parar':'Rodar em lote'}</button></div></div>
-  </div>
-  <div class="chips">${[['abertos','Em aberto'],['aprovar','Para aprovar'],...AGT_ST,['todos','Todos']].map(([k,l])=>`<button class="${AGT.filtro===k?'on':''}" onclick="AGT.filtro='${k}';refresh()">${l}${k==='aprovar'&&pend.size?` (${pend.size})`:''}</button>`).join('')}</div>
-  <div class="card">${V.map(l=>agtLinha(l,pend)).join('') || `<p class="empty">${L.length?'Nada com esse filtro.':'Busque um nicho e uma cidade para começar.'}</p>`}</div>`;
-}
-function agtLinha(l, pend){
-  const oc = AGT.ocupado[l.id];
-  return `<div class="row ag-row" onclick="AGT.aberto='${l.id}';refresh()">
-    <div class="grow"><span class="tag">${esc(agtEtapa(l))}</span>${pend.has(l.id)?'<span class="tag media">aprovar</span>':''}${!l.site?'<span class="tag atrasada">sem site</span>':''}<b class="sm">${esc(l.nome)}</b>
-      <div class="mut xs">${esc(l.nicho||'')}${l.avaliacao?` · ★ ${l.avaliacao} (${l.total_avaliacoes||0})`:''}${l.decisor?` · ${esc(l.decisor)}`:''}${l.telefone?` · ${esc(l.telefone)}`:''}${l.analise?.nota_oportunidade!=null?` · oportunidade ${l.analise.nota_oportunidade}/10`:''}</div></div>
-    <div class="acts" style="min-width:auto;align-items:flex-end" onclick="event.stopPropagation()">
-      ${oc?`<span class="xs mut">${oc==='analisar'?'analisando…':oc==='mockup'?'criando mockup…':'escrevendo…'}</span>`
-        : l.status==='novo' && !l.mensagem ? `<button class="btn g s" onclick="agtRodarTudo('${l.id}')">Rodar agente</button>` : `<span class="fac-st">${AGT_STL[l.status]}</span>`}
-    </div></div>`;
-}
-function agtDetalhe(l, pend){
-  if(!l){ AGT.aberto=null; return vAgente(); }
-  const a = l.analise||{}, m = l.mensagem||{}, oc = AGT.ocupado[l.id], redes = l.redes||{};
-  const lista = x => (Array.isArray(x)&&x.length) ? `<ul class="ag-ul">${x.map(i=>`<li>${esc(i)}</li>`).join('')}</ul>` : '<p class="empty">—</p>';
-  const link = l.mockup_token ? `/m.html?t=${l.mockup_token}` : '';
-  $('#view').innerHTML = `<button class="btn link" onclick="AGT.aberto=null;refresh()">← todos os leads</button>
+  if(TAB!=='agente' || AGT.aberto!==id) return;
+  const l = ls && ls!==true ? ls : null; if(!l){ AGT.aberto=null; return vAgente(); }
+  const a = l.analise||{}, qf = l.qualificacao||{}, reg = qf.registro||{}, b = l.briefing, M = Array.isArray(msgs)?msgs:[], C = Array.isArray(contatos)?contatos:[];
+  const lista = x => Array.isArray(x)&&x.length ? `<ul class="ag-ul">${x.map(i=>`<li>${esc(i)}</li>`).join('')}</ul>` : '<p class="empty">—</p>';
+  $('#view').innerHTML = `<button class="btn link" onclick="AGT.aberto=null;refresh()">← vendas</button>
   <h2 style="margin-top:8px">${esc(l.nome)}</h2>
-  <p class="sm mut" style="margin:-6px 0 10px">${esc(l.nicho||'')} · ${esc(l.endereco||'')}${l.avaliacao?` · ★ ${l.avaliacao} (${l.total_avaliacoes||0})`:''}${l.maps_url?` · <a href="${esc(l.maps_url)}" target="_blank" rel="noopener">Maps</a>`:''}${/^https?:/.test(l.site||'')?` · <a href="${esc(l.site)}" target="_blank" rel="noopener">site atual</a>`:' · sem site'}</p>
-  <div class="subtabs" style="margin-bottom:14px">${AGT_ST.map(([k,t])=>`<button class="${l.status===k?'on':''}" onclick="agtStatus('${l.id}','${k}')">${t}</button>`).join('')}</div>
+  <p class="sm mut" style="margin:-6px 0 10px"><span class="tag">${esc(AGT_ETL[l.etapa]||l.etapa)}</span> ${esc(l.nicho||'')} · ${esc(l.endereco||'')}${l.avaliacao?` · ★ ${l.avaliacao} (${l.total_avaliacoes||0})`:''} · score ${l.score??'—'} · ${esc(l.presenca||'')}${l.maps_url?` · <a href="${esc(l.maps_url)}" target="_blank" rel="noopener">Maps</a>`:''}${/^https?:/.test(l.site||'')?` · <a href="${esc(l.site)}" target="_blank" rel="noopener">site atual</a>`:''}</p>
+  <div class="quick" style="margin-bottom:14px">
+    ${['descoberto','descartado'].includes(l.etapa)?`<button class="btn g s" onclick="agtPasso('${id}','qualificar','Qualificação')">qualificar</button>`:''}
+    <button class="btn g s" ${AGT.ocupado?'disabled':''} onclick="agtPasso('${id}','analisar','Análise')">${l.analise?'refazer análise':'analisar'}</button>
+    <button class="btn g s" ${AGT.ocupado?'disabled':''} onclick="agtPasso('${id}','mockup','Mockup')">${l.mockup_html?'refazer mockup':'criar mockup'}</button>
+    ${l.etapa==='mockup_pronto'?`<button class="btn s" ${AGT.ocupado?'disabled':''} onclick="agtPasso('${id}','abordar','Abordagem')">abordar agora</button>`:''}
+    <button class="btn g s" ${AGT.ocupado?'disabled':''} onclick="agtPasso('${id}','briefing','Briefing')">gerar briefing</button>
+    ${!l.opt_out?`<button class="btn d s" onclick="if(confirm('Parar de falar com esta loja?'))agtPasso('${id}','pausar','Lead pausado')">parar contato</button>`:''}
+    ${AGT.ocupado?'<span class="xs mut">trabalhando…</span>':''}
+  </div>
   <div class="dash">
     <div class="s7 stack">
-      <div class="card"><h3>Análise <button class="btn link" ${oc?'disabled':''} onclick="agtPasso('${l.id}','analisar')">${oc==='analisar'?'analisando…':l.analise?'refazer':'analisar'}</button></h3>
-        ${l.analise?`<p class="sm">${esc(a.resumo||'')}</p>
-        <div class="grid g2" style="margin-top:10px"><div><b class="xs mut">PROBLEMAS DO SITE</b>${lista(a.problemas_site)}</div><div><b class="xs mut">OPORTUNIDADES</b>${lista(a.oportunidades)}</div></div>
-        <p class="sm" style="margin-top:8px"><b>Argumento:</b> ${esc(a.argumento_venda||'')}</p>
-        <p class="xs mut" style="margin-top:6px">Decisor: ${esc(l.decisor||'não encontrado')}${a.decisor?.fonte?` (fonte: ${esc(a.decisor.fonte)})`:''} · contato preferido: ${esc(a.contato_preferido||'—')} · oportunidade ${a.nota_oportunidade??'—'}/10</p>
-        <p class="xs mut">${Object.entries(redes).map(([k,v])=>/^https?:/.test(v)?`<a href="${esc(v)}" target="_blank" rel="noopener">${esc(k)}</a>`:'').filter(Boolean).join(' · ')||'sem redes encontradas'}${l.email?` · ${esc(l.email)}`:''}</p>`
-        :'<p class="empty">Ainda não analisado.</p>'}</div>
-      <div class="card"><h3>Mockup proposto <span>${link?`<a class="btn link" href="${link}" target="_blank" rel="noopener">abrir</a> `:''}<button class="btn link" ${oc?'disabled':''} onclick="agtPasso('${l.id}','mockup')">${oc==='mockup'?'criando…':l.mockup_html?'refazer':'gerar'}</button></span></h3>
-        ${l.mockup_html?`<iframe class="ag-mock" sandbox="" title="Mockup" srcdoc="${esc(l.mockup_html)}"></iframe>`:'<p class="empty">Ainda não gerado.</p>'}</div>
+      <div class="card"><h3>Conversa ${l.persona?`<span class="xs mut">${esc(l.persona)}</span>`:''}</h3>
+        <div class="fac-msgs" style="max-height:60vh">${M.map(m=>`<div class="fac-m ${m.direcao==='entrada'?'user':'assistant'}" style="align-self:${m.direcao==='entrada'?'flex-start':'flex-end'}"><p class="sm pre">${esc(m.conteudo)}</p><span class="xs mut mono">${m.canal} · ${fmtDH(m.criado_em)}${m.status==='erro'?` · <b class="bad">erro: ${esc(m.erro||'')}</b>`:''}</span></div>`).join('')||'<p class="empty">Ainda sem mensagens.</p>'}</div></div>
+      <div class="card"><h3>Mockup ${l.mockup_token?`<a class="btn link" href="${PROPOSTA}?t=${l.mockup_token}" target="_blank" rel="noopener">abrir link público</a>`:''}</h3>
+        ${l.mockup_html?`<iframe class="ag-mock" sandbox="allow-scripts" title="Mockup" srcdoc="${esc(l.mockup_html)}"></iframe>`:'<p class="empty">Ainda não criado.</p>'}
+        ${l.mockup_feedback?`<p class="sm" style="margin-top:8px"><b>Feedback do cliente:</b> ${esc(l.mockup_feedback)}</p>`:''}
+        ${C.length?`<p class="sm" style="margin-top:8px"><b>Contatos pelo formulário do mockup:</b></p>${C.map(x=>`<div class="xs">${esc(x.nome||'')} · ${esc(x.telefone||'')} · ${esc(x.mensagem||'')} <span class="mut">${fmtDH(x.criado_em)}</span></div>`).join('')}`:''}</div>
     </div>
     <div class="s5 stack">
-      <div class="card"><h3>Abordagem ${pend.has(l.id)?'<span class="tag media">aguardando aprovação</span>':''} <button class="btn link" ${oc?'disabled':''} onclick="agtPasso('${l.id}','abordagem')">${oc==='abordagem'?'escrevendo…':l.mensagem?'refazer':'escrever'}</button></h3>
-        ${l.mensagem?`<p class="xs mut">Para: ${esc(m.para||'')} · canal sugerido: ${esc(m.canal||'')}${(m.horarios||[]).length?` · horários: ${esc(m.horarios.join(' | '))}`:''}</p>
-        <label style="margin-top:8px">WhatsApp<textarea id="ag-msg-whatsapp" rows="7">${esc(m.whatsapp||'')}</textarea></label>
-        <div class="quick"><button class="btn s" onclick="agtAprovar('${l.id}','whatsapp')">Aprovar e abrir WhatsApp</button><button class="btn g s" onclick="agtCopiar('#ag-msg-whatsapp')">Copiar</button></div>
-        <label style="margin-top:12px">Assunto do e-mail<input id="ag-assunto" value="${esc(m.email_assunto||'')}"></label>
-        <label>E-mail<textarea id="ag-msg-email" rows="7">${esc(m.email_corpo||'')}</textarea></label>
-        <div class="quick"><button class="btn s" onclick="agtAprovar('${l.id}','email')">Aprovar e abrir e-mail</button><button class="btn g s" onclick="agtCopiar('#ag-msg-email')">Copiar</button>${pend.has(l.id)?`<button class="btn d s" onclick="agtRejeitar('${l.id}')">Rejeitar</button>`:''}</div>
-        ${m.roteiro_ligacao?`<details><summary>roteiro para ligar</summary><p class="sm pre">${esc(m.roteiro_ligacao)}</p></details>`:''}`
-        :'<p class="empty">Gere a abordagem (ela usa a análise e o mockup).</p>'}</div>
-      <div class="card"><h3>Andamento</h3>
-        <p class="sm">${esc(l.proxima_acao||'—')}</p>
-        <p class="xs mut">${l.contatado_em?`contatado ${fmtDH(l.contatado_em)}`:'ainda não contatado'}${l.reuniao_em?` · reunião ${fmtDH(l.reuniao_em)}`:''}</p>
-        <div class="quick"><button class="btn g s" onclick="agtReuniao('${l.id}')">Marcar reunião</button>${l.telefone?`<a class="btn g s" href="tel:+${agtTel(l.telefone)}">Ligar</a>`:''}</div></div>
+      ${b?`<div class="card"><h3>Briefing de fechamento</h3><div class="sm agt-brief"><p><b>${esc(b.quem||'')}</b> ${esc(b.cargo||'')} · ${esc(b.como_contatar||'')}</p>${b.abertura?`<p><b>Abertura:</b> ${esc(b.abertura)}</p>`:''}<b class="xs mut">O QUE QUER</b>${lista(b.o_que_quer)}<b class="xs mut">ROTEIRO</b>${lista(b.roteiro)}${b.ticket_sugerido?`<p><b>Ticket:</b> ${esc(b.ticket_sugerido)}</p>`:''}</div></div>`:''}
+      <div class="card"><h3>O que o vendedor sabe</h3>
+        <p class="sm"><b>Decisor:</b> ${esc(l.decisor||'—')}${(l.socios||[]).length?` · sócios: ${esc(l.socios.map(s=>s.nome).join(', '))}`:''}</p>
+        ${reg.necessidades?`<p class="sm"><b>Necessidades:</b> ${esc(reg.necessidades)}</p>`:''}
+        ${reg.objecoes?`<p class="sm"><b>Objeções:</b> ${esc(reg.objecoes)}</p>`:''}
+        <p class="xs mut">Contato: ${esc(l.whatsapp||'')} ${esc(l.email||'')} · tentativas ${l.tentativas||0}${l.proximo_passo_em?` · próximo passo ${fmtDH(l.proximo_passo_em)}`:''}</p></div>
+      <div class="card"><h3>Análise</h3>${l.analise?`<p class="sm">${esc(a.resumo||'')}</p><p class="sm"><b>Vender:</b> ${esc(a.o_que_vender||'')} · <b>Argumento:</b> ${esc(a.argumento_principal||'')}</p><b class="xs mut">MELHORIAS</b>${lista(a.pontos_melhoria)}<b class="xs mut">FUNCIONALIDADES</b>${lista(a.funcionalidades_sugeridas)}<b class="xs mut">OBJEÇÕES PROVÁVEIS</b>${lista(a.objecoes_provaveis)}`:'<p class="empty">Ainda não analisado.</p>'}</div>
+      <div class="card"><h3>Qualificação</h3>${lista(qf.motivos)}${qf.descartar?`<p class="sm bad">Descartado: ${esc(qf.descartar)}</p>`:''}</div>
     </div>
   </div>`;
 }

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>STRATON · Proposta de site</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--amber:#F59E0B;--bg:#000;--line:#262626;--txt:#e5e5e5;--mut:#8a8a8a}
+*{box-sizing:border-box}html,body{margin:0;height:100%;background:var(--bg);color:var(--txt);font-family:'Space Grotesk',system-ui,sans-serif}
+.barra{position:fixed;inset:0 0 auto 0;height:52px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 16px;background:rgba(0,0,0,.92);border-bottom:1px solid var(--line);backdrop-filter:blur(8px);z-index:2}
+.logo{font-family:'Orbitron',sans-serif;font-weight:900;letter-spacing:2px;color:var(--amber);font-size:16px;white-space:nowrap}.logo span{color:var(--txt)}
+.para{font-size:13px;color:var(--mut);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;flex:1;text-align:center}
+.para b{color:var(--txt)}
+.cta{background:var(--amber);color:#000;font-weight:600;font-size:13px;padding:8px 14px;border-radius:8px;text-decoration:none;white-space:nowrap}
+.cta[hidden]{display:none}
+main{position:fixed;inset:52px 0 0 0}
+iframe{border:0;width:100%;height:100%;display:block;background:#fff}
+.msg{padding:80px 20px;text-align:center;color:var(--mut)}
+.msg h1{font-family:'Orbitron',sans-serif;color:var(--amber);font-size:20px;letter-spacing:1px}
+@media(max-width:520px){.para{display:none}}
+</style>
+</head>
+<body>
+<header class="barra"><div class="logo">STRATON<span>.AI</span></div><div class="para" id="para">Proposta de site</div><a class="cta" id="cta" hidden target="_blank" rel="noopener">Falar com a STRATON</a></header>
+<main id="main"><div class="msg" id="msg"><h1>STRATON</h1><p>Carregando a proposta…</p></div></main>
+<script>
+// Página pública da proposta da STRATON. O site gerado roda num iframe isolado (scripts e formulário funcionam,
+// mas sem acesso a esta origem, a cookies ou a qualquer dado do painel).
+(async () => {
+  const msg = document.getElementById('msg');
+  const t = new URLSearchParams(location.search).get('t') || '';
+  const falha = (texto) => { msg.innerHTML = '<h1>STRATON</h1><p>' + texto + '</p>'; };
+  if (!/^[a-f0-9]{24,64}$/.test(t)) return falha('Link inválido.');
+  const SB = 'https://nzydtjhcibzazcotyabp.supabase.co';
+  const KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im56eWR0amhjaWJ6YXpjb3R5YWJwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE5MjAyODMsImV4cCI6MjEwNzQ5NjI4M30.AH5bsGSkYnr5C9U6uU4fptlNuH8kz8775x3NFu93e6c';
+  try {
+    const r = await fetch(SB + '/rest/v1/rpc/mockup_publico', { method: 'POST', headers: { apikey: KEY, Authorization: 'Bearer ' + KEY, 'Content-Type': 'application/json' }, body: JSON.stringify({ t }) });
+    const d = await r.json();
+    if (!r.ok || !Array.isArray(d) || !d[0]?.html) return falha('Proposta não encontrada.');
+    document.title = 'STRATON · Proposta para ' + d[0].nome;
+    const para = document.getElementById('para'); para.textContent = ''; para.append('Proposta de site para '); const b = document.createElement('b'); b.textContent = d[0].nome; para.append(b);
+    const f = document.createElement('iframe');
+    f.setAttribute('sandbox', 'allow-scripts allow-forms allow-popups');
+    f.setAttribute('title', 'Proposta de site para ' + d[0].nome);
+    f.srcdoc = d[0].html;
+    msg.replaceWith(f);
+  } catch (e) { falha('Não consegui carregar a proposta agora. Tente de novo em instantes.'); }
+})();
+</script>
+</body>
+</html>

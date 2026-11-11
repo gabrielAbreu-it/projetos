@@ -1,6 +1,26 @@
-/* ===== Agente de prospecção ===== */
+/* ===== Vendas · vendedor autônomo ===== */
 .ag-row{cursor:pointer;padding-left:8px;transition:background .15s}
 .ag-row:hover{background:rgba(255,255,255,.02)}
 .ag-mock{width:100%;height:560px;border:1px solid var(--line2);border-radius:8px;background:#fff}
-.ag-ul{margin:4px 0 0 16px;display:grid;gap:3px;font-size:13px}
-@media(max-width:699px){#view form.f[onsubmit^="agtBuscar"]{grid-template-columns:1fr!important}.ag-mock{height:420px}}
+.ag-ul{margin:4px 0 8px 16px;display:grid;gap:3px;font-size:13px}
+.agt-topo{display:grid;gap:14px;grid-template-columns:1fr;align-items:center}
+@media(min-width:900px){.agt-topo{grid-template-columns:1.2fr .8fr 1.4fr}}
+.agt-liga{display:flex;gap:12px;align-items:center}
+.agt-switch{width:56px;height:30px;border-radius:99px;border:1px solid var(--line2);background:#0a0f18;position:relative;cursor:pointer;flex:none;transition:background .2s}
+.agt-switch i{position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:var(--mut);transition:transform .2s,background .2s}
+.agt-switch.on{background:rgba(43,183,132,.25);border-color:rgba(43,183,132,.6)}
+.agt-switch.on i{transform:translateX(26px);background:var(--ok);box-shadow:0 0 10px rgba(43,183,132,.6)}
+.agt-meta b.big span{font-size:16px}
+.agt-cx{display:flex;flex-wrap:wrap;gap:4px;align-items:center}
+.agt-f{display:grid;grid-template-columns:130px 1fr 40px;gap:8px;align-items:center;margin:5px 0}
+.agt-fb{height:8px;background:#0a0f18;border:1px solid var(--line);border-radius:99px;overflow:hidden}
+.agt-fb i{display:block;height:100%;background:linear-gradient(90deg,var(--acc),var(--ok))}
+.agt-feed{display:grid;gap:8px;max-height:52vh;overflow:auto}
+.agt-ev{border-left:2px solid var(--line2);padding:2px 0 2px 8px}
+.agt-ev.sucesso{border-left-color:var(--ok)}.agt-ev.erro{border-left-color:var(--bad)}.agt-ev.aprovacao,.agt-ev.alerta{border-left-color:var(--warn)}
+.agt-ev>span{display:block}
+.agt-reu{border:1px solid var(--line2);border-radius:10px;padding:12px;margin-bottom:10px;background:rgba(43,183,132,.04)}
+.agt-reu.passada{opacity:.7;background:none}
+.agt-brief p{margin:4px 0}
+@media(min-width:1100px){.s8{grid-column:span 8}.s4{grid-column:span 4}}
+@media(max-width:699px){.agt-f{grid-template-columns:100px 1fr 34px}.ag-mock{height:420px}}
