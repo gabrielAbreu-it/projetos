@@ -10,6 +10,7 @@ segundo-cerebro/
 ├── painel/agente.js, agente.css           # aba Agente (prospecção)
 ├── painel/m.html                          # prévia interna do mockup
 ├── painel/financas2.js, financas2.css     # aba Finanças nova (substitui o vFin)
+├── painel/importar.js                     # importar extrato do Inter (OFX, CSV, PDF)
 ├── painel/motion.js, motion.css           # animações do painel inteiro
 ├── painel/index.html                      # index do painel com todos os scripts
 ├── supabase/functions/financas-ia/        # assistente de finanças (Edge Function)
@@ -124,3 +125,12 @@ supabase functions deploy financas-ia --project-ref nzydtjhcibzazcotyabp
 ```
 
 Motion: as telas entram em cascata quando troco de aba, os números contam até o valor, as linhas dos gráficos se desenham e as barras sobem. Atualização de dados não anima (não pisca). Quem usa "reduzir movimento" no sistema não vê animação.
+
+### Importar extrato do Inter
+
+O Inter não tem API para pessoa física, então o caminho é o extrato. Em **Lançamentos > Importar extrato do Inter** escolho o arquivo exportado no app ou no internet banking:
+
+- **OFX** e **CSV**: lidos no próprio navegador, nada sai do painel.
+- **PDF**: vai para a função `financas-ia` (ação `extrair`), que usa a IA para separar as transações.
+
+Antes de gravar aparece a prévia: tipo (saída, entrada, guardar, resgate), categoria sugerida (pelo nome do estabelecimento e pelo que já lancei antes), o que já existe no painel vem desmarcado. No fim escolho o saldo: o saldo final do extrato (padrão), manter o atual ou somar. Cada transação guarda `importado_id`, então importar o mesmo extrato de novo não duplica.
