@@ -5,3 +5,6 @@ verify_jwt = true
 
 [functions.financas-ia]
 verify_jwt = true
+
+[functions.banco]
+verify_jwt = false

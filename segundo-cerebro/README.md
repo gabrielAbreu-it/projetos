@@ -11,6 +11,9 @@ segundo-cerebro/
 ├── painel/m.html                          # prévia interna do mockup
 ├── painel/financas2.js, financas2.css     # aba Finanças nova (substitui o vFin)
 ├── painel/importar.js                     # importar extrato do Inter (OFX, CSV, PDF)
+├── painel/conexoes.js                     # atualização ao vivo + quadro Conexões do banco
+├── painel/guarda.js                       # proteção: aba com erro vira cartão, sem loop de atualização
+├── supabase/functions/banco/              # Meu Pluggy (1x por dia) e extratos que chegam pelo Drive
 ├── painel/motion.js, motion.css           # animações do painel inteiro
 ├── painel/index.html                      # index do painel com todos os scripts
 ├── supabase/functions/financas-ia/        # assistente de finanças (Edge Function)
@@ -134,3 +137,12 @@ O Inter não tem API para pessoa física, então o caminho é o extrato. Em **La
 - **PDF**: vai para a função `financas-ia` (ação `extrair`), que usa a IA para separar as transações.
 
 Antes de gravar aparece a prévia: tipo (saída, entrada, guardar, resgate), categoria sugerida (pelo nome do estabelecimento e pelo que já lancei antes), o que já existe no painel vem desmarcado. No fim escolho o saldo: o saldo final do extrato (padrão), manter o atual ou somar. Cada transação guarda `importado_id`, então importar o mesmo extrato de novo não duplica.
+
+### Inter conectado e pasta automática
+
+- **Meu Pluggy (Open Finance, grátis para uso pessoal):** a função `banco` puxa transações e saldo do Inter 1 vez por dia (pg_cron `financas-pluggy-diario`, 07:10 de Brasília). Precisa dos secrets `PLUGGY_CLIENT_ID` e `PLUGGY_CLIENT_SECRET` e do Item ID colado em Finanças > Saldos > Conexões do banco. Só conta corrente entra; nada duplica (`importado_id = pluggy:<id>`).
+- **Pasta do Drive:** o fluxo do n8n "Finanças · extrato do Drive" vigia a pasta "Extratos Inter", manda o arquivo para `banco?rota=arquivo` (token em `fin_privado`) e move para "Importados".
+- **Ao vivo:** Realtime do Supabase nas tabelas `fin_*`; o painel atualiza sozinho em qualquer aparelho.
+- **Guarda:** `guarda.js` envolve a navegação: aba com erro mostra "Tentar de novo", atualização em rajada vira uma só, avisos repetidos não aparecem duas vezes e erros conhecidos (IA sem chave, sem internet) viram mensagem clara.
+
+Deploy do painel: antes de publicar, liste os arquivos do deploy de produção mais recente e mantenha os que não são seus pelo sha (outra frente de trabalho publica a aba Vagas no mesmo projeto).
